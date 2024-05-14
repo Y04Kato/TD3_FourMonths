@@ -16,6 +16,7 @@
 #include "components/utilities/collisionManager/CollisionConfig.h"
 
 #include "components/utilities/globalVariables/GlobalVariables.h"
+#include "components/utilities/followCamera/FollowCamera.h"
 
 class GamePlayScene :public Iscene {
 public:
@@ -38,6 +39,8 @@ private:
 	Input* input_;
 	DebugCamera* debugCamera_;
 	CollisionManager* collisionManager_;
+
+	std::unique_ptr<FollowCamera> followCamera_;
 
 	std::unique_ptr<CreateLine> line_;
 	WorldTransform worldTransformLine_[2];

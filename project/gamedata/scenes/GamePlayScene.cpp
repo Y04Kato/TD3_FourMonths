@@ -34,6 +34,10 @@ void GamePlayScene::Initialize() {
 	}
 	worldTransformLine_[1].translation_.num[2] = 30.0f;
 
+	followCamera_ = std::make_unique<FollowCamera>();
+	followCamera_->Initialize();
+	followCamera_->SetTarget(&worldTransformLine_[0]);
+
 	//
 	model_.reset(Model::CreateModel("project/gamedata/resources/plane", "plane.gltf"));
 	ObjModelData_ = model_->LoadModelFile("project/gamedata/resources/block", "block.obj");
@@ -60,10 +64,10 @@ void GamePlayScene::Update() {
 	collisionManager_->CheckAllCollision();
 
 	debugCamera_->Update();
-
-	viewProjection_.translation_ = debugCamera_->GetViewProjection()->translation_;
-	viewProjection_.rotation_ = debugCamera_->GetViewProjection()->rotation_;
-	viewProjection_.UpdateMatrix();
+	followCamera_->Update();
+	viewProjection_.matView = followCamera_->GetViewProjection().matView;
+	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
+	viewProjection_.TransferMatrix();
 
 	for (int i = 0; i < 2; i++) {
 		worldTransformLine_[i].UpdateMatrix();
