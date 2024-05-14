@@ -74,6 +74,7 @@ void GameDemoScene::Initialize() {
 		linePoint_[i] = std::make_unique <CreateSphere>();
 		linePoint_[i]->Initialize();
 	}
+	worldTransformLine_[1].translation_.num[2] = 30.0f;
 
 	//球体
 	for (int i = 0; i < 2; i++) {
@@ -523,6 +524,19 @@ void GameDemoScene::Update() {
 	}
 
 	ImGui::End();
+
+	if (input_->PressKey(DIK_W)) {
+		worldTransformLine_[1].translation_.num[1] += 1.0f;
+	}
+	else if (input_->PressKey(DIK_S)) {
+		worldTransformLine_[1].translation_.num[1] -= 1.0f;
+	}
+	if (input_->PressKey(DIK_A)) {
+		worldTransformLine_[1].translation_.num[0] -= 1.0f;
+	}
+	else if (input_->PressKey(DIK_D)) {
+		worldTransformLine_[1].translation_.num[0] += 1.0f;
+	}
 
 	for (int i = 0; i < 2; i++) {
 		if (isParticleDraw_[i]) {
