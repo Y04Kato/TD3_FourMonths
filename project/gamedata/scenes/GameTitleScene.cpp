@@ -14,11 +14,11 @@ void GameTitleScene::Update(){
 
 	ImGui::Begin("debug");
 	ImGui::Text("GameTitleScene");
-	ImGui::Text("DemoScene:N key or A button");
+	ImGui::Text("GameScene:N key or A button");
 	ImGui::End();
 
 	if (input_->TriggerKey(DIK_N)) {
-		sceneNo = DEMO_SCENE;
+		sceneNo = GAME_SCENE;
 	}
 
 	if (!Input::GetInstance()->GetJoystickState(0, joyState)) {
@@ -26,7 +26,7 @@ void GameTitleScene::Update(){
 	}
 
 	if (input_->PushAButton(joyState)) {
-		sceneNo = DEMO_SCENE;
+		sceneNo = GAME_SCENE;
 	}
 }
 
