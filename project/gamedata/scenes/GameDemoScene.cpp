@@ -74,7 +74,6 @@ void GameDemoScene::Initialize() {
 		linePoint_[i] = std::make_unique <CreateSphere>();
 		linePoint_[i]->Initialize();
 	}
-	worldTransformLine_[1].translation_.num[2] = 30.0f;
 
 	//球体
 	for (int i = 0; i < 2; i++) {
@@ -468,26 +467,6 @@ void GameDemoScene::Update() {
 		ImGui::TreePop();
 	}
 
-	if (ImGui::TreeNode("PostEffect")) {//PostEffect
-		if (ImGui::Button("DrawGrayScale")) {
-			if (isGrayScaleDraw_ == false) {
-				isGrayScaleDraw_ = true;
-			}
-			else {
-				isGrayScaleDraw_ = false;
-			}
-		}
-		if (ImGui::Button("DrawVignette")) {
-			if (isVignetteDraw_ == false) {
-				isVignetteDraw_ = true;
-			}
-			else {
-				isVignetteDraw_ = false;
-			}
-		}
-		ImGui::TreePop();
-	}
-
 	ImGui::Text("%f", ImGui::GetIO().Framerate);
 
 	ImGui::InputText("BlockName", objName_, sizeof(objName_));
@@ -626,16 +605,6 @@ void GameDemoScene::Draw() {
 	}
 
 #pragma endregion
-}
-
-void GameDemoScene::DrawPostEffect() {
-	CJEngine_->renderer_->Draw(PipelineType::PostProcess);
-	if (isGrayScaleDraw_ == true) {
-		CJEngine_->renderer_->Draw(PipelineType::Grayscale);
-	}
-	if (isVignetteDraw_ == true) {
-		CJEngine_->renderer_->Draw(PipelineType::Vignette);
-	}
 }
 
 void GameDemoScene::Finalize() {

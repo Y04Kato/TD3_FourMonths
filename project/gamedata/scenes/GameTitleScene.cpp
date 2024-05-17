@@ -14,7 +14,7 @@ void GameTitleScene::Update(){
 
 	ImGui::Begin("debug");
 	ImGui::Text("GameTitleScene");
-	ImGui::Text("GameScene:N key or A button");
+	ImGui::Text("DemoScene:N key or A button");
 	ImGui::End();
 
 	if (input_->TriggerKey(DIK_N)) {
@@ -26,7 +26,7 @@ void GameTitleScene::Update(){
 	}
 
 	if (input_->PushAButton(joyState)) {
-		sceneNo = GAME_SCENE;
+		sceneNo = DEMO_SCENE;
 	}
 }
 
@@ -50,10 +50,6 @@ void GameTitleScene::Draw(){
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
 
 #pragma endregion
-}
-
-void GameTitleScene::DrawPostEffect() {
-	CJEngine_->renderer_->Draw(PipelineType::PostProcess);
 }
 
 void GameTitleScene::Finalize() {

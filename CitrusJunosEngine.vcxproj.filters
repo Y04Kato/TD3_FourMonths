@@ -288,13 +288,10 @@
     <ClCompile Include="base\components\pipelineState\PostProcess\PostProcess.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="base\components\pipelineState\Grayscale\Grayscale.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="base\components\pipelineState\Vignette\Vignette.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="base\components\pipelineState\Skinning\Skinning.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="base\components\postEffect\PostEffectList.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -322,8 +319,6 @@
     <FxCompile Include="project\gamedata\resources\shaders\SkinningObject3d.VS.hlsl" />
     <FxCompile Include="project\gamedata\resources\shaders\CopyImage.VS.hlsl" />
     <FxCompile Include="project\gamedata\resources\shaders\CopyImage.PS.hlsl" />
-    <FxCompile Include="project\gamedata\resources\shaders\Grayscale.PS.hlsl" />
-    <FxCompile Include="project\gamedata\resources\shaders\Vignette.PS.hlsl" />
     <FxCompile Include="project\gamedata\resources\shaders\SkinningObject3d.PS.hlsl" />
   </ItemGroup>
   <ItemGroup>
@@ -495,13 +490,10 @@
     <ClInclude Include="base\components\pipelineState\PostProcess\PostProcess.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="base\components\pipelineState\Grayscale\Grayscale.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="base\components\pipelineState\Vignette\Vignette.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="base\components\pipelineState\Skinning\Skinning.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="base\components\postEffect\PostEffectList.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
