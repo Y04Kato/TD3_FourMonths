@@ -14,9 +14,10 @@
 #include "components/debugcamera/DebugCamera.h"
 #include "components/utilities/collisionManager/CollisionManager.h"
 #include "components/utilities/collisionManager/CollisionConfig.h"
-
 #include "components/utilities/globalVariables/GlobalVariables.h"
 #include "components/utilities/followCamera/FollowCamera.h"
+
+#include "player/Player.h"
 
 class GamePlayScene :public Iscene {
 public:
@@ -42,14 +43,12 @@ private:
 	std::unique_ptr<FollowCamera> followCamera_;
 
 	std::unique_ptr<CreateLine> line_;
-	WorldTransform worldTransformLine_[2];
 	Vector4 lineMaterial_;
 	float lineThickness_ = 0.2f;
 
 	std::unique_ptr<Model> model_;
 
-	std::unique_ptr <CreateSphere> linePoint_[2];
-	Vector4 linePointMaterial_;
+	Player* player_ = nullptr;
 
 	//ステージエディター擬き、名前をtest0~始め、それを記録する
 	struct Obj {

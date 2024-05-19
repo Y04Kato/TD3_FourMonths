@@ -16,29 +16,47 @@ void Input::Initialize() {
 	assert(SUCCEEDED(result));
 
 	//キーボードデバイスの生成
-	result = directInput_->CreateDevice(GUID_SysKeyboard, &keyboard_, NULL);
+	result = directInput_->CreateDevice(GUID_SysKeyboard, &keyboardInput_, NULL);
 	assert(SUCCEEDED(result));
 
 	//入力データ形式のセット
-	result = keyboard_->SetDataFormat(&c_dfDIKeyboard); //標準形式
+	result = keyboardInput_->SetDataFormat(&c_dfDIKeyboard); //標準形式
 	assert(SUCCEEDED(result));
 
 	//排他制御レベルのセット
-	result = keyboard_->SetCooperativeLevel(
+	result = keyboardInput_->SetCooperativeLevel(
 		WinApp::GetInstance()->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 
 	key_ = {};
 	preKey_ = {};
+
+	//マウスデバイスを作成
+	result = directInput_->CreateDevice(GUID_SysMouse, &mouseInput_, NULL);
+
+	//入力データ形式のセット
+	result = mouseInput_->SetDataFormat(&c_dfDIMouse2);
+
+	//排他制御レベルのセット
+	result = mouseInput_->SetCooperativeLevel(
+		WinApp::GetInstance()->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 }
 
 void Input::Update() {
 	preKey_ = key_;
 
 	//キーボード情報の取得開始
-	keyboard_->Acquire();
+	keyboardInput_->Acquire();
 
 	//全キーの入力状態を取得
-	keyboard_->GetDeviceState(sizeof(key_), &key_);
+	keyboardInput_->GetDeviceState(sizeof(key_), &key_);
+
+	//マウス情報の取得開始
+	mouseInput_->Acquire();
+
+	mouseInput_->GetDeviceState(sizeof(mouse_), &mouse_);
+
+	m_Position_.Pos = MousePos();
+	m_Position_.Scroll += MouseScroll();
 }
 
 bool Input::TriggerKey(BYTE keyNumber) const {
@@ -66,6 +84,13 @@ bool Input::ReleaseKey(BYTE keyNumber)const {
 	else {
 		return false;
 	}
+}
+
+bool Input::pushMouse(uint32_t Mousebutton){
+	if (mouse_.rgbButtons[Mousebutton] != 0) {
+		return true;
+	}
+	return false;
 }
 
 bool Input::GetJoystickState(int32_t stickNo, XINPUT_STATE& out){
@@ -149,4 +174,12 @@ bool Input::PushYButton(XINPUT_STATE& out){
 		return true;
 	}
 	return false;
+}
+
+Vector2 Input::MousePos() {
+	return { (float)mouse_.lX,(float)mouse_.lY };
+}
+
+float Input::MouseScroll(){
+	return (float)mouse_.lZ;
 }

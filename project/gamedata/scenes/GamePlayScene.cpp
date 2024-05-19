@@ -21,22 +21,19 @@ void GamePlayScene::Initialize() {
 	//CollisionManager
 	collisionManager_ = CollisionManager::GetInstance();
 
+	//Player
+	player_ = new Player();
+	player_->Initialize();
+
 	//Line
 	line_ = std::make_unique <CreateLine>();
 	line_->Initialize();
 	line_->SetDirectionalLightFlag(false, 0);
 	lineMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
-	linePointMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
-	for (int i = 0; i < 2; i++) {
-		worldTransformLine_[i].Initialize();
-		linePoint_[i] = std::make_unique <CreateSphere>();
-		linePoint_[i]->Initialize();
-	}
-	worldTransformLine_[1].translation_.num[2] = 30.0f;
 
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
-	followCamera_->SetTarget(&worldTransformLine_[0]);
+	followCamera_->SetTarget(&player_->GetWorldTransformPlayer());
 
 	//
 	model_.reset(Model::CreateModel("project/gamedata/resources/plane", "plane.gltf"));
@@ -69,16 +66,12 @@ void GamePlayScene::Update() {
 	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
 	viewProjection_.TransferMatrix();
 
-	for (int i = 0; i < 2; i++) {
-		worldTransformLine_[i].UpdateMatrix();
-	}
+	player_->Updete();
 	for (Obj& obj : objects_) {
 		obj.world.UpdateMatrix();
 	}
 
 	ImGui::Begin("debug");
-	ImGui::DragFloat3("LinePoint1", worldTransformLine_[0].translation_.num, 0.05f);
-	ImGui::DragFloat3("LinePoint2", worldTransformLine_[1].translation_.num, 0.05f);
 	ImGui::DragFloat("LineThickness", &lineThickness_, 0.05f, 0.0f);
 	line_->SetLineThickness(lineThickness_);
 
@@ -128,10 +121,9 @@ void GamePlayScene::Draw() {
 #pragma region 3Dオブジェクト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard3D);
 
-	line_->Draw(worldTransformLine_[0], worldTransformLine_[1], viewProjection_, lineMaterial_);
+	player_->Draw(viewProjection_);
 
-	linePoint_[0]->Draw(worldTransformLine_[0], viewProjection_, lineMaterial_, textureManager_->white);
-	linePoint_[1]->Draw(worldTransformLine_[1], viewProjection_, lineMaterial_, textureManager_->white);
+	line_->Draw(player_->GetWorldTransformPlayer(), player_->GetWorldTransformReticle(), viewProjection_, lineMaterial_);
 
 	for (Obj& obj : objects_) {
 		obj.model.Draw(obj.world, viewProjection_, obj.material);
