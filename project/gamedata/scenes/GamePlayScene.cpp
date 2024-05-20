@@ -25,6 +25,10 @@ void GamePlayScene::Initialize() {
 	player_ = new Player();
 	player_->Initialize();
 
+	//Skydome
+	skydome_ = new Skydome();
+	skydome_->Initialize();
+
 	//Line
 	line_ = std::make_unique <CreateLine>();
 	line_->Initialize();
@@ -67,6 +71,9 @@ void GamePlayScene::Update() {
 	viewProjection_.TransferMatrix();
 
 	player_->Updete();
+
+	skydome_->Update();
+
 	for (Obj& obj : objects_) {
 		obj.world.UpdateMatrix();
 	}
@@ -128,6 +135,8 @@ void GamePlayScene::Draw() {
 	for (Obj& obj : objects_) {
 		obj.model.Draw(obj.world, viewProjection_, obj.material);
 	}
+
+	skydome_->Draw(viewProjection_);
 
 #pragma endregion
 

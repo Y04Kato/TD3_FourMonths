@@ -18,6 +18,7 @@
 #include "components/utilities/followCamera/FollowCamera.h"
 
 #include "player/Player.h"
+#include "skydome/Skydome.h"
 
 class GamePlayScene :public Iscene {
 public:
@@ -66,4 +67,6 @@ private:
 	std::string objNameHolder_[objCountMax_];
 
 	const char* groupName = "GamePlayScene";
+
+	Skydome* skydome_ = nullptr;
 };

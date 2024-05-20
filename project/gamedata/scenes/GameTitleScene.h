@@ -3,8 +3,12 @@
 #include "CJEngine.h"
 #include "Audio.h"
 #include "Input.h"
+#include "components/3d/WorldTransform.h"
+#include "components/3d/ViewProjection.h"
 #include "TextureManager.h"
 #include "components/2d/CreateSprite.h"
+
+#include "skydome/Skydome.h"
 
 class GameTitleScene :public Iscene{
 public:
@@ -17,6 +21,8 @@ private:
 	CitrusJunosEngine* CJEngine_;
 
 	Input* input_ = nullptr;
+
+	ViewProjection viewProjection_;
 
 	TextureManager* textureManager_;
 
@@ -38,4 +44,6 @@ private:
 	bool isSpriteDraw_[2];
 
 	int titleTimer_ = 60;
+
+	Skydome* skydome_ = nullptr;
 };

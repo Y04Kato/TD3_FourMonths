@@ -145,6 +145,12 @@
     <Filter Include="ヘッダー ファイル\base\components\utilities\pointLight">
       <UniqueIdentifier>{811c93f2-5e69-4b8f-b350-cfa48158c1e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\project\gamedata\gameObject">
+      <UniqueIdentifier>{ae5f739d-7d8e-4e14-86d9-6f4ce48773ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\project\gamedata\gameObject">
+      <UniqueIdentifier>{873f43f5-545d-432f-8174-49b988975931}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -295,7 +301,13 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="project\gamedata\player\Player.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\project\gamedata\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="project\gamedata\skydome\Skydome.cpp">
+      <Filter>ソース ファイル\project\gamedata\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="project\gamedata\mountain\Mountain.cpp">
+      <Filter>ソース ファイル\project\gamedata\gameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -500,7 +512,13 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="project\gamedata\player\Player.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\project\gamedata\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="project\gamedata\skydome\Skydome.h">
+      <Filter>ヘッダー ファイル\project\gamedata\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="project\gamedata\mountain\Mountain.h">
+      <Filter>ヘッダー ファイル\project\gamedata\gameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
