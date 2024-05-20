@@ -1,4 +1,4 @@
-#include "skydome.h"
+#include "Skydome.h"
 
 void Skydome::Initialize()
 {

@@ -19,6 +19,7 @@
 
 #include "player/Player.h"
 #include "skydome/Skydome.h"
+#include "mountain/Mountain.h"
 
 class GamePlayScene :public Iscene {
 public:
@@ -68,5 +69,9 @@ private:
 
 	const char* groupName = "GamePlayScene";
 
+	//Skydome
 	Skydome* skydome_ = nullptr;
+
+	//Mountain
+	Mountain* mountain_ = nullptr;
 };

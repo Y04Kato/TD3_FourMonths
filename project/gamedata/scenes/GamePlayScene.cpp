@@ -29,6 +29,10 @@ void GamePlayScene::Initialize() {
 	skydome_ = new Skydome();
 	skydome_->Initialize();
 
+	//Mountain
+	mountain_ = new Mountain();
+	mountain_->Initialize();
+
 	//Line
 	line_ = std::make_unique <CreateLine>();
 	line_->Initialize();
@@ -61,22 +65,28 @@ void GamePlayScene::Update() {
 	globalVariables = GlobalVariables::GetInstance();
 	ApplyGlobalVariables();
 
-	collisionManager_->ClearColliders();
-	collisionManager_->CheckAllCollision();
-
-	debugCamera_->Update();
-	followCamera_->Update();
-	viewProjection_.matView = followCamera_->GetViewProjection().matView;
-	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
-	viewProjection_.TransferMatrix();
-
 	player_->Updete();
+
+	mountain_->Update();
 
 	skydome_->Update();
 
 	for (Obj& obj : objects_) {
 		obj.world.UpdateMatrix();
 	}
+
+	collisionManager_->ClearColliders();
+	collisionManager_->CheckAllCollision();
+
+	debugCamera_->Update();
+	//followCamera_->Update();
+	/*viewProjection_.matView = followCamera_->GetViewProjection().matView;
+	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;*/
+	viewProjection_.translation_ = debugCamera_->GetViewProjection()->translation_;
+	viewProjection_.rotation_ = debugCamera_->GetViewProjection()->rotation_;
+
+	//viewProjection_.TransferMatrix();
+	viewProjection_.UpdateMatrix();
 
 	ImGui::Begin("debug");
 	ImGui::DragFloat("LineThickness", &lineThickness_, 0.05f, 0.0f);
@@ -128,13 +138,15 @@ void GamePlayScene::Draw() {
 #pragma region 3Dオブジェクト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard3D);
 
-	player_->Draw(viewProjection_);
+	//player_->Draw(viewProjection_);
 
 	line_->Draw(player_->GetWorldTransformPlayer(), player_->GetWorldTransformReticle(), viewProjection_, lineMaterial_);
 
 	for (Obj& obj : objects_) {
 		obj.model.Draw(obj.world, viewProjection_, obj.material);
 	}
+
+	mountain_->Draw(viewProjection_);
 
 	skydome_->Draw(viewProjection_);
 
