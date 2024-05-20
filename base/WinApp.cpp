@@ -57,6 +57,8 @@ void WinApp::CreateWindowView(const wchar_t* title, int32_t clientWidth, int32_t
 		nullptr//オプション
 	);
 
+	ShowCursor(false);
+
 	//システムタイマーの分解能を上げる
 	timeBeginPeriod(1);
 
