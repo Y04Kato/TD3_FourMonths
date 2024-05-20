@@ -71,7 +71,21 @@ void GamePlayScene::Update() {
 		obj.world.UpdateMatrix();
 	}
 
+	if (input_->TriggerKey(DIK_D)) {
+		if(showCursor == (int)true){
+			showCursor = (int)false;
+		}
+		else {
+			showCursor = (int)true;
+		}
+	}
+	ShowCursor(showCursor);
+	if (showCursor == 0) {
+		SetCursorPos(1280 / 2, 720 / 2);
+	}
+
 	ImGui::Begin("debug");
+	ImGui::Text("CorsorDemo:D key");
 	ImGui::DragFloat("LineThickness", &lineThickness_, 0.05f, 0.0f);
 	line_->SetLineThickness(lineThickness_);
 

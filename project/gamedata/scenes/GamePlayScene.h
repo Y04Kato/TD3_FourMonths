@@ -49,6 +49,7 @@ private:
 	std::unique_ptr<Model> model_;
 
 	Player* player_ = nullptr;
+	int showCursor = 0;
 
 	//ステージエディター擬き、名前をtest0~始め、それを記録する
 	struct Obj {
