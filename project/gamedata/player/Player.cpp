@@ -10,6 +10,7 @@ Player::~Player() {
 
 void Player::Initialize() {
 	textureManager_ = TextureManager::GetInstance();
+	input_ = Input::GetInstance();
 
 	worldTransform_.Initialize();
 	worldTransformReticle_.Initialize();
@@ -35,10 +36,44 @@ void Player::Initialize() {
 }
 
 void Player::Updete(const ViewProjection viewProjection) {
+	Reticle(viewProjection);
+
+	worldTransform_.rotation_.num[1] += input_->GetMousePosition().Velocity.num[0] / 120.0f;
+	worldTransform_.rotation_.num[0] += input_->GetMousePosition().Velocity.num[1] / 120.0f;
+
+	ImGui::Begin("player");
+	ImGui::DragFloat3("Pos", worldTransform_.translation_.num, 0.05f);
+	ImGui::DragFloat3("Rot", worldTransform_.rotation_.num, 0.05f);
+	ImGui::DragFloat3("ReticlePos", worldTransformReticle_.translation_.num, 0.05f);
+	ImGui::End();
+}
+
+void Player::Draw(const ViewProjection viewProjection) {
+	sphere_[0]->Draw(worldTransform_, viewProjection, sphereMaterial_, textureManager_->white);
+	sphere_[1]->Draw(worldTransformReticle_, viewProjection, sphereMaterial_, textureManager_->white);
+}
+
+void Player::DrawUI() {
+	sprite_->Draw(spriteTransform_, SpriteuvTransform_, sphereMaterial_);
+}
+
+void Player::SetWorldTransform(const WorldTransform world) {
+	worldTransform_ = world;
+}
+
+void Player::SetWorldTransformReticle(const WorldTransform world) {
+	worldTransformReticle_ = world;
+}
+
+void Player::OnCollision() {
+	return;
+}
+
+void Player::Reticle(const ViewProjection viewProjection) {
 	//自機とレティクルの距離
 	const float kDistancePlayerToReticle = 50.0f;
 	//自機からレティクルへのオフセット(Z+向き)
-	Vector3 offset = {0, 0, 1.0f};
+	Vector3 offset = { 0, 0, 1.0f };
 	//自機のワールド行列の回転を反映
 	offset = TransformNormal(offset, worldTransform_.constMap->matWorld);
 	//ベクトルの長さを整える
@@ -68,31 +103,4 @@ void Player::Updete(const ViewProjection viewProjection) {
 	positionReticle = TransformN(positionReticle, matViewProjectionViewport);
 	// スプライトのレティクルに座標を設定
 	spriteTransform_.translate = positionReticle;
-
-	ImGui::Begin("player");
-	ImGui::DragFloat3("Pos", worldTransform_.translation_.num, 0.05f);
-	ImGui::DragFloat3("Rot", worldTransform_.rotation_.num, 0.05f);
-	ImGui::DragFloat3("ReticlePos", worldTransformReticle_.translation_.num, 0.05f);
-	ImGui::End();
-}
-
-void Player::Draw(const ViewProjection viewProjection) {
-	sphere_[0]->Draw(worldTransform_, viewProjection, sphereMaterial_, textureManager_->white);
-	sphere_[1]->Draw(worldTransformReticle_, viewProjection, sphereMaterial_, textureManager_->white);
-}
-
-void Player::DrawUI() {
-	sprite_->Draw(spriteTransform_, SpriteuvTransform_, sphereMaterial_);
-}
-
-void Player::SetWorldTransform(const WorldTransform world) {
-	worldTransform_ = world;
-}
-
-void Player::SetWorldTransformReticle(const WorldTransform world) {
-	worldTransformReticle_ = world;
-}
-
-void Player::OnCollision() {
-	return;
 }

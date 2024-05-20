@@ -32,6 +32,7 @@ public:
 
 private:
 	TextureManager* textureManager_;
+	Input* input_;
 
 	WorldTransform worldTransform_;
 	WorldTransform worldTransformReticle_;
@@ -43,4 +44,6 @@ private:
 	EulerTransform spriteTransform_;
 	EulerTransform SpriteuvTransform_;
 	uint32_t spriteResourceNum_;
+
+	void Reticle(const ViewProjection viewProjection);
 };

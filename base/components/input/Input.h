@@ -20,6 +20,7 @@
 
 struct MousePosition {
 	Vector2 Pos;
+	Vector2 Velocity;
 	float Scroll;
 };
 
@@ -70,6 +71,7 @@ private:
 	Microsoft::WRL::ComPtr<IDirectInputDevice8> mouseInput_ = nullptr;
 	MousePosition m_Position_ = { {0.0f,0.0f},0.0f };
 	Vector2 MousePos();
+	Vector2 MouseVelocity();
 	float MouseScroll();
 };
 
