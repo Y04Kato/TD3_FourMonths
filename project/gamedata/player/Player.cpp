@@ -13,10 +13,10 @@ void Player::Initialize() {
 	input_ = Input::GetInstance();
 
 	worldTransform_.Initialize();
+	worldTransform2_.Initialize();
 	worldTransformReticle_.Initialize();
 
 	for (int i = 0; i < 2; i++) {
-		worldTransform_.Initialize();
 		sphere_[i] = std::make_unique <CreateSphere>();
 		sphere_[i]->Initialize();
 	}
@@ -38,8 +38,9 @@ void Player::Initialize() {
 void Player::Updete(const ViewProjection viewProjection) {
 	Reticle(viewProjection);
 
-	worldTransform_.rotation_.num[1] += input_->GetMousePosition().Velocity.num[0] / 200.0f;
-	worldTransform_.rotation_.num[0] += input_->GetMousePosition().Velocity.num[1] / 200.0f;
+	worldTransform2_.translation_ = worldTransform_.translation_;
+	worldTransform2_.rotation_.num[1] += input_->GetMousePosition().Velocity.num[0] / 200.0f;
+	worldTransform2_.rotation_.num[0] += input_->GetMousePosition().Velocity.num[1] / 200.0f;
 
 	ImGui::Begin("player");
 	ImGui::DragFloat3("Pos", worldTransform_.translation_.num, 0.05f);
@@ -75,19 +76,20 @@ void Player::Reticle(const ViewProjection viewProjection) {
 	//自機からレティクルへのオフセット(Z+向き)
 	Vector3 offset = { 0, 0, 1.0f };
 	//自機のワールド行列の回転を反映
-	offset = TransformNormal(offset, worldTransform_.constMap->matWorld);
+	offset = TransformNormal(offset, worldTransform2_.constMap->matWorld);
 	//ベクトルの長さを整える
 	offset = Normalize(offset);
 	offset.num[0] *= kDistancePlayerToReticle;
 	offset.num[1] *= kDistancePlayerToReticle;
 	offset.num[2] *= kDistancePlayerToReticle;
 	//3Dレティクルの座標を設定
-	worldTransformReticle_.translation_.num[0] = GetWorldTransform().translation_.num[0] + offset.num[0];
-	worldTransformReticle_.translation_.num[1] = GetWorldTransform().translation_.num[1] + offset.num[1];
-	worldTransformReticle_.translation_.num[2] = GetWorldTransform().translation_.num[2] + offset.num[2];
+	worldTransformReticle_.translation_.num[0] = worldTransform2_.translation_.num[0] + offset.num[0];
+	worldTransformReticle_.translation_.num[1] = worldTransform2_.translation_.num[1] + offset.num[1];
+	worldTransformReticle_.translation_.num[2] = worldTransform2_.translation_.num[2] + offset.num[2];
 	worldTransformReticle_.UpdateMatrix();
 
 	worldTransform_.UpdateMatrix();
+	worldTransform2_.UpdateMatrix();
 
 	// 3Dレティクルのワールド行列からワールド座標を取得
 	Vector3 positionReticle = {

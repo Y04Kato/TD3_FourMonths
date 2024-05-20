@@ -23,7 +23,7 @@ public:
 	void DrawUI();
 
 	WorldTransform GetWorldTransform() override{ return worldTransform_; }
-	const WorldTransform& GetWorldTransformPlayer(){ return worldTransform_; }
+	const WorldTransform& GetWorldTransformPlayer(){ return worldTransform2_; }
 	const WorldTransform& GetWorldTransformReticle(){ return worldTransformReticle_; }
 	void SetWorldTransform(const WorldTransform world);
 	void SetWorldTransformReticle(const WorldTransform world);
@@ -35,6 +35,7 @@ private:
 	Input* input_;
 
 	WorldTransform worldTransform_;
+	WorldTransform worldTransform2_;
 	WorldTransform worldTransformReticle_;
 
 	std::unique_ptr <CreateSphere> sphere_[2];
