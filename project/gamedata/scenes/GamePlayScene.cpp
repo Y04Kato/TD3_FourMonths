@@ -25,7 +25,7 @@ void GamePlayScene::Initialize() {
 	player_ = new Player();
 	player_->Initialize();
 
-	//Line
+	//Linet
 	line_ = std::make_unique <CreateLine>();
 	line_->Initialize();
 	line_->SetDirectionalLightFlag(false, 0);
@@ -66,7 +66,7 @@ void GamePlayScene::Update() {
 	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
 	viewProjection_.TransferMatrix();
 
-	player_->Updete();
+	player_->Updete(viewProjection_);
 	for (Obj& obj : objects_) {
 		obj.world.UpdateMatrix();
 	}
@@ -151,13 +151,13 @@ void GamePlayScene::Draw() {
 
 #pragma region 前景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
-
+	player_->DrawUI();
 
 #pragma endregion
 }
 
 void GamePlayScene::Finalize() {
-
+	delete player_;
 
 	objects_.clear();
 }

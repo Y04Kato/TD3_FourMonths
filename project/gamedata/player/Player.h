@@ -3,6 +3,7 @@
 #include "components/3d/CreateSphere.h"
 #include "components/3d/WorldTransform.h"
 #include "components/3d/ViewProjection.h"
+#include "components/2d/CreateSprite.h"
 #include "components/input/Input.h"
 #include "TextureManager.h"
 #include "components/utilities/collisionManager/CollisionManager.h"
@@ -15,9 +16,11 @@ public:
 
 	void Initialize();
 
-	void Updete();
+	void Updete(const ViewProjection viewProjection);
 
 	void Draw(const ViewProjection viewProjection);
+
+	void DrawUI();
 
 	WorldTransform GetWorldTransform() override{ return worldTransform_; }
 	const WorldTransform& GetWorldTransformPlayer(){ return worldTransform_; }
@@ -35,4 +38,9 @@ private:
 
 	std::unique_ptr <CreateSphere> sphere_[2];
 	Vector4 sphereMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
+
+	std::unique_ptr <CreateSprite> sprite_;
+	EulerTransform spriteTransform_;
+	EulerTransform SpriteuvTransform_;
+	uint32_t spriteResourceNum_;
 };
