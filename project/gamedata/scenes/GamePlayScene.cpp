@@ -21,6 +21,23 @@ void GamePlayScene::Initialize() {
 	//CollisionManager
 	collisionManager_ = CollisionManager::GetInstance();
 
+	//テクスチャ
+	spriteResource_ = textureManager_->Load("project/gamedata/resources/UI/Title.png");
+
+	spriteMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
+	spriteTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
+
+	SpriteuvTransform_ = {
+		{1.0f,1.0f,1.0f},
+		{0.0f,0.0f,0.0f},
+		{0.0f,0.0f,0.0f},
+	};
+
+	sprite_ = std::make_unique <CreateSprite>();
+	
+	sprite_->Initialize(Vector2{ 1280.0f,780.0f }, spriteResource_);
+	sprite_->SetAnchor(Vector2{ 0.5f,0.5f });
+
 	//Player
 	player_ = new Player();
 	player_->Initialize();
@@ -132,6 +149,8 @@ void GamePlayScene::Update() {
 void GamePlayScene::Draw() {
 #pragma region 背景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
+
+	sprite_->Draw(spriteTransform_, SpriteuvTransform_, spriteMaterial_);
 
 #pragma endregion
 

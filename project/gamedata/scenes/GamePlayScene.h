@@ -74,4 +74,12 @@ private:
 
 	//Mountain
 	Mountain* mountain_ = nullptr;
+
+	//sprite
+	std::unique_ptr <CreateSprite> sprite_;
+	EulerTransform spriteTransform_;
+	EulerTransform SpriteuvTransform_;
+	Vector4 spriteMaterial_;
+
+	uint32_t spriteResource_;
 };
