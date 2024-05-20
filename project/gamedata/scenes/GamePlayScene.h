@@ -51,6 +51,8 @@ private:
 	Player* player_ = nullptr;
 	int showCursor = 0;
 
+	bool cameraChange_ = false;
+
 	//ステージエディター擬き、名前をtest0~始め、それを記録する
 	struct Obj {
 		Model model;

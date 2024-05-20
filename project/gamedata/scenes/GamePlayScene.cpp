@@ -60,18 +60,33 @@ void GamePlayScene::Update() {
 	collisionManager_->ClearColliders();
 	collisionManager_->CheckAllCollision();
 
-	debugCamera_->Update();
-	followCamera_->Update();
-	viewProjection_.matView = followCamera_->GetViewProjection().matView;
-	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
-	viewProjection_.TransferMatrix();
+	if (input_->TriggerKey(DIK_Z)) {
+		if (cameraChange_ == true) {
+			cameraChange_ = false;
+		}
+		else {
+			cameraChange_ = true;
+		}
+	}
+	if (cameraChange_ == true) {
+		debugCamera_->Update();
+		viewProjection_.translation_ = debugCamera_->GetViewProjection()->translation_;
+		viewProjection_.rotation_ = debugCamera_->GetViewProjection()->rotation_;
+		viewProjection_.UpdateMatrix();
+	}
+	else {
+		followCamera_->Update();
+		viewProjection_.matView = followCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
+		viewProjection_.TransferMatrix();
+	}
 
 	player_->Updete(viewProjection_);
 	for (Obj& obj : objects_) {
 		obj.world.UpdateMatrix();
 	}
 
-	if (input_->TriggerKey(DIK_D)) {
+	if (input_->TriggerKey(DIK_X)) {
 		if(showCursor == (int)true){
 			showCursor = (int)false;
 		}
@@ -85,7 +100,8 @@ void GamePlayScene::Update() {
 	}
 
 	ImGui::Begin("debug");
-	ImGui::Text("CorsorDemo:D key");
+	ImGui::Text("CameraChange:Z key");
+	ImGui::Text("CorsorDemo:X key");
 	ImGui::DragFloat("LineThickness", &lineThickness_, 0.05f, 0.0f);
 	line_->SetLineThickness(lineThickness_);
 
