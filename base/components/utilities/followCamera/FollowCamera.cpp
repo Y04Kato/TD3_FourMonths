@@ -42,8 +42,8 @@ void FollowCamera::Update() {
 		}
 	}
 
-	//viewprojection_.rotation_.num[1] = LerpShortAngle(viewprojection_.rotation_.num[1], destinationAngleY_, 0.2f);
-	viewprojection_.rotation_ = target_->rotation_;
+	viewprojection_.rotation_.num[0] = LerpShortAngle(viewprojection_.rotation_.num[0], target_->rotation_.num[0], 0.2f);
+	viewprojection_.rotation_.num[1] = LerpShortAngle(viewprojection_.rotation_.num[1], target_->rotation_.num[1], 0.2f);
 
 	viewprojection_.UpdateViewMatrix();
 	viewprojection_.TransferMatrix();

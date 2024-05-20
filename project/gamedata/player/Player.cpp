@@ -38,8 +38,8 @@ void Player::Initialize() {
 void Player::Updete(const ViewProjection viewProjection) {
 	Reticle(viewProjection);
 
-	worldTransform_.rotation_.num[1] += input_->GetMousePosition().Velocity.num[0] / 120.0f;
-	worldTransform_.rotation_.num[0] += input_->GetMousePosition().Velocity.num[1] / 120.0f;
+	worldTransform_.rotation_.num[1] += input_->GetMousePosition().Velocity.num[0] / 200.0f;
+	worldTransform_.rotation_.num[0] += input_->GetMousePosition().Velocity.num[1] / 200.0f;
 
 	ImGui::Begin("player");
 	ImGui::DragFloat3("Pos", worldTransform_.translation_.num, 0.05f);
