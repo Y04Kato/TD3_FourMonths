@@ -76,12 +76,6 @@ void GamePlayScene::Initialize() {
 	mountain_ = new Mountain();
 	mountain_->Initialize();
 
-	//Linet
-	line_ = std::make_unique <CreateLine>();
-	line_->Initialize();
-	line_->SetDirectionalLightFlag(false, 0);
-	lineMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
-
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
 	followCamera_->SetTarget(&player_->GetWorldTransformPlayer());
@@ -176,6 +170,8 @@ void GamePlayScene::Update() {
 		GetOrientations(MakeRotateXYZMatrix(obj.world.rotation_), obj.obb_.orientation);
 		obj.obb_.size = obj.world.scale_;
 		if (IsCollision(obj.obb_,segment_)) {
+			player_->SetWorldTransformObject(obj.world);
+			player_->SetIsHit(true);
 			isHit_ = true;
 		}
 		else {
@@ -188,6 +184,7 @@ void GamePlayScene::Update() {
 	}
 	if (resetTime_ >= 30) {
 		isHit_ = false;
+		player_->SetIsHit(false);
 		resetTime_ = 0;
 	}
 
@@ -208,8 +205,6 @@ void GamePlayScene::Update() {
 	ImGui::Text("CameraChange:Z key");
 	ImGui::Text("CorsorDemo:X key");
 	ImGui::Text("IsHitRay %d", isHit_);
-	ImGui::DragFloat("LineThickness", &lineThickness_, 0.05f, 0.0f);
-	line_->SetLineThickness(lineThickness_);
 
 	ImGui::InputText("BlockName", objName_, sizeof(objName_));
 	if (ImGui::Button("SpawnBlock")) {
@@ -259,9 +254,7 @@ void GamePlayScene::Draw() {
 #pragma region 3Dオブジェクト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard3D);
 
-	//player_->Draw(viewProjection_);
-
-	line_->Draw(player_->GetWorldTransformPlayer(), player_->GetWorldTransformReticle(), viewProjection_, lineMaterial_);
+	player_->Draw(viewProjection_);
 
 	for (Obj& obj : objects_) {
 		obj.model.Draw(obj.world, viewProjection_, obj.material);

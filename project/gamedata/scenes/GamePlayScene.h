@@ -44,10 +44,6 @@ private:
 
 	std::unique_ptr<FollowCamera> followCamera_;
 
-	std::unique_ptr<CreateLine> line_;
-	Vector4 lineMaterial_;
-	float lineThickness_ = 0.2f;
-
 	std::unique_ptr<Model> model_;
 
 	Player* player_ = nullptr;
