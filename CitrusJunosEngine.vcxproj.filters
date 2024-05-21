@@ -309,6 +309,9 @@
     <ClCompile Include="project\gamedata\mountain\Mountain.cpp">
       <Filter>ソース ファイル\project\gamedata\gameObject</Filter>
     </ClCompile>
+    <ClCompile Include="project\gamedata\scenes\GameSelectScene.cpp">
+      <Filter>ソース ファイル\project\gamedata\scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="project\gamedata\resources\shaders\Object3d.PS.hlsl">
@@ -519,6 +522,9 @@
     </ClInclude>
     <ClInclude Include="project\gamedata\mountain\Mountain.h">
       <Filter>ヘッダー ファイル\project\gamedata\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="project\gamedata\scenes\GameSelectScene.h">
+      <Filter>ヘッダー ファイル\project\gamedata\scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
