@@ -28,6 +28,8 @@ void DebugCamera::Update() {
 		viewProjection_.rotation_.num[1] -= 0.02f;
 	}
 
+	viewProjection_.translation_.num[2] = input_->GetMousePosition().Scroll / 40.0f;
+
 	ImGui::Begin("DebugCamera");
 	ImGui::DragFloat3("rotation", viewProjection_.rotation_.num,0.1f);
 	ImGui::DragFloat3("translation", viewProjection_.translation_.num, 0.1f);
