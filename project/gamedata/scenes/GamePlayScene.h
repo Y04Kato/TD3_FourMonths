@@ -59,6 +59,7 @@ private:
 		WorldTransform world;
 		Vector4 material;
 		std::string name;
+		OBB obb_;
 	};
 	std::list<Obj> objects_;
 	ModelData ObjModelData_;
@@ -69,4 +70,8 @@ private:
 	std::string objNameHolder_[objCountMax_];
 
 	const char* groupName = "GamePlayScene";
+
+	Segment segment_;
+	bool isHit_;
+	int resetTime_;
 };

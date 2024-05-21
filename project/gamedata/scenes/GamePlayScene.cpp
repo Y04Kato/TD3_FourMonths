@@ -86,6 +86,29 @@ void GamePlayScene::Update() {
 		obj.world.UpdateMatrix();
 	}
 
+	segment_.origin = player_->GetWorldTransformPlayer().translation_;
+	segment_.diff = player_->GetWorldTransformReticle().translation_;
+
+	for (Obj& obj : objects_) {
+		obj.obb_.center = obj.world.translation_;
+		GetOrientations(MakeRotateXYZMatrix(obj.world.rotation_), obj.obb_.orientation);
+		obj.obb_.size = obj.world.scale_;
+		if (IsCollision(obj.obb_,segment_)) {
+			isHit_ = true;
+		}
+		else {
+			
+		}
+	}
+
+	if (isHit_ == true) {
+		resetTime_++;
+	}
+	if (resetTime_ >= 30) {
+		isHit_ = false;
+		resetTime_ = 0;
+	}
+
 	if (input_->TriggerKey(DIK_X)) {
 		if(showCursor == (int)true){
 			showCursor = (int)false;
@@ -102,6 +125,7 @@ void GamePlayScene::Update() {
 	ImGui::Begin("debug");
 	ImGui::Text("CameraChange:Z key");
 	ImGui::Text("CorsorDemo:X key");
+	ImGui::Text("IsHitRay %d", isHit_);
 	ImGui::DragFloat("LineThickness", &lineThickness_, 0.05f, 0.0f);
 	line_->SetLineThickness(lineThickness_);
 
