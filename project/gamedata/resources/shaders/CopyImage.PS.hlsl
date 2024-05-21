@@ -19,22 +19,6 @@ PixelShaderOutput main(VertexShaderOutput input){
     PixelShaderOutput output;
     output.color = gTexture.Sample(gSampler, input.texcoord);
 
-    if (gPostEffectList.isGrayScale == true) {
-        float32_t value = dot(output.color.rgb, float32_t3(0.2125f, 0.7154f, 0.0721f));
-        output.color.rgb = float32_t3(value, value, value);
-    }
-
-    if (gPostEffectList.isVignetting == true) {
-        //周囲を0に、中心になるほど明るくなるように計算で調整
-        float32_t2 correct = input.texcoord * (1.0f - input.texcoord.yx);
-        //correctだけで計算すると中心の最大値が0.0625で暗すぎるのでscaleで調整、今回は16倍して1に
-        float32_t vignette = correct.x * correct.y * 16.0f;
-        //とりあえず0.8乗でそれっぽく
-        vignette = saturate(pow(vignette, 0.8f));
-        //係数として乗算
-        output.color.rgb *= vignette;
-    }
-
     if (gPostEffectList.isSmoothing == true) {
         uint32_t width, height;//uvStepSizeの算出
         gTexture.GetDimensions(width, height);
@@ -113,6 +97,22 @@ PixelShaderOutput main(VertexShaderOutput input){
         weight = saturate(weight * 6.0f);//適当に6倍
 
         output.color.rgb = (1.0f - weight) * gTexture.Sample(gSampler, input.texcoord).rgb;
+    }
+
+    if (gPostEffectList.isGrayScale == true) {
+        float32_t value = dot(output.color.rgb, float32_t3(0.2125f, 0.7154f, 0.0721f));
+        output.color.rgb = float32_t3(value, value, value);
+    }
+
+    if (gPostEffectList.isVignetting == true) {
+        //周囲を0に、中心になるほど明るくなるように計算で調整
+        float32_t2 correct = input.texcoord * (1.0f - input.texcoord.yx);
+        //correctだけで計算すると中心の最大値が0.0625で暗すぎるのでscaleで調整、今回は16倍して1に
+        float32_t vignette = correct.x * correct.y * 16.0f;
+        //とりあえず0.8乗でそれっぽく
+        vignette = saturate(pow(vignette, 0.8f));
+        //係数として乗算
+        output.color.rgb *= vignette;
     }
     
     output.color.a = 1.0f;
