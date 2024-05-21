@@ -13,8 +13,8 @@ public:
 	void Draw(const ViewProjection viewProjection);
 
 private:
-	std::unique_ptr<Model> model_[2];
-	WorldTransform worldTransform_[2];
+	std::unique_ptr<Model> model_[4];
+	WorldTransform worldTransform_[4];
 	Vector4 modelMaterial_;
 };
 
