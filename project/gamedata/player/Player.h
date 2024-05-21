@@ -39,6 +39,7 @@ private:
 	std::unique_ptr <CreateSphere> sphere_[2];
 	Vector4 sphereMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 
+	//UISprite
 	uint32_t uiResource_[2];
 
 	std::unique_ptr <CreateSprite> uiSprite_[2];

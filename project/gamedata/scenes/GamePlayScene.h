@@ -75,11 +75,24 @@ private:
 	//Mountain
 	Mountain* mountain_ = nullptr;
 
-	//sprite
+	//TestSprite
 	std::unique_ptr <CreateSprite> sprite_;
 	EulerTransform spriteTransform_;
 	EulerTransform SpriteuvTransform_;
 	Vector4 spriteMaterial_;
 
 	uint32_t spriteResource_;
+
+	//UISprite
+	uint32_t uiResource_[2];
+
+	std::unique_ptr <CreateSprite> uiSprite_[2];
+	EulerTransform uiSpriteTransform_[2];
+	EulerTransform uiSpriteuvTransform_[2];
+	Vector4 uiSpriteMaterial_[2];
+
+	bool isSpriteDraw_[2];
+
+	//Goal
+	bool isGoal_ = false;
 };

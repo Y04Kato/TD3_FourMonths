@@ -7,10 +7,10 @@ void GameTitleScene::Initialize(){
 	//Input
 	input_ = Input::GetInstance();
 
-	//textureManager
+	//TextureManager
 	textureManager_ = TextureManager::GetInstance();
 
-	//audio
+	//Audio
 	audio_ = Audio::GetInstance();
 
 	bgmData_ = audio_->SoundLoad("project/gamedata/resources/sounds/bgm.mp3");
@@ -36,10 +36,10 @@ void GameTitleScene::Initialize(){
 		isSpriteDraw_[i] = false;
 	}
 
-	sprite_[0]->Initialize(Vector2{ 1280.0f,780.0f }, titleResource_);
+	sprite_[0]->Initialize(Vector2{ 1280.0f,720.0f }, titleResource_);
 	sprite_[0]->SetAnchor(Vector2{ 0.5f,0.5f });
 
-	sprite_[1]->Initialize(Vector2{ 1280.0f,780.0f }, title1Resource_);
+	sprite_[1]->Initialize(Vector2{ 1280.0f,720.0f }, title1Resource_);
 	sprite_[1]->SetAnchor(Vector2{ 0.5f,0.5f });
 }
 
@@ -47,7 +47,7 @@ void GameTitleScene::Update(){
 	XINPUT_STATE joyState;
 	Input::GetInstance()->GetJoystickState(0, joyState);
 
-	//title表示の処理
+	//Title表示の処理
 	titleTimer_--;
 
 	if (titleTimer_ <= 60 && titleTimer_ > 30)

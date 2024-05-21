@@ -28,11 +28,11 @@ private:
 
 	Audio* audio_;
 
-	//audio
+	//Audio
 	SoundData bgmData_;
 	SoundData selectData_;
 
-	//sprite
+	//Sprite
 	std::unique_ptr <CreateSprite> sprite_[2];
 	EulerTransform spriteTransform_[2];
 	EulerTransform SpriteuvTransform_[2];
