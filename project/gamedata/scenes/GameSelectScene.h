@@ -29,7 +29,6 @@ private:
 	Audio* audio_;
 
 	//Audio
-	SoundData bgmData_;
 	SoundData selectData_;
 
 	//Sprite
@@ -44,7 +43,5 @@ private:
 	bool isSpriteDraw_[2];
 
 	int titleTimer_ = 60;
-
-	Skydome* skydome_ = nullptr;
 };
 
