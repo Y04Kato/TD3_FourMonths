@@ -176,10 +176,12 @@ void Player::Reticle(const ViewProjection viewProjection) {
 
 void Player::SetWire() {
 	isSetWire_ = true;
+	isMissWire_ = false;
 }
 
 void Player::SetWireMiss() {
 	isMissWire_ = true;
+	isSetWire_ = false;
 	worldTransformObject_.translation_ = worldTransform2_.translation_;
 	wireVelocity_ = worldTransformReticle_.translation_ - worldTransform2_.translation_;
 	wireVelocity_ = Normalize(wireVelocity_) * 3.0f;
