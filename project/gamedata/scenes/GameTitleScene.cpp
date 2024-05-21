@@ -20,8 +20,9 @@ void GameTitleScene::Initialize(){
 	//テクスチャ
 	titleResource_ = textureManager_->Load("project/gamedata/resources/UI/Title.png");
 	title1Resource_ = textureManager_->Load("project/gamedata/resources/UI/Title1.png");
+	bgResource_ = textureManager_->Load("project/gamedata/resources/UI/bg.png");
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		spriteMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 		spriteTransform_[i] = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
@@ -41,6 +42,9 @@ void GameTitleScene::Initialize(){
 
 	sprite_[1]->Initialize(Vector2{ 1280.0f,720.0f }, title1Resource_);
 	sprite_[1]->SetAnchor(Vector2{ 0.5f,0.5f });
+
+	sprite_[2]->Initialize(Vector2{ 1280.0f,720.0f }, bgResource_);
+	sprite_[2]->SetAnchor(Vector2{ 0.5f,0.5f });
 }
 
 void GameTitleScene::Update(){
@@ -87,7 +91,7 @@ void GameTitleScene::Update(){
 void GameTitleScene::Draw(){
 #pragma region 背景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
-
+	sprite_[2]->Draw(spriteTransform_[2], SpriteuvTransform_[2], spriteMaterial_[2]);
 #pragma endregion
 
 #pragma region 3Dオブジェクト描画
