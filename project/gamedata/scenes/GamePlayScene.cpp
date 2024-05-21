@@ -21,9 +21,60 @@ void GamePlayScene::Initialize() {
 	//CollisionManager
 	collisionManager_ = CollisionManager::GetInstance();
 
+	//テクスチャ
+	spriteResource_ = textureManager_->Load("project/gamedata/resources/UI/Title.png");
+
+	uiResource_[0] = textureManager_->Load("project/gamedata/resources/UI/GoalUI.png");
+	uiResource_[1] = textureManager_->Load("project/gamedata/resources/UI/ReturnUI.png");
+
+	//testSprite
+	spriteMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
+	spriteTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
+
+	SpriteuvTransform_ = {
+		{1.0f,1.0f,1.0f},
+		{0.0f,0.0f,0.0f},
+		{0.0f,0.0f,0.0f},
+	};
+
+	sprite_ = std::make_unique <CreateSprite>();
+	
+	sprite_->Initialize(Vector2{ 1280.0f,780.0f }, spriteResource_);
+	sprite_->SetAnchor(Vector2{ 0.5f,0.5f });
+
+	//uiSprite
+	for (int i = 0; i < 2; i++)
+	{
+		uiSpriteMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
+		uiSpriteTransform_[i] = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
+
+		uiSpriteuvTransform_[i] = {
+			{1.0f,1.0f,1.0f},
+			{0.0f,0.0f,0.0f},
+			{0.0f,0.0f,0.0f},
+		};
+
+		uiSprite_[i] = std::make_unique <CreateSprite>();
+		isSpriteDraw_[i] = false;
+	}
+
+	uiSprite_[0]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[0]);
+	uiSprite_[0]->SetAnchor(Vector2{ 0.5f,0.5f });
+
+	uiSprite_[1]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[1]);
+	uiSprite_[1]->SetAnchor(Vector2{ 0.5f,0.5f });
+
 	//Player
 	player_ = new Player();
 	player_->Initialize();
+
+	//Skydome
+	skydome_ = new Skydome();
+	skydome_->Initialize();
+
+	//Mountain
+	mountain_ = new Mountain();
+	mountain_->Initialize();
 
 	//Linet
 	line_ = std::make_unique <CreateLine>();
@@ -57,8 +108,37 @@ void GamePlayScene::Update() {
 	globalVariables = GlobalVariables::GetInstance();
 	ApplyGlobalVariables();
 
-	collisionManager_->ClearColliders();
-	collisionManager_->CheckAllCollision();
+	//Goal
+	if (input_->TriggerKey(DIK_G))
+	{
+		isGoal_ = true;
+	}
+
+	if (input_->TriggerKey(DIK_R))
+	{
+		isGoal_ = false;
+	}
+
+	if (isGoal_)
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			isSpriteDraw_[i] = true;
+		}
+	}
+	else
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			isSpriteDraw_[i] = false;
+		}
+	}
+
+	player_->SetCameraMode(cameraChange_);
+
+	mountain_->Update();
+
+	skydome_->Update();
 
 	if (input_->TriggerKey(DIK_Z)) {
 		if (cameraChange_ == true) {
@@ -68,8 +148,6 @@ void GamePlayScene::Update() {
 			cameraChange_ = true;
 		}
 	}
-
-	player_->SetCameraMode(cameraChange_);
 
 	if (cameraChange_ == true) {//DebugCamera
 		debugCamera_->Update();
@@ -85,6 +163,7 @@ void GamePlayScene::Update() {
 	}
 
 	player_->Updete(viewProjection_);
+
 	for (Obj& obj : objects_) {
 		obj.world.UpdateMatrix();
 	}
@@ -173,18 +252,24 @@ void GamePlayScene::Draw() {
 #pragma region 背景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
 
+	sprite_->Draw(spriteTransform_, SpriteuvTransform_, spriteMaterial_);
+
 #pragma endregion
 
 #pragma region 3Dオブジェクト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard3D);
 
-	player_->Draw(viewProjection_);
+	//player_->Draw(viewProjection_);
 
 	line_->Draw(player_->GetWorldTransformPlayer(), player_->GetWorldTransformReticle(), viewProjection_, lineMaterial_);
 
 	for (Obj& obj : objects_) {
 		obj.model.Draw(obj.world, viewProjection_, obj.material);
 	}
+
+	mountain_->Draw(viewProjection_);
+
+	skydome_->Draw(viewProjection_);
 
 #pragma endregion
 
@@ -208,7 +293,22 @@ void GamePlayScene::Draw() {
 
 #pragma region 前景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
-	player_->DrawUI();
+
+	if (!isGoal_)
+	{
+		player_->DrawUI();
+	}
+	else
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			if (isSpriteDraw_[i])
+			{
+			    //Sprite描画
+			    uiSprite_[i]->Draw(uiSpriteTransform_[i], uiSpriteuvTransform_[i], uiSpriteMaterial_[i]);
+			}
+		}
+	}
 
 #pragma endregion
 }

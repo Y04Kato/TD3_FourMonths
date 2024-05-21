@@ -12,6 +12,31 @@ void Player::Initialize() {
 	textureManager_ = TextureManager::GetInstance();
 	input_ = Input::GetInstance();
 
+	//テクスチャ
+	uiResource_[0] = textureManager_->Load("project/gamedata/resources/UI/WireUI.png");
+	uiResource_[1] = textureManager_->Load("project/gamedata/resources/UI/MoveUI.png");
+
+	for (int i = 0; i < 2; i++)
+	{
+		uiSpriteMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
+		uiSpriteTransform_[i] = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
+
+		uiSpriteuvTransform_[i] = {
+			{1.0f,1.0f,1.0f},
+			{0.0f,0.0f,0.0f},
+			{0.0f,0.0f,0.0f},
+		};
+
+		uiSprite_[i] = std::make_unique <CreateSprite>();
+		//isSpriteDraw_[i] = false;
+	}
+
+	uiSprite_[0]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[0]);
+	uiSprite_[0]->SetAnchor(Vector2{ 0.5f,0.5f });
+
+	uiSprite_[1]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[1]);
+	uiSprite_[1]->SetAnchor(Vector2{ 0.5f,0.5f });
+
 	worldTransform_.Initialize();
 	worldTransform2_.Initialize();
 	worldTransformReticle_.Initialize();
@@ -60,8 +85,17 @@ void Player::Draw(const ViewProjection viewProjection) {
 	sphere_[1]->Draw(worldTransformReticle_, viewProjection, sphereMaterial_, textureManager_->white);
 }
 
-void Player::DrawUI() {
-	sprite_->Draw(spriteTransform_, SpriteuvTransform_, sphereMaterial_);
+void Player::DrawUI(){
+	for (int i = 0; i < 2; i++)
+	{
+		//if (isSpriteDraw_[i])
+		//{
+			//Sprite描画
+			uiSprite_[i]->Draw(uiSpriteTransform_[i], uiSpriteuvTransform_[i], uiSpriteMaterial_[i]);
+		//}
+	}
+  
+  sprite_->Draw(spriteTransform_, SpriteuvTransform_, sphereMaterial_);
 }
 
 void Player::SetWorldTransform(const WorldTransform world) {

@@ -18,6 +18,8 @@
 #include "components/utilities/followCamera/FollowCamera.h"
 
 #include "player/Player.h"
+#include "skydome/Skydome.h"
+#include "mountain/Mountain.h"
 
 class GamePlayScene :public Iscene {
 public:
@@ -70,6 +72,33 @@ private:
 	std::string objNameHolder_[objCountMax_];
 
 	const char* groupName = "GamePlayScene";
+
+	//Skydome
+	Skydome* skydome_ = nullptr;
+
+	//Mountain
+	Mountain* mountain_ = nullptr;
+
+	//TestSprite
+	std::unique_ptr <CreateSprite> sprite_;
+	EulerTransform spriteTransform_;
+	EulerTransform SpriteuvTransform_;
+	Vector4 spriteMaterial_;
+
+	uint32_t spriteResource_;
+
+	//UISprite
+	uint32_t uiResource_[2];
+
+	std::unique_ptr <CreateSprite> uiSprite_[2];
+	EulerTransform uiSpriteTransform_[2];
+	EulerTransform uiSpriteuvTransform_[2];
+	Vector4 uiSpriteMaterial_[2];
+
+	bool isSpriteDraw_[2];
+
+	//Goal
+	bool isGoal_ = false;
 
 	Segment segment_;
 	bool isHit_;
