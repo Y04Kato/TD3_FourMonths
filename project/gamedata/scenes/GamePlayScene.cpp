@@ -87,8 +87,8 @@ void GamePlayScene::Initialize() {
 	followCamera_->SetTarget(&player_->GetWorldTransformPlayer());
 
 	//
-	model_.reset(Model::CreateModel("project/gamedata/resources/plane", "plane.gltf"));
-	ObjModelData_ = model_->LoadModelFile("project/gamedata/resources/block", "block.obj");
+	model_.reset(Model::CreateModel("project/gamedata/resources/block", "block.obj"));
+	ObjModelData_ = model_->LoadModelFile("project/gamedata/resources/models/tree", "tree.obj");
 	ObjTexture_ = textureManager_->Load(ObjModelData_.material.textureFilePath);
 
 	for (int i = 0; i < objCountMax_; i++) {
@@ -265,6 +265,9 @@ void GamePlayScene::Draw() {
 
 	for (Obj& obj : objects_) {
 		obj.model.Draw(obj.world, viewProjection_, obj.material);
+#ifdef _DEBUG
+		model_->Draw(obj.world, viewProjection_, Vector4{ 1.0f,1.0f,1.0f,0.1f });
+#endif // _DEBUG
 	}
 
 	mountain_->Draw(viewProjection_);
