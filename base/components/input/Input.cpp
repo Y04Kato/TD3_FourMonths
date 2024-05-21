@@ -50,12 +50,14 @@ void Input::Update() {
 	//全キーの入力状態を取得
 	keyboardInput_->GetDeviceState(sizeof(key_), &key_);
 
+	mousePre_ = mouse_;
 	//マウス情報の取得開始
 	mouseInput_->Acquire();
 
 	mouseInput_->GetDeviceState(sizeof(mouse_), &mouse_);
 
 	m_Position_.Pos = MousePos();
+	m_Position_.Velocity = MouseVelocity();
 	m_Position_.Scroll += MouseScroll();
 }
 
@@ -177,6 +179,13 @@ bool Input::PushYButton(XINPUT_STATE& out){
 }
 
 Vector2 Input::MousePos() {
+	POINT p;
+	GetCursorPos(&p);
+	ScreenToClient(FindWindowA(WinApp::GetInstance()->GetName(), nullptr), &p);
+	return { (float)p.x,(float)p.y };
+}
+
+Vector2 Input::MouseVelocity() {
 	return { (float)mouse_.lX,(float)mouse_.lY };
 }
 

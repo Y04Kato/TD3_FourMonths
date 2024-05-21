@@ -51,6 +51,9 @@ private:
 	std::unique_ptr<Model> model_;
 
 	Player* player_ = nullptr;
+	int showCursor = 0;
+
+	bool cameraChange_ = false;
 
 	//ステージエディター擬き、名前をtest0~始め、それを記録する
 	struct Obj {
@@ -58,6 +61,7 @@ private:
 		WorldTransform world;
 		Vector4 material;
 		std::string name;
+		OBB obb_;
 	};
 	std::list<Obj> objects_;
 	ModelData ObjModelData_;
@@ -95,4 +99,8 @@ private:
 
 	//Goal
 	bool isGoal_ = false;
+
+	Segment segment_;
+	bool isHit_;
+	int resetTime_;
 };

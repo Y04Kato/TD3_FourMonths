@@ -76,7 +76,7 @@ void GamePlayScene::Initialize() {
 	mountain_ = new Mountain();
 	mountain_->Initialize();
 
-	//Line
+	//Linet
 	line_ = std::make_unique <CreateLine>();
 	line_->Initialize();
 	line_->SetDirectionalLightFlag(false, 0);
@@ -134,30 +134,80 @@ void GamePlayScene::Update() {
 		}
 	}
 
-	player_->Updete();
+	player_->SetCameraMode(cameraChange_);
 
 	mountain_->Update();
 
 	skydome_->Update();
 
+	if (input_->TriggerKey(DIK_Z)) {
+		if (cameraChange_ == true) {
+			cameraChange_ = false;
+		}
+		else {
+			cameraChange_ = true;
+		}
+	}
+
+	if (cameraChange_ == true) {//DebugCamera
+		debugCamera_->Update();
+		viewProjection_.translation_ = debugCamera_->GetViewProjection()->translation_;
+		viewProjection_.rotation_ = debugCamera_->GetViewProjection()->rotation_;
+		viewProjection_.UpdateMatrix();
+	}
+	else {//FollowCamera
+		followCamera_->Update();
+		viewProjection_.matView = followCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
+		viewProjection_.TransferMatrix();
+	}
+
+	player_->Updete(viewProjection_);
+
 	for (Obj& obj : objects_) {
 		obj.world.UpdateMatrix();
 	}
 
-	collisionManager_->ClearColliders();
-	collisionManager_->CheckAllCollision();
+	segment_.origin = player_->GetWorldTransformPlayer().translation_;
+	segment_.diff = player_->GetWorldTransformReticle().translation_;
 
-	debugCamera_->Update();
-	//followCamera_->Update();
-	/*viewProjection_.matView = followCamera_->GetViewProjection().matView;
-	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;*/
-	viewProjection_.translation_ = debugCamera_->GetViewProjection()->translation_;
-	viewProjection_.rotation_ = debugCamera_->GetViewProjection()->rotation_;
+	for (Obj& obj : objects_) {
+		obj.obb_.center = obj.world.translation_;
+		GetOrientations(MakeRotateXYZMatrix(obj.world.rotation_), obj.obb_.orientation);
+		obj.obb_.size = obj.world.scale_;
+		if (IsCollision(obj.obb_,segment_)) {
+			isHit_ = true;
+		}
+		else {
+			
+		}
+	}
 
-	//viewProjection_.TransferMatrix();
-	viewProjection_.UpdateMatrix();
+	if (isHit_ == true) {
+		resetTime_++;
+	}
+	if (resetTime_ >= 30) {
+		isHit_ = false;
+		resetTime_ = 0;
+	}
+
+	if (input_->TriggerKey(DIK_X)) {
+		if(showCursor == (int)true){
+			showCursor = (int)false;
+		}
+		else {
+			showCursor = (int)true;
+		}
+	}
+	ShowCursor(showCursor);
+	if (showCursor == 0) {
+		SetCursorPos(1280 / 2, 720 / 2);
+	}
 
 	ImGui::Begin("debug");
+	ImGui::Text("CameraChange:Z key");
+	ImGui::Text("CorsorDemo:X key");
+	ImGui::Text("IsHitRay %d", isHit_);
 	ImGui::DragFloat("LineThickness", &lineThickness_, 0.05f, 0.0f);
 	line_->SetLineThickness(lineThickness_);
 
@@ -264,7 +314,7 @@ void GamePlayScene::Draw() {
 }
 
 void GamePlayScene::Finalize() {
-
+	delete player_;
 
 	objects_.clear();
 }

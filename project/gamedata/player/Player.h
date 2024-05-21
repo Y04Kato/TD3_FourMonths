@@ -3,6 +3,7 @@
 #include "components/3d/CreateSphere.h"
 #include "components/3d/WorldTransform.h"
 #include "components/3d/ViewProjection.h"
+#include "components/2d/CreateSprite.h"
 #include "components/input/Input.h"
 #include "TextureManager.h"
 #include "components/2d/CreateSprite.h"
@@ -16,24 +17,29 @@ public:
 
 	void Initialize();
 
-	void Updete();
+	void Updete(const ViewProjection viewProjection);
 
 	void Draw(const ViewProjection viewProjection);
 
 	void DrawUI();
 
-	WorldTransform GetWorldTransform() override{ return worldTransform_; }
-	const WorldTransform& GetWorldTransformPlayer(){ return worldTransform_; }
-	const WorldTransform& GetWorldTransformReticle(){ return worldTransformReticle_; }
+	WorldTransform GetWorldTransform() override { return worldTransform_; }
+	const WorldTransform& GetWorldTransformPlayer() { return worldTransform2_; }
+	const WorldTransform& GetWorldTransformReticle() { return worldTransformReticle_; }
+
 	void SetWorldTransform(const WorldTransform world);
 	void SetWorldTransformReticle(const WorldTransform world);
+
+	void SetCameraMode(const bool cameraMode) { cameraChange_ = cameraMode; }
 
 	void OnCollision()override;
 
 private:
 	TextureManager* textureManager_;
+	Input* input_;
 
 	WorldTransform worldTransform_;
+	WorldTransform worldTransform2_;
 	WorldTransform worldTransformReticle_;
 
 	std::unique_ptr <CreateSphere> sphere_[2];
@@ -48,4 +54,15 @@ private:
 	Vector4 uiSpriteMaterial_[2];
 
 	bool isSpriteDraw_[2];
+
+	std::unique_ptr <CreateSprite> sprite_;
+	EulerTransform spriteTransform_;
+	EulerTransform SpriteuvTransform_;
+	uint32_t spriteResourceNum_;
+
+	void Reticle(const ViewProjection viewProjection);
+
+	Vector2 sensitivity_ = { 400.0f,400.0f };
+
+	bool cameraChange_ = false;
 };

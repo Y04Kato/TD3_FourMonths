@@ -80,7 +80,7 @@ void GameTitleScene::Update(){
 	}
 
 	if (input_->PushAButton(joyState)) {
-		sceneNo = DEMO_SCENE;
+		sceneNo = GAME_SCENE;
 	}
 }
 
