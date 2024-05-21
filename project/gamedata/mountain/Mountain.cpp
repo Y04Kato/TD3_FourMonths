@@ -9,12 +9,12 @@ void Mountain::Initialize()
 		worldTransform_[i].Initialize();
 	}
 
-	worldTransform_[0].translation_ = { -18.0f,-4.0f,20.0f };
-	worldTransform_[0].scale_ = { 1.0f,4.0f,8.0f };
+	worldTransform_[0].translation_ = { -27.0f,-4.0f,20.0f };
+	worldTransform_[0].scale_ = { 3.0f,4.0f,8.0f };
 
-	worldTransform_[1].translation_ = { 18.0f,-4.0f,20.0f };
+	worldTransform_[1].translation_ = { 22.0f,-4.0f,20.0f };
 	worldTransform_[1].rotation_ = {0.0f,3.13f,0.0f};
-	worldTransform_[1].scale_ = { 1.0f,4.0f,8.0f };
+	worldTransform_[1].scale_ = { 3.0f,4.0f,8.0f };
 
 	modelMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 	//model_->SetDirectionalLightFlag(true, 3);
