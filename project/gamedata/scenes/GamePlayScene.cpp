@@ -192,6 +192,7 @@ void GamePlayScene::Draw() {
 #pragma region 前景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
 
+	player_->DrawUI();
 
 #pragma endregion
 }

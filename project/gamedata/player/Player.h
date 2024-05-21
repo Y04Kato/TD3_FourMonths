@@ -5,6 +5,7 @@
 #include "components/3d/ViewProjection.h"
 #include "components/input/Input.h"
 #include "TextureManager.h"
+#include "components/2d/CreateSprite.h"
 #include "components/utilities/collisionManager/CollisionManager.h"
 #include "components/utilities/collisionManager/CollisionConfig.h"
 
@@ -18,6 +19,8 @@ public:
 	void Updete();
 
 	void Draw(const ViewProjection viewProjection);
+
+	void DrawUI();
 
 	WorldTransform GetWorldTransform() override{ return worldTransform_; }
 	const WorldTransform& GetWorldTransformPlayer(){ return worldTransform_; }
@@ -35,4 +38,13 @@ private:
 
 	std::unique_ptr <CreateSphere> sphere_[2];
 	Vector4 sphereMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
+
+	uint32_t uiResource_[2];
+
+	std::unique_ptr <CreateSprite> uiSprite_[2];
+	EulerTransform uiSpriteTransform_[2];
+	EulerTransform uiSpriteuvTransform_[2];
+	Vector4 uiSpriteMaterial_[2];
+
+	bool isSpriteDraw_[2];
 };
