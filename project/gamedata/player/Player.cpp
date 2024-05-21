@@ -36,16 +36,22 @@ void Player::Initialize() {
 }
 
 void Player::Updete(const ViewProjection viewProjection) {
-	Reticle(viewProjection);
+	if (cameraChange_ == true) {//DebugCamera
 
-	worldTransform2_.translation_ = worldTransform_.translation_;
-	worldTransform2_.rotation_.num[1] += input_->GetMousePosition().Velocity.num[0] / 200.0f;
-	worldTransform2_.rotation_.num[0] += input_->GetMousePosition().Velocity.num[1] / 200.0f;
+	}
+	else {//FollowCamera
+		Reticle(viewProjection);
+
+		worldTransform2_.translation_ = worldTransform_.translation_;
+		worldTransform2_.rotation_.num[1] += input_->GetMousePosition().Velocity.num[0] / sensitivity_.num[0];
+		worldTransform2_.rotation_.num[0] += input_->GetMousePosition().Velocity.num[1] / sensitivity_.num[0];
+	}
 
 	ImGui::Begin("player");
 	ImGui::DragFloat3("Pos", worldTransform_.translation_.num, 0.05f);
 	ImGui::DragFloat3("Rot", worldTransform_.rotation_.num, 0.05f);
 	ImGui::DragFloat3("ReticlePos", worldTransformReticle_.translation_.num, 0.05f);
+	ImGui::DragFloat2("MouseSensitivity", sensitivity_.num, 0.05f);
 	ImGui::End();
 }
 

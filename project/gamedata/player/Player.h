@@ -22,11 +22,13 @@ public:
 
 	void DrawUI();
 
-	WorldTransform GetWorldTransform() override{ return worldTransform_; }
-	const WorldTransform& GetWorldTransformPlayer(){ return worldTransform2_; }
-	const WorldTransform& GetWorldTransformReticle(){ return worldTransformReticle_; }
+	WorldTransform GetWorldTransform() override { return worldTransform_; }
+	const WorldTransform& GetWorldTransformPlayer() { return worldTransform2_; }
+	const WorldTransform& GetWorldTransformReticle() { return worldTransformReticle_; }
 	void SetWorldTransform(const WorldTransform world);
 	void SetWorldTransformReticle(const WorldTransform world);
+
+	void SetCameraMode(const bool cameraMode) { cameraChange_ = cameraMode; }
 
 	void OnCollision()override;
 
@@ -47,4 +49,8 @@ private:
 	uint32_t spriteResourceNum_;
 
 	void Reticle(const ViewProjection viewProjection);
+
+	Vector2 sensitivity_ = { 400.0f,400.0f };
+
+	bool cameraChange_ = false;
 };

@@ -68,13 +68,16 @@ void GamePlayScene::Update() {
 			cameraChange_ = true;
 		}
 	}
-	if (cameraChange_ == true) {
+
+	player_->SetCameraMode(cameraChange_);
+
+	if (cameraChange_ == true) {//DebugCamera
 		debugCamera_->Update();
 		viewProjection_.translation_ = debugCamera_->GetViewProjection()->translation_;
 		viewProjection_.rotation_ = debugCamera_->GetViewProjection()->rotation_;
 		viewProjection_.UpdateMatrix();
 	}
-	else {
+	else {//FollowCamera
 		followCamera_->Update();
 		viewProjection_.matView = followCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
