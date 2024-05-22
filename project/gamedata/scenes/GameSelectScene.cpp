@@ -16,9 +16,13 @@ void GameSelectScene::Initialize() {
 	selectData_ = audio_->SoundLoad("project/gamedata/resources/sounds/select.mp3");
 
 	//テクスチャ
-	titleResource_ = textureManager_->Load("project/gamedata/resources/UI/bg.png");
+	spriteResource_[0] = textureManager_->Load("project/gamedata/resources/UI/bg.png");
 
-	for (int i = 0; i < 1; i++)
+	spriteResource_[1] = textureManager_->Load("project/gamedata/resources/UI/Select.png");
+
+	spriteResource_[2] = textureManager_->Load("project/gamedata/resources/UI/Cursor.png");
+
+	for (int i = 0; i < 3; i++)
 	{
 		spriteMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 		spriteTransform_[i] = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
@@ -33,11 +37,14 @@ void GameSelectScene::Initialize() {
 		isSpriteDraw_[i] = true;
 	}
 
-	sprite_[0]->Initialize(Vector2{ 1280.0f,720.0f }, titleResource_);
+	sprite_[0]->Initialize(Vector2{ 1280.0f,720.0f }, spriteResource_[0]);
 	sprite_[0]->SetAnchor(Vector2{ 0.5f,0.5f });
 
-	/*sprite_[1]->Initialize(Vector2{ 1280.0f,720.0f }, title1Resource_);
-	sprite_[1]->SetAnchor(Vector2{ 0.5f,0.5f });*/
+	sprite_[1]->Initialize(Vector2{ 1280.0f,720.0f }, spriteResource_[1]);
+	sprite_[1]->SetAnchor(Vector2{ 0.5f,0.5f });
+
+	sprite_[2]->Initialize(Vector2{ 1280.0f,720.0f }, spriteResource_[2]);
+	sprite_[2]->SetAnchor(Vector2{ 0.5f,0.5f });
 }
 
 void GameSelectScene::Update() {
@@ -84,7 +91,7 @@ void GameSelectScene::Draw() {
 #pragma region 前景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
 
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		if (isSpriteDraw_[i])
 		{
