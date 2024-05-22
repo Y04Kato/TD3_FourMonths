@@ -25,7 +25,7 @@ void GameSelectScene::Initialize() {
 	for (int i = 0; i < 3; i++)
 	{
 		spriteMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
-		spriteTransform_[i] = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
+		spriteTransform_[i] = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f}};
 
 		SpriteuvTransform_[i] = {
 			{1.0f,1.0f,1.0f},
@@ -51,11 +51,35 @@ void GameSelectScene::Update() {
 	XINPUT_STATE joyState;
 	Input::GetInstance()->GetJoystickState(0, joyState);
 
+	//Selectのカーソル移動の処理
+	if (input_->TriggerKey(DIK_A) && spriteTransform_[2].translate.num[0] == 1048.0f) {
+		spriteTransform_[2].translate.num[0] = 640.0f;
+	}
 
+	if (input_->TriggerKey(DIK_A) && spriteTransform_[2].translate.num[0] == 1460.0f) {
+		spriteTransform_[2].translate.num[0] = 1048.0f;
+	}
+
+	if (input_->TriggerKey(DIK_D) && spriteTransform_[2].translate.num[0] == 1048.0f) {
+		spriteTransform_[2].translate.num[0] = 1460.0f;
+	}
+
+	if (input_->TriggerKey(DIK_D) && spriteTransform_[2].translate.num[0] == 640.0f) {
+		spriteTransform_[2].translate.num[0] = 1048.0f;
+	}
+
+	if (input_->PressKey(DIK_S) && spriteTransform_[2].translate.num[1] == 360.0f) {
+		spriteTransform_[2].translate.num[1] = 610.0f;
+	}
+
+	if (input_->PressKey(DIK_W) && spriteTransform_[2].translate.num[1] == 610.0f) {
+		spriteTransform_[2].translate.num[1] = 360.0f;
+	}
 
 	ImGui::Begin("debug");
 	ImGui::Text("GameTitleScene");
 	ImGui::Text("DemoScene:N key or A button");
+	ImGui::SliderFloat3("SWTFT", &spriteTransform_[2].translate.num[0], 0.0f, 2280.0f);
 	ImGui::End();
 
 	if (input_->TriggerKey(DIK_R)) {
