@@ -46,12 +46,17 @@ private:
 
 	std::unique_ptr<Model> model_;
 
+	//Player
 	Player* player_ = nullptr;
+
+	//カーソルの表示変数、0で非表示、1で表示
+	//使用するShowCursor関数がboolを使えない為intで代用
 	int showCursor = 0;
 
+	//カメラモードのチェンジフラグ、falseでFollow、trueでdebug
 	bool cameraChange_ = false;
 
-	//ステージエディター擬き、名前をtest0~始め、それを記録する
+	//ステージエディター擬き、名前をtest0 ~ objCountMax_で生成、それを記録する
 	struct Obj {
 		Model model;
 		WorldTransform world;
@@ -62,10 +67,10 @@ private:
 	std::list<Obj> objects_;
 	ModelData ObjModelData_;
 	uint32_t ObjTexture_;
-	char objName_[64];
-	static const int objCountMax_ = 100;
-	int objCount_ = 0;
-	std::string objNameHolder_[objCountMax_];
+	char objName_[64];//オブジェクトの名前を入力する変数
+	static const int objCountMax_ = 100;//オブジェクト最大数
+	int objCount_ = 0;//オブジェクトの設置数
+	std::string objNameHolder_[objCountMax_];//オブジェクトの名前を保存する変数
 
 	const char* groupName = "GamePlayScene";
 

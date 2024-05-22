@@ -41,10 +41,11 @@ private:
 	TextureManager* textureManager_;
 	Input* input_;
 
-	WorldTransform worldTransform_;
-	WorldTransform worldTransform2_;
-	WorldTransform worldTransformReticle_;
-	WorldTransform worldTransformObject_;
+	WorldTransform worldTransform_;//自機用
+	WorldTransform worldTransform2_;//視点用
+	WorldTransform worldTransformReticle_;//レティクル用
+	WorldTransform worldTransformWire_;//ワイヤー演出用
+	WorldTransform worldTransformObject_;//狙っているオブジェクト用
 
 	std::unique_ptr<CreateSphere>sphere_[2];
 	Vector4 sphereMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
@@ -59,26 +60,34 @@ private:
 
 	bool isSpriteDraw_[2];
 
-	std::unique_ptr <CreateSprite> sprite_;
+	std::unique_ptr <CreateSprite> spriteReticle_;
+	std::unique_ptr <CreateSprite> debugReticle_;
 	EulerTransform spriteTransform_;
 	EulerTransform spriteTransform2_;
 	EulerTransform SpriteuvTransform_;
 	uint32_t spriteResourceNum_;
 
 	//レティクルとワイヤー
-	void Reticle(const ViewProjection viewProjection);
-	void SetWire();
-	void SetWireMiss();
+	void Reticle(const ViewProjection viewProjection);//レティクルの計算関数
+	const float kDistancePlayerToReticle = 40.0f;//自機とレティクルの距離、通常射程
+	float DistancePlayerToReticle = kDistancePlayerToReticle;//自機とレティクルの距離
+	void SetWire();//ワイヤー成功時関数
+	void SetWireMiss();//ワイヤー失敗時関数
 	std::unique_ptr<CreateLine> line_;
 	Vector4 lineMaterial_;
 	float lineThickness_ = 0.2f;//ワイヤーの太さ
-	int missTimer_ = 0;//ワイヤーをさせなかったときの演出用
+	int missTimer_ = 0;//ワイヤーをさせなかった時の演出用
 	Vector3 wireVelocity_ = { 0.0f,0.0f,0.0f };//ワイヤーをさせなかったときの演出用
-	bool isMissWire_ = false;
-	bool isSetWire_ = false;
-	bool isHitWire_ = false;
+	bool isSetWire_ = false;//ワイヤー成功フラグ
+	bool isMissWire_ = false;//ワイヤー失敗フラグ
+	bool isHitWire_ = false;//レティクルがオブジェクトを捉えているかのフラグ
 
+	//マウス感度、この値で割る為、高くなるほど感度が低くなる
 	Vector2 sensitivity_ = { 400.0f,400.0f };
 
+	//カメラモードのチェンジフラグ、falseでFollow、trueでdebug
 	bool cameraChange_ = false;
+
+	Segment segment_;
+	OBB obb_;
 };

@@ -128,20 +128,12 @@ void GamePlayScene::Update() {
 		}
 	}
 
+	//操作形式が一部変わるのでCameraChange変数をPlayerにも送る
 	player_->SetCameraMode(cameraChange_);
 
 	mountain_->Update();
 
 	skydome_->Update();
-
-	if (input_->TriggerKey(DIK_Z)) {
-		if (cameraChange_ == true) {
-			cameraChange_ = false;
-		}
-		else {
-			cameraChange_ = true;
-		}
-	}
 
 	if (cameraChange_ == true) {//DebugCamera
 		debugCamera_->Update();
@@ -162,10 +154,11 @@ void GamePlayScene::Update() {
 		obj.world.UpdateMatrix();
 	}
 
+	//レイの設定
 	segment_.origin = player_->GetWorldTransformPlayer().translation_;
 	segment_.diff = player_->GetWorldTransformReticle().translation_;
 
-	for (Obj& obj : objects_) {
+	for (Obj& obj : objects_) {//レイとオブジェクトの当たり判定
 		obj.obb_.center = obj.world.translation_;
 		GetOrientations(MakeRotateXYZMatrix(obj.world.rotation_), obj.obb_.orientation);
 		obj.obb_.size = obj.world.scale_;
@@ -179,7 +172,7 @@ void GamePlayScene::Update() {
 		}
 	}
 
-	if (isHit_ == true) {
+	if (isHit_ == true) {//レイがヒットしている時
 		resetTime_++;
 	}
 	if (resetTime_ >= 30) {
@@ -188,7 +181,16 @@ void GamePlayScene::Update() {
 		resetTime_ = 0;
 	}
 
-	if (input_->TriggerKey(DIK_X)) {
+	if (input_->TriggerKey(DIK_Z)) {//Zkeyでカメラモードの変更Follow <=> Debugへ
+		if (cameraChange_ == true) {
+			cameraChange_ = false;
+		}
+		else {
+			cameraChange_ = true;
+		}
+	}
+
+	if (input_->TriggerKey(DIK_X)) {//Xkeyでカーソル表示変更
 		if(showCursor == (int)true){
 			showCursor = (int)false;
 		}
@@ -196,8 +198,8 @@ void GamePlayScene::Update() {
 			showCursor = (int)true;
 		}
 	}
-	ShowCursor(showCursor);
-	if (showCursor == 0) {
+	ShowCursor(showCursor);//カーソル表示設定関数
+	if (showCursor == 0) {//カーソル非表示時、カーソルの座標を画面中央に固定
 		SetCursorPos(1280 / 2, 720 / 2);
 	}
 
