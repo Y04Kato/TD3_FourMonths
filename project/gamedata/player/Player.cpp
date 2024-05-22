@@ -212,7 +212,7 @@ void Player::SetWire() {
 
 	worldTransformWire_.translation_ = worldTransform2_.translation_;
 	wireVelocity_ = Vector3{ worldTransformObject_.translation_.num[0],worldTransformReticle_.translation_.num[1] ,worldTransformObject_.translation_.num[2] } - worldTransform2_.translation_;
-	wireVelocity_ = Normalize(wireVelocity_) * 3.0f;
+	wireVelocity_ = Normalize(wireVelocity_) * 6.0f;
 }
 
 void Player::SetWireMiss() {
@@ -220,5 +220,5 @@ void Player::SetWireMiss() {
 	isSetWire_ = false;
 	worldTransformWire_.translation_ = worldTransform2_.translation_;
 	wireVelocity_ = worldTransformReticle_.translation_ - worldTransform2_.translation_;
-	wireVelocity_ = Normalize(wireVelocity_) * 3.0f;
+	wireVelocity_ = Normalize(wireVelocity_) * 5.0f;
 }
