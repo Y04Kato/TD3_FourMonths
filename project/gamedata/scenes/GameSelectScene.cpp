@@ -1,5 +1,7 @@
 #include "GameSelectScene.h"
 
+int GameSelectScene::stageNum = 0;
+
 void GameSelectScene::Initialize() {
 	//CJEngine
 	CJEngine_ = CitrusJunosEngine::GetInstance();
@@ -52,28 +54,71 @@ void GameSelectScene::Update() {
 	Input::GetInstance()->GetJoystickState(0, joyState);
 
 	//Selectのカーソル移動の処理
-	if (input_->TriggerKey(DIK_A) && spriteTransform_[2].translate.num[0] == 1048.0f) {
+	if (input_->TriggerKey(DIK_A) && spriteTransform_[2].translate.num[0] == 1048.0f)
+	{
 		spriteTransform_[2].translate.num[0] = 640.0f;
 	}
 
-	if (input_->TriggerKey(DIK_A) && spriteTransform_[2].translate.num[0] == 1460.0f) {
+	if (input_->TriggerKey(DIK_A) && spriteTransform_[2].translate.num[0] == 1460.0f) 
+	{
 		spriteTransform_[2].translate.num[0] = 1048.0f;
 	}
 
-	if (input_->TriggerKey(DIK_D) && spriteTransform_[2].translate.num[0] == 1048.0f) {
+	if (input_->TriggerKey(DIK_D) && spriteTransform_[2].translate.num[0] == 1048.0f) 
+	{
 		spriteTransform_[2].translate.num[0] = 1460.0f;
 	}
 
-	if (input_->TriggerKey(DIK_D) && spriteTransform_[2].translate.num[0] == 640.0f) {
+	if (input_->TriggerKey(DIK_D) && spriteTransform_[2].translate.num[0] == 640.0f)
+	{
 		spriteTransform_[2].translate.num[0] = 1048.0f;
 	}
 
-	if (input_->PressKey(DIK_S) && spriteTransform_[2].translate.num[1] == 360.0f) {
+	if (input_->PressKey(DIK_S) && spriteTransform_[2].translate.num[1] == 360.0f)
+	{
 		spriteTransform_[2].translate.num[1] = 610.0f;
 	}
 
-	if (input_->PressKey(DIK_W) && spriteTransform_[2].translate.num[1] == 610.0f) {
+	if (input_->PressKey(DIK_W) && spriteTransform_[2].translate.num[1] == 610.0f)
+	{
 		spriteTransform_[2].translate.num[1] = 360.0f;
+	}
+
+	//ステージ番号
+	//左上
+	if (spriteTransform_[2].translate.num[0] == 640.0f && spriteTransform_[2].translate.num[1] == 360.0f)
+	{
+		stageNum = 1;
+	}
+
+	//真ん中上
+	if (spriteTransform_[2].translate.num[0] == 1048.0f && spriteTransform_[2].translate.num[1] == 360.0f)
+	{
+		stageNum = 2;
+	}
+
+	//右上
+	if (spriteTransform_[2].translate.num[0] == 1460.0f && spriteTransform_[2].translate.num[1] == 360.0f)
+	{
+		stageNum = 3;
+	}
+
+	//左下
+	if (spriteTransform_[2].translate.num[0] == 640.0f && spriteTransform_[2].translate.num[1] == 610.0f)
+	{
+		stageNum = 4;
+	}
+
+	//真ん中下
+	if (spriteTransform_[2].translate.num[0] == 1048.0f && spriteTransform_[2].translate.num[1] == 610.0f)
+	{
+		stageNum = 5;
+	}
+
+	//右下
+	if (spriteTransform_[2].translate.num[0] == 1460.0f && spriteTransform_[2].translate.num[1] == 610.0f)
+	{
+		stageNum = 6;
 	}
 
 	ImGui::Begin("debug");

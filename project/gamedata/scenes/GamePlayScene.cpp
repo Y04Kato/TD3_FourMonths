@@ -1,4 +1,5 @@
 #include "GamePlayScene.h"
+#include "GameSelectScene.h"
 #include "components/utilities/globalVariables/GlobalVariables.h"
 
 void GamePlayScene::Initialize() {
@@ -239,6 +240,10 @@ void GamePlayScene::Update() {
 		}
 	}
 
+	ImGui::End();
+
+	ImGui::Begin("StageNum");
+	ImGui::Text("stgaeNum %d", GameSelectScene::stageNum);
 	ImGui::End();
 
 }

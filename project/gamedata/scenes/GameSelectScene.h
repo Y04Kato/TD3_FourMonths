@@ -12,6 +12,8 @@
 
 class GameSelectScene :public Iscene {
 public:
+	static int stageNum;
+
 	void Initialize() override;
 	void Update() override;
 	void Draw() override;
