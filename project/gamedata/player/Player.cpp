@@ -69,7 +69,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 
 	if (isActive_) {
 		physics_->SetGravity({ 0.0f, -9.8f, 0.0f });
-		Vector3 force = physics_->RubberMovement(worldTransform_.translation_, {0.0f, 10.0f, 10.0f}, 0.02f, 10.0f);
+		Vector3 force = physics_->RubberMovement(worldTransform_.translation_, {0.0f, 10.0f, 10.0f}, 0.1f, 0.0f);
 		physics_->AddForce(force);
 		Vector3 velocity = physics_->Update();
 		worldTransform_.translation_ += Multiply(physics_->deltaTime_, velocity);

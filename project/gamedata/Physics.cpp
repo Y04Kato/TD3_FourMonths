@@ -54,14 +54,14 @@ Vector3 Physics::RubberMovement(const Vector3& start, const Vector3& end, float 
 	//length = 100f;
 	if (length != 0.0f)
 	{
-		if (length > 100.0f)
+		if (length > 5.0f)
 		{
-			length = 100.0f;
+			length = 5.0f;
 		}
-		else if (length < 50.0f)
+		/*else if (length < 50.0f)
 		{
 			length = 50.0f;
-		}
+		}*/
 		Vector3 direction = Normalize(diff);
 		Vector3 displacement = Multiply(length, (start - end));
 		Vector3 restoringForce = Multiply(-stiffness, displacement);
