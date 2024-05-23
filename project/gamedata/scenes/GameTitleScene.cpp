@@ -57,12 +57,10 @@ void GameTitleScene::Update(){
 	if (titleTimer_ <= 60 && titleTimer_ > 30)
 	{
 		isSpriteDraw_[0] = true;
-		isSpriteDraw_[1] = false;
 	}
 	else if (titleTimer_ <= 30 && titleTimer_ > 0)
 	{
 		isSpriteDraw_[0] = false;
-		isSpriteDraw_[1] = true;
 	}
 	else
 	{
@@ -71,10 +69,9 @@ void GameTitleScene::Update(){
 
 	ImGui::Begin("debug");
 	ImGui::Text("GameTitleScene");
-	ImGui::Text("DemoScene:N key or A button");
 	ImGui::End();
 
-	if (input_->TriggerKey(DIK_R)) {
+	if (input_->TriggerKey(DIK_SPACE)) {
 		sceneNo = SELECT_SCENE;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
@@ -107,13 +104,11 @@ void GameTitleScene::Draw(){
 #pragma region 前景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
 
-	for (int i = 0; i < 2; i++)
-	{
-		if (isSpriteDraw_[i]) 
-		{
-			//Sprite描画
-			sprite_[i]->Draw(spriteTransform_[i], SpriteuvTransform_[i], spriteMaterial_[i]);
-		}
+	sprite_[1]->Draw(spriteTransform_[1], SpriteuvTransform_[1], spriteMaterial_[1]);
+
+	if (isSpriteDraw_[0]){
+		//Sprite描画
+		sprite_[0]->Draw(spriteTransform_[0], SpriteuvTransform_[0], spriteMaterial_[0]);
 	}
 
 #pragma endregion

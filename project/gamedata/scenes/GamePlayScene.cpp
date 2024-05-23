@@ -144,6 +144,7 @@ void GamePlayScene::Update() {
 	}
 	else {//FollowCamera
 		followCamera_->Update();
+		viewProjection_.translation_ = followCamera_->GetViewProjection().translation_;
 		viewProjection_.matView = followCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
 		viewProjection_.TransferMatrix();
@@ -263,16 +264,19 @@ void GamePlayScene::Draw() {
 
 	player_->Draw(viewProjection_);
 
+	skydome_->Draw(viewProjection_);
+
 	for (Obj& obj : objects_) {
 		obj.model.Draw(obj.world, viewProjection_, obj.material);
-#ifdef _DEBUG
-		model_->Draw(obj.world, viewProjection_, Vector4{ 1.0f,1.0f,1.0f,0.1f });
-#endif // _DEBUG
 	}
 
 	mountain_->Draw(viewProjection_);
 
-	skydome_->Draw(viewProjection_);
+	for (Obj& obj : objects_) {
+#ifdef _DEBUG
+		model_->Draw(obj.world, viewProjection_, Vector4{ 1.0f,1.0f,1.0f,0.1f });
+#endif // _DEBUG
+	}
 
 #pragma endregion
 
