@@ -122,12 +122,11 @@ void GameSelectScene::Update() {
 	}
 
 	ImGui::Begin("debug");
-	ImGui::Text("GameTitleScene");
-	ImGui::Text("DemoScene:N key or A button");
+	ImGui::Text("GameSelectScene");
 	ImGui::SliderFloat3("SWTFT", &spriteTransform_[2].translate.num[0], 0.0f, 2280.0f);
 	ImGui::End();
 
-	if (input_->TriggerKey(DIK_R)) {
+	if (input_->TriggerKey(DIK_SPACE)) {
 		sceneNo = GAME_SCENE;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}

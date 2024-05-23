@@ -15,16 +15,16 @@ void DebugCamera::initialize() {
 
 void DebugCamera::Update() {
 #ifdef _DEBUG
-	if (input_->PressKey(DIK_UPARROW)) {
+	if (input_->PressKey(DIK_W)) {
 		viewProjection_.rotation_.num[0] -= 0.02f;
 	}
-	if (input_->PressKey(DIK_DOWNARROW)) {
+	if (input_->PressKey(DIK_S)) {
 		viewProjection_.rotation_.num[0] += 0.02f;
 	}
-	if (input_->PressKey(DIK_RIGHTARROW)) {
+	if (input_->PressKey(DIK_D)) {
 		viewProjection_.rotation_.num[1] += 0.02f;
 	}
-	if (input_->PressKey(DIK_LEFTARROW)) {
+	if (input_->PressKey(DIK_A)) {
 		viewProjection_.rotation_.num[1] -= 0.02f;
 	}
 

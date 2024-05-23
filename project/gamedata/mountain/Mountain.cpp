@@ -13,7 +13,7 @@ void Mountain::Initialize()
 	worldTransform_[0].scale_ = { 3.0f,4.0f,8.0f };
 
 	worldTransform_[1].translation_ = { 22.0f,-4.0f,20.0f };
-	worldTransform_[1].rotation_ = {0.0f,3.13f,0.0f};
+	worldTransform_[1].rotation_ = { 0.0f,3.13f,0.0f };
 	worldTransform_[1].scale_ = { 3.0f,4.0f,8.0f };
 
 	worldTransform_[2].translation_ = { -27.0f,-4.0f,290.0f };
@@ -54,6 +54,11 @@ void Mountain::Draw(const ViewProjection viewProjection)
 {
 	for (int i = 0; i < 4; i++)
 	{
-		model_[i]->Draw(worldTransform_[i], viewProjection, modelMaterial_);
+		if (viewProjection.translation_.num[1] <= 0) {
+			model_[i]->Draw(worldTransform_[i], viewProjection, Vector4{ modelMaterial_.num[0],modelMaterial_.num[1] ,modelMaterial_.num[2] ,0.05f });
+		}
+		else {
+			model_[i]->Draw(worldTransform_[i], viewProjection, modelMaterial_);
+		}
 	}
 }

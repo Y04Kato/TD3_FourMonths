@@ -27,7 +27,7 @@ void FollowCamera::Update() {
 
 		interTarget_ = Lerp(interTarget_, worldTranslate, latency);
 
-		viewprojection_.translation_ = interTarget_ + offset;
+		viewprojection_.translation_ = worldTranslate + offset;
 	}
 
 	XINPUT_STATE joystate;
