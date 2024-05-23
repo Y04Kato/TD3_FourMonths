@@ -1,35 +1,93 @@
 {
     "GamePlayScene": {
-        "ObjCount": 3,
+        "ObjCount": 8,
+        "test0": "test2",
         "test0Scale": [
-            1.0,
-            1.0,
-            1.0
+            2.0,
+            10.0,
+            2.0
         ],
         "test0Translate": [
-            0.0,
-            -3.0,
-            0.0
+            10.0,
+            6.0,
+            18.0
         ],
+        "test1": "test1",
         "test1Scale": [
-            1.0,
-            1.0,
-            1.0
+            2.0,
+            10.0,
+            2.0
         ],
         "test1Translate": [
-            8.0,
-            2.0,
-            14.0
+            0.0,
+            6.0,
+            47.0
         ],
+        "test2": "test2",
         "test2Scale": [
             2.0,
             10.0,
             2.0
         ],
         "test2Translate": [
-            -9.0,
+            -11.0,
             6.0,
-            -14.0
+            32.0
+        ],
+        "test3": "test3",
+        "test3Scale": [
+            2.0,
+            10.0,
+            2.0
+        ],
+        "test3Translate": [
+            10.0,
+            6.0,
+            67.0
+        ],
+        "test4": "test4",
+        "test4Scale": [
+            2.0,
+            10.0,
+            2.0
+        ],
+        "test4Translate": [
+            0.0,
+            6.0,
+            107.0
+        ],
+        "test5": "test5",
+        "test5Scale": [
+            2.0,
+            10.0,
+            2.0
+        ],
+        "test5Translate": [
+            -25.0,
+            6.0,
+            52.0
+        ],
+        "test6": "test6",
+        "test6Scale": [
+            2.0,
+            10.0,
+            2.0
+        ],
+        "test6Translate": [
+            20.0,
+            6.0,
+            47.0
+        ],
+        "test7": "test7",
+        "test7Scale": [
+            2.0,
+            10.0,
+            2.0
+        ],
+        "test7Translate": [
+            -15.0,
+            6.0,
+            76.0
         ]
     }
 }

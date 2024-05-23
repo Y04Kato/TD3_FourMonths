@@ -75,7 +75,7 @@ void GameTitleScene::Update(){
 	ImGui::End();
 
 	if (input_->TriggerKey(DIK_R)) {
-		sceneNo = GAME_SCENE;
+		sceneNo = SELECT_SCENE;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 

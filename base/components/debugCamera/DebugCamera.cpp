@@ -7,7 +7,7 @@ DebugCamera* DebugCamera::GetInstance() {
 
 void DebugCamera::initialize() {
 	viewProjection_.Initialize();
-	viewProjection_.translation_ = { 0,0,-30 };
+	viewProjection_.translation_ = { 0,30,-50 };
 	viewProjection_.rotation_ = { 0,0,0 };
 
 	input_ = Input::GetInstance();
