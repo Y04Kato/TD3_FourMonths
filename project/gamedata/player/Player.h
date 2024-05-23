@@ -11,6 +11,8 @@
 #include "components/utilities/collisionManager/CollisionConfig.h"
 #include "components/3d/CreateLine.h"
 
+#include "Physics/Physics.h"
+
 class Player : public Collider {
 public:
 	Player();
@@ -90,4 +92,8 @@ private:
 
 	Segment segment_;
 	OBB obb_;
+
+	// 物理挙動クラス
+	std::unique_ptr<Physics> physics_;
+	bool isActive_ = false;
 };

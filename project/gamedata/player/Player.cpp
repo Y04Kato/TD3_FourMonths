@@ -71,6 +71,11 @@ void Player::Initialize() {
 	line_->Initialize();
 	line_->SetDirectionalLightFlag(false, 0);
 	lineMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
+
+	// 物理挙動クラス初期化
+	physics_ = std::make_unique<Physics>();
+	physics_->Initialize(1.0f);
+
 }
 
 void Player::Updete(const ViewProjection viewProjection) {
@@ -131,6 +136,20 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isMissWire_ = false;
 		missTimer_ = 0;
 	}
+
+	if (input_->TriggerKey(DIK_6)) {
+		isActive_ ^= true;
+	}
+
+	if (isActive_) {
+		physics_->SetGravity({ 0.0f, -9.8f, 0.0f });
+		Vector3 force = physics_->RubberMovement(worldTransform_.translation_, { 0.0f, 20.0f, 20.0f }, 1.0f, 0.0f);
+		physics_->AddForce(force);
+		Vector3 velocity = physics_->Update();
+		worldTransform_.translation_ += velocity * physics_->deltaTime_;
+
+	}
+
 
 	ImGui::Begin("player");
 	ImGui::DragFloat3("Pos", worldTransform_.translation_.num, 0.05f);
