@@ -9,6 +9,8 @@
 #include "components/utilities/collisionManager/CollisionManager.h"
 #include "components/utilities/collisionManager/CollisionConfig.h"
 
+#include "gamedata/Physics.h"
+
 class Player : public Collider {
 public:
 	Player();
@@ -41,10 +43,19 @@ private:
 	std::unique_ptr <CreateSphere> sphere_[2];
 	Vector4 sphereMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 
-	std::unique_ptr <CreateSprite> sprite_;
-	EulerTransform spriteTransform_;
-	EulerTransform SpriteuvTransform_;
+	// レティクル:円
+	std::unique_ptr <CreateSprite> reticleSprite_;
+	EulerTransform reticleSpriteTransform_;
+	EulerTransform reticleSpriteuvTransform_;
 	uint32_t spriteResourceNum_;
+	// レティクル:周り
+	std::unique_ptr <CreateSprite> edgeSprite_;
+	EulerTransform edgeSpriteTransform_;
+	EulerTransform edgeSpriteuvTransform_;
+
+	// 物理挙動用クラス
+	std::unique_ptr<Physics> physics_;
+	bool isActive_;
 
 	void Reticle(const ViewProjection viewProjection);
 };
