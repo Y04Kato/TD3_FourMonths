@@ -28,6 +28,19 @@ void DebugCamera::Update() {
 		viewProjection_.rotation_.num[1] -= 0.02f;
 	}
 
+	if (input_->PressKey(DIK_UP)) {
+		viewProjection_.translation_.num[1] += 2.0f;
+	}
+	if (input_->PressKey(DIK_DOWN)) {
+		viewProjection_.translation_.num[1] -= 2.0f;
+	}
+	if (input_->PressKey(DIK_RIGHT)) {
+		viewProjection_.translation_.num[0] += 2.0f;
+	}
+	if (input_->PressKey(DIK_LEFT)) {
+		viewProjection_.translation_.num[0] -= 2.0f;
+	}
+
 	viewProjection_.translation_.num[2] = input_->GetMousePosition().Scroll / 40.0f;
 
 	ImGui::Begin("DebugCamera");
