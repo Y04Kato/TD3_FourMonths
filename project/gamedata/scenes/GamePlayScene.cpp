@@ -163,14 +163,8 @@ void GamePlayScene::Update() {
 	}
 
 	//レイの設定
-
-	AABB aabb{
-		.min{-0.5f, -0.5f, -0.5f},
-		.max{ 0.0f, 0.0f, 0.0f}
-	};
-
 	segment_.origin = player_->GetWorldTransformPlayer().translation_;
-	segment_.diff = player_->GetWorldTransformReticle().translation_;
+	segment_.diff = player_->GetWorldTransformReticle().translation_ - player_->GetWorldTransformPlayer().translation_;
 
 	for (Obj& obj : objects_) {//レイとオブジェクトの当たり判定
 		obj.obb_.center = obj.world.translation_;
