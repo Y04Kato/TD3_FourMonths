@@ -178,8 +178,6 @@ Matrix4x4 MakeRotateAxisAngle(const Vector3& axis, const float cos, const float 
 
 Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to);
 
-Matrix4x4 GetRotateOBB(const OBB& obb);
-
 #pragma endregion
 
 #pragma region Quaternion
@@ -187,7 +185,7 @@ Matrix4x4 GetRotateOBB(const OBB& obb);
 Quaternion operator+(const Quaternion& q1, const Quaternion& q2);
 Quaternion operator-(const Quaternion& q1, const Quaternion& q2);
 Quaternion operator*(const float t, const Quaternion& q);
-Quaternion operator/(const Quaternion& q,const float t);
+Quaternion operator/(const Quaternion& q, const float t);
 
 Vector4 MakeQuaternion(Vector3 axis, float radian);
 

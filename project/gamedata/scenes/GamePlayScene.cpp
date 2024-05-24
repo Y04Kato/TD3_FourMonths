@@ -96,6 +96,12 @@ void GamePlayScene::Initialize() {
 	GlobalVariables::GetInstance()->CreateGroup(groupName);
 
 	globalVariables->AddItem(groupName, "ObjCount", objCount_);
+
+	//Line
+	line_ = std::make_unique <CreateLine>();
+	line_->Initialize();
+	line_->SetDirectionalLightFlag(false, 0);
+	line_->SetLineThickness(0.2f);
 }
 
 void GamePlayScene::Update() {
@@ -157,6 +163,12 @@ void GamePlayScene::Update() {
 	}
 
 	//レイの設定
+
+	AABB aabb{
+		.min{-0.5f, -0.5f, -0.5f},
+		.max{ 0.0f, 0.0f, 0.0f}
+	};
+
 	segment_.origin = player_->GetWorldTransformPlayer().translation_;
 	segment_.diff = player_->GetWorldTransformReticle().translation_;
 
@@ -265,6 +277,8 @@ void GamePlayScene::Draw() {
 	player_->Draw(viewProjection_);
 
 	skydome_->Draw(viewProjection_);
+
+	line_->Draw(player_->GetWorldTransformPlayer(),player_->GetWorldTransformReticle(), viewProjection_, Vector4{ 1.0f,1.0f,1.0f,1.0f });
 
 	for (Obj& obj : objects_) {
 		obj.model.Draw(obj.world, viewProjection_, obj.material);

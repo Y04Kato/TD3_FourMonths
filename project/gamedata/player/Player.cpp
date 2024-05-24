@@ -90,6 +90,9 @@ void Player::Updete(const ViewProjection viewProjection) {
 		worldTransform2_.rotation_.num[0] += input_->GetMousePosition().Velocity.num[1] / sensitivity_.num[0];
 	}
 
+	worldTransform_.UpdateMatrix();
+	worldTransform2_.UpdateMatrix();
+
 	if (input_->pushMouse(MOUSE_BOTTON0)) {//左クリックした時
 		DistancePlayerToReticle = kDistancePlayerToReticle;
 		Reticle(viewProjection);
@@ -108,24 +111,8 @@ void Player::Updete(const ViewProjection viewProjection) {
 	}
 
 	if (isSetWire_ == true) {//ワイヤー成功時の演出
-		//レイの設定
-		segment_.origin = worldTransform2_.translation_;
-		segment_.diff = worldTransformWire_.translation_;
-
-		obb_.center = worldTransformObject_.translation_;
-		GetOrientations(MakeRotateXYZMatrix(worldTransformObject_.rotation_), obb_.orientation);
-		obb_.size = worldTransformObject_.scale_;
-		if (IsCollision(obb_, segment_)) {
-			wireVelocity_ = { 0.0f,0.0f,0.0f };
-			worldTransformWire_.translation_.num[0] = worldTransformObject_.translation_.num[0];
-
-			worldTransformWire_.translation_.num[2] = worldTransformObject_.translation_.num[2];
-			DistancePlayerToReticle = kDistancePlayerToReticle;
-			Reticle(viewProjection);
-		}
-		else {
-			worldTransformWire_.translation_ += wireVelocity_;
-		}
+		DistancePlayerToReticle = kDistancePlayerToReticle;
+		Reticle(viewProjection);
 	}
 
 	if (isMissWire_ == true) {//ワイヤー失敗時の演出
@@ -153,7 +140,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 
 	ImGui::Begin("player");
 	ImGui::DragFloat3("Pos", worldTransform_.translation_.num, 0.05f);
-	ImGui::DragFloat3("Rot", worldTransform_.rotation_.num, 0.05f);
+	ImGui::DragFloat3("Rot", worldTransform2_.rotation_.num, 0.05f);
 	ImGui::DragFloat3("ReticlePos", worldTransformReticle_.translation_.num, 0.05f);
 	ImGui::DragFloat3("velocity", wireVelocity_.num, 0.05f);
 	ImGui::DragFloat2("MouseSensitivity", sensitivity_.num, 0.05f);
@@ -202,12 +189,9 @@ void Player::Reticle(const ViewProjection viewProjection) {
 	offset.num[2] *= DistancePlayerToReticle;
 	//3Dレティクルの座標を設定
 	worldTransformReticle_.translation_.num[0] = worldTransform2_.translation_.num[0] + offset.num[0];
-	worldTransformReticle_.translation_.num[1] = worldTransform2_.translation_.num[1] + offset.num[1] + 2.0f;
+	worldTransformReticle_.translation_.num[1] = worldTransform2_.translation_.num[1] + offset.num[1];
 	worldTransformReticle_.translation_.num[2] = worldTransform2_.translation_.num[2] + offset.num[2];
 	worldTransformReticle_.UpdateMatrix();
-
-	worldTransform_.UpdateMatrix();
-	worldTransform2_.UpdateMatrix();
 
 	// 3Dレティクルのワールド行列からワールド座標を取得
 	Vector3 positionReticle = {
@@ -229,9 +213,7 @@ void Player::SetWire() {
 	isSetWire_ = true;
 	isMissWire_ = false;
 
-	worldTransformWire_.translation_ = worldTransform2_.translation_;
-	wireVelocity_ = Vector3{ worldTransformObject_.translation_.num[0],worldTransformReticle_.translation_.num[1] ,worldTransformObject_.translation_.num[2] } - worldTransform2_.translation_;
-	wireVelocity_ = Normalize(wireVelocity_) * 6.0f;
+	worldTransformWire_.translation_ = Vector3{ worldTransformObject_.translation_.num[0],worldTransformReticle_.translation_.num[1] ,worldTransformObject_.translation_.num[2] };
 }
 
 void Player::SetWireMiss() {

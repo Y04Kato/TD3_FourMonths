@@ -104,4 +104,6 @@ private:
 	Segment segment_;
 	bool isHit_;
 	int resetTime_;
+
+	std::unique_ptr<CreateLine> line_;
 };
