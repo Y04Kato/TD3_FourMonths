@@ -9,6 +9,9 @@ void Goal::Initialize()
 	for (int i = 0; i < 2; i++)
 	{
 		worldTransform_[i].Initialize();
+		worldTransform_[i].translation_ = {-9.5f,49.3f,500.0f};
+		worldTransform_[i].rotation_ = { 1.5f,0.0f,1.55f };
+		worldTransform_[i].scale_ = { 100.0f,100.0f,100.0f };
 	}
 
 	modelMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
