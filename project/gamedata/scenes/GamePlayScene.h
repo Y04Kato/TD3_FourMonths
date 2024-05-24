@@ -20,6 +20,7 @@
 #include "player/Player.h"
 #include "skydome/Skydome.h"
 #include "mountain/Mountain.h"
+#include "goal/Goal.h"
 
 class GamePlayScene :public Iscene {
 public:
@@ -79,6 +80,9 @@ private:
 
 	//Mountain
 	Mountain* mountain_ = nullptr;
+
+	//Goal
+	Goal* goal_ = nullptr;
 
 	//TestSprite
 	std::unique_ptr <CreateSprite> sprite_;

@@ -1,0 +1,48 @@
+#include "Goal.h"
+
+void Goal::Initialize()
+{
+	
+	model_[0].reset(Model::CreateModel("project/gamedata/resources/models/goal", "Goal.obj"));
+	model_[1].reset(Model::CreateModel("project/gamedata/resources/models/goalStar", "GoalStar.obj"));
+
+	for (int i = 0; i < 2; i++)
+	{
+		worldTransform_[i].Initialize();
+	}
+
+	modelMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
+	//model_->SetDirectionalLightFlag(true, 3);
+}
+
+void Goal::Update()
+{
+	//worldTransform_.rotation_.num[1] += 0.001f;
+	//worldTransform_.rotation_.num[2] += 0.001f;
+
+	for (int i = 0; i < 2; i++)
+	{
+		worldTransform_[i].UpdateMatrix();
+	}
+
+	ImGui::Begin("Goal");
+	ImGui::DragFloat3("WTFT", &worldTransform_[0].translation_.num[0],0.1f, -1300.0f, 1300.0f);
+	ImGui::DragFloat3("WTFR", &worldTransform_[0].rotation_.num[0], 0.1f, -13.0f, 13.0f);
+	ImGui::DragFloat3("WTFS", &worldTransform_[0].scale_.num[0], 0.1f, 1.0f, 50.0f);
+	ImGui::End();
+
+	ImGui::Begin("GoalStar");
+	ImGui::DragFloat3("WTFT", &worldTransform_[1].translation_.num[1], 0.1f, -1300.0f, 1300.0f);
+	ImGui::DragFloat3("WTFR", &worldTransform_[1].rotation_.num[1], 0.1f, -13.0f, 13.0f);
+	ImGui::DragFloat3("WTFS", &worldTransform_[1].scale_.num[1], 0.1f, 1.0f, 50.0f);
+	ImGui::End();
+}
+
+void Goal::Draw(const ViewProjection viewProjection)
+{
+	for (int i = 0; i < 2; i++)
+	{
+		model_[i]->Draw(worldTransform_[i], viewProjection, modelMaterial_);
+	}
+}
+

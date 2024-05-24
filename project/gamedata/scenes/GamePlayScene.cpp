@@ -77,6 +77,10 @@ void GamePlayScene::Initialize() {
 	mountain_ = new Mountain();
 	mountain_->Initialize();
 
+	//Goal
+	goal_ = new Goal();
+	goal_->Initialize();
+
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
 	followCamera_->SetTarget(&player_->GetWorldTransformPlayer());
@@ -135,6 +139,8 @@ void GamePlayScene::Update() {
 	mountain_->Update();
 
 	skydome_->Update();
+
+	goal_->Update();
 
 	if (cameraChange_ == true) {//DebugCamera
 		debugCamera_->Update();
@@ -271,6 +277,8 @@ void GamePlayScene::Draw() {
 	}
 
 	mountain_->Draw(viewProjection_);
+
+	goal_->Draw(viewProjection_);
 
 	for (Obj& obj : objects_) {
 #ifdef _DEBUG
