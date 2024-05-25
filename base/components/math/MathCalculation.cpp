@@ -883,24 +883,6 @@ Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to) {
 	return MakeRotateAxisAngle(Normalize(axis), dot, Length(cross));
 }
 
-Matrix4x4 GetRotateOBB(const OBB& obb) {
-	Matrix4x4 rotateMatrix;
-	rotateMatrix = MakeIdentity4x4();
-	rotateMatrix.m[0][0] = obb.orientation[0].num[0];
-	rotateMatrix.m[0][1] = obb.orientation[0].num[1];
-	rotateMatrix.m[0][2] = obb.orientation[0].num[2];
-											 
-	rotateMatrix.m[1][0] = obb.orientation[1].num[0];
-	rotateMatrix.m[1][1] = obb.orientation[1].num[1];
-	rotateMatrix.m[1][2] = obb.orientation[1].num[2];
-											
-	rotateMatrix.m[2][0] = obb.orientation[2].num[0];
-	rotateMatrix.m[2][1] = obb.orientation[2].num[1];
-	rotateMatrix.m[2][2] = obb.orientation[2].num[2];
-
-	return rotateMatrix;
-}
-
 #pragma endregion
 
 #pragma region Quaternion
@@ -1211,10 +1193,10 @@ bool IsCollision(const OBB& obb, const StructSphere& sphere) {
 
 bool IsCollision(const OBB& obb, const Segment& segment) {
 	AABB localAABB{ -1.0f * obb.size,obb.size };
-	Matrix4x4 worldInverse = Inverse(GetRotateOBB(obb) * MakeTranslateMatrix(obb.center));
+	Matrix4x4 obbWorldInverse = MakeInverseMatrix(MakeRotateMatrixFromOrientations(obb.orientation), obb.center);
 	auto localLine = segment;
-	localLine.origin = segment.origin * worldInverse;
-	Vector3 localLineEnd = (segment.origin + segment.diff) * worldInverse;
+	localLine.origin = segment.origin * obbWorldInverse;
+	Vector3 localLineEnd = (segment.origin + segment.diff) * obbWorldInverse;
 	localLine.diff = localLineEnd - localLine.origin;
 	return IsCollision(localAABB, localLine);
 }
