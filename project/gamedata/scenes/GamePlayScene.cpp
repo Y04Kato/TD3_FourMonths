@@ -94,6 +94,21 @@ void GamePlayScene::Initialize() {
 		objNameHolder_[i] = "test" + std::to_string(i);
 	}
 
+	testEmitter_.transform.translate = { 0.0f,0.0f,20.0f };
+	testEmitter_.transform.rotate = { 0.0f,0.0f,0.0f };
+	testEmitter_.transform.scale = { 1.0f,1.0f,1.0f };
+	testEmitter_.count = 5;
+	testEmitter_.frequency = 0.5f;//0.5秒ごとに発生
+	testEmitter_.frequencyTime = 0.0f;//発生頻度の時刻
+
+	accelerationField_.acceleration = { 0.0f,0.0f,-10.0f };
+	accelerationField_.area.min = { -1.0f,-1.0f,-1.0f };
+	accelerationField_.area.max = { 1.0f,1.0f,1.0f };
+
+	particle_ = std::make_unique <CreateParticle>();
+
+    particle_->Initialize(100, testEmitter_, accelerationField_, spriteResource_);
+
 	GlobalVariables* globalVariables{};
 	globalVariables = GlobalVariables::GetInstance();
 
@@ -141,6 +156,15 @@ void GamePlayScene::Update() {
 	skydome_->Update();
 
 	goal_->Update();
+
+	particle_->Update();
+	particle_->SetEmitter(testEmitter_);
+	particle_->SetAccelerationField(accelerationField_);
+	particle_->SetisBillBoard(isBillBoard_);
+
+	//色を固定するならこれを使う
+	particle_->SetisColor(isColor_);
+	particle_->SetColor(particleColor_);
 
 	if (cameraChange_ == true) {//DebugCamera
 		debugCamera_->Update();
@@ -303,6 +327,7 @@ void GamePlayScene::Draw() {
 #pragma region パーティクル描画
 	CJEngine_->renderer_->Draw(PipelineType::Particle);
 
+	particle_->Draw(viewProjection_);
 
 #pragma endregion
 

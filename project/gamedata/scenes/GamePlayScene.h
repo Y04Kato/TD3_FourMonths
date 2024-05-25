@@ -108,4 +108,13 @@ private:
 	Segment segment_;
 	bool isHit_;
 	int resetTime_;
+
+	//Particle
+	std::unique_ptr<CreateParticle> particle_;
+	Emitter testEmitter_ = {};
+	AccelerationField accelerationField_;
+	bool isBillBoard_ = true;
+	bool isColor_;
+	Vector4 particleColor_ = { 0.0f,0.0f,0.0f,0.0f };
+
 };
