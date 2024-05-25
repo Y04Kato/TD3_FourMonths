@@ -48,7 +48,7 @@ void Player::Initialize() {
 
 	spriteResourceNum_ = textureManager_->Load("project/gamedata/resources/reticle.png");
 	spriteTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
-	spriteTransform2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
+	spriteTransform2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,415.0f,0.0f} };
 	SpriteuvTransform_ = {
 		{1.0f,1.0f,1.0f},
 		{0.0f,0.0f,0.0f},
@@ -162,7 +162,7 @@ void Player::DrawUI() {
 	}
 
 	spriteReticle_->Draw(spriteTransform2_, SpriteuvTransform_, sphereMaterial_);
-	debugReticle_->Draw(spriteTransform_, SpriteuvTransform_, sphereMaterial_);
+	//debugReticle_->Draw(spriteTransform_, SpriteuvTransform_, sphereMaterial_);
 }
 
 void Player::SetWorldTransform(const WorldTransform world) {

@@ -39,7 +39,7 @@ void GamePlayScene::Initialize() {
 	};
 
 	sprite_ = std::make_unique <CreateSprite>();
-	
+
 	sprite_->Initialize(Vector2{ 1280.0f,780.0f }, spriteResource_);
 	sprite_->SetAnchor(Vector2{ 0.5f,0.5f });
 
@@ -109,6 +109,13 @@ void GamePlayScene::Update() {
 	globalVariables = GlobalVariables::GetInstance();
 	ApplyGlobalVariables();
 
+	if (isGameStart_ == true) {//ゲーム開始時の処理
+		for (int i = 0; i < objCount_; i++) {
+			SetObject(EulerTransform{ { 1.0f,1.0f,1.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objNameHolder_[i]);
+		}
+		isGameStart_ = false;
+	}
+
 	//Goal
 	if (input_->TriggerKey(DIK_G))
 	{
@@ -170,13 +177,13 @@ void GamePlayScene::Update() {
 		obj.obb_.center = obj.world.translation_;
 		GetOrientations(MakeRotateXYZMatrix(obj.world.rotation_), obj.obb_.orientation);
 		obj.obb_.size = obj.world.scale_;
-		if (IsCollision(obj.obb_,segment_)) {
+		if (IsCollision(obj.obb_, segment_)) {
 			player_->SetWorldTransformObject(obj.world);
 			player_->SetIsHit(true);
 			isHit_ = true;
 		}
 		else {
-			
+
 		}
 	}
 
@@ -199,7 +206,7 @@ void GamePlayScene::Update() {
 	}
 
 	if (input_->TriggerKey(DIK_X)) {//Xkeyでカーソル表示変更
-		if(showCursor == (int)true){
+		if (showCursor == (int)true) {
 			showCursor = (int)false;
 		}
 		else {
@@ -226,6 +233,7 @@ void GamePlayScene::Update() {
 			globalVariables->AddItem(groupName, obj.name + "Translate", obj.world.translation_);
 			//globalVariables->AddItem(groupName,obj.name + "Rotate", obj.world.rotation_);
 			globalVariables->AddItem(groupName, obj.name + "Scale", obj.world.scale_);
+			globalVariables->AddItem(groupName, obj.name + "Material", obj.material);
 		}
 	}
 	if (ImGui::Button("DeleteBlock")) {
@@ -234,6 +242,7 @@ void GamePlayScene::Update() {
 			if (it->name == objName_) {
 				globalVariables->RemoveItem(groupName, (std::string)objName_ + "Translate");
 				globalVariables->RemoveItem(groupName, (std::string)objName_ + "Scale");
+				globalVariables->RemoveItem(groupName, (std::string)objName_ + "Material");
 				objCount_--;
 				globalVariables->SetValue(groupName, "ObjCount", objCount_);
 				it = objects_.erase(it);
@@ -272,7 +281,7 @@ void GamePlayScene::Draw() {
 
 	skydome_->Draw(viewProjection_);
 
-	line_->Draw(player_->GetWorldTransformPlayer(),player_->GetWorldTransformReticle(), viewProjection_, Vector4{ 1.0f,1.0f,1.0f,1.0f });
+	//line_->Draw(player_->GetWorldTransformPlayer(),player_->GetWorldTransformReticle(), viewProjection_, Vector4{ 1.0f,1.0f,1.0f,1.0f });
 
 	for (Obj& obj : objects_) {
 		obj.model.Draw(obj.world, viewProjection_, obj.material);
@@ -319,8 +328,8 @@ void GamePlayScene::Draw() {
 		{
 			if (isSpriteDraw_[i])
 			{
-			    //Sprite描画
-			    uiSprite_[i]->Draw(uiSpriteTransform_[i], uiSpriteuvTransform_[i], uiSpriteMaterial_[i]);
+				//Sprite描画
+				uiSprite_[i]->Draw(uiSpriteTransform_[i], uiSpriteuvTransform_[i], uiSpriteMaterial_[i]);
 			}
 		}
 	}
@@ -344,6 +353,7 @@ void GamePlayScene::ApplyGlobalVariables() {
 		obj.world.translation_ = globalVariables->GetVector3Value(groupName, obj.name + "Translate");
 		//obj.world.rotation_ = globalVariables->GetVector3Value(groupName,  obj.name + "Rotate");
 		obj.world.scale_ = globalVariables->GetVector3Value(groupName, obj.name + "Scale");
+		obj.material = globalVariables->GetVector4Value(groupName, obj.name + "Material");
 	}
 }
 
