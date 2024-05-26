@@ -134,9 +134,9 @@ void Player::Updete(const ViewProjection viewProjection) {
 	}
 
 	if (isActive_) {
-		physics_->SetGravity({ 0.0f, 0.0f, 0.0f });
+		physics_->SetGravity({ 0.0f, -9.8f, 0.0f });
 		if (input_->PressKey(DIK_A)) {
-			Vector3 force = { 50.0f, 0.0f, 0.0f };
+			Vector3 force = { -50.0f, 0.0f, 0.0f };
 			physics_->AddForce(force, 1);
 		}
 		if (input_->PressKey(DIK_D)) {
