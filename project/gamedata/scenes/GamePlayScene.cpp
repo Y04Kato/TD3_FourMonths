@@ -141,6 +141,12 @@ void GamePlayScene::Update() {
 
 	//}
 
+	//Restart
+	if (player_->GetIsRestart())
+	{
+		player_->SetIsRestart(false);
+	}
+
 	//Goal
 	if (input_->TriggerKey(DIK_G))
 	{

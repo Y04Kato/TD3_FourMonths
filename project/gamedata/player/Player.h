@@ -42,6 +42,9 @@ public:
 	bool GetIsDead() { return isDead_; }
 	void SetIsDead(const bool isDead) { isDead_ = isDead; }
 
+	bool GetIsRestart() { return isRestart_; }
+	void SetIsRestart(const bool isRestart) { isRestart_ = isRestart; }
+
 private:
 	TextureManager* textureManager_;
 	Input* input_;
@@ -101,4 +104,7 @@ private:
 
 	//床についた時
 	bool isDead_ = false;
+
+	//Restart
+	bool isRestart_ = false;
 };
