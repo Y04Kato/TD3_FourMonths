@@ -32,7 +32,7 @@ void Physics::AddForce(const Vector3& force, uint32_t mode)
 		force_ += force;
 	}
 	else {
-		impulse_ =/* force / mass_;*/Multiply(deltaTime_, force / mass_);
+		impulse_ += /* force / mass_;*/Multiply(deltaTime_, force / mass_);
 		//velocity_ += acceleration * deltaTime_;
 	}
 
@@ -86,6 +86,17 @@ float Physics::Vector3Angle(const Vector3& v1, const Vector3& v2)
 
 	float angleRadians = std::acos(cosTheta);
 	return angleRadians * float(180.0f / M_PI);
+}
+
+void Physics::Vector3Direction(const Vector3& v, Vector3* forward, Vector3* right)
+{
+	Vector3 result = v;
+	result.num[1] = 0.0f;
+	*forward = Normalize(result);
+
+	result = { -result.num[2], 0.0f, result.num[0] };
+	result = Multiply(-1.0f, result);
+	*right = Normalize(result);
 }
 
 Vector3 Physics::RubberMovement(const Vector3& start, const Vector3& end, float stiffness, float dampingCoefficient)

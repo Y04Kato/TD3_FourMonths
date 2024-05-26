@@ -96,4 +96,10 @@ private:
 	// 物理挙動クラス
 	std::unique_ptr<Physics> physics_;
 	bool isActive_ = false;
+	// ワイヤー中の上昇量が加算されていく変数
+	float upForce_ = 0.0f;
+
+	// モデルの向き
+	Vector3 forwad_;
+	Vector3 right_;
 };

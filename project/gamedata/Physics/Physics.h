@@ -31,6 +31,8 @@ public:
 
 	float Vector3Angle(const Vector3& v1, const Vector3& v2);
 
+	void Vector3Direction(const Vector3& v, Vector3* forward, Vector3* right);
+
 public:
 	// デルタタイム
 	float deltaTime_ = 1.0f / 60.0f;
