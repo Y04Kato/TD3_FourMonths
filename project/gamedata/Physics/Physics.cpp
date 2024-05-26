@@ -32,8 +32,8 @@ void Physics::AddForce(const Vector3& force, uint32_t mode)
 		force_ += force;
 	}
 	else {
-		Vector3 acceleration = Multiply(deltaTime_, force_ / mass_);
-		velocity_ += acceleration_ * deltaTime_;
+		Vector3 acceleration = Multiply(deltaTime_, force / mass_);
+		velocity_ += acceleration * deltaTime_;
 	}
 
 }

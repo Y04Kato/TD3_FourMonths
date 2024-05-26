@@ -40,6 +40,7 @@ void Player::Initialize() {
 	worldTransform2_.Initialize();
 	worldTransformReticle_.Initialize();
 	worldTransformWire_.Initialize();
+	worldTransformGrapple_.Initialize();
 
 	for (int i = 0; i < 2; i++) {
 		sphere_[i] = std::make_unique <CreateSphere>();
@@ -93,9 +94,9 @@ void Player::Updete(const ViewProjection viewProjection) {
 	if (input_->pushMouse(MOUSE_BOTTON0)) {//左クリックした時
 		DistancePlayerToReticle = kDistancePlayerToReticle;
 		Reticle(viewProjection);
-
 		if (isHitWire_ == true) {//レティクルがオブジェクト捉えていれば
 			DistancePlayerToReticle = worldTransformObject_.translation_.num[2] - worldTransform2_.translation_.num[2];
+			worldTransformGrapple_ = worldTransformObject_;
 			if (DistancePlayerToReticle <= 0) {
 				DistancePlayerToReticle = -DistancePlayerToReticle + 5.0f;
 			}
@@ -105,6 +106,10 @@ void Player::Updete(const ViewProjection viewProjection) {
 		else {//レティクルがオブジェクトを捉えられていなければ
 			SetWireMiss();
 		}
+	}
+
+	if (input_->pushMouse(MOUSE_BOTTON1)) {//右クリックした時
+		isSetWire_ = false; // ワイヤーを外す
 	}
 
 	if (isSetWire_ == true) {//ワイヤー成功時の演出
@@ -142,9 +147,20 @@ void Player::Updete(const ViewProjection viewProjection) {
 	}
 
 	if (isActive_) {
-		physics_->SetGravity({ 0.0f, -9.8f, 0.0f });
-		Vector3 force = physics_->RubberMovement(worldTransform_.translation_, { 0.0f, 20.0f, 20.0f }, 1.0f, 0.0f);
-		physics_->AddForce(force);
+		physics_->SetGravity({ 0.0f, 0.0f, 0.0f });
+		if (input_->PressKey(DIK_A)) {
+			Vector3 force = { 50.0f, 0.0f, 0.0f };
+			physics_->AddForce(force, 1);
+		}
+		if (input_->PressKey(DIK_D)) {
+			Vector3 force = { 50.0f, 0.0f, 0.0f };
+			physics_->AddForce(force, 1);
+		}
+		if (isSetWire_) {
+			// ワイヤー中の物理挙動
+			Vector3 force = physics_->RubberMovement(worldTransform_.translation_, worldTransformGrapple_.translation_, 1.0f, 0.0f);
+			physics_->AddForce(force);
+		}
 		Vector3 velocity = physics_->Update();
 		worldTransform_.translation_ += velocity * physics_->deltaTime_;
 

@@ -48,6 +48,7 @@ private:
 	WorldTransform worldTransformReticle_;//レティクル用
 	WorldTransform worldTransformWire_;//ワイヤー演出用
 	WorldTransform worldTransformObject_;//狙っているオブジェクト用
+	WorldTransform worldTransformGrapple_;//ワイヤーを刺した位置の保存用
 
 	std::unique_ptr<CreateSphere>sphere_[2];
 	Vector4 sphereMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
@@ -83,6 +84,7 @@ private:
 	bool isSetWire_ = false;//ワイヤー成功フラグ
 	bool isMissWire_ = false;//ワイヤー失敗フラグ
 	bool isHitWire_ = false;//レティクルがオブジェクトを捉えているかのフラグ
+	bool isWire_ = false;//ワイヤーのオンオフ用フラグ
 
 	//マウス感度、この値で割る為、高くなるほど感度が低くなる
 	Vector2 sensitivity_ = { 400.0f,400.0f };
