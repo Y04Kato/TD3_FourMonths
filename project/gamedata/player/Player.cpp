@@ -100,6 +100,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		if (isHitWire_ == true) {//レティクルがオブジェクト捉えていれば
 			DistancePlayerToReticle = worldTransformObject_.translation_.num[2] - worldTransform2_.translation_.num[2];
 			worldTransformGrapple_ = worldTransformWire_;
+			start_ = Normalize(worldTransformGrapple_.translation_ - worldTransform2_.translation_);
 			if (DistancePlayerToReticle <= 0) {
 				DistancePlayerToReticle = -DistancePlayerToReticle + 5.0f;
 			}
@@ -134,22 +135,60 @@ void Player::Updete(const ViewProjection viewProjection) {
 	}
 
 	if (isActive_) {
-		physics_->SetGravity({ 0.0f, -20.8f, 0.0f });
-		if (input_->PressKey(DIK_A)) {
-			Vector3 force = { -50.0f, 0.0f, 0.0f };
-			physics_->AddForce(force, 1);
-		}
-		if (input_->PressKey(DIK_D)) {
-			Vector3 force = { 50.0f, 0.0f, 0.0f };
-			physics_->AddForce(force, 1);
-		}
-		if (isSetWire_) {
+		physics_->SetGravity({ 0.0f, 0.0f, 0.0f });
+		if (isSetWire_) { // ワイヤー中
 			// ワイヤー中の物理挙動
 			Vector3 force = physics_->RubberMovement(worldTransform_.translation_, worldTransformGrapple_.translation_, 1.0f, 0.0f);
 			physics_->AddForce(force);
+
+			Vector2 vec = physics_->Vector2Perpendicular();
+			vec = physics_->Vector2Normalize(vec);
+			Vector3 dir = { vec.num[0], 0.0f, vec.num[1] };
+
+			if (input_->PressKey(DIK_A)) {
+				Vector3 force = 500.0f * dir;
+				physics_->AddForce(force, 1);
+			}
+			if (input_->PressKey(DIK_D)) {
+				Vector3 force = -500.0f * dir;
+				physics_->AddForce(force, 1);
+			}
+			if (input_->PressKey(DIK_W)) {
+				Vector3 force = { 0.0f, 0.0f, 80.0f };
+				physics_->AddForce(force, 1);
+			}
+			if (input_->PressKey(DIK_S)) {
+				Vector3 force = { 0.0f, 0.0f, -80.0f };
+				physics_->AddForce(force, 1);
+			}
+
+			if (physics_->Vector3Angle(start_, Normalize(worldTransform2_.translation_ - worldTransformGrapple_.translation_)) < 60) {
+				isSetWire_ = false;
+			}
+			
+		}
+		else { // ワイヤーじゃない時
+			if (input_->PressKey(DIK_A)) {
+				Vector3 force = { -80.0f, 0.0f, 0.0f };
+				physics_->AddForce(force, 1);
+			}
+			if (input_->PressKey(DIK_D)) {
+				Vector3 force = { 80.0f, 0.0f, 0.0f };
+				physics_->AddForce(force, 1);
+			}
+			if (input_->PressKey(DIK_W)) {
+				Vector3 force = { 0.0f, 0.0f, 80.0f };
+				physics_->AddForce(force, 1);
+			}
+			if (input_->PressKey(DIK_S)) {
+				Vector3 force = { 0.0f, 0.0f, -80.0f };
+				physics_->AddForce(force, 1);
+			}
 		}
 		Vector3 velocity = physics_->Update();
 		worldTransform_.translation_ += velocity * physics_->deltaTime_;
+		Vector3 impulse = physics_->GetImpulse_();
+		worldTransform_.translation_ += impulse * physics_->deltaTime_;
 
 	}
 

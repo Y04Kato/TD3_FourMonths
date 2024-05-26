@@ -19,9 +19,17 @@ public:
 
 	Vector3 GetVelocity() { return velocity_; }
 
-	float Vector2Cross(Vector2 a, Vector2 b);
+	Vector3 GetImpulse_();
 
-	float Vector3XZAngle(Vector3 pos);
+	float Vector2Cross(const Vector2& v1, const Vector2& v2);
+
+	float Vector3XZAngle(const Vector3& v);
+
+	Vector2 Vector2Perpendicular();
+
+	Vector2 Vector2Normalize(const Vector2& v);
+
+	float Vector3Angle(const Vector3& v1, const Vector3& v2);
 
 public:
 	// デルタタイム
@@ -34,6 +42,8 @@ private:
 	Vector3 velocity_;
 	// 加速度
 	Vector3 acceleration_;
+	// 衝撃
+	Vector3 impulse_;
 	// 力
 	Vector3 force_;
 	// 質量
