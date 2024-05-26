@@ -121,6 +121,8 @@ void GamePlayScene::Initialize() {
 	line_->Initialize();
 	line_->SetDirectionalLightFlag(false, 0);
 	line_->SetLineThickness(0.2f);
+
+	startWorldTransform_.Initialize();
 }
 
 void GamePlayScene::Update() {
@@ -135,17 +137,23 @@ void GamePlayScene::Update() {
 		isGameStart_ = false;
 	}
 
-	////床についたとき
-	//if (player_->GetIsDead())
-	//{
-
-	//}
+	//床についたとき
+	if (player_->GetIsDead())
+	{
+		startWorldTransform_.translation_ = { 0.0f,10.0f,0.0f };
+		player_->SetWorldTransform(startWorldTransform_);
+		player_->SetIsDead(false);
+	}
 
 	//Restart
 	if (player_->GetIsRestart())
 	{
+		startWorldTransform_.translation_ = { 0.0f,10.0f,0.0f };
+		player_->SetWorldTransform(startWorldTransform_);
 		player_->SetIsRestart(false);
 	}
+
+	startWorldTransform_.UpdateMatrix();
 
 	//Goal
 	if (input_->TriggerKey(DIK_G))

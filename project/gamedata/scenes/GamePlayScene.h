@@ -120,4 +120,7 @@ private:
 	std::unique_ptr<CreateLine> line_;
 
 	bool isGameStart_ = true;//ゲーム開始時に1回だけ呼ぶ
+
+	//Restart
+	WorldTransform startWorldTransform_;
 };

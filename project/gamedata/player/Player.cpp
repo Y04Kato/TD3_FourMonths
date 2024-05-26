@@ -160,7 +160,6 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isDead_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
-		worldTransform_.translation_ = { 0.0f,10.0f,0.0f };
 	}
 
 	if (input_->TriggerKey(DIK_R))
@@ -168,7 +167,6 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isRestart_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
-		worldTransform_.translation_ = { 0.0f,10.0f,0.0f };
 	}
 
 	ImGui::Begin("player");
