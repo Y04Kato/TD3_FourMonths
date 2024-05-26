@@ -98,7 +98,7 @@ void GamePlayScene::Initialize() {
 	testEmitter_.transform.rotate = { 0.0f,0.0f,0.0f };
 	testEmitter_.transform.scale = { 1.0f,1.0f,1.0f };
 	testEmitter_.count = 15;
-	testEmitter_.frequency = 0.4f;//0.5秒ごとに発生
+	testEmitter_.frequency = 0.0f;
 	testEmitter_.frequencyTime = 0.0f;//発生頻度の時刻
 
 	accelerationField_.acceleration = { 0.0f,0.0f,-10.0f };

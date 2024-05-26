@@ -9,8 +9,8 @@ void Goal::Initialize()
 	for (int i = 0; i < 2; i++)
 	{
 		worldTransform_[i].Initialize();
-		worldTransform_[i].translation_ = {-9.5f,49.3f,180.0f};
-		worldTransform_[i].rotation_ = { 1.5f,0.0f,1.55f };
+		worldTransform_[i].translation_ = {-9.5f,49.3f,250.0f};
+		worldTransform_[i].rotation_ = { 1.54f,0.0f,1.55f };
 		worldTransform_[i].scale_ = { 100.0f,100.0f,100.0f };
 	}
 
@@ -35,9 +35,9 @@ void Goal::Update()
 	ImGui::End();
 
 	ImGui::Begin("GoalStar");
-	ImGui::DragFloat3("WTFT", &worldTransform_[1].translation_.num[1], 0.1f, -1300.0f, 1300.0f);
-	ImGui::DragFloat3("WTFR", &worldTransform_[1].rotation_.num[1], 0.1f, -13.0f, 13.0f);
-	ImGui::DragFloat3("WTFS", &worldTransform_[1].scale_.num[1], 0.1f, 1.0f, 50.0f);
+	ImGui::DragFloat3("WTFT", &worldTransform_[1].translation_.num[0], 0.1f, -1300.0f, 1300.0f);
+	ImGui::DragFloat3("WTFR", &worldTransform_[1].rotation_.num[0], 0.1f, -13.0f, 13.0f);
+	ImGui::DragFloat3("WTFS", &worldTransform_[1].scale_.num[0], 0.1f, 1.0f, 50.0f);
 	ImGui::End();
 }
 
