@@ -169,6 +169,13 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isSetWire_ = false;
 	}
 
+	if (input_->TriggerKey(DIK_G))
+	{
+		isGoal_ = true;
+		isActive_ = false;
+		isSetWire_ = false;
+	}
+
 	ImGui::Begin("player");
 	ImGui::DragFloat3("Pos", worldTransform_.translation_.num, 0.05f);
 	ImGui::DragFloat3("Rot", worldTransform2_.rotation_.num, 0.05f);

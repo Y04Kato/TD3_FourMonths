@@ -102,9 +102,6 @@ private:
 
 	bool isSpriteDraw_[2];
 
-	//Goal
-	bool isGoal_ = false;
-
 	Segment segment_;
 	bool isHit_;
 	int resetTime_;

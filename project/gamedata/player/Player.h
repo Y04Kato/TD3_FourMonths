@@ -45,6 +45,9 @@ public:
 	bool GetIsRestart() { return isRestart_; }
 	void SetIsRestart(const bool isRestart) { isRestart_ = isRestart; }
 
+	bool GetIsGoal() { return isGoal_; }
+	void SetIsGoal(const bool isGoal) { isGoal_ = isGoal; }
+
 private:
 	TextureManager* textureManager_;
 	Input* input_;
@@ -107,4 +110,7 @@ private:
 
 	//Restart
 	bool isRestart_ = false;
+
+	//Goal
+	bool isGoal_ = false;
 };

@@ -153,33 +153,16 @@ void GamePlayScene::Update() {
 		player_->SetIsRestart(false);
 	}
 
-	startWorldTransform_.UpdateMatrix();
-
 	//Goal
-	if (input_->TriggerKey(DIK_G))
+	if (player_->GetIsGoal())
 	{
-		isGoal_ = true;
+		sceneNo = CLEAR_SCENE;
+		startWorldTransform_.translation_ = { 0.0f,10.0f,0.0f };
+		player_->SetWorldTransform(startWorldTransform_);
+		player_->SetIsGoal(false);
 	}
 
-	if (input_->TriggerKey(DIK_R))
-	{
-		isGoal_ = false;
-	}
-
-	if (isGoal_)
-	{
-		for (int i = 0; i < 2; i++)
-		{
-			isSpriteDraw_[i] = true;
-		}
-	}
-	else
-	{
-		for (int i = 0; i < 2; i++)
-		{
-			isSpriteDraw_[i] = false;
-		}
-	}
+	startWorldTransform_.UpdateMatrix();
 
 	//操作形式が一部変わるのでCameraChange変数をPlayerにも送る
 	player_->SetCameraMode(cameraChange_);
@@ -255,18 +238,18 @@ void GamePlayScene::Update() {
 		}
 	}
 
-	if (input_->TriggerKey(DIK_X)) {//Xkeyでカーソル表示変更
-		if (showCursor == (int)true) {
-			showCursor = (int)false;
-		}
-		else {
-			showCursor = (int)true;
-		}
-	}
-	ShowCursor(showCursor);//カーソル表示設定関数
-	if (showCursor == 0) {//カーソル非表示時、カーソルの座標を画面中央に固定
-		SetCursorPos(1280 / 2, 720 / 2);
-	}
+	//if (input_->TriggerKey(DIK_X)) {//Xkeyでカーソル表示変更
+	//	if (showCursor == (int)true) {
+	//		showCursor = (int)false;
+	//	}
+	//	else {
+	//		showCursor = (int)true;
+	//	}
+	//}
+	//ShowCursor(showCursor);//カーソル表示設定関数
+	//if (showCursor == 0) {//カーソル非表示時、カーソルの座標を画面中央に固定
+	//	SetCursorPos(1280 / 2, 720 / 2);
+	//}
 
 	ImGui::Begin("debug");
 	ImGui::Text("CameraChange:Z key");
@@ -379,21 +362,7 @@ void GamePlayScene::Draw() {
 #pragma region 前景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
 
-	if (!isGoal_)
-	{
-		player_->DrawUI();
-	}
-	else
-	{
-		for (int i = 0; i < 2; i++)
-		{
-			if (isSpriteDraw_[i])
-			{
-				//Sprite描画
-				uiSprite_[i]->Draw(uiSpriteTransform_[i], uiSpriteuvTransform_[i], uiSpriteMaterial_[i]);
-			}
-		}
-	}
+	player_->DrawUI();
 
 #pragma endregion
 }
