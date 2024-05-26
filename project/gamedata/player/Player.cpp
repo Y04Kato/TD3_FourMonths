@@ -99,7 +99,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		Reticle(viewProjection);
 		if (isHitWire_ == true) {//レティクルがオブジェクト捉えていれば
 			DistancePlayerToReticle = worldTransformObject_.translation_.num[2] - worldTransform2_.translation_.num[2];
-			worldTransformGrapple_ = worldTransformObject_;
+			worldTransformGrapple_ = worldTransformWire_;
 			if (DistancePlayerToReticle <= 0) {
 				DistancePlayerToReticle = -DistancePlayerToReticle + 5.0f;
 			}
@@ -134,7 +134,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 	}
 
 	if (isActive_) {
-		physics_->SetGravity({ 0.0f, -9.8f, 0.0f });
+		physics_->SetGravity({ 0.0f, -20.8f, 0.0f });
 		if (input_->PressKey(DIK_A)) {
 			Vector3 force = { -50.0f, 0.0f, 0.0f };
 			physics_->AddForce(force, 1);
