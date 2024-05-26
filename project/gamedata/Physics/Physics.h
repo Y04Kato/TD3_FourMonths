@@ -33,6 +33,8 @@ public:
 
 	void Vector3Direction(const Vector3& v, Vector3* forward, Vector3* right);
 
+	void SetVelocity(const Vector3& v) { velocity_ = v; }
+
 public:
 	// デルタタイム
 	float deltaTime_ = 1.0f / 60.0f;
