@@ -39,6 +39,9 @@ public:
 
 	void OnCollision()override;
 
+	bool GetIsDead() { return isDead_; }
+	void SetIsDead(const bool isDead) { isDead_ = isDead; }
+
 private:
 	TextureManager* textureManager_;
 	Input* input_;
@@ -95,4 +98,7 @@ private:
 	// 物理挙動クラス
 	std::unique_ptr<Physics> physics_;
 	bool isActive_ = false;
+
+	//床についた時
+	bool isDead_ = false;
 };

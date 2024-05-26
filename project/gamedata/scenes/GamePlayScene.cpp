@@ -135,6 +135,12 @@ void GamePlayScene::Update() {
 		isGameStart_ = false;
 	}
 
+	////床についたとき
+	//if (player_->GetIsDead())
+	//{
+
+	//}
+
 	//Goal
 	if (input_->TriggerKey(DIK_G))
 	{
@@ -235,18 +241,18 @@ void GamePlayScene::Update() {
 		}
 	}
 
-	//if (input_->TriggerKey(DIK_X)) {//Xkeyでカーソル表示変更
-	//	if (showCursor == (int)true) {
-	//		showCursor = (int)false;
-	//	}
-	//	else {
-	//		showCursor = (int)true;
-	//	}
-	//}
-	//ShowCursor(showCursor);//カーソル表示設定関数
-	//if (showCursor == 0) {//カーソル非表示時、カーソルの座標を画面中央に固定
-	//	SetCursorPos(1280 / 2, 720 / 2);
-	//}
+	if (input_->TriggerKey(DIK_X)) {//Xkeyでカーソル表示変更
+		if (showCursor == (int)true) {
+			showCursor = (int)false;
+		}
+		else {
+			showCursor = (int)true;
+		}
+	}
+	ShowCursor(showCursor);//カーソル表示設定関数
+	if (showCursor == 0) {//カーソル非表示時、カーソルの座標を画面中央に固定
+		SetCursorPos(1280 / 2, 720 / 2);
+	}
 
 	ImGui::Begin("debug");
 	ImGui::Text("CameraChange:Z key");

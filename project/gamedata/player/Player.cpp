@@ -42,6 +42,8 @@ void Player::Initialize() {
 	worldTransformWire_.Initialize();
 	worldTransformGrapple_.Initialize();
 
+	worldTransform_.translation_ = {0.0f,10.0f,0.0f};
+
 	for (int i = 0; i < 2; i++) {
 		sphere_[i] = std::make_unique <CreateSphere>();
 		sphere_[i]->Initialize();
@@ -153,6 +155,12 @@ void Player::Updete(const ViewProjection viewProjection) {
 
 	}
 
+	if (worldTransform_.translation_.num[1] <= -3.0f)
+	{
+		isDead_ = true;
+		isActive_ = false;
+		worldTransform_.translation_ = { 0.0f,10.0f,0.0f };
+	}
 
 	ImGui::Begin("player");
 	ImGui::DragFloat3("Pos", worldTransform_.translation_.num, 0.05f);
