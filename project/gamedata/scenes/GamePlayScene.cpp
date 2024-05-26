@@ -39,7 +39,7 @@ void GamePlayScene::Initialize() {
 	};
 
 	sprite_ = std::make_unique <CreateSprite>();
-	
+
 	sprite_->Initialize(Vector2{ 1280.0f,780.0f }, spriteResource_);
 	sprite_->SetAnchor(Vector2{ 0.5f,0.5f });
 
@@ -77,6 +77,10 @@ void GamePlayScene::Initialize() {
 	mountain_ = new Mountain();
 	mountain_->Initialize();
 
+	//Goal
+	goal_ = new Goal();
+	goal_->Initialize();
+
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
 	followCamera_->SetTarget(&player_->GetWorldTransformPlayer());
@@ -90,18 +94,46 @@ void GamePlayScene::Initialize() {
 		objNameHolder_[i] = "test" + std::to_string(i);
 	}
 
+	testEmitter_.transform.translate = { 0.0f,0.0f,45.0f };
+	testEmitter_.transform.rotate = { 0.0f,0.0f,0.0f };
+	testEmitter_.transform.scale = { 1.0f,1.0f,1.0f };
+	testEmitter_.count = 15;
+	testEmitter_.frequency = 0.0f;
+	testEmitter_.frequencyTime = 0.0f;//発生頻度の時刻
+
+	accelerationField_.acceleration = { 0.0f,0.0f,-10.0f };
+	accelerationField_.area.min = { -1.0f,-1.0f,-1.0f };
+	accelerationField_.area.max = { 1.0f,1.0f,1.0f };
+
+	particle_ = std::make_unique <CreateParticle>();
+
+    particle_->Initialize(100, testEmitter_, accelerationField_, spriteResource_);
+
 	GlobalVariables* globalVariables{};
 	globalVariables = GlobalVariables::GetInstance();
 
 	GlobalVariables::GetInstance()->CreateGroup(groupName);
 
 	globalVariables->AddItem(groupName, "ObjCount", objCount_);
+
+	//Line
+	line_ = std::make_unique <CreateLine>();
+	line_->Initialize();
+	line_->SetDirectionalLightFlag(false, 0);
+	line_->SetLineThickness(0.2f);
 }
 
 void GamePlayScene::Update() {
 	GlobalVariables* globalVariables{};
 	globalVariables = GlobalVariables::GetInstance();
 	ApplyGlobalVariables();
+
+	if (isGameStart_ == true) {//ゲーム開始時の処理
+		for (int i = 0; i < objCount_; i++) {
+			SetObject(EulerTransform{ { 1.0f,1.0f,1.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objNameHolder_[i]);
+		}
+		isGameStart_ = false;
+	}
 
 	//Goal
 	if (input_->TriggerKey(DIK_G))
@@ -136,6 +168,17 @@ void GamePlayScene::Update() {
 
 	skydome_->Update();
 
+	goal_->Update();
+
+	particle_->Update();
+	particle_->SetEmitter(testEmitter_);
+	particle_->SetAccelerationField(accelerationField_);
+	particle_->SetisBillBoard(isBillBoard_);
+
+	//色を固定するならこれを使う
+	particle_->SetisColor(isColor_);
+	particle_->SetColor(particleColor_);
+
 	if (cameraChange_ == true) {//DebugCamera
 		debugCamera_->Update();
 		viewProjection_.translation_ = debugCamera_->GetViewProjection()->translation_;
@@ -158,19 +201,19 @@ void GamePlayScene::Update() {
 
 	//レイの設定
 	segment_.origin = player_->GetWorldTransformPlayer().translation_;
-	segment_.diff = player_->GetWorldTransformReticle().translation_;
+	segment_.diff = player_->GetWorldTransformReticle().translation_ - player_->GetWorldTransformPlayer().translation_;
 
 	for (Obj& obj : objects_) {//レイとオブジェクトの当たり判定
 		obj.obb_.center = obj.world.translation_;
 		GetOrientations(MakeRotateXYZMatrix(obj.world.rotation_), obj.obb_.orientation);
 		obj.obb_.size = obj.world.scale_;
-		if (IsCollision(obj.obb_,segment_)) {
+		if (IsCollision(obj.obb_, segment_)) {
 			player_->SetWorldTransformObject(obj.world);
 			player_->SetIsHit(true);
 			isHit_ = true;
 		}
 		else {
-			
+
 		}
 	}
 
@@ -192,18 +235,18 @@ void GamePlayScene::Update() {
 		}
 	}
 
-	if (input_->TriggerKey(DIK_X)) {//Xkeyでカーソル表示変更
-		if(showCursor == (int)true){
-			showCursor = (int)false;
-		}
-		else {
-			showCursor = (int)true;
-		}
-	}
-	ShowCursor(showCursor);//カーソル表示設定関数
-	if (showCursor == 0) {//カーソル非表示時、カーソルの座標を画面中央に固定
-		SetCursorPos(1280 / 2, 720 / 2);
-	}
+	//if (input_->TriggerKey(DIK_X)) {//Xkeyでカーソル表示変更
+	//	if (showCursor == (int)true) {
+	//		showCursor = (int)false;
+	//	}
+	//	else {
+	//		showCursor = (int)true;
+	//	}
+	//}
+	//ShowCursor(showCursor);//カーソル表示設定関数
+	//if (showCursor == 0) {//カーソル非表示時、カーソルの座標を画面中央に固定
+	//	SetCursorPos(1280 / 2, 720 / 2);
+	//}
 
 	ImGui::Begin("debug");
 	ImGui::Text("CameraChange:Z key");
@@ -220,6 +263,7 @@ void GamePlayScene::Update() {
 			globalVariables->AddItem(groupName, obj.name + "Translate", obj.world.translation_);
 			//globalVariables->AddItem(groupName,obj.name + "Rotate", obj.world.rotation_);
 			globalVariables->AddItem(groupName, obj.name + "Scale", obj.world.scale_);
+			globalVariables->AddItem(groupName, obj.name + "Material", obj.material);
 		}
 	}
 	if (ImGui::Button("DeleteBlock")) {
@@ -228,6 +272,7 @@ void GamePlayScene::Update() {
 			if (it->name == objName_) {
 				globalVariables->RemoveItem(groupName, (std::string)objName_ + "Translate");
 				globalVariables->RemoveItem(groupName, (std::string)objName_ + "Scale");
+				globalVariables->RemoveItem(groupName, (std::string)objName_ + "Material");
 				objCount_--;
 				globalVariables->SetValue(groupName, "ObjCount", objCount_);
 				it = objects_.erase(it);
@@ -245,9 +290,17 @@ void GamePlayScene::Update() {
 
 	ImGui::End();
 
-	ImGui::Begin("StageNum");
-	ImGui::Text("stgaeNum %d", GameSelectScene::stageNum);
+	ImGui::Begin("Play");
+	//ImGui::Text("stgaeNum %d", GameSelectScene::stageNum);
+	ImGui::Checkbox("UseBillBoard", &isBillBoard_);
+	ImGui::DragFloat3("EmitterTranslate", testEmitter_.transform.translate.num, 0.1f);
+	ImGui::DragFloat3("AccelerationField", accelerationField_.acceleration.num, 0.1f);
+	ImGui::DragFloat3("OccurrenceRangeMin", accelerationField_.area.min.num, 0.1f);
+	ImGui::DragFloat3("OccurrenceRangeMax", accelerationField_.area.max.num, 0.1f);
+	ImGui::DragFloat("frequency", &testEmitter_.frequency, 0.1f);
+	ImGui::DragFloat("frequencyTime", &testEmitter_.frequencyTime, 0.1f);
 	ImGui::End();
+
 
 }
 
@@ -266,11 +319,15 @@ void GamePlayScene::Draw() {
 
 	skydome_->Draw(viewProjection_);
 
+	//line_->Draw(player_->GetWorldTransformPlayer(),player_->GetWorldTransformReticle(), viewProjection_, Vector4{ 1.0f,1.0f,1.0f,1.0f });
+
 	for (Obj& obj : objects_) {
 		obj.model.Draw(obj.world, viewProjection_, obj.material);
 	}
 
 	mountain_->Draw(viewProjection_);
+
+	goal_->Draw(viewProjection_);
 
 	for (Obj& obj : objects_) {
 #ifdef _DEBUG
@@ -295,6 +352,7 @@ void GamePlayScene::Draw() {
 #pragma region パーティクル描画
 	CJEngine_->renderer_->Draw(PipelineType::Particle);
 
+	particle_->Draw(viewProjection_);
 
 #pragma endregion
 
@@ -311,8 +369,8 @@ void GamePlayScene::Draw() {
 		{
 			if (isSpriteDraw_[i])
 			{
-			    //Sprite描画
-			    uiSprite_[i]->Draw(uiSpriteTransform_[i], uiSpriteuvTransform_[i], uiSpriteMaterial_[i]);
+				//Sprite描画
+				uiSprite_[i]->Draw(uiSpriteTransform_[i], uiSpriteuvTransform_[i], uiSpriteMaterial_[i]);
 			}
 		}
 	}
@@ -336,6 +394,7 @@ void GamePlayScene::ApplyGlobalVariables() {
 		obj.world.translation_ = globalVariables->GetVector3Value(groupName, obj.name + "Translate");
 		//obj.world.rotation_ = globalVariables->GetVector3Value(groupName,  obj.name + "Rotate");
 		obj.world.scale_ = globalVariables->GetVector3Value(groupName, obj.name + "Scale");
+		obj.material = globalVariables->GetVector4Value(groupName, obj.name + "Material");
 	}
 }
 

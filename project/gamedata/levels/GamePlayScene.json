@@ -1,93 +1,277 @@
 {
     "GamePlayScene": {
-        "ObjCount": 8,
-        "test0": "test2",
+        "ObjCount": 16,
+        "test0": "test14",
+        "test0Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
         "test0Scale": [
-            2.0,
-            10.0,
-            2.0
+            4.0,
+            30.0,
+            4.0
         ],
         "test0Translate": [
-            10.0,
-            6.0,
-            18.0
+            25.0,
+            26.0,
+            40.0
         ],
-        "test1": "test1",
+        "test1": "test14",
+        "test10": "test14",
+        "test10Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test10Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test10Translate": [
+            0.0,
+            26.0,
+            21.0
+        ],
+        "test11": "test14",
+        "test11Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test11Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test11Translate": [
+            -30.0,
+            26.0,
+            211.0
+        ],
+        "test12": "test14",
+        "test12Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test12Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test12Translate": [
+            30.0,
+            26.0,
+            211.0
+        ],
+        "test13": "test14",
+        "test13Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test13Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test13Translate": [
+            0.0,
+            26.0,
+            185.0
+        ],
+        "test14": "test14",
+        "test14Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test14Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test14Translate": [
+            -43.0,
+            26.0,
+            124.0
+        ],
+        "test15": "test15",
+        "test15Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test15Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test15Translate": [
+            43.0,
+            26.0,
+            124.0
+        ],
+        "test1Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
         "test1Scale": [
-            2.0,
-            10.0,
-            2.0
+            4.0,
+            30.0,
+            4.0
         ],
         "test1Translate": [
             0.0,
-            6.0,
-            47.0
+            26.0,
+            65.0
         ],
-        "test2": "test2",
+        "test2": "test14",
+        "test2Material": [
+            0.0,
+            1.0,
+            0.0313725508749485,
+            1.0
+        ],
         "test2Scale": [
-            2.0,
-            10.0,
-            2.0
+            4.0,
+            30.0,
+            4.0
         ],
         "test2Translate": [
-            -11.0,
-            6.0,
-            32.0
+            -25.0,
+            26.0,
+            40.0
         ],
-        "test3": "test3",
+        "test3": "test14",
+        "test3Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
         "test3Scale": [
-            2.0,
-            10.0,
-            2.0
+            4.0,
+            30.0,
+            4.0
         ],
         "test3Translate": [
-            10.0,
-            6.0,
-            67.0
+            25.0,
+            26.0,
+            90.0
         ],
-        "test4": "test4",
+        "test4": "test14",
+        "test4Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
         "test4Scale": [
-            2.0,
-            10.0,
-            2.0
+            4.0,
+            30.0,
+            4.0
         ],
         "test4Translate": [
             0.0,
-            6.0,
-            107.0
+            26.0,
+            117.0
         ],
-        "test5": "test5",
+        "test5": "test14",
+        "test5Material": [
+            1.0,
+            0.501960813999176,
+            0.0,
+            1.0
+        ],
         "test5Scale": [
-            2.0,
-            10.0,
-            2.0
+            4.0,
+            30.0,
+            4.0
         ],
         "test5Translate": [
-            -25.0,
-            6.0,
-            52.0
+            -45.0,
+            26.0,
+            60.0
         ],
-        "test6": "test6",
+        "test6": "test14",
+        "test6Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
         "test6Scale": [
-            2.0,
-            10.0,
-            2.0
+            4.0,
+            30.0,
+            4.0
         ],
         "test6Translate": [
-            20.0,
-            6.0,
-            47.0
+            45.0,
+            26.0,
+            60.0
         ],
-        "test7": "test7",
+        "test7": "test14",
+        "test7Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
         "test7Scale": [
-            2.0,
-            10.0,
-            2.0
+            4.0,
+            30.0,
+            4.0
         ],
         "test7Translate": [
-            -15.0,
-            6.0,
-            76.0
+            -25.0,
+            26.0,
+            90.0
+        ],
+        "test8": "test14",
+        "test8Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test8Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test8Translate": [
+            27.0,
+            26.0,
+            157.0
+        ],
+        "test9": "test14",
+        "test9Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test9Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test9Translate": [
+            -27.0,
+            26.0,
+            157.0
         ]
     }
 }

@@ -92,9 +92,6 @@ private:
 	//カメラモードのチェンジフラグ、falseでFollow、trueでdebug
 	bool cameraChange_ = false;
 
-	Segment segment_;
-	OBB obb_;
-
 	// 物理挙動クラス
 	std::unique_ptr<Physics> physics_;
 	bool isActive_ = false;
