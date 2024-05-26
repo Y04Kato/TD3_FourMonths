@@ -94,11 +94,11 @@ void GamePlayScene::Initialize() {
 		objNameHolder_[i] = "test" + std::to_string(i);
 	}
 
-	testEmitter_.transform.translate = { 0.0f,0.0f,20.0f };
+	testEmitter_.transform.translate = { 0.0f,0.0f,45.0f };
 	testEmitter_.transform.rotate = { 0.0f,0.0f,0.0f };
 	testEmitter_.transform.scale = { 1.0f,1.0f,1.0f };
-	testEmitter_.count = 5;
-	testEmitter_.frequency = 0.5f;//0.5秒ごとに発生
+	testEmitter_.count = 15;
+	testEmitter_.frequency = 0.0f;
 	testEmitter_.frequencyTime = 0.0f;//発生頻度の時刻
 
 	accelerationField_.acceleration = { 0.0f,0.0f,-10.0f };
@@ -235,18 +235,18 @@ void GamePlayScene::Update() {
 		}
 	}
 
-	if (input_->TriggerKey(DIK_X)) {//Xkeyでカーソル表示変更
-		if (showCursor == (int)true) {
-			showCursor = (int)false;
-		}
-		else {
-			showCursor = (int)true;
-		}
-	}
-	ShowCursor(showCursor);//カーソル表示設定関数
-	if (showCursor == 0) {//カーソル非表示時、カーソルの座標を画面中央に固定
-		SetCursorPos(1280 / 2, 720 / 2);
-	}
+	//if (input_->TriggerKey(DIK_X)) {//Xkeyでカーソル表示変更
+	//	if (showCursor == (int)true) {
+	//		showCursor = (int)false;
+	//	}
+	//	else {
+	//		showCursor = (int)true;
+	//	}
+	//}
+	//ShowCursor(showCursor);//カーソル表示設定関数
+	//if (showCursor == 0) {//カーソル非表示時、カーソルの座標を画面中央に固定
+	//	SetCursorPos(1280 / 2, 720 / 2);
+	//}
 
 	ImGui::Begin("debug");
 	ImGui::Text("CameraChange:Z key");
@@ -290,9 +290,17 @@ void GamePlayScene::Update() {
 
 	ImGui::End();
 
-	ImGui::Begin("StageNum");
-	ImGui::Text("stgaeNum %d", GameSelectScene::stageNum);
+	ImGui::Begin("Play");
+	//ImGui::Text("stgaeNum %d", GameSelectScene::stageNum);
+	ImGui::Checkbox("UseBillBoard", &isBillBoard_);
+	ImGui::DragFloat3("EmitterTranslate", testEmitter_.transform.translate.num, 0.1f);
+	ImGui::DragFloat3("AccelerationField", accelerationField_.acceleration.num, 0.1f);
+	ImGui::DragFloat3("OccurrenceRangeMin", accelerationField_.area.min.num, 0.1f);
+	ImGui::DragFloat3("OccurrenceRangeMax", accelerationField_.area.max.num, 0.1f);
+	ImGui::DragFloat("frequency", &testEmitter_.frequency, 0.1f);
+	ImGui::DragFloat("frequencyTime", &testEmitter_.frequencyTime, 0.1f);
 	ImGui::End();
+
 
 }
 
