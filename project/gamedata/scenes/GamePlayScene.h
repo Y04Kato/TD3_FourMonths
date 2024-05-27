@@ -102,9 +102,6 @@ private:
 
 	bool isSpriteDraw_[2];
 
-	//Goal
-	bool isGoal_ = false;
-
 	Segment segment_;
 	bool isHit_;
 	int resetTime_;
@@ -120,4 +117,7 @@ private:
 	std::unique_ptr<CreateLine> line_;
 
 	bool isGameStart_ = true;//ゲーム開始時に1回だけ呼ぶ
+
+	//Restart
+	WorldTransform startWorldTransform_;
 };

@@ -121,6 +121,8 @@ void GamePlayScene::Initialize() {
 	line_->Initialize();
 	line_->SetDirectionalLightFlag(false, 0);
 	line_->SetLineThickness(0.2f);
+
+	startWorldTransform_.Initialize();
 }
 
 void GamePlayScene::Update() {
@@ -135,31 +137,32 @@ void GamePlayScene::Update() {
 		isGameStart_ = false;
 	}
 
+	//床についたとき
+	if (player_->GetIsDead())
+	{
+		startWorldTransform_.translation_ = { 0.0f,10.0f,0.0f };
+		player_->SetWorldTransform(startWorldTransform_);
+		player_->SetIsDead(false);
+	}
+
+	//Restart
+	if (player_->GetIsRestart())
+	{
+		startWorldTransform_.translation_ = { 0.0f,10.0f,0.0f };
+		player_->SetWorldTransform(startWorldTransform_);
+		player_->SetIsRestart(false);
+	}
+
 	//Goal
-	if (input_->TriggerKey(DIK_G))
+	if (player_->GetIsGoal())
 	{
-		isGoal_ = true;
+		sceneNo = CLEAR_SCENE;
+		startWorldTransform_.translation_ = { 0.0f,10.0f,0.0f };
+		player_->SetWorldTransform(startWorldTransform_);
+		player_->SetIsGoal(false);
 	}
 
-	if (input_->TriggerKey(DIK_R))
-	{
-		isGoal_ = false;
-	}
-
-	if (isGoal_)
-	{
-		for (int i = 0; i < 2; i++)
-		{
-			isSpriteDraw_[i] = true;
-		}
-	}
-	else
-	{
-		for (int i = 0; i < 2; i++)
-		{
-			isSpriteDraw_[i] = false;
-		}
-	}
+	startWorldTransform_.UpdateMatrix();
 
 	//操作形式が一部変わるのでCameraChange変数をPlayerにも送る
 	player_->SetCameraMode(cameraChange_);
@@ -359,21 +362,7 @@ void GamePlayScene::Draw() {
 #pragma region 前景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
 
-	if (!isGoal_)
-	{
-		player_->DrawUI();
-	}
-	else
-	{
-		for (int i = 0; i < 2; i++)
-		{
-			if (isSpriteDraw_[i])
-			{
-				//Sprite描画
-				uiSprite_[i]->Draw(uiSpriteTransform_[i], uiSpriteuvTransform_[i], uiSpriteMaterial_[i]);
-			}
-		}
-	}
+	player_->DrawUI();
 
 #pragma endregion
 }

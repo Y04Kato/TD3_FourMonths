@@ -39,6 +39,15 @@ public:
 
 	void OnCollision()override;
 
+	bool GetIsDead() { return isDead_; }
+	void SetIsDead(const bool isDead) { isDead_ = isDead; }
+
+	bool GetIsRestart() { return isRestart_; }
+	void SetIsRestart(const bool isRestart) { isRestart_ = isRestart; }
+
+	bool GetIsGoal() { return isGoal_; }
+	void SetIsGoal(const bool isGoal) { isGoal_ = isGoal; }
+
 private:
 	TextureManager* textureManager_;
 	Input* input_;
@@ -96,6 +105,15 @@ private:
 	// 物理挙動クラス
 	std::unique_ptr<Physics> physics_;
 	bool isActive_ = false;
+
+	//床についた時
+	bool isDead_ = false;
+
+	//Restart
+	bool isRestart_ = false;
+
+	//Goal
+	bool isGoal_ = false;
 	// ワイヤー中の上昇量が加算されていく変数
 	float upForce_ = 0.0f;
 

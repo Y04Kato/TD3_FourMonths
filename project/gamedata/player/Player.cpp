@@ -42,6 +42,8 @@ void Player::Initialize() {
 	worldTransformWire_.Initialize();
 	worldTransformGrapple_.Initialize();
 
+	worldTransform_.translation_ = {0.0f,10.0f,0.0f};
+
 	for (int i = 0; i < 2; i++) {
 		sphere_[i] = std::make_unique <CreateSphere>();
 		sphere_[i]->Initialize();
@@ -201,6 +203,26 @@ void Player::Updete(const ViewProjection viewProjection) {
 		//physics_->Vector3Direction((velocity + impulse), &forwad_, &right_);
 	}
 
+	if (worldTransform_.translation_.num[1] <= -3.0f)
+	{
+		isDead_ = true;
+		isActive_ = false;
+		isSetWire_ = false;
+	}
+
+	if (input_->TriggerKey(DIK_R))
+	{
+		isRestart_ = true;
+		isActive_ = false;
+		isSetWire_ = false;
+	}
+
+	if (input_->TriggerKey(DIK_G))
+	{
+		isGoal_ = true;
+		isActive_ = false;
+		isSetWire_ = false;
+	}
 
 	ImGui::Begin("player");
 	ImGui::DragFloat3("Pos", worldTransform_.translation_.num, 0.05f);
