@@ -32,20 +32,71 @@ void Physics::AddForce(const Vector3& force, uint32_t mode)
 		force_ += force;
 	}
 	else {
-		Vector3 acceleration = Multiply(deltaTime_, force / mass_);
-		velocity_ += acceleration * deltaTime_;
+		impulse_ += /* force / mass_;*/Multiply(deltaTime_, force / mass_);
+		//velocity_ += acceleration * deltaTime_;
 	}
 
 }
 
-float Physics::Vector2Cross(Vector2 a, Vector2 b)
+Vector3 Physics::GetImpulse_()
 {
-	return a.num[0] * b.num[1] - a.num[1] * b.num[0];
+	Vector3 result = impulse_;
+	for (uint32_t i = 0; i < 3; i++) {
+		impulse_.num[i] = 0.0f;
+	}
+
+	return result;
 }
 
-float Physics::Vector3XZAngle(Vector3 pos)
+float Physics::Vector2Cross(const Vector2& v1, const Vector2& v2)
 {
-	return std::atan2(pos.num[2], pos.num[0]) * (180.0f / float(M_PI));
+	return v1.num[0] * v2.num[1] - v1.num[1] * v2.num[0];
+}
+
+float Physics::Vector3XZAngle(const Vector3& v)
+{
+	return std::atan2(v.num[2], v.num[0]) * (180.0f / float(M_PI));
+}
+
+Vector2 Physics::Vector2Perpendicular()
+{
+	return { -velocity_.num[2], velocity_.num[0] };
+}
+
+Vector2 Physics::Vector2Normalize(const Vector2& v)
+{
+	float len = std::sqrtf(v.num[0] * v.num[0] + v.num[1] * v.num[1]);
+	if (len == 0) {
+		return { 0.0f, 0.0f };
+	}
+	return {v.num[0] / len, v.num[1] / len};
+}
+
+float Physics::Vector3Angle(const Vector3& v1, const Vector3& v2)
+{
+	float dot = Dot(v1, v2);
+	float lenght = Length(v1) * Length(v2);
+
+	if (lenght == 0) {
+		return 0.0f;
+	}
+
+	float cosTheta = dot / lenght;
+	cosTheta = std::fmax(-1.0f, std::fmin(1.0f, cosTheta));
+
+	float angleRadians = std::acos(cosTheta);
+	return angleRadians * float(180.0f / M_PI);
+}
+
+void Physics::Vector3Direction(const Vector3& v, Vector3* forward, Vector3* right)
+{
+	Vector3 result = v;
+	result.num[1] = 0.0f;
+	*forward = Normalize(result);
+
+	result = { -result.num[2], 0.0f, result.num[0] };
+	result = Multiply(-1.0f, result);
+	*right = Normalize(result);
 }
 
 Vector3 Physics::RubberMovement(const Vector3& start, const Vector3& end, float stiffness, float dampingCoefficient)

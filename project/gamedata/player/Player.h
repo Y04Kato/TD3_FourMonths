@@ -94,6 +94,7 @@ private:
 	bool isMissWire_ = false;//ワイヤー失敗フラグ
 	bool isHitWire_ = false;//レティクルがオブジェクトを捉えているかのフラグ
 	bool isWire_ = false;//ワイヤーのオンオフ用フラグ
+	Vector3 start_; // ワイヤーを刺した時のベクトル
 
 	//マウス感度、この値で割る為、高くなるほど感度が低くなる
 	Vector2 sensitivity_ = { 400.0f,400.0f };
@@ -113,4 +114,10 @@ private:
 
 	//Goal
 	bool isGoal_ = false;
+	// ワイヤー中の上昇量が加算されていく変数
+	float upForce_ = 0.0f;
+
+	// モデルの向き
+	Vector3 forwad_;
+	Vector3 right_;
 };
