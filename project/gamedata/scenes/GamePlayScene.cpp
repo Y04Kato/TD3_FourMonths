@@ -120,7 +120,7 @@ void GamePlayScene::Initialize() {
 
 	numbersTransform_.scale = { 1.0f,1.0f,1.0f };
 	numbersTransform_.rotate = { 0.0f,0.0f,0.0f };
-	numbersTransform_.translate = { 1280.0f / 2.0f,720.0f / 2.0f,0.0f };
+	numbersTransform_.translate = { 1000.0f,0.0f,0.0f };
 
 	GlobalVariables* globalVariables{};
 	globalVariables = GlobalVariables::GetInstance();
@@ -177,6 +177,7 @@ void GamePlayScene::Update() {
 		player_->SetWorldTransform(startWorldTransform_);
 		player_->SetIsGoal(false);
 		datas_->SetClearTime(nowTime_);
+		nowTime_ = 0;
 	}
 
 	startWorldTransform_.UpdateMatrix();

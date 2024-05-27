@@ -14,7 +14,7 @@ void Player::Initialize() {
 	input_ = Input::GetInstance();
 
 	//テクスチャ
-	uiResource_[0] = textureManager_->Load("project/gamedata/resources/UI/WireUI.png");
+	uiResource_[0] = textureManager_->Load("project/gamedata/resources/UI/MoveUI.png");
 	uiResource_[1] = textureManager_->Load("project/gamedata/resources/UI/MoveUI.png");
 
 	for (int i = 0; i < 2; i++)

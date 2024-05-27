@@ -21,6 +21,8 @@
 #include "skydome/Skydome.h"
 #include "mountain/Mountain.h"
 #include "goal/Goal.h"
+#include "numbers/numbers.h"
+#include "datas/datas.h"
 
 class GamePlayScene2 :public Iscene {
 public:
@@ -120,4 +122,12 @@ private:
 
 	//Restart
 	WorldTransform startWorldTransform_;
+
+	//Timer
+	std::unique_ptr<Numbers> numbers_;
+	int nowTime_ = 0;
+	EulerTransform numbersTransform_;
+
+	//Datas
+	Datas* datas_;
 };
