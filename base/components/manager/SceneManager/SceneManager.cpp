@@ -56,7 +56,7 @@ void SceneManager::Initialize() {
 	}
 
 	//タイトルシーンから開始
-	Iscene::sceneNo = GAME_SCENE;
+	Iscene::sceneNo = TITLE_SCENE;
 
 	postEffect_ = new PostEffect();
 	postEffect_->Initialize();

@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "GameSelectScene.h"
 
 Player::Player() {
 
@@ -203,6 +204,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		//physics_->Vector3Direction((velocity + impulse), &forwad_, &right_);
 	}
 
+	//床に落ちたとき
 	if (worldTransform_.translation_.num[1] <= -3.0f)
 	{
 		isDead_ = true;
@@ -211,6 +213,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
 
+	//リスタート
 	if (input_->TriggerKey(DIK_R))
 	{
 		isRestart_ = true;
@@ -219,7 +222,8 @@ void Player::Updete(const ViewProjection viewProjection) {
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
 
-	if (input_->TriggerKey(DIK_G))
+	//ゴール
+	if (GameSelectScene::stageNum == 1 && worldTransform_.translation_.num[2] >= 250.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
