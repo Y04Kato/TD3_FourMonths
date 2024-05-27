@@ -140,7 +140,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 	}
 
 	if (input_->TriggerKey(DIK_SPACE)) {
-		isActive_ ^= true;
+		isActive_ = true;
 	}
 
 	if (isActive_) {
