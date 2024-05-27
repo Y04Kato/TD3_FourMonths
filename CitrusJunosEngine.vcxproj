@@ -191,6 +191,7 @@
     <ClCompile Include="base\CJEngine.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="project\gamedata\goal\Goal.cpp" />
+    <ClCompile Include="project\gamedata\numbers\numbers.cpp" />
     <ClCompile Include="project\gamedata\Physics\Physics.cpp" />
     <ClCompile Include="project\gamedata\mountain\Mountain.cpp" />
     <ClCompile Include="project\gamedata\player\Player.cpp" />
@@ -355,6 +356,7 @@
     </ClInclude>
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="project\gamedata\goal\Goal.h" />
+    <ClInclude Include="project\gamedata\numbers\numbers.h" />
     <ClInclude Include="project\gamedata\Physics\Physics.h" />
     <ClInclude Include="project\gamedata\mountain\Mountain.h" />
     <ClInclude Include="project\gamedata\player\Player.h" />

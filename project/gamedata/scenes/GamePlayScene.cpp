@@ -107,7 +107,17 @@ void GamePlayScene::Initialize() {
 
 	particle_ = std::make_unique <CreateParticle>();
 
-    particle_->Initialize(100, testEmitter_, accelerationField_, spriteResource_);
+	particle_->Initialize(100, testEmitter_, accelerationField_, spriteResource_);
+	particle_->SetisVelocity(true);
+
+	//Timer
+	numbers_ = std::make_unique<Numbers>();
+	numbers_->Initialize();
+	numbers_->SetInitialNum(0 / 60);
+
+	numbersTransform_.scale = { 1.0f,1.0f,1.0f };
+	numbersTransform_.rotate = { 0.0f,0.0f,0.0f };
+	numbersTransform_.translate = { 1280.0f / 2.0f,720.0f / 2.0f,0.0f };
 
 	GlobalVariables* globalVariables{};
 	globalVariables = GlobalVariables::GetInstance();
@@ -181,6 +191,11 @@ void GamePlayScene::Update() {
 	//色を固定するならこれを使う
 	particle_->SetisColor(isColor_);
 	particle_->SetColor(particleColor_);
+
+	//Timer
+	nowTime_++;
+	numbers_->SetNum(nowTime_ / 60);
+	numbers_->SetTransform(numbersTransform_);
 
 	if (cameraChange_ == true) {//DebugCamera
 		debugCamera_->Update();
@@ -362,6 +377,7 @@ void GamePlayScene::Draw() {
 #pragma region 前景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
 
+	numbers_->Draw();
 	player_->DrawUI();
 
 #pragma endregion

@@ -318,6 +318,9 @@
     <ClCompile Include="project\gamedata\Physics\Physics.cpp">
       <Filter>ソース ファイル\project\gamedata\gameObject</Filter>
     </ClCompile>
+    <ClCompile Include="project\gamedata\numbers\numbers.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="project\gamedata\resources\shaders\Object3d.PS.hlsl">
@@ -537,6 +540,9 @@
     </ClInclude>
     <ClInclude Include="project\gamedata\Physics\Physics.h">
       <Filter>ヘッダー ファイル\project\gamedata\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="project\gamedata\numbers\numbers.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
