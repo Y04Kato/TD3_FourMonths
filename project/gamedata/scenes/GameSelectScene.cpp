@@ -103,41 +103,41 @@ void GameSelectScene::Update() {
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
-	//右上
-	if (spriteTransform_[2].translate.num[0] == 1460.0f && spriteTransform_[2].translate.num[1] == 360.0f
-		&& input_->TriggerKey(DIK_SPACE))
-	{
-		stageNum = 1;
-		sceneNo = GAME_SCENE;
-		audio_->SoundPlayWave(selectData_, 0.1f, false);
-	}
+	////右上
+	//if (spriteTransform_[2].translate.num[0] == 1460.0f && spriteTransform_[2].translate.num[1] == 360.0f
+	//	&& input_->TriggerKey(DIK_SPACE))
+	//{
+	//	stageNum = 1;
+	//	sceneNo = GAME_SCENE;
+	//	audio_->SoundPlayWave(selectData_, 0.1f, false);
+	//}
 
-	//左下
-	if (spriteTransform_[2].translate.num[0] == 640.0f && spriteTransform_[2].translate.num[1] == 610.0f
-		&& input_->TriggerKey(DIK_SPACE))
-	{
-		stageNum = 1;
-		sceneNo = GAME_SCENE;
-		audio_->SoundPlayWave(selectData_, 0.1f, false);
-	}
+	////左下
+	//if (spriteTransform_[2].translate.num[0] == 640.0f && spriteTransform_[2].translate.num[1] == 610.0f
+	//	&& input_->TriggerKey(DIK_SPACE))
+	//{
+	//	stageNum = 1;
+	//	sceneNo = GAME_SCENE;
+	//	audio_->SoundPlayWave(selectData_, 0.1f, false);
+	//}
 
-	//真ん中下
-	if (spriteTransform_[2].translate.num[0] == 1048.0f && spriteTransform_[2].translate.num[1] == 610.0f
-		&& input_->TriggerKey(DIK_SPACE))
-	{
-		stageNum = 1;
-		sceneNo = GAME_SCENE;
-		audio_->SoundPlayWave(selectData_, 0.1f, false);
-	}
+	////真ん中下
+	//if (spriteTransform_[2].translate.num[0] == 1048.0f && spriteTransform_[2].translate.num[1] == 610.0f
+	//	&& input_->TriggerKey(DIK_SPACE))
+	//{
+	//	stageNum = 1;
+	//	sceneNo = GAME_SCENE;
+	//	audio_->SoundPlayWave(selectData_, 0.1f, false);
+	//}
 
-	//右下
-	if (spriteTransform_[2].translate.num[0] == 1460.0f && spriteTransform_[2].translate.num[1] == 610.0f
-		&& input_->TriggerKey(DIK_SPACE))
-	{
-		stageNum = 1;
-		sceneNo = GAME_SCENE;
-		audio_->SoundPlayWave(selectData_, 0.1f, false);
-	}
+	////右下
+	//if (spriteTransform_[2].translate.num[0] == 1460.0f && spriteTransform_[2].translate.num[1] == 610.0f
+	//	&& input_->TriggerKey(DIK_SPACE))
+	//{
+	//	stageNum = 1;
+	//	sceneNo = GAME_SCENE;
+	//	audio_->SoundPlayWave(selectData_, 0.1f, false);
+	//}
 
 	ImGui::Begin("debug");
 	ImGui::Text("GameSelectScene");
