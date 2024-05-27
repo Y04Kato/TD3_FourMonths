@@ -120,7 +120,7 @@ void GamePlayScene::Initialize() {
 
 	numbersTransform_.scale = { 1.0f,1.0f,1.0f };
 	numbersTransform_.rotate = { 0.0f,0.0f,0.0f };
-	numbersTransform_.translate = { 1000.0f,0.0f,0.0f };
+	numbersTransform_.translate = { 430.0f,50.0f,0.0f };
 
 	GlobalVariables* globalVariables{};
 	globalVariables = GlobalVariables::GetInstance();
