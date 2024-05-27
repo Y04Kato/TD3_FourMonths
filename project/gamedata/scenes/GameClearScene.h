@@ -8,6 +8,9 @@
 #include "TextureManager.h"
 #include "components/2d/CreateSprite.h"
 
+#include "numbers/numbers.h"
+#include "datas/datas.h"
+
 class GameClearScene :public Iscene {
 public:
 	void Initialize() override;
@@ -38,4 +41,12 @@ private:
 	uint32_t spriteResource_[4];
 
 	bool isSpriteDraw_[4];
+
+	//Timer
+	std::unique_ptr<Numbers> numbers_;
+	int nowTime_ = 0;
+	EulerTransform numbersTransform_;
+
+	//Datas
+	Datas* datas_;
 };

@@ -136,6 +136,9 @@ void GamePlayScene::Initialize() {
 	line_->SetLineThickness(0.2f);
 
 	startWorldTransform_.Initialize();
+
+	datas_ = Datas::GetInstance();
+	datas_->Initialize();
 }
 
 void GamePlayScene::Update() {
@@ -173,6 +176,7 @@ void GamePlayScene::Update() {
 		startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
 		player_->SetWorldTransform(startWorldTransform_);
 		player_->SetIsGoal(false);
+		datas_->SetClearTime(nowTime_);
 	}
 
 	startWorldTransform_.UpdateMatrix();
@@ -400,7 +404,6 @@ void GamePlayScene::Finalize() {
 
 void GamePlayScene::ApplyGlobalVariables() {
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
-	const char* groupName = "GamePlayScene";
 
 	objCount_ = globalVariables->GetIntValue(groupName, "ObjCount");
 

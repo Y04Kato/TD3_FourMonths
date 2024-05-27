@@ -41,11 +41,26 @@ void GameClearScene::Initialize() {
 
 	spriteTransform_[3].translate.num[0] = 717.0f;
 	spriteTransform_[3].translate.num[1] = 632.0f;
+
+	//Timer
+	numbers_ = std::make_unique<Numbers>();
+	numbers_->Initialize();
+	numbers_->SetInitialNum(0 / 60);
+
+	numbersTransform_.scale = { 1.5f,1.5f,1.5f };
+	numbersTransform_.rotate = { 0.0f,0.0f,0.0f };
+	numbersTransform_.translate = { 500.0f,292.0f,0.0f };
+
+	//Datas
+	datas_ = Datas::GetInstance();
 }
 
 void GameClearScene::Update() {
 	XINPUT_STATE joyState;
 	Input::GetInstance()->GetJoystickState(0, joyState);
+
+	numbers_->SetNum(datas_->GetClearTime() / 60);
+	numbers_->SetTransform(numbersTransform_);
 
 	if (input_->PressKey(DIK_A) && spriteTransform_[3].translate.num[0] == 1381.0f)
 	{
@@ -58,12 +73,9 @@ void GameClearScene::Update() {
 	}
 
 	ImGui::Begin("debug");
-	ImGui::Text("GameTitleScene");
-	ImGui::End();
-
-	ImGui::Begin("debug");
 	ImGui::Text("GameClearScene");
 	ImGui::SliderFloat3("SWTFT", &spriteTransform_[3].translate.num[0], 0.0f, 2280.0f);
+	ImGui::SliderFloat3("trans", numbersTransform_.translate.num, 0.0f, 2280.0f);
 	ImGui::End();
 
 	if (spriteTransform_[3].translate.num[0] == 717.0f && input_->TriggerKey(DIK_SPACE)) {
@@ -109,6 +121,8 @@ void GameClearScene::Draw() {
 	sprite_[2]->Draw(spriteTransform_[2], SpriteuvTransform_[2], spriteMaterial_[2]);
 
 	sprite_[3]->Draw(spriteTransform_[3], SpriteuvTransform_[3], spriteMaterial_[3]);
+
+	numbers_->Draw();
 
 #pragma endregion
 }
