@@ -42,7 +42,7 @@ void Player::Initialize() {
 	worldTransformWire_.Initialize();
 	worldTransformGrapple_.Initialize();
 
-	worldTransform_.translation_ = {0.0f,10.0f,0.0f};
+	worldTransform_.translation_ = {0.0f,20.0f,0.0f};
 
 	for (int i = 0; i < 2; i++) {
 		sphere_[i] = std::make_unique <CreateSphere>();
@@ -138,7 +138,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		missTimer_ = 0;
 	}
 
-	if (input_->TriggerKey(DIK_6)) {
+	if (input_->TriggerKey(DIK_SPACE)) {
 		isActive_ ^= true;
 	}
 
@@ -146,7 +146,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		// 
 		physics_->SetGravity({ 0.0f, -7.0f, 0.0f }); // ワイヤー中じゃない時の重力
 		if (isSetWire_) { // ワイヤー中
-			physics_->SetGravity({ 0.0f, -9.0f, 0.0f }); // ワイヤー中の重力
+			physics_->SetGravity({ 0.0f, -5.0f, 0.0f }); // ワイヤー中の重力
 			// ワイヤー中の物理挙動
 			Vector3 force = physics_->RubberMovement(worldTransform_.translation_, worldTransformGrapple_.translation_, 1.0f, 0.0f);
 			physics_->AddForce(force);

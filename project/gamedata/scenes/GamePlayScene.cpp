@@ -140,7 +140,7 @@ void GamePlayScene::Update() {
 	//床についたとき
 	if (player_->GetIsDead())
 	{
-		startWorldTransform_.translation_ = { 0.0f,10.0f,0.0f };
+		startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
 		player_->SetWorldTransform(startWorldTransform_);
 		player_->SetIsDead(false);
 	}
@@ -148,7 +148,7 @@ void GamePlayScene::Update() {
 	//Restart
 	if (player_->GetIsRestart())
 	{
-		startWorldTransform_.translation_ = { 0.0f,10.0f,0.0f };
+		startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
 		player_->SetWorldTransform(startWorldTransform_);
 		player_->SetIsRestart(false);
 	}
@@ -157,7 +157,7 @@ void GamePlayScene::Update() {
 	if (player_->GetIsGoal())
 	{
 		sceneNo = CLEAR_SCENE;
-		startWorldTransform_.translation_ = { 0.0f,10.0f,0.0f };
+		startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
 		player_->SetWorldTransform(startWorldTransform_);
 		player_->SetIsGoal(false);
 	}
