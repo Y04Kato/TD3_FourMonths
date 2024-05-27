@@ -64,8 +64,10 @@ private:
 		Model model;
 		WorldTransform world;
 		Vector4 material;
+		Vector4 Backmaterial;
 		std::string name;
 		OBB obb_;
+		bool isHit;
 	};
 	std::list<Obj> objects_;
 	ModelData ObjModelData_;
