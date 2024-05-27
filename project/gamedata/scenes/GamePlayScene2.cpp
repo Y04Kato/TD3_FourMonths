@@ -159,6 +159,7 @@ void GamePlayScene2::Update() {
 		startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
 		player_->SetWorldTransform(startWorldTransform_);
 		player_->SetIsDead(false);
+		nowTime_ = 0;
 	}
 
 	//Restart
@@ -167,6 +168,7 @@ void GamePlayScene2::Update() {
 		startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
 		player_->SetWorldTransform(startWorldTransform_);
 		player_->SetIsRestart(false);
+		nowTime_ = 0;
 	}
 
 	//Goal
@@ -201,7 +203,10 @@ void GamePlayScene2::Update() {
 	particle_->SetColor(particleColor_);
 
 	//Timer
-	nowTime_++;
+	if (player_->GetIsActive() == true) {
+		nowTime_++;
+	}
+
 	numbers_->SetNum(nowTime_ / 60);
 	numbers_->SetTransform(numbersTransform_);
 
@@ -237,9 +242,10 @@ void GamePlayScene2::Update() {
 			player_->SetWorldTransformObject(obj.world);
 			player_->SetIsHit(true);
 			isHit_ = true;
+			obj.isHit = true;
 		}
 		else {
-
+			obj.isHit = false;
 		}
 	}
 
@@ -267,6 +273,15 @@ void GamePlayScene2::Update() {
 		}
 		else {
 			showCursor = (int)true;
+		}
+	}
+
+	for (Obj& obj : objects_) {//レイとオブジェクトの当たり判定
+		if (obj.isHit == true) {
+			obj.material = { 1.0f,0.5f,0.0f,1.0f };
+		}
+		else {
+			obj.material = obj.Backmaterial;
 		}
 	}
 
@@ -415,7 +430,7 @@ void GamePlayScene2::ApplyGlobalVariables() {
 		obj.world.translation_ = globalVariables->GetVector3Value(groupName, obj.name + "Translate");
 		//obj.world.rotation_ = globalVariables->GetVector3Value(groupName,  obj.name + "Rotate");
 		obj.world.scale_ = globalVariables->GetVector3Value(groupName, obj.name + "Scale");
-		obj.material = globalVariables->GetVector4Value(groupName, obj.name + "Material");
+		obj.Backmaterial = globalVariables->GetVector4Value(groupName, obj.name + "Material");
 	}
 }
 
@@ -429,7 +444,10 @@ void GamePlayScene2::SetObject(EulerTransform trans, const std::string& name) {
 	obj.world.rotation_ = trans.rotate;
 	obj.world.scale_ = trans.scale;
 
+	obj.isHit = false;
+
 	obj.material = { 1.0f,1.0f,1.0f,1.0f };
+	obj.Backmaterial = { 1.0f,1.0f,1.0f,1.0f };
 
 	obj.name = name;
 	objects_.push_back(obj);

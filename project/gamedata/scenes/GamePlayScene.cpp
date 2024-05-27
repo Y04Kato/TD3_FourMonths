@@ -159,6 +159,7 @@ void GamePlayScene::Update() {
 		startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
 		player_->SetWorldTransform(startWorldTransform_);
 		player_->SetIsDead(false);
+		nowTime_ = 0;
 	}
 
 	//Restart
@@ -167,6 +168,7 @@ void GamePlayScene::Update() {
 		startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
 		player_->SetWorldTransform(startWorldTransform_);
 		player_->SetIsRestart(false);
+		nowTime_ = 0;
 	}
 
 	//Goal
