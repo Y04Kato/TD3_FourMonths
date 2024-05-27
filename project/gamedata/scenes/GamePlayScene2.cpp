@@ -381,7 +381,7 @@ void GamePlayScene2::Draw() {
 #pragma region パーティクル描画
 	CJEngine_->renderer_->Draw(PipelineType::Particle);
 
-	particle_->Draw(viewProjection_);
+	//particle_->Draw(viewProjection_);
 
 #pragma endregion
 

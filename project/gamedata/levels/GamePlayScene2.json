@@ -1,7 +1,7 @@
 {
     "GamePlayScene2": {
-        "ObjCount": 24,
-        "test0": "test20",
+        "ObjCount": 25,
+        "test0": "test24",
         "test0Material": [
             0.0,
             1.0,
@@ -14,12 +14,12 @@
             4.0
         ],
         "test0Translate": [
-            14.0,
+            27.0,
             26.0,
             40.0
         ],
-        "test1": "test20",
-        "test10": "test20",
+        "test1": "test24",
+        "test10": "test24",
         "test10Material": [
             0.0,
             1.0,
@@ -36,7 +36,7 @@
             26.0,
             273.0
         ],
-        "test11": "test20",
+        "test11": "test24",
         "test11Material": [
             0.0,
             1.0,
@@ -53,7 +53,7 @@
             26.0,
             316.0
         ],
-        "test12": "test20",
+        "test12": "test24",
         "test12Material": [
             0.0,
             1.0,
@@ -70,7 +70,7 @@
             26.0,
             314.0
         ],
-        "test13": "test20",
+        "test13": "test24",
         "test13Material": [
             0.0,
             1.0,
@@ -87,7 +87,7 @@
             26.0,
             362.0
         ],
-        "test14": "test20",
+        "test14": "test24",
         "test14Material": [
             0.0,
             1.0,
@@ -104,7 +104,7 @@
             26.0,
             362.0
         ],
-        "test15": "test20",
+        "test15": "test24",
         "test15Material": [
             0.0,
             1.0,
@@ -121,7 +121,7 @@
             26.0,
             415.0
         ],
-        "test16": "test20",
+        "test16": "test24",
         "test16Material": [
             0.0,
             1.0,
@@ -138,7 +138,7 @@
             26.0,
             415.0
         ],
-        "test17": "test20",
+        "test17": "test24",
         "test17Material": [
             0.0,
             1.0,
@@ -155,7 +155,7 @@
             26.0,
             459.0
         ],
-        "test18": "test20",
+        "test18": "test24",
         "test18Material": [
             0.0,
             1.0,
@@ -172,7 +172,7 @@
             26.0,
             487.0
         ],
-        "test19": "test20",
+        "test19": "test24",
         "test19Material": [
             0.0,
             1.0,
@@ -201,12 +201,12 @@
             4.0
         ],
         "test1Translate": [
-            -14.0,
+            0.0,
             26.0,
-            40.0
+            37.0
         ],
-        "test2": "test20",
-        "test20": "test20",
+        "test2": "test24",
+        "test20": "test24",
         "test20Material": [
             0.0,
             1.0,
@@ -223,7 +223,7 @@
             26.0,
             126.0
         ],
-        "test21": "test21",
+        "test21": "test24",
         "test21Material": [
             0.0,
             1.0,
@@ -240,7 +240,7 @@
             26.0,
             126.0
         ],
-        "test22": "test22",
+        "test22": "test24",
         "test22Material": [
             0.0,
             1.0,
@@ -257,7 +257,7 @@
             26.0,
             303.0
         ],
-        "test23": "test23",
+        "test23": "test24",
         "test23Material": [
             0.0,
             1.0,
@@ -273,6 +273,23 @@
             43.0,
             26.0,
             396.0
+        ],
+        "test24": "test24",
+        "test24Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test24Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test24Translate": [
+            -26.0,
+            26.0,
+            39.0
         ],
         "test2Material": [
             0.0,
@@ -290,7 +307,7 @@
             26.0,
             80.0
         ],
-        "test3": "test20",
+        "test3": "test24",
         "test3Material": [
             0.0,
             1.0,
@@ -307,7 +324,7 @@
             26.0,
             80.0
         ],
-        "test4": "test20",
+        "test4": "test24",
         "test4Material": [
             0.0,
             1.0,
@@ -324,7 +341,7 @@
             26.0,
             90.0
         ],
-        "test5": "test20",
+        "test5": "test24",
         "test5Material": [
             0.0,
             1.0,
@@ -341,7 +358,7 @@
             26.0,
             142.0
         ],
-        "test6": "test20",
+        "test6": "test24",
         "test6Material": [
             0.0,
             1.0,
@@ -358,7 +375,7 @@
             26.0,
             142.0
         ],
-        "test7": "test20",
+        "test7": "test24",
         "test7Material": [
             0.0,
             1.0,
@@ -375,7 +392,7 @@
             26.0,
             195.0
         ],
-        "test8": "test20",
+        "test8": "test24",
         "test8Material": [
             0.0,
             1.0,
@@ -392,7 +409,7 @@
             26.0,
             243.0
         ],
-        "test9": "test20",
+        "test9": "test24",
         "test9Material": [
             0.0,
             1.0,
