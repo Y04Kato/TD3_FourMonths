@@ -26,7 +26,7 @@ void GamePlayScene::Initialize() {
 	spriteResource_ = textureManager_->Load("project/gamedata/resources/UI/bg.png");
 
 	uiResource_[0] = textureManager_->Load("project/gamedata/resources/reticle2.png");
-	uiResource_[1] = textureManager_->Load("project/gamedata/resources/UI/ReturnUI.png");
+	uiResource_[1] = textureManager_->Load("project/gamedata/resources/UI/StartUI.png");
 
 	//testSprite
 	spriteMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
@@ -391,6 +391,9 @@ void GamePlayScene::Draw() {
 	player_->DrawUI();
 	if (isHit_ == true) {
 		uiSprite_[0]->Draw(uiSpriteTransform_[0], uiSpriteuvTransform_[0], uiSpriteMaterial_[0]);
+	}
+	if (player_->GetIsActive() == false) {
+		uiSprite_[1]->Draw(uiSpriteTransform_[1], uiSpriteuvTransform_[1], uiSpriteMaterial_[1]);
 	}
 
 #pragma endregion

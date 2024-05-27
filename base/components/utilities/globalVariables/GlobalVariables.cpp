@@ -27,6 +27,12 @@ void GlobalVariables::Update() {
 		if (!ImGui::BeginMenu(groupName.c_str()))
 			continue;
 
+		if (ImGui::Button("Save")) {
+			SaveFile(groupName);
+			std::string message = std::format("{}.json saved", groupName);
+			MessageBoxA(nullptr, message.c_str(), "GlobalVariables", 0);
+		}
+
 		for (std::map<std::string, Item>::iterator itItem = group.items.begin();
 			itItem != group.items.end(); ++itItem) {
 			const std::string& itemName = itItem->first;
@@ -51,12 +57,6 @@ void GlobalVariables::Update() {
 			else if (std::holds_alternative<std::string>(item.value)) {
 				std::string* ptr = std::get_if<std::string>(&item.value);
 			}
-		}
-
-		if (ImGui::Button("Save")) {
-			SaveFile(groupName);
-			std::string message = std::format("{}.json saved", groupName);
-			MessageBoxA(nullptr, message.c_str(), "GlobalVariables", 0);
 		}
 
 		ImGui::EndMenu();

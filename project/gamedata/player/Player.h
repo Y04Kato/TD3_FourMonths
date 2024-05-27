@@ -48,6 +48,8 @@ public:
 	bool GetIsGoal() { return isGoal_; }
 	void SetIsGoal(const bool isGoal) { isGoal_ = isGoal; }
 
+	bool GetIsActive() { return isActive_; }
+
 private:
 	TextureManager* textureManager_;
 	Input* input_;
