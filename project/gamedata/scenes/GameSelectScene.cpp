@@ -100,25 +100,25 @@ void GameSelectScene::Update() {
 	//右上
 	if (spriteTransform_[2].translate.num[0] == 1460.0f && spriteTransform_[2].translate.num[1] == 360.0f)
 	{
-		stageNum = 3;
+		stageNum = 1;
 	}
 
 	//左下
 	if (spriteTransform_[2].translate.num[0] == 640.0f && spriteTransform_[2].translate.num[1] == 610.0f)
 	{
-		stageNum = 4;
+		stageNum = 1;
 	}
 
 	//真ん中下
 	if (spriteTransform_[2].translate.num[0] == 1048.0f && spriteTransform_[2].translate.num[1] == 610.0f)
 	{
-		stageNum = 5;
+		stageNum = 1;
 	}
 
 	//右下
 	if (spriteTransform_[2].translate.num[0] == 1460.0f && spriteTransform_[2].translate.num[1] == 610.0f)
 	{
-		stageNum = 6;
+		stageNum = 1;
 	}
 
 	ImGui::Begin("debug");

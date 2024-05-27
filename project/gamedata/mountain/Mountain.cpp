@@ -1,8 +1,9 @@
 #include "Mountain.h"
+#include "GameSelectScene.h"
 
 void Mountain::Initialize()
 {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		model_[i].reset(Model::CreateModel("project/gamedata/resources/models/mountain", "mountain.obj"));
 
@@ -23,6 +24,20 @@ void Mountain::Initialize()
 	worldTransform_[3].rotation_ = { 0.0f,3.13f,0.0f };
 	worldTransform_[3].scale_ = { 3.0f,4.0f,8.0f };
 
+	worldTransform_[4].translation_ = { -50.0f,-4.0f,560.0f };
+	worldTransform_[4].scale_ = { 3.0f,4.0f,8.0f };
+
+	worldTransform_[5].translation_ = { 50.0f,-4.0f,496.0f };
+	worldTransform_[5].rotation_ = { 0.0f,3.13f,0.0f };
+	worldTransform_[5].scale_ = { 3.0f,4.0f,8.0f };
+
+	worldTransform_[6].translation_ = { -50.0f,-4.0f,830.0f };
+	worldTransform_[6].scale_ = { 3.0f,4.0f,8.0f };
+
+	worldTransform_[7].translation_ = { 50.0f,-4.0f,734.0f };
+	worldTransform_[7].rotation_ = { 0.0f,3.13f,0.0f };
+	worldTransform_[7].scale_ = { 3.0f,4.0f,8.0f };
+
 	modelMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 	//model_->SetDirectionalLightFlag(true, 3);
 }
@@ -32,7 +47,7 @@ void Mountain::Update()
 	//worldTransform_.rotation_.num[1] += 0.001f;
 	//worldTransform_.rotation_.num[2] += 0.001f;
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		worldTransform_[i].UpdateMatrix();
 	}
@@ -52,13 +67,28 @@ void Mountain::Update()
 
 void Mountain::Draw(const ViewProjection viewProjection)
 {
-	for (int i = 0; i < 4; i++)
+	if (GameSelectScene::stageNum == 1)
 	{
-		if (viewProjection.translation_.num[1] <= 0) {
-			model_[i]->Draw(worldTransform_[i], viewProjection, Vector4{ modelMaterial_.num[0],modelMaterial_.num[1] ,modelMaterial_.num[2] ,0.05f });
+		for (int i = 0; i < 4; i++)
+		{
+			if (viewProjection.translation_.num[1] <= 0) {
+				model_[i]->Draw(worldTransform_[i], viewProjection, Vector4{ modelMaterial_.num[0],modelMaterial_.num[1] ,modelMaterial_.num[2] ,0.05f });
+			}
+			else {
+				model_[i]->Draw(worldTransform_[i], viewProjection, modelMaterial_);
+			}
 		}
-		else {
-			model_[i]->Draw(worldTransform_[i], viewProjection, modelMaterial_);
+	}
+	else if (GameSelectScene::stageNum == 2)
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			if (viewProjection.translation_.num[1] <= 0) {
+				model_[i]->Draw(worldTransform_[i], viewProjection, Vector4{ modelMaterial_.num[0],modelMaterial_.num[1] ,modelMaterial_.num[2] ,0.05f });
+			}
+			else {
+				model_[i]->Draw(worldTransform_[i], viewProjection, modelMaterial_);
+			}
 		}
 	}
 }
