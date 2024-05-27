@@ -318,6 +318,9 @@
     <ClCompile Include="project\gamedata\Physics\Physics.cpp">
       <Filter>ソース ファイル\project\gamedata\gameObject</Filter>
     </ClCompile>
+    <ClCompile Include="project\gamedata\scenes\GamePlayScene2.cpp">
+      <Filter>ソース ファイル\project\gamedata\scenes</Filter>
+    </ClCompile>
     <ClCompile Include="project\gamedata\numbers\numbers.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -543,6 +546,9 @@
     </ClInclude>
     <ClInclude Include="project\gamedata\Physics\Physics.h">
       <Filter>ヘッダー ファイル\project\gamedata\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="project\gamedata\scenes\GamePlayScene2.h">
+      <Filter>ヘッダー ファイル\project\gamedata\scenes</Filter>
     </ClInclude>
     <ClInclude Include="project\gamedata\numbers\numbers.h">
       <Filter>ヘッダー ファイル</Filter>

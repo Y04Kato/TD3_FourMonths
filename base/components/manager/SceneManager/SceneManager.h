@@ -15,6 +15,7 @@
 #include "GameTitleScene.h"
 #include "GameSelectScene.h"
 #include "GamePlayScene.h"
+#include "GamePlayScene2.h"
 #include "GameClearScene.h"
 #include "GameDemoScene.h"
 

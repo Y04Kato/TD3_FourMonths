@@ -5,7 +5,7 @@ void Skydome::Initialize()
 	model_.reset(Model::CreateModel("project/gamedata/resources/models/skydome", "skydome.obj"));
 
 	worldTransform_.Initialize();
-	worldTransform_.scale_ = { 900.0f,900.0f,900.0f };
+	worldTransform_.scale_ = { 1300.0f,1300.0f,1300.0f };
 
 	modelMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 	//model_->SetDirectionalLightFlag(true, 3);

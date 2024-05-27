@@ -86,50 +86,63 @@ void GameSelectScene::Update() {
 
 	//ステージ番号
 	//左上
-	if (spriteTransform_[2].translate.num[0] == 640.0f && spriteTransform_[2].translate.num[1] == 360.0f)
+	if (spriteTransform_[2].translate.num[0] == 640.0f && spriteTransform_[2].translate.num[1] == 360.0f
+		&& input_->TriggerKey(DIK_SPACE))
 	{
 		stageNum = 1;
+		sceneNo = GAME_SCENE;
+		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
 	//真ん中上
-	if (spriteTransform_[2].translate.num[0] == 1048.0f && spriteTransform_[2].translate.num[1] == 360.0f)
+	if (spriteTransform_[2].translate.num[0] == 1048.0f && spriteTransform_[2].translate.num[1] == 360.0f
+		&& input_->TriggerKey(DIK_SPACE))
 	{
 		stageNum = 2;
+		sceneNo = GAME_SCENE2;
+		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
-	//右上
-	if (spriteTransform_[2].translate.num[0] == 1460.0f && spriteTransform_[2].translate.num[1] == 360.0f)
-	{
-		stageNum = 3;
-	}
+	////右上
+	//if (spriteTransform_[2].translate.num[0] == 1460.0f && spriteTransform_[2].translate.num[1] == 360.0f
+	//	&& input_->TriggerKey(DIK_SPACE))
+	//{
+	//	stageNum = 1;
+	//	sceneNo = GAME_SCENE;
+	//	audio_->SoundPlayWave(selectData_, 0.1f, false);
+	//}
 
-	//左下
-	if (spriteTransform_[2].translate.num[0] == 640.0f && spriteTransform_[2].translate.num[1] == 610.0f)
-	{
-		stageNum = 4;
-	}
+	////左下
+	//if (spriteTransform_[2].translate.num[0] == 640.0f && spriteTransform_[2].translate.num[1] == 610.0f
+	//	&& input_->TriggerKey(DIK_SPACE))
+	//{
+	//	stageNum = 1;
+	//	sceneNo = GAME_SCENE;
+	//	audio_->SoundPlayWave(selectData_, 0.1f, false);
+	//}
 
-	//真ん中下
-	if (spriteTransform_[2].translate.num[0] == 1048.0f && spriteTransform_[2].translate.num[1] == 610.0f)
-	{
-		stageNum = 5;
-	}
+	////真ん中下
+	//if (spriteTransform_[2].translate.num[0] == 1048.0f && spriteTransform_[2].translate.num[1] == 610.0f
+	//	&& input_->TriggerKey(DIK_SPACE))
+	//{
+	//	stageNum = 1;
+	//	sceneNo = GAME_SCENE;
+	//	audio_->SoundPlayWave(selectData_, 0.1f, false);
+	//}
 
-	//右下
-	if (spriteTransform_[2].translate.num[0] == 1460.0f && spriteTransform_[2].translate.num[1] == 610.0f)
-	{
-		stageNum = 6;
-	}
+	////右下
+	//if (spriteTransform_[2].translate.num[0] == 1460.0f && spriteTransform_[2].translate.num[1] == 610.0f
+	//	&& input_->TriggerKey(DIK_SPACE))
+	//{
+	//	stageNum = 1;
+	//	sceneNo = GAME_SCENE;
+	//	audio_->SoundPlayWave(selectData_, 0.1f, false);
+	//}
 
 	ImGui::Begin("debug");
 	ImGui::Text("GameSelectScene");
 	ImGui::SliderFloat3("SWTFT", &spriteTransform_[2].translate.num[0], 0.0f, 2280.0f);
 	ImGui::End();
-
-	if (input_->TriggerKey(DIK_SPACE)) {
-		sceneNo = GAME_SCENE;
-		audio_->SoundPlayWave(selectData_, 0.1f, false);
-	}
 
 	if (!Input::GetInstance()->GetJoystickState(0, joyState)) {
 		return;

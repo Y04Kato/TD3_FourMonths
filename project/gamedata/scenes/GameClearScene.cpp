@@ -1,4 +1,5 @@
 #include"GameClearScene.h"
+#include "GameSelectScene.h"
 
 void GameClearScene::Initialize() {
 	//CJEngine
@@ -78,8 +79,15 @@ void GameClearScene::Update() {
 	ImGui::SliderFloat3("trans", numbersTransform_.translate.num, 0.0f, 2280.0f);
 	ImGui::End();
 
-	if (spriteTransform_[3].translate.num[0] == 717.0f && input_->TriggerKey(DIK_SPACE)) {
+	if (spriteTransform_[3].translate.num[0] == 717.0f && input_->TriggerKey(DIK_SPACE) && 
+		GameSelectScene::stageNum == 1) {
 		sceneNo = GAME_SCENE;
+		audio_->SoundPlayWave(selectData_, 0.1f, false);
+	}
+
+	if (spriteTransform_[3].translate.num[0] == 717.0f && input_->TriggerKey(DIK_SPACE) &&
+		GameSelectScene::stageNum == 2) {
+		sceneNo = GAME_SCENE2;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 

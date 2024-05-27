@@ -1,4 +1,5 @@
 #include "Goal.h"
+#include "GameSelectScene.h"
 
 void Goal::Initialize()
 {
@@ -9,9 +10,6 @@ void Goal::Initialize()
 	for (int i = 0; i < 2; i++)
 	{
 		worldTransform_[i].Initialize();
-		worldTransform_[i].translation_ = {-9.5f,49.3f,250.0f};
-		worldTransform_[i].rotation_ = { 1.54f,0.0f,1.55f };
-		worldTransform_[i].scale_ = { 100.0f,100.0f,100.0f };
 	}
 
 	modelMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
@@ -22,6 +20,25 @@ void Goal::Update()
 {
 	//worldTransform_.rotation_.num[1] += 0.001f;
 	//worldTransform_.rotation_.num[2] += 0.001f;
+
+	if (GameSelectScene::stageNum == 1)
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			worldTransform_[i].translation_ = { -9.5f,49.3f,250.0f };
+			worldTransform_[i].rotation_ = { 1.54f,0.0f,1.55f };
+			worldTransform_[i].scale_ = { 100.0f,100.0f,100.0f };
+		}
+	}
+	else if (GameSelectScene::stageNum == 2)
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			worldTransform_[i].translation_ = { -9.5f,49.3f,500.0f };
+			worldTransform_[i].rotation_ = { 1.54f,0.0f,1.55f };
+			worldTransform_[i].scale_ = { 100.0f,100.0f,100.0f };
+		}
+	}
 
 	for (int i = 0; i < 2; i++)
 	{
