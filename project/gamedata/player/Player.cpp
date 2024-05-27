@@ -208,6 +208,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isDead_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
+		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
 
 	if (input_->TriggerKey(DIK_R))
@@ -215,6 +216,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isRestart_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
+		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
 
 	if (input_->TriggerKey(DIK_G))
@@ -222,6 +224,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
+		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
 
 	ImGui::Begin("player");
