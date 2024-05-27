@@ -33,7 +33,7 @@ void CreateParticle::Initialize(int kNumInstance, Emitter emitter, AccelerationF
 	materialData_->enableLighting = false;
 	materialData_->color = { 1.0f,1.0f,1.0f,1.0f };
 	materialData_->uvTransform = MakeIdentity4x4();
-	
+
 	emitter_ = emitter;
 	accelerationField_ = accelerationField;
 }
@@ -172,7 +172,12 @@ Particle CreateParticle::MakeNewParticle(std::mt19937& randomEngine, const Euler
 	particles.transform.rotate = { 0.0f,0.0f,0.0f };
 	Vector3 randomTranslate = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
 	particles.transform.translate = transform.translate + randomTranslate;
-	particles.velocity = { distribution(randomEngine) ,distribution(randomEngine) ,distribution(randomEngine) };
+	if (isVelocity_) {
+		particles.velocity = { 0.0f,0.0f,0.0f };
+	}
+	else {
+		particles.velocity = { distribution(randomEngine) ,distribution(randomEngine) ,distribution(randomEngine) };
+	}
 	if (isColor_) {
 		particles.color = color_;
 	}

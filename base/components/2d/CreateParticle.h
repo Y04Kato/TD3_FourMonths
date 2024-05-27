@@ -27,6 +27,8 @@ public:
 	void SetAccelerationField(const AccelerationField& accelerationField) { accelerationField_ = accelerationField; };
 	void SetisBillBoard(const bool isBillBoard) { isBillBoard_ = isBillBoard; };
 	void SetisColor(const bool isColor) { isColor_ = isColor; };
+	//Velocityをランダムにするか否かFalseでランダムをOFF
+	void SetisVelocity(const bool isVelocity) { isVelocity_ = isVelocity; };
 
 	//パーティクルの色をランダムから指定した色に変更出来る
 	void SetColor(Vector4 color) {
@@ -86,5 +88,8 @@ private:
 
 	Vector4 color_;
 	bool isColor_ = false;
+
+	Vector3 velocity_;
+	bool isVelocity_ = false;
 };
 

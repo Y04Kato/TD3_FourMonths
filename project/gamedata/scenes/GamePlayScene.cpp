@@ -25,8 +25,8 @@ void GamePlayScene::Initialize() {
 	//テクスチャ
 	spriteResource_ = textureManager_->Load("project/gamedata/resources/UI/bg.png");
 
-	uiResource_[0] = textureManager_->Load("project/gamedata/resources/UI/GoalUI.png");
-	uiResource_[1] = textureManager_->Load("project/gamedata/resources/UI/ReturnUI.png");
+	uiResource_[0] = textureManager_->Load("project/gamedata/resources/reticle2.png");
+	uiResource_[1] = textureManager_->Load("project/gamedata/resources/UI/StartUI.png");
 
 	//testSprite
 	spriteMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
@@ -60,7 +60,10 @@ void GamePlayScene::Initialize() {
 	}
 
 	uiSprite_[0]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[0]);
+	uiSprite_[0]->SetTextureInitialSize();
 	uiSprite_[0]->SetAnchor(Vector2{ 0.5f,0.5f });
+	uiSpriteTransform_[0].translate.num[1] = 415.0f;
+	uiSpriteTransform_[0].scale = { 0.8f,0.8f,0.8f };
 
 	uiSprite_[1]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[1]);
 	uiSprite_[1]->SetAnchor(Vector2{ 0.5f,0.5f });
@@ -107,7 +110,17 @@ void GamePlayScene::Initialize() {
 
 	particle_ = std::make_unique <CreateParticle>();
 
-    particle_->Initialize(100, testEmitter_, accelerationField_, spriteResource_);
+	particle_->Initialize(100, testEmitter_, accelerationField_, spriteResource_);
+	particle_->SetisVelocity(true);
+
+	//Timer
+	numbers_ = std::make_unique<Numbers>();
+	numbers_->Initialize();
+	numbers_->SetInitialNum(0 / 60);
+
+	numbersTransform_.scale = { 1.0f,1.0f,1.0f };
+	numbersTransform_.rotate = { 0.0f,0.0f,0.0f };
+	numbersTransform_.translate = { 1280.0f / 2.0f,720.0f / 2.0f,0.0f };
 
 	GlobalVariables* globalVariables{};
 	globalVariables = GlobalVariables::GetInstance();
@@ -123,6 +136,9 @@ void GamePlayScene::Initialize() {
 	line_->SetLineThickness(0.2f);
 
 	startWorldTransform_.Initialize();
+
+	datas_ = Datas::GetInstance();
+	datas_->Initialize();
 }
 
 void GamePlayScene::Update() {
@@ -160,6 +176,7 @@ void GamePlayScene::Update() {
 		startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
 		player_->SetWorldTransform(startWorldTransform_);
 		player_->SetIsGoal(false);
+		datas_->SetClearTime(nowTime_);
 	}
 
 	startWorldTransform_.UpdateMatrix();
@@ -181,6 +198,11 @@ void GamePlayScene::Update() {
 	//色を固定するならこれを使う
 	particle_->SetisColor(isColor_);
 	particle_->SetColor(particleColor_);
+
+	//Timer
+	nowTime_++;
+	numbers_->SetNum(nowTime_ / 60);
+	numbers_->SetTransform(numbersTransform_);
 
 	if (cameraChange_ == true) {//DebugCamera
 		debugCamera_->Update();
@@ -246,6 +268,9 @@ void GamePlayScene::Update() {
 			showCursor = (int)true;
 		}
 	}
+
+	uiSpriteTransform_->rotate.num[2] += 0.05f;
+
 	ShowCursor(showCursor);//カーソル表示設定関数
 	if (showCursor == 0) {//カーソル非表示時、カーソルの座標を画面中央に固定
 		SetCursorPos(1280 / 2, 720 / 2);
@@ -362,7 +387,14 @@ void GamePlayScene::Draw() {
 #pragma region 前景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
 
+	numbers_->Draw();
 	player_->DrawUI();
+	if (isHit_ == true) {
+		uiSprite_[0]->Draw(uiSpriteTransform_[0], uiSpriteuvTransform_[0], uiSpriteMaterial_[0]);
+	}
+	if (player_->GetIsActive() == false) {
+		uiSprite_[1]->Draw(uiSpriteTransform_[1], uiSpriteuvTransform_[1], uiSpriteMaterial_[1]);
+	}
 
 #pragma endregion
 }
