@@ -12,6 +12,15 @@ void Goal::Initialize()
 		worldTransform_[i].Initialize();
 	}
 
+	modelMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
+	//model_->SetDirectionalLightFlag(true, 3);
+}
+
+void Goal::Update()
+{
+	//worldTransform_.rotation_.num[1] += 0.001f;
+	//worldTransform_.rotation_.num[2] += 0.001f;
+
 	if (GameSelectScene::stageNum == 1)
 	{
 		for (int i = 0; i < 2; i++)
@@ -25,20 +34,11 @@ void Goal::Initialize()
 	{
 		for (int i = 0; i < 2; i++)
 		{
-			worldTransform_[i].translation_ = { -9.5f,49.3f,700.0f };
+			worldTransform_[i].translation_ = { -9.5f,49.3f,500.0f };
 			worldTransform_[i].rotation_ = { 1.54f,0.0f,1.55f };
 			worldTransform_[i].scale_ = { 100.0f,100.0f,100.0f };
 		}
 	}
-
-	modelMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
-	//model_->SetDirectionalLightFlag(true, 3);
-}
-
-void Goal::Update()
-{
-	//worldTransform_.rotation_.num[1] += 0.001f;
-	//worldTransform_.rotation_.num[2] += 0.001f;
 
 	for (int i = 0; i < 2; i++)
 	{

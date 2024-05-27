@@ -204,6 +204,17 @@ void Player::Updete(const ViewProjection viewProjection) {
 		//physics_->Vector3Direction((velocity + impulse), &forwad_, &right_);
 	}
 
+	//画面端
+	if (worldTransform_.translation_.num[0] >= 55.0f)
+	{
+		worldTransform_.translation_.num[0] = 55.0f;
+	}
+
+	if (worldTransform_.translation_.num[0] <= -55.0f)
+	{
+		worldTransform_.translation_.num[0] = -55.0f;
+	}
+
 	//床に落ちたとき
 	if (worldTransform_.translation_.num[1] <= -3.0f)
 	{
@@ -224,6 +235,13 @@ void Player::Updete(const ViewProjection viewProjection) {
 
 	//ゴール
 	if (GameSelectScene::stageNum == 1 && worldTransform_.translation_.num[2] >= 250.0f)
+	{
+		isGoal_ = true;
+		isActive_ = false;
+		isSetWire_ = false;
+		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
+	}
+	else if (GameSelectScene::stageNum == 2 && worldTransform_.translation_.num[2] >= 500.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;

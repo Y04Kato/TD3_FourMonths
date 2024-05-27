@@ -1,0 +1,413 @@
+{
+    "GamePlayScene2": {
+        "ObjCount": 24,
+        "test0": "test20",
+        "test0Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test0Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test0Translate": [
+            14.0,
+            26.0,
+            40.0
+        ],
+        "test1": "test20",
+        "test10": "test20",
+        "test10Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test10Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test10Translate": [
+            -9.0,
+            26.0,
+            273.0
+        ],
+        "test11": "test20",
+        "test11Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test11Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test11Translate": [
+            14.0,
+            26.0,
+            316.0
+        ],
+        "test12": "test20",
+        "test12Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test12Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test12Translate": [
+            -27.0,
+            26.0,
+            314.0
+        ],
+        "test13": "test20",
+        "test13Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test13Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test13Translate": [
+            -29.0,
+            26.0,
+            362.0
+        ],
+        "test14": "test20",
+        "test14Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test14Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test14Translate": [
+            16.0,
+            26.0,
+            362.0
+        ],
+        "test15": "test20",
+        "test15Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test15Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test15Translate": [
+            -20.0,
+            26.0,
+            415.0
+        ],
+        "test16": "test20",
+        "test16Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test16Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test16Translate": [
+            20.0,
+            26.0,
+            415.0
+        ],
+        "test17": "test20",
+        "test17Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test17Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test17Translate": [
+            0.0,
+            26.0,
+            459.0
+        ],
+        "test18": "test20",
+        "test18Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test18Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test18Translate": [
+            -27.0,
+            26.0,
+            487.0
+        ],
+        "test19": "test20",
+        "test19Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test19Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test19Translate": [
+            28.0,
+            26.0,
+            487.0
+        ],
+        "test1Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test1Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test1Translate": [
+            -14.0,
+            26.0,
+            40.0
+        ],
+        "test2": "test20",
+        "test20": "test20",
+        "test20Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test20Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test20Translate": [
+            40.0,
+            26.0,
+            126.0
+        ],
+        "test21": "test21",
+        "test21Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test21Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test21Translate": [
+            -40.0,
+            26.0,
+            126.0
+        ],
+        "test22": "test22",
+        "test22Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test22Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test22Translate": [
+            43.0,
+            26.0,
+            303.0
+        ],
+        "test23": "test23",
+        "test23Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test23Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test23Translate": [
+            43.0,
+            26.0,
+            396.0
+        ],
+        "test2Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test2Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test2Translate": [
+            30.0,
+            26.0,
+            80.0
+        ],
+        "test3": "test20",
+        "test3Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test3Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test3Translate": [
+            -30.0,
+            26.0,
+            80.0
+        ],
+        "test4": "test20",
+        "test4Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test4Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test4Translate": [
+            0.0,
+            26.0,
+            90.0
+        ],
+        "test5": "test20",
+        "test5Material": [
+            0.0,
+            1.0,
+            0.003921568859368563,
+            1.0
+        ],
+        "test5Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test5Translate": [
+            18.0,
+            26.0,
+            142.0
+        ],
+        "test6": "test20",
+        "test6Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test6Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test6Translate": [
+            -18.0,
+            26.0,
+            142.0
+        ],
+        "test7": "test20",
+        "test7Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test7Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test7Translate": [
+            0.0,
+            26.0,
+            195.0
+        ],
+        "test8": "test20",
+        "test8Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test8Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test8Translate": [
+            30.0,
+            26.0,
+            243.0
+        ],
+        "test9": "test20",
+        "test9Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test9Scale": [
+            4.0,
+            30.0,
+            4.0
+        ],
+        "test9Translate": [
+            -32.0,
+            26.0,
+            224.0
+        ]
+    }
+}

@@ -1,8 +1,8 @@
-#include "GamePlayScene.h"
+#include "GamePlayScene2.h"
 #include "GameSelectScene.h"
 #include "components/utilities/globalVariables/GlobalVariables.h"
 
-void GamePlayScene::Initialize() {
+void GamePlayScene2::Initialize() {
 	CJEngine_ = CitrusJunosEngine::GetInstance();
 	dxCommon_ = DirectXCommon::GetInstance();
 	textureManager_ = TextureManager::GetInstance();
@@ -107,7 +107,7 @@ void GamePlayScene::Initialize() {
 
 	particle_ = std::make_unique <CreateParticle>();
 
-    particle_->Initialize(100, testEmitter_, accelerationField_, spriteResource_);
+	particle_->Initialize(100, testEmitter_, accelerationField_, spriteResource_);
 
 	GlobalVariables* globalVariables{};
 	globalVariables = GlobalVariables::GetInstance();
@@ -125,7 +125,7 @@ void GamePlayScene::Initialize() {
 	startWorldTransform_.Initialize();
 }
 
-void GamePlayScene::Update() {
+void GamePlayScene2::Update() {
 	GlobalVariables* globalVariables{};
 	globalVariables = GlobalVariables::GetInstance();
 	ApplyGlobalVariables();
@@ -307,7 +307,7 @@ void GamePlayScene::Update() {
 
 }
 
-void GamePlayScene::Draw() {
+void GamePlayScene2::Draw() {
 #pragma region 背景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
 
@@ -367,13 +367,13 @@ void GamePlayScene::Draw() {
 #pragma endregion
 }
 
-void GamePlayScene::Finalize() {
+void GamePlayScene2::Finalize() {
 	delete player_;
 
 	objects_.clear();
 }
 
-void GamePlayScene::ApplyGlobalVariables() {
+void GamePlayScene2::ApplyGlobalVariables() {
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 
 	objCount_ = globalVariables->GetIntValue(groupName, "ObjCount");
@@ -386,7 +386,7 @@ void GamePlayScene::ApplyGlobalVariables() {
 	}
 }
 
-void GamePlayScene::SetObject(EulerTransform trans, const std::string& name) {
+void GamePlayScene2::SetObject(EulerTransform trans, const std::string& name) {
 	Obj obj;
 	obj.model.Initialize(ObjModelData_, ObjTexture_);
 	obj.model.SetDirectionalLightFlag(true, 3);
