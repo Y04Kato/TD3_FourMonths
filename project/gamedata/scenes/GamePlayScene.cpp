@@ -25,7 +25,7 @@ void GamePlayScene::Initialize() {
 	//テクスチャ
 	spriteResource_ = textureManager_->Load("project/gamedata/resources/UI/bg.png");
 
-	uiResource_[0] = textureManager_->Load("project/gamedata/resources/UI/GoalUI.png");
+	uiResource_[0] = textureManager_->Load("project/gamedata/resources/reticle2.png");
 	uiResource_[1] = textureManager_->Load("project/gamedata/resources/UI/ReturnUI.png");
 
 	//testSprite
@@ -60,7 +60,10 @@ void GamePlayScene::Initialize() {
 	}
 
 	uiSprite_[0]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[0]);
+	uiSprite_[0]->SetTextureInitialSize();
 	uiSprite_[0]->SetAnchor(Vector2{ 0.5f,0.5f });
+	uiSpriteTransform_[0].translate.num[1] = 415.0f;
+	uiSpriteTransform_[0].scale = { 0.8f,0.8f,0.8f };
 
 	uiSprite_[1]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[1]);
 	uiSprite_[1]->SetAnchor(Vector2{ 0.5f,0.5f });
@@ -261,6 +264,9 @@ void GamePlayScene::Update() {
 			showCursor = (int)true;
 		}
 	}
+
+	uiSpriteTransform_->rotate.num[2] += 0.05f;
+
 	ShowCursor(showCursor);//カーソル表示設定関数
 	if (showCursor == 0) {//カーソル非表示時、カーソルの座標を画面中央に固定
 		SetCursorPos(1280 / 2, 720 / 2);
@@ -379,6 +385,9 @@ void GamePlayScene::Draw() {
 
 	numbers_->Draw();
 	player_->DrawUI();
+	if (isHit_ == true) {
+		uiSprite_[0]->Draw(uiSpriteTransform_[0], uiSpriteuvTransform_[0], uiSpriteMaterial_[0]);
+	}
 
 #pragma endregion
 }
