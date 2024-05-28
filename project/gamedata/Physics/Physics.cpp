@@ -58,9 +58,9 @@ float Physics::Vector3XZAngle(const Vector3& v)
 	return std::atan2(v.num[2], v.num[0]) * (180.0f / float(M_PI));
 }
 
-Vector2 Physics::Vector2Perpendicular()
+Vector2 Physics::Vector2Perpendicular(Vector2 v)
 {
-	return { -velocity_.num[2], velocity_.num[0] };
+	return { -v.num[1], v.num[0] };
 }
 
 Vector2 Physics::Vector2Normalize(const Vector2& v)
@@ -106,8 +106,11 @@ Vector3 Physics::RubberMovement(const Vector3& start, const Vector3& end, float 
 	//length = 100f;
 	if (length != 0.0f)
 	{
-		if (length > 5.0f)
+		if (length > 10.0f)
 		{
+			length = 10.0f;
+		}
+		else if (length > 5.0f) {
 			length = 5.0f;
 		}
 		/*else if (length < 50.0f)

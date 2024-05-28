@@ -150,6 +150,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 	if (isSetWire_ == true) {//ワイヤー成功時の演出
 		DistancePlayerToReticle = kDistancePlayerToReticle;
 		Reticle(viewProjection);
+		isDownSpeed_ = true;
 	}
 
 	if (isMissWire_ == true) {//ワイヤー失敗時の演出
@@ -195,9 +196,9 @@ void Player::Updete(const ViewProjection viewProjection) {
 			physics_->AddForce(force);
 
 			// 進んでいる方向の単位ベクトルを求める(Y軸を除く)
-			Vector2 vec = physics_->Vector2Perpendicular();
+			Vector2 vec = physics_->Vector2Perpendicular({ start_.num[0], start_.num[2] });
 			vec = physics_->Vector2Normalize(vec);
-			Vector3 dir = { vec.num[0], 0.0f, vec.num[1] }; // 進んでいる方向の単位ベクトル
+			Vector3 dir = { vec.num[0], 0.0f ,vec.num[1] };/*{ vec.num[0], 0.0f, vec.num[1] }*/; // 進んでいる方向の単位ベクトル
 
 			if (input_->PressKey(DIK_A)) { // 進んでいる方向に対して左
 				Vector3 force = sideForceValueHaveWire_ * dir;
@@ -261,24 +262,25 @@ void Player::Updete(const ViewProjection viewProjection) {
 				physics_->AddForce(force, 1);
 			}
 
-			Vector3 dir = physics_->GetVelocity();
-			if (dir.num[1] < 0.0f) {
-				dir.num[1] = 0.0f;
-			}
-			//dir.num[1] = 0.0f;
-			if (Length(dir) > minSpeedVolume_) {
-				if (downSpeedSize_ < maxDownSpeedSize_) {
-					// 減少量がだんだん大きくなる
-					downSpeedSize_ += downSpeedValue_;
+			if (isDownSpeed_) {
+				Vector3 dir = physics_->GetVelocity();
+				if (dir.num[1] < 0.0f) {
+					dir.num[1] = 0.0f;
 				}
-				Vector3 force = -downSpeedSize_ * Normalize(dir);
-				physics_->AddForce(force, 0);
+				//dir.num[1] = 0.0f;
+				if (Length(dir) > minSpeedVolume_) {
+					if (downSpeedSize_ < maxDownSpeedSize_) {
+						// 減少量がだんだん大きくなる
+						downSpeedSize_ += downSpeedValue_;
+					}
+					Vector3 force = -downSpeedSize_ * Normalize(dir);
+					physics_->AddForce(force, 0);
+				}
+				else {
+					// 初期化
+					downSpeedSize_ = 0.0f;
+				}
 			}
-			else {
-				// 初期化
-				downSpeedSize_ = 0.0f;
-			}
-
 		}
 
 		Vector3 velocity = physics_->Update();

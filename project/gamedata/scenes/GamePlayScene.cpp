@@ -288,6 +288,7 @@ void GamePlayScene::Update() {
 				player_->SetIsHitObj(isHitPlayer_);
 				std::pair<Vector3, Vector3> pair = ComputeCollisionVelocities(1.0f, player_->GetVelocity(), 1.0f, Vector3{ 0.0f,0.0f,0.0f }, 0.8f, Normalize(player_->GetWorldTransform().GetWorldPos() - obj.world.translation_));
 				player_->SetVelocity(-pair.first * 20.0f);
+				player_->SetIsDownSpeed(false);
 			}
 		}
 		else {

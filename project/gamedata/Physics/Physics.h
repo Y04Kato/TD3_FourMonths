@@ -27,7 +27,7 @@ public:
 
 	float Vector3XZAngle(const Vector3& v);
 
-	Vector2 Vector2Perpendicular();
+	Vector2 Vector2Perpendicular(Vector2 v);
 
 	Vector2 Vector2Normalize(const Vector2& v);
 

@@ -31,7 +31,7 @@ public:
 	WorldTransform GetWorldTransform() override { return worldTransform_; }
 	const WorldTransform& GetWorldTransformPlayer() { return worldTransform2_; }
 	const WorldTransform& GetWorldTransformReticle() { return worldTransformReticle_; }
-	const Vector3 GetVelocity() { return velocity_; }
+	const Vector3 GetVelocity() { return physics_->GetVelocity(); }
 
 	void SetWorldTransform(const WorldTransform world);
 	void SetWorldTransformReticle(const WorldTransform world);
@@ -62,6 +62,8 @@ public:
 	void SetIsGoal(const bool isGoal) { isGoal_ = isGoal; }
 
 	bool GetIsActive() { return isActive_; }
+
+	void SetIsDownSpeed(bool isDownSpeed) { isDownSpeed_ = isDownSpeed; }
 
 private:
 	TextureManager* textureManager_;
@@ -122,7 +124,6 @@ private:
 	// 物理挙動クラス
 	std::unique_ptr<Physics> physics_;
 	bool isActive_ = false;
-	Vector3 velocity_;
 
 	//床についた時
 	bool isDead_ = false;
@@ -146,7 +147,7 @@ private:
 	float sideForceValueNoWire_ = 400.0f;
 
 	// ワイヤー中のADの力
-	float sideForceValueHaveWire_ = 700.0f;
+	float sideForceValueHaveWire_ = 1000.0f;
 
 	// ワイヤー中の上昇量が加算されていく変数
 	float upSize_ = 0.0f;
@@ -163,6 +164,8 @@ private:
 	float downSpeedValue_ = 5.0f;
 	// 非ワイヤー時の速度の減少量が加算されていく変数の最大値
 	float maxDownSpeedSize_ = 20.0f;
+	// 非ワイヤー時の速度の減少を行うかのフラグ
+	bool isDownSpeed_;
 
 	// モデルの向き
 	Vector3 forwad_;
