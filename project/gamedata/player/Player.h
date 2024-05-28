@@ -118,8 +118,37 @@ private:
 
 	//Goal
 	bool isGoal_ = false;
+
+	// 非ワイヤー中の重力
+	Vector3 gravityNoWire_ = { 0.0f, -7.0f, 0.0f };
+
+	// ワイヤー中の重力
+	Vector3 gravityHaveWire_ = { 0.0f, -5.0f, 0.0f };
+
+	// ワイヤーが自動で切れる角度
+	float limitAngle_ = 30.0f;
+
+	// 非ワイヤー中のADの力
+	float sideForceValueNoWire_ = 400.0f;
+
+	// ワイヤー中のADの力
+	float sideForceValueHaveWire_ = 700.0f;
+
 	// ワイヤー中の上昇量が加算されていく変数
-	float upForce_ = 0.0f;
+	float upSize_ = 0.0f;
+	// upSizeへの加算量
+	float upSizeValue_ = 1.0f;
+	// upSizeの最大値
+	float maxUpSize_ = 30.0f;
+
+	// 非ワイヤー時の速度の大きさの最小値
+	float minSpeedVolume_ = 15.0f;
+	// 非ワイヤー時の速度の減少量が加算されていく変数
+	float downSpeedSize_ = 0.0f;
+	// 非ワイヤー時の速度の減少量
+	float downSpeedValue_ = 5.0f;
+	// 非ワイヤー時の速度の減少量が加算されていく変数の最大値
+	float maxDownSpeedSize_ = 20.0f;
 
 	// モデルの向き
 	Vector3 forwad_;
