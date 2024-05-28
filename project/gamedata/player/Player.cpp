@@ -160,7 +160,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		missTimer_ = 0;
 	}
 
-	if (input_->TriggerKey(DIK_SPACE)) {
+	if (input_->pushMouse(MOUSE_BOTTON0)) {
 		isActive_ = true;
 	}
 
