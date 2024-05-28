@@ -49,4 +49,6 @@ private:
 
 	//Datas
 	Datas* datas_;
+
+	bool isSceneStart_ = true;//シーン開始時に1回だけ呼ぶ
 };

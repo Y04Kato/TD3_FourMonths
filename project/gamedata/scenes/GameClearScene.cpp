@@ -51,14 +51,18 @@ void GameClearScene::Initialize() {
 
 	//Datas
 	datas_ = Datas::GetInstance();
-
-	spriteTransform_[3].translate.num[0] = 1061.0f;
-	spriteTransform_[3].translate.num[1] = 632.0f;
 }
 
 void GameClearScene::Update() {
 	XINPUT_STATE joyState;
 	Input::GetInstance()->GetJoystickState(0, joyState);
+
+	if (isSceneStart_ == true) {//ゲーム開始時の処理
+		spriteTransform_[3].translate.num[0] = 1061.0f;
+		spriteTransform_[3].translate.num[1] = 632.0f;
+
+		isSceneStart_ = false;
+	}
 
 	numbers_->SetNum(datas_->GetClearTime() / 60);
 	numbers_->SetTransform(numbersTransform_);
@@ -93,12 +97,14 @@ void GameClearScene::Update() {
 	if (spriteTransform_[3].translate.num[0] == 680.0f && input_->TriggerKey(DIK_SPACE) &&
 		GameSelectScene::stageNum == 1) {
 		sceneNo = GAME_SCENE;
+		isSceneStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
 	if (spriteTransform_[3].translate.num[0] == 680.0f && input_->TriggerKey(DIK_SPACE) &&
 		GameSelectScene::stageNum == 2) {
 		sceneNo = GAME_SCENE2;
+		isSceneStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
@@ -106,18 +112,21 @@ void GameClearScene::Update() {
 	if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
 		datas_->GetStageNum() == 1) {
 		sceneNo = GAME_SCENE2;
+		isSceneStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
 	if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
 		datas_->GetStageNum() == 2) {
 		sceneNo = TITLE_SCENE;
+		isSceneStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
 	//右側(ステージセレクト)
 	if (spriteTransform_[3].translate.num[0] == 1441.0f && input_->TriggerKey(DIK_SPACE)) {
 		sceneNo = SELECT_SCENE;
+		isSceneStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
@@ -127,6 +136,7 @@ void GameClearScene::Update() {
 
 	if (input_->PushAButton(joyState)) {
 		sceneNo = SELECT_SCENE;
+		isSceneStart_ = true;
 	}
 }
 
