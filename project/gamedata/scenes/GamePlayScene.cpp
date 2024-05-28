@@ -72,6 +72,8 @@ void GamePlayScene::Initialize() {
 	player_ = new Player();
 	player_->Initialize();
 
+	structSphere_.radius = 1.0f;
+
 	//Skydome
 	skydome_ = new Skydome();
 	skydome_->Initialize();
@@ -234,27 +236,40 @@ void GamePlayScene::Update() {
 	segment_.origin = player_->GetWorldTransformPlayer().translation_;
 	segment_.diff = player_->GetWorldTransformReticle().translation_ - player_->GetWorldTransformPlayer().translation_;
 
-	for (Obj& obj : objects_) {//レイとオブジェクトの当たり判定
+	structSphere_.center = player_->GetWorldTransform().translation_;
+
+	for (Obj& obj : objects_) {
 		obj.obb_.center = obj.world.translation_;
 		GetOrientations(MakeRotateXYZMatrix(obj.world.rotation_), obj.obb_.orientation);
 		obj.obb_.size = obj.world.scale_;
-		if (IsCollision(obj.obb_, segment_)) {
+		if (IsCollision(obj.obb_, segment_)) {//レイとオブジェクトの当たり判定
 			player_->SetWorldTransformObject(obj.world);
-			player_->SetIsHit(true);
-			isHit_ = true;
+			player_->SetIsHitWire(true);
+			isHitWire_ = true;
 			obj.isHit = true;
 		}
 		else {
 			obj.isHit = false;
 		}
+
+		if (IsCollision(obj.obb_, structSphere_)) {//Playerとオブジェクトの当たり判定
+			if (player_->GetIsHitObj() == false) {
+				isHitPlayer_ = true;
+				player_->SetIsHitObj(isHitPlayer_);
+				std::pair<Vector3, Vector3> pair = ComputeCollisionVelocities(1.0f, player_->GetVelocity(), 1.0f, Vector3{ 0.0f,0.0f,0.0f }, 0.8f, Normalize(player_->GetWorldTransform().GetWorldPos() - obj.world.translation_));
+				player_->SetVelocity(-pair.first * 20.0f);
+			}
+		}
+		else {
+		}
 	}
 
-	if (isHit_ == true) {//レイがヒットしている時
+	if (isHitWire_ == true) {//レイがヒットしている時
 		resetTime_++;
 	}
 	if (resetTime_ >= 30) {
-		isHit_ = false;
-		player_->SetIsHit(false);
+		isHitWire_ = false;
+		player_->SetIsHitWire(false);
 		resetTime_ = 0;
 	}
 
@@ -295,7 +310,7 @@ void GamePlayScene::Update() {
 	ImGui::Begin("debug");
 	ImGui::Text("CameraChange:Z key");
 	ImGui::Text("CorsorDemo:X key");
-	ImGui::Text("IsHitRay %d", isHit_);
+	ImGui::Text("IsHitRay %d", isHitWire_);
 
 	ImGui::InputText("BlockName", objName_, sizeof(objName_));
 	if (ImGui::Button("SpawnBlock")) {
@@ -405,7 +420,7 @@ void GamePlayScene::Draw() {
 
 	numbers_->Draw();
 	player_->DrawUI();
-	if (isHit_ == true) {
+	if (isHitWire_ == true) {
 		uiSprite_[0]->Draw(uiSpriteTransform_[0], uiSpriteuvTransform_[0], uiSpriteMaterial_[0]);
 	}
 	if (player_->GetIsActive() == false) {

@@ -31,13 +31,24 @@ public:
 	WorldTransform GetWorldTransform() override { return worldTransform_; }
 	const WorldTransform& GetWorldTransformPlayer() { return worldTransform2_; }
 	const WorldTransform& GetWorldTransformReticle() { return worldTransformReticle_; }
+	const Vector3 GetVelocity() { return velocity_; }
 
 	void SetWorldTransform(const WorldTransform world);
 	void SetWorldTransformReticle(const WorldTransform world);
 	void SetWorldTransformObject(const WorldTransform world) { worldTransformObject_ = world; }
+	void SetVelocity(const Vector3 velocity) { 
+		physics_->AddForce(velocity, 0); 
+		physics_->SetVelocity({ 0.0f,0.0f,0.0f });
+	}
 
 	void SetCameraMode(const bool cameraMode) { cameraChange_ = cameraMode; }
-	void SetIsHit(const bool isHit) { isHitWire_ = isHit; }
+	void SetIsHitWire(const bool isHit) { isHitWire_ = isHit; }
+
+	bool GetIsHitObj() { return isHitObj_; }
+	void SetIsHitObj(const bool isHit) {
+		isHitObj_ = isHit;
+		isSetWire_ = false;
+	}
 
 	void OnCollision()override;
 
@@ -93,10 +104,12 @@ private:
 	Vector4 lineMaterial_;
 	float lineThickness_ = 0.2f;//ワイヤーの太さ
 	int missTimer_ = 0;//ワイヤーをさせなかった時の演出用
+	int HitTimer_ = 0;//ぶつかった時の演出用
 	Vector3 wireVelocity_ = { 0.0f,0.0f,0.0f };//ワイヤーをさせなかったときの演出用
 	bool isSetWire_ = false;//ワイヤー成功フラグ
 	bool isMissWire_ = false;//ワイヤー失敗フラグ
 	bool isHitWire_ = false;//レティクルがオブジェクトを捉えているかのフラグ
+	bool isHitObj_ = false;//自機とobjの当たり判定フラグ
 	bool isWire_ = false;//ワイヤーのオンオフ用フラグ
 	Vector3 start_; // ワイヤーを刺した時のベクトル
 
@@ -109,6 +122,7 @@ private:
 	// 物理挙動クラス
 	std::unique_ptr<Physics> physics_;
 	bool isActive_ = false;
+	Vector3 velocity_;
 
 	//床についた時
 	bool isDead_ = false;

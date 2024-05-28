@@ -51,6 +51,7 @@ private:
 
 	//Player
 	Player* player_ = nullptr;
+	StructSphere structSphere_;
 
 	//カーソルの表示変数、0で非表示、1で表示
 	//使用するShowCursor関数がboolを使えない為intで代用
@@ -107,7 +108,8 @@ private:
 	bool isSpriteDraw_[2];
 
 	Segment segment_;
-	bool isHit_;
+	bool isHitWire_;
+	bool isHitPlayer_;
 	int resetTime_;
 
 	//Particle

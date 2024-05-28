@@ -125,6 +125,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 
 	if (input_->pushMouse(MOUSE_BOTTON0)) {//左クリックした時
 		DistancePlayerToReticle = kDistancePlayerToReticle;
+		isHitObj_ = false;
 		Reticle(viewProjection);
 		if (isHitWire_ == true) {//レティクルがオブジェクト捉えていれば
 			DistancePlayerToReticle = worldTransformObject_.translation_.num[2] - worldTransform2_.translation_.num[2];
@@ -158,6 +159,14 @@ void Player::Updete(const ViewProjection viewProjection) {
 	if (missTimer_ >= 15) {
 		isMissWire_ = false;
 		missTimer_ = 0;
+	}
+	
+	if (isHitObj_ == true) {//接触時の演出
+		HitTimer_++;
+	}
+	if (HitTimer_ >= 15) {
+		isHitObj_ = false;
+		HitTimer_ = 0;
 	}
 
 	if (input_->TriggerKey(DIK_SPACE)) {
@@ -231,12 +240,10 @@ void Player::Updete(const ViewProjection viewProjection) {
 			}
 		}
 
-		Vector3 velocity = physics_->Update();
-		worldTransform_.translation_ += velocity * physics_->deltaTime_;
+		velocity_ = physics_->Update();
+		worldTransform_.translation_ += velocity_ * physics_->deltaTime_;
 		Vector3 impulse = physics_->GetImpulse_();
 		worldTransform_.translation_ += impulse * physics_->deltaTime_;
-
-		//physics_->Vector3Direction((velocity + impulse), &forwad_, &right_);
 	}
 
 	//画面端
@@ -291,7 +298,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 	ImGui::DragFloat3("velocity", accelerationField_.acceleration.num, 0.05f);
 	ImGui::DragFloat2("MouseSensitivity", sensitivity_.num, 0.05f);
 	ImGui::DragFloat("LineThickness", &lineThickness_, 0.05f, 0.0f);
-	ImGui::Text("Timer %f", accelerationTimer_);
+	ImGui::Text("isHitObj %d", isHitObj_);
 	line_->SetLineThickness(lineThickness_);
 	ImGui::End();
 }
