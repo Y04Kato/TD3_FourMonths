@@ -253,10 +253,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 	//床に落ちたとき
 	if (worldTransform_.translation_.num[1] <= -3.0f)
 	{
-		isDead_ = true;
-		isActive_ = false;
-		isSetWire_ = false;
-		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
+		worldTransform_.translation_.num[1] = -3.0f;
 	}
 
 	//リスタート

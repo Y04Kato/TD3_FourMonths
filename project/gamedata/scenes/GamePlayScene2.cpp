@@ -153,15 +153,6 @@ void GamePlayScene2::Update() {
 		isGameStart_ = false;
 	}
 
-	//床についたとき
-	if (player_->GetIsDead())
-	{
-		startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
-		player_->SetWorldTransform(startWorldTransform_);
-		player_->SetIsDead(false);
-		nowTime_ = 0;
-	}
-
 	//Restart
 	if (player_->GetIsRestart())
 	{
