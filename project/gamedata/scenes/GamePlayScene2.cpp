@@ -240,7 +240,7 @@ void GamePlayScene2::Update() {
 		obj.obb_.size = obj.world.scale_;
 		if (IsCollision(obj.obb_, segment_)) {
 			player_->SetWorldTransformObject(obj.world);
-			player_->SetIsHit(true);
+			player_->SetIsHitWire(true);
 			isHit_ = true;
 			obj.isHit = true;
 		}
@@ -254,7 +254,7 @@ void GamePlayScene2::Update() {
 	}
 	if (resetTime_ >= 30) {
 		isHit_ = false;
-		player_->SetIsHit(false);
+		player_->SetIsHitWire(false);
 		resetTime_ = 0;
 	}
 

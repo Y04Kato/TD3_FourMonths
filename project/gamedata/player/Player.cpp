@@ -125,6 +125,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 
 	if (input_->pushMouse(MOUSE_BOTTON0) && isActive_ ) {//左クリックした時
 		DistancePlayerToReticle = kDistancePlayerToReticle;
+		isHitObj_ = false;
 		Reticle(viewProjection);
 		if (isHitWire_ == true) {//レティクルがオブジェクト捉えていれば
 			DistancePlayerToReticle = worldTransformObject_.translation_.num[2] - worldTransform2_.translation_.num[2];
@@ -158,6 +159,14 @@ void Player::Updete(const ViewProjection viewProjection) {
 	if (missTimer_ >= 15) {
 		isMissWire_ = false;
 		missTimer_ = 0;
+	}
+	
+	if (isHitObj_ == true) {//接触時の演出
+		HitTimer_++;
+	}
+	if (HitTimer_ >= 10) {
+		isHitObj_ = false;
+		HitTimer_ = 0;
 	}
 
 	if (input_->TriggerKey(DIK_SPACE)) {
@@ -344,6 +353,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 	ImGui::DragFloat("minSpeedVolume", &minSpeedVolume_, 1.0f);
 	ImGui::DragFloat("downSpeedScale", &downSpeedValue_, 0.05f);
 	ImGui::Text("Timer %f", accelerationTimer_);
+	ImGui::Text("isHitObj %d", isHitObj_);
 	line_->SetLineThickness(lineThickness_);
 	ImGui::End();
 }

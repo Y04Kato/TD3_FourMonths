@@ -24,6 +24,8 @@ public:
 
 	void SetNum(int nowNum) { num_ = nowNum; };
 	void SetInitialNum(int initialNum) { initialNum_ = initialNum; };
+	void SetSpace(int space) { space_ = space; };
+	void SetColor(Vector4 color) { color_ = color; };
 
 	void SetTransform(EulerTransform transform);
 
@@ -46,7 +48,9 @@ private:
 	const int32_t kWidth = 64;
 	const int32_t kHeight = 64;
 	//桁ごとの空間
-	const int32_t kSpace = -20;
+	int32_t space_ = -20;
+
+	Vector4 color_ = { 1.0f,1.0f,1.0f,1.0f };
 
 	std::array<std::unique_ptr<CreateSprite>, kDigits> Sprites_;
 	uint32_t numberTextureHandle_ = 0;

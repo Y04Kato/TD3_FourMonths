@@ -72,6 +72,8 @@ void GamePlayScene::Initialize() {
 	player_ = new Player();
 	player_->Initialize();
 
+	structSphere_.radius = 1.0f;
+
 	//Skydome
 	skydome_ = new Skydome();
 	skydome_->Initialize();
@@ -117,10 +119,17 @@ void GamePlayScene::Initialize() {
 	numbers_ = std::make_unique<Numbers>();
 	numbers_->Initialize();
 	numbers_->SetInitialNum(0 / 60);
-
 	numbersTransform_.scale = { 1.0f,1.0f,1.0f };
 	numbersTransform_.rotate = { 0.0f,0.0f,0.0f };
 	numbersTransform_.translate = { 430.0f,50.0f,0.0f };
+
+	numbers2_ = std::make_unique<Numbers>();
+	numbers2_->Initialize();
+	numbers2_->SetInitialNum(0);
+	numbers2_->SetSpace(-35);
+	numbersTransform2_.scale = { 0.7f,0.7f,0.7f };
+	numbersTransform2_.rotate = { 0.0f,0.0f,0.0f };
+	numbersTransform2_.translate = { 550.0f,395.0f,0.0f };
 
 	GlobalVariables* globalVariables{};
 	globalVariables = GlobalVariables::GetInstance();
@@ -210,6 +219,19 @@ void GamePlayScene::Update() {
 	numbers_->SetNum(nowTime_ / 60);
 	numbers_->SetTransform(numbersTransform_);
 
+	nowCount_ = (int)player_->GetWorldTransformPlayer().translation_.num[1] + 2;
+	numbers2_->SetNum(nowCount_);
+	numbers2_->SetTransform(numbersTransform2_);
+	if (nowCount_ <= 10 && nowCount_ > 5) {
+		numbers2_->SetColor({ 1.0f,1.0f,0.0f,1.0f });
+	}
+	else if (nowCount_ <= 5) {
+		numbers2_->SetColor({ 1.0f,0.0f,0.0f,1.0f });
+	}
+	else {
+		numbers2_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
+	}
+
 	if (cameraChange_ == true) {//DebugCamera
 		debugCamera_->Update();
 		viewProjection_.translation_ = debugCamera_->GetViewProjection()->translation_;
@@ -231,30 +253,53 @@ void GamePlayScene::Update() {
 	}
 
 	//レイの設定
-	segment_.origin = player_->GetWorldTransformPlayer().translation_;
-	segment_.diff = player_->GetWorldTransformReticle().translation_ - player_->GetWorldTransformPlayer().translation_;
+	segmentRay_.origin = player_->GetWorldTransformPlayer().translation_;
+	segmentRay_.diff = player_->GetWorldTransformReticle().translation_ - player_->GetWorldTransformPlayer().translation_;
 
-	for (Obj& obj : objects_) {//レイとオブジェクトの当たり判定
+	segmentEye_.origin = viewProjection_.translation_;
+	segmentEye_.diff = player_->GetWorldTransformPlayer().translation_ - viewProjection_.translation_;
+
+	structSphere_.center = player_->GetWorldTransform().translation_;
+
+	for (Obj& obj : objects_) {
 		obj.obb_.center = obj.world.translation_;
 		GetOrientations(MakeRotateXYZMatrix(obj.world.rotation_), obj.obb_.orientation);
 		obj.obb_.size = obj.world.scale_;
-		if (IsCollision(obj.obb_, segment_)) {
+		if (IsCollision(obj.obb_, segmentRay_)) {//レイ(自機~レティクル)とオブジェクトの当たり判定
 			player_->SetWorldTransformObject(obj.world);
-			player_->SetIsHit(true);
-			isHit_ = true;
+			player_->SetIsHitWire(true);
+			isHitWire_ = true;
 			obj.isHit = true;
 		}
 		else {
 			obj.isHit = false;
 		}
+
+		if (IsCollision(obj.obb_, segmentEye_)) {//レイ(視点~自機)とオブジェクトの当たり判定
+			obj.isHitEye = true;
+		}
+		else {
+			obj.isHitEye = false;
+		}
+
+		if (IsCollision(obj.obb_, structSphere_)) {//Playerとオブジェクトの当たり判定
+			if (player_->GetIsHitObj() == false) {
+				isHitPlayer_ = true;
+				player_->SetIsHitObj(isHitPlayer_);
+				std::pair<Vector3, Vector3> pair = ComputeCollisionVelocities(1.0f, player_->GetVelocity(), 1.0f, Vector3{ 0.0f,0.0f,0.0f }, 0.8f, Normalize(player_->GetWorldTransform().GetWorldPos() - obj.world.translation_));
+				player_->SetVelocity(-pair.first * 20.0f);
+			}
+		}
+		else {
+		}
 	}
 
-	if (isHit_ == true) {//レイがヒットしている時
+	if (isHitWire_ == true) {//レイがヒットしている時
 		resetTime_++;
 	}
 	if (resetTime_ >= 30) {
-		isHit_ = false;
-		player_->SetIsHit(false);
+		isHitWire_ = false;
+		player_->SetIsHitWire(false);
 		resetTime_ = 0;
 	}
 
@@ -276,12 +321,19 @@ void GamePlayScene::Update() {
 		}
 	}
 
-	for (Obj& obj : objects_) {//レイとオブジェクトの当たり判定
+	for (Obj& obj : objects_) {//レイとオブジェクトの当たり判定の結果
 		if (obj.isHit == true) {
 			obj.material = { 1.0f,0.5f,0.0f,1.0f };
 		}
 		else {
 			obj.material = obj.Backmaterial;
+		}
+
+		if (obj.isHitEye == true) {
+			obj.material.num[3] = 0.2f;
+		}
+		else {
+			obj.material.num[3] = 1.0f;
 		}
 	}
 
@@ -295,7 +347,7 @@ void GamePlayScene::Update() {
 	ImGui::Begin("debug");
 	ImGui::Text("CameraChange:Z key");
 	ImGui::Text("CorsorDemo:X key");
-	ImGui::Text("IsHitRay %d", isHit_);
+	ImGui::Text("IsHitRay %d", isHitWire_);
 
 	ImGui::InputText("BlockName", objName_, sizeof(objName_));
 	if (ImGui::Button("SpawnBlock")) {
@@ -404,8 +456,9 @@ void GamePlayScene::Draw() {
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
 
 	numbers_->Draw();
+	numbers2_->Draw();
 	player_->DrawUI();
-	if (isHit_ == true) {
+	if (isHitWire_ == true) {
 		uiSprite_[0]->Draw(uiSpriteTransform_[0], uiSpriteuvTransform_[0], uiSpriteMaterial_[0]);
 	}
 	if (player_->GetIsActive() == false) {
@@ -445,6 +498,7 @@ void GamePlayScene::SetObject(EulerTransform trans, const std::string& name) {
 	obj.world.scale_ = trans.scale;
 
 	obj.isHit = false;
+	obj.isHitEye = false;
 
 	obj.material = { 1.0f,1.0f,1.0f,1.0f };
 	obj.Backmaterial = { 1.0f,1.0f,1.0f,1.0f };
