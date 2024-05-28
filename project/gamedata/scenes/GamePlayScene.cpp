@@ -418,6 +418,8 @@ void GamePlayScene::Draw() {
 
 	skydome_->Draw(viewProjection_);
 
+	goal_->Draw(viewProjection_);
+
 	//line_->Draw(player_->GetWorldTransformPlayer(),player_->GetWorldTransformReticle(), viewProjection_, Vector4{ 1.0f,1.0f,1.0f,1.0f });
 
 	for (Obj& obj : objects_) {
@@ -425,8 +427,6 @@ void GamePlayScene::Draw() {
 	}
 
 	mountain_->Draw(viewProjection_);
-
-	goal_->Draw(viewProjection_);
 
 	for (Obj& obj : objects_) {
 #ifdef _DEBUG
