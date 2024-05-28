@@ -69,6 +69,7 @@ private:
 		std::string name;
 		OBB obb_;
 		bool isHit;
+		bool isHitEye;
 	};
 	std::list<Obj> objects_;
 	ModelData ObjModelData_;
@@ -107,7 +108,8 @@ private:
 
 	bool isSpriteDraw_[2];
 
-	Segment segment_;
+	Segment segmentRay_;
+	Segment segmentEye_;
 	bool isHitWire_;
 	bool isHitPlayer_;
 	int resetTime_;
@@ -131,6 +133,10 @@ private:
 	std::unique_ptr<Numbers> numbers_;
 	int nowTime_ = 0;
 	EulerTransform numbersTransform_;
+
+	std::unique_ptr<Numbers> numbers2_;
+	int nowCount_ = 0;
+	EulerTransform numbersTransform2_;
 
 	//Datas
 	Datas* datas_;

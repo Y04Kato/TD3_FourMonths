@@ -164,7 +164,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 	if (isHitObj_ == true) {//接触時の演出
 		HitTimer_++;
 	}
-	if (HitTimer_ >= 15) {
+	if (HitTimer_ >= 10) {
 		isHitObj_ = false;
 		HitTimer_ = 0;
 	}
