@@ -122,4 +122,9 @@ private:
 	// モデルの向き
 	Vector3 forwad_;
 	Vector3 right_;
+
+	bool isRoll_ = false;
+	float angle_ = 0.0f;
+	float angularVelocity = 3.14f;
+	float startAngle_ = 270.0f * physics_->DegToRad();
 };

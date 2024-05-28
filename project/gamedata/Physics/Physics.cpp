@@ -69,7 +69,7 @@ Vector2 Physics::Vector2Normalize(const Vector2& v)
 	if (len == 0) {
 		return { 0.0f, 0.0f };
 	}
-	return {v.num[0] / len, v.num[1] / len};
+	return { v.num[0] / len, v.num[1] / len };
 }
 
 float Physics::Vector3Angle(const Vector3& v1, const Vector3& v2)

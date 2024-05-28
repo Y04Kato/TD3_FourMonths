@@ -102,7 +102,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 	worldTransform_.UpdateMatrix();
 	worldTransform2_.UpdateMatrix();
 
-	if (input_->pushMouse(MOUSE_BOTTON0)) {//左クリックした時
+	if (input_->pushMouse(MOUSE_BOTTON0) && isActive_ ) {//左クリックした時
 		DistancePlayerToReticle = kDistancePlayerToReticle;
 		Reticle(viewProjection);
 		if (isHitWire_ == true) {//レティクルがオブジェクト捉えていれば
@@ -144,9 +144,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 	}
 
 	if (isActive_) {
-		// 
-		physics_->SetGravity({ 0.0f, -7.0f, 0.0f }); // ワイヤー中じゃない時の重力
-		if (isSetWire_) { // ワイヤー中
+		if (isSetWire_ && !isRoll_) { // ワイヤー中
 			physics_->SetGravity({ 0.0f, -5.0f, 0.0f }); // ワイヤー中の重力
 			// ワイヤー中の物理挙動
 			Vector3 force = physics_->RubberMovement(worldTransform_.translation_, worldTransformGrapple_.translation_, 1.0f, 0.0f);
@@ -177,7 +175,27 @@ void Player::Updete(const ViewProjection viewProjection) {
 			}
 			
 		}
+		if (isRoll_) {
+			if (physics_->GetGravity().num[1] != 0.0f) {
+				physics_->SetGravity({ 0.0f, 0.0f, 0.0f });
+				physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
+			}
+
+			angle_ += angularVelocity * physics_->deltaTime_;
+
+			if (angle_ > 180.0f * physics_->DegToRad() || angle_ < -180.0f * physics_->DegToRad()) {
+				isRoll_ = false;
+				isSetWire_ = false;
+			}
+			else {
+				worldTransform_.translation_ = { worldTransformGrapple_.translation_.num[0] + std::cosf(startAngle_ + angle_) * 15.0f,worldTransform_.translation_.num[1], worldTransformGrapple_.translation_.num[2] + std::sinf(startAngle_ + angle_) * 15.0f };
+				float a2 = angularVelocity * angularVelocity /** 15.0f*/;
+				Vector3 force = { -15.0f * a2 * std::cosf(startAngle_ + angle_), 0.0f, -15.0f * a2 * std::sinf(startAngle_ + angle_) };
+				physics_->AddForce(force);
+			}
+		}
 		else { // ワイヤーじゃない時
+			physics_->SetGravity({ 0.0f, -7.0f, 0.0f }); // ワイヤー中じゃない時の重力
 			if (input_->PressKey(DIK_A)) {
 				Vector3 force = { -400.0f, 0.0f, 0.0f };
 				physics_->AddForce(force, 1);
@@ -197,9 +215,11 @@ void Player::Updete(const ViewProjection viewProjection) {
 		}
 
 		Vector3 velocity = physics_->Update();
-		worldTransform_.translation_ += velocity * physics_->deltaTime_;
-		Vector3 impulse = physics_->GetImpulse_();
-		worldTransform_.translation_ += impulse * physics_->deltaTime_;
+		if (!isRoll_) {
+			worldTransform_.translation_ += velocity * physics_->deltaTime_;
+			Vector3 impulse = physics_->GetImpulse_();
+			worldTransform_.translation_ += impulse * physics_->deltaTime_;
+		}
 
 		//physics_->Vector3Direction((velocity + impulse), &forwad_, &right_);
 	}

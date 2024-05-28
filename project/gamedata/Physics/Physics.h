@@ -21,6 +21,8 @@ public:
 
 	Vector3 GetImpulse_();
 
+	Vector3 GetGravity() { return gravity_; }
+
 	float Vector2Cross(const Vector2& v1, const Vector2& v2);
 
 	float Vector3XZAngle(const Vector3& v);
@@ -34,6 +36,9 @@ public:
 	void Vector3Direction(const Vector3& v, Vector3* forward, Vector3* right);
 
 	void SetVelocity(const Vector3& v) { velocity_ = v; }
+
+	float DegToRad() { return 0.0174532924f; }
+	float RadToDeg() { return 57.29578f; }
 
 public:
 	// デルタタイム
