@@ -282,6 +282,9 @@ void GamePlayScene::Update() {
 			obj.isHitEye = false;
 		}
 
+		//Player用に当たり判定を小さくする
+		obj.obb_.size.num[0] = obj.world.scale_.num[0] * 0.5f;
+		obj.obb_.size.num[2] = obj.world.scale_.num[2] * 0.5f;
 		if (IsCollision(obj.obb_, structSphere_)) {//Playerとオブジェクトの当たり判定
 			if (player_->GetIsHitObj() == false) {
 				isHitPlayer_ = true;
@@ -416,6 +419,8 @@ void GamePlayScene::Draw() {
 
 	skydome_->Draw(viewProjection_);
 
+	goal_->Draw(viewProjection_);
+
 	//line_->Draw(player_->GetWorldTransformPlayer(),player_->GetWorldTransformReticle(), viewProjection_, Vector4{ 1.0f,1.0f,1.0f,1.0f });
 
 	for (Obj& obj : objects_) {
@@ -423,8 +428,6 @@ void GamePlayScene::Draw() {
 	}
 
 	mountain_->Draw(viewProjection_);
-
-	goal_->Draw(viewProjection_);
 
 	for (Obj& obj : objects_) {
 #ifdef _DEBUG
