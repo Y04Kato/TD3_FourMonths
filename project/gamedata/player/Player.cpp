@@ -43,7 +43,7 @@ void Player::Initialize() {
 	worldTransformWire_.Initialize();
 	worldTransformGrapple_.Initialize();
 
-	worldTransform_.translation_ = {0.0f,20.0f,0.0f};
+	worldTransform_.translation_ = { 0.0f,20.0f,0.0f };
 
 	for (int i = 0; i < 2; i++) {
 		sphere_[i] = std::make_unique <CreateSphere>();
@@ -84,6 +84,27 @@ void Player::Initialize() {
 	// モデルの向き(無回転時)
 	forwad_ = { 0.0f, 0.0f, 1.0f };
 	right_ = { 1.0f, 0.0f, 0.0f };
+
+	//Particle
+	testEmitter_.transform.translate = { 0.0f,0.0f,45.0f };
+	testEmitter_.transform.rotate = { 0.0f,0.0f,0.0f };
+	testEmitter_.transform.scale = { 1.0f,1.0f,1.0f };
+	testEmitter_.count = 15;
+	testEmitter_.frequency = 0.05f;
+	testEmitter_.frequencyTime = 0.0f;//発生頻度の時刻
+
+	accelerationField_.acceleration = { 0.0f,0.0f,0.0f };
+	accelerationField_.area.min = { -1.0f,-1.0f,-1.0f };
+	accelerationField_.area.max = { 1.0f,1.0f,1.0f };
+
+	spriteResource_ = textureManager_->Load("project/gamedata/resources/circle.png");
+
+	particle_ = std::make_unique <CreateParticle>();
+
+	particle_->Initialize(100, testEmitter_, accelerationField_, spriteResource_);
+	//particle_->SetisVelocity(true);
+	particle_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
+	particle_->SetLifeTime(10.0f);
 
 }
 
@@ -143,6 +164,20 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isActive_ = true;
 	}
 
+	particle_->SetTranslate(worldTransform_.translation_);
+	accelerationTimer_++;
+	if (accelerationTimer_ <= accelerationTimerMax_ / 2.0f) {
+		accelerationField_.acceleration.num[0] = 1000.0f;
+	}
+	else if (accelerationTimer_ > accelerationTimerMax_ / 2.0f) {
+		accelerationField_.acceleration.num[0] = -1000.0f;
+	}
+	if (accelerationTimer_ >= accelerationTimerMax_) {
+		accelerationTimer_ = 0.0f;
+	}
+	particle_->SetAccelerationField(accelerationField_);
+	particle_->Update();
+
 	if (isActive_) {
 		// 
 		physics_->SetGravity({ 0.0f, -7.0f, 0.0f }); // ワイヤー中じゃない時の重力
@@ -166,16 +201,16 @@ void Player::Updete(const ViewProjection viewProjection) {
 				physics_->AddForce(force, 1);
 			}
 			if (input_->PressKey(DIK_W)) { // 上に徐々に上がる
-				Vector3 force = { 0.0f, upForce_ * upForce_, 0.0f};
+				Vector3 force = { 0.0f, upForce_ * upForce_, 0.0f };
 				upForce_ += 1.5f; // 上昇量
 				physics_->AddForce(force, 1);
 			}
 
 			// ある程度の進んだら自動でワイヤーが切れる(角度で判定)
-			if (physics_->Vector3Angle(start_, Normalize(worldTransform2_.translation_ - worldTransformGrapple_.translation_)) < 60.0f) { 
+			if (physics_->Vector3Angle(start_, Normalize(worldTransform2_.translation_ - worldTransformGrapple_.translation_)) < 60.0f) {
 				isSetWire_ = false;
 			}
-			
+
 		}
 		else { // ワイヤーじゃない時
 			if (input_->PressKey(DIK_A)) {
@@ -253,9 +288,10 @@ void Player::Updete(const ViewProjection viewProjection) {
 	ImGui::DragFloat3("Pos", worldTransform_.translation_.num, 0.05f);
 	ImGui::DragFloat3("Rot", worldTransform2_.rotation_.num, 0.05f);
 	ImGui::DragFloat3("ReticlePos", worldTransformReticle_.translation_.num, 0.05f);
-	ImGui::DragFloat3("velocity", wireVelocity_.num, 0.05f);
+	ImGui::DragFloat3("velocity", accelerationField_.acceleration.num, 0.05f);
 	ImGui::DragFloat2("MouseSensitivity", sensitivity_.num, 0.05f);
 	ImGui::DragFloat("LineThickness", &lineThickness_, 0.05f, 0.0f);
+	ImGui::Text("Timer %f", accelerationTimer_);
 	line_->SetLineThickness(lineThickness_);
 	ImGui::End();
 }
@@ -265,6 +301,10 @@ void Player::Draw(const ViewProjection viewProjection) {
 	if (isSetWire_ == true || isMissWire_ == true) {
 		line_->Draw(worldTransform2_, worldTransformWire_, viewProjection, lineMaterial_);
 	}
+}
+
+void Player::DrawParticle(const ViewProjection viewProjection) {
+	particle_->Draw(viewProjection);
 }
 
 void Player::DrawUI() {

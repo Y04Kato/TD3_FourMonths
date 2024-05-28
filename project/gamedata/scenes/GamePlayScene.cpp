@@ -100,8 +100,8 @@ void GamePlayScene::Initialize() {
 	testEmitter_.transform.translate = { 0.0f,0.0f,45.0f };
 	testEmitter_.transform.rotate = { 0.0f,0.0f,0.0f };
 	testEmitter_.transform.scale = { 1.0f,1.0f,1.0f };
-	testEmitter_.count = 15;
-	testEmitter_.frequency = 0.0f;
+	testEmitter_.count = 10;
+	testEmitter_.frequency = 0.05f;
 	testEmitter_.frequencyTime = 0.0f;//発生頻度の時刻
 
 	accelerationField_.acceleration = { 0.0f,0.0f,-10.0f };
@@ -110,7 +110,7 @@ void GamePlayScene::Initialize() {
 
 	particle_ = std::make_unique <CreateParticle>();
 
-	particle_->Initialize(100, testEmitter_, accelerationField_, spriteResource_);
+	particle_->Initialize(1000, testEmitter_, accelerationField_, spriteResource_);
 	particle_->SetisVelocity(true);
 
 	//Timer
@@ -148,7 +148,7 @@ void GamePlayScene::Update() {
 
 	if (isGameStart_ == true) {//ゲーム開始時の処理
 		for (int i = 0; i < objCount_; i++) {
-			SetObject(EulerTransform{ { 1.0f,1.0f,1.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objNameHolder_[i]);
+			SetObject(EulerTransform{ { 4.0f,30.0f,4.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objNameHolder_[i]);
 		}
 		isGameStart_ = false;
 	}
@@ -299,7 +299,7 @@ void GamePlayScene::Update() {
 
 	ImGui::InputText("BlockName", objName_, sizeof(objName_));
 	if (ImGui::Button("SpawnBlock")) {
-		SetObject(EulerTransform{ { 1.0f,1.0f,1.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objName_);
+		SetObject(EulerTransform{ { 4.0f,30.0f,4.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objName_);
 		objCount_++;
 		globalVariables->SetValue(groupName, "ObjCount", objCount_);
 		for (Obj& obj : objects_) {
@@ -311,7 +311,7 @@ void GamePlayScene::Update() {
 		}
 	}
 	if (ImGui::Button("DeleteBlock")) {
-		SetObject(EulerTransform{ { 1.0f,1.0f,1.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objName_);
+		SetObject(EulerTransform{ { 4.0f,30.0f,4.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objName_);
 		for (auto it = objects_.begin(); it != objects_.end();) {
 			if (it->name == objName_) {
 				globalVariables->RemoveItem(groupName, (std::string)objName_ + "Translate");
@@ -328,7 +328,7 @@ void GamePlayScene::Update() {
 	}
 	if (ImGui::Button("StartSetBlock")) {
 		for (int i = 0; i < objCount_; i++) {
-			SetObject(EulerTransform{ { 1.0f,1.0f,1.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objNameHolder_[i]);
+			SetObject(EulerTransform{ { 4.0f,30.0f,4.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objNameHolder_[i]);
 		}
 	}
 
@@ -395,7 +395,7 @@ void GamePlayScene::Draw() {
 
 #pragma region パーティクル描画
 	CJEngine_->renderer_->Draw(PipelineType::Particle);
-
+	player_->DrawParticle(viewProjection_);
 	//particle_->Draw(viewProjection_);
 
 #pragma endregion

@@ -171,7 +171,7 @@ Particle CreateParticle::MakeNewParticle(std::mt19937& randomEngine, const Euler
 	particles.transform.scale = { 1.0f,1.0f,1.0f };
 	particles.transform.rotate = { 0.0f,0.0f,0.0f };
 	Vector3 randomTranslate = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
-	particles.transform.translate = transform.translate + randomTranslate;
+	particles.transform.translate = transform.translate + randomTranslate / 3.0f;
 	if (isVelocity_) {
 		particles.velocity = { 0.0f,0.0f,0.0f };
 	}
@@ -184,7 +184,12 @@ Particle CreateParticle::MakeNewParticle(std::mt19937& randomEngine, const Euler
 	else {
 		particles.color = { distColor(randomEngine),distColor(randomEngine) ,distColor(randomEngine) ,1.0f };
 	}
-	particles.lifeTime = distTime(randomEngine);
+	if (isLifeTimer) {
+		particles.lifeTime = distTime(randomEngine) / lifeTime_;
+	}
+	else {
+		particles.lifeTime = distTime(randomEngine);
+	}
 	particles.currentTime = 0;
 
 	return particles;

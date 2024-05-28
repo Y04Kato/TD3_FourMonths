@@ -29,11 +29,19 @@ public:
 	void SetisColor(const bool isColor) { isColor_ = isColor; };
 	//Velocityをランダムにするか否かFalseでランダムをOFF
 	void SetisVelocity(const bool isVelocity) { isVelocity_ = isVelocity; };
+	void SetTranslate(Vector3 transform) { emitter_.transform.translate = transform; }
+	void SetFrequency(float frequency) { emitter_.frequency = frequency; }
 
 	//パーティクルの色をランダムから指定した色に変更出来る
 	void SetColor(Vector4 color) {
 		color_ = color;
 		isColor_ = true;
+	}
+
+	//パーティクルの色をランダムから指定した色に変更出来る
+	void SetLifeTime(float lifeTime) {
+		lifeTime_ = lifeTime;
+		isLifeTimer = true;
 	}
 
 	int GetkNumMaxInstance() { return kNumMaxInstance_; }
@@ -91,5 +99,8 @@ private:
 
 	Vector3 velocity_;
 	bool isVelocity_ = false;
+
+	float lifeTime_  = 0.0f;
+	bool isLifeTimer = false;
 };
 
