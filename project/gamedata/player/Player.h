@@ -10,6 +10,7 @@
 #include "components/utilities/collisionManager/CollisionManager.h"
 #include "components/utilities/collisionManager/CollisionConfig.h"
 #include "components/3d/CreateLine.h"
+#include "components/2d/CreateParticle.h"
 
 #include "Physics/Physics.h"
 
@@ -23,6 +24,7 @@ public:
 	void Updete(const ViewProjection viewProjection);
 
 	void Draw(const ViewProjection viewProjection);
+	void DrawParticle(const ViewProjection viewProjection);
 
 	void DrawUI();
 
@@ -122,6 +124,16 @@ private:
 	// モデルの向き
 	Vector3 forwad_;
 	Vector3 right_;
+
+	//Particle
+	std::unique_ptr<CreateParticle> particle_;
+	Emitter testEmitter_ = {};
+	AccelerationField accelerationField_;
+	bool isBillBoard_ = true;
+	Vector4 particleColor_ = { 1.0f,1.0f,1.0f,1.0f };
+	uint32_t spriteResource_;
+	float accelerationTimer_ = 0.0f;
+	const float accelerationTimerMax_ = 60.0f;
 
 	bool isRoll_ = false;
 	float angle_ = 0.0f;
