@@ -78,6 +78,7 @@ private:
 	static const int objCountMax_ = 100;//オブジェクト最大数
 	int objCount_ = 0;//オブジェクトの設置数
 	std::string objNameHolder_[objCountMax_];//オブジェクトの名前を保存する変数
+	StructSphere structSphereTree_;//木の当たり判定用
 
 	const char* groupName = "GamePlayScene";
 
@@ -140,4 +141,7 @@ private:
 
 	//Datas
 	Datas* datas_;
+
+	//Pause
+	bool isPause_ = false;
 };

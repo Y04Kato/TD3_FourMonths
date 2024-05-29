@@ -74,6 +74,8 @@ void GamePlayScene::Initialize() {
 
 	structSphere_.radius = 1.0f;
 
+	structSphereTree_.radius = 1.5f;
+
 	//Skydome
 	skydome_ = new Skydome();
 	skydome_->Initialize();
@@ -155,98 +157,106 @@ void GamePlayScene::Update() {
 	globalVariables = GlobalVariables::GetInstance();
 	ApplyGlobalVariables();
 
+	datas_->SetStageNum(1);
+
 	if (isGameStart_ == true) {//ゲーム開始時の処理
 		for (int i = 0; i < objCount_; i++) {
 			SetObject(EulerTransform{ { 4.0f,30.0f,4.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objNameHolder_[i]);
 		}
 		isGameStart_ = false;
+		ShowCursor(showCursor);//カーソル表示設定関数
 	}
 
-	//床についたとき
-	if (player_->GetIsDead())
+	if (input_->TriggerKey(DIK_TAB) && !isPause_)
 	{
-		startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
-		player_->SetWorldTransform(startWorldTransform_);
-		player_->SetIsDead(false);
-		nowTime_ = 0;
+		isPause_ = true;
 	}
-
-	//Restart
-	if (player_->GetIsRestart())
+	else if (input_->TriggerKey(DIK_TAB) && isPause_)
 	{
-		startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
-		player_->SetWorldTransform(startWorldTransform_);
-		player_->SetIsRestart(false);
-		nowTime_ = 0;
+		isPause_ = false;
 	}
 
-	//Goal
-	if (player_->GetIsGoal())
+	if (!isPause_)
 	{
-		sceneNo = CLEAR_SCENE;
-		startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
-		player_->SetWorldTransform(startWorldTransform_);
-		player_->SetIsGoal(false);
-		datas_->SetClearTime(nowTime_);
-		nowTime_ = 0;
+		//Restart
+		if (player_->GetIsRestart())
+		{
+			startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
+			player_->SetWorldTransform(startWorldTransform_);
+			player_->SetIsRestart(false);
+			nowTime_ = 0;
+		}
+
+		//Goal
+		if (player_->GetIsGoal())
+		{
+			sceneNo = CLEAR_SCENE;
+			startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
+			player_->SetWorldTransform(startWorldTransform_);
+			player_->SetIsGoal(false);
+			datas_->SetClearTime(nowTime_);
+			nowTime_ = 0;
+			ShowCursor(1);//カーソル表示設定関数
+		}
+
+		startWorldTransform_.UpdateMatrix();
+
+		//操作形式が一部変わるのでCameraChange変数をPlayerにも送る
+		player_->SetCameraMode(cameraChange_);
+
+		mountain_->Update();
+
+		skydome_->Update();
+
+		goal_->Update();
+
+		particle_->Update();
+		particle_->SetEmitter(testEmitter_);
+		particle_->SetAccelerationField(accelerationField_);
+		particle_->SetisBillBoard(isBillBoard_);
+
+		//色を固定するならこれを使う
+		particle_->SetisColor(isColor_);
+		particle_->SetColor(particleColor_);
+
+		//Timer
+		if (player_->GetIsActive() == true) {
+			nowTime_++;
+		}
+
+		numbers_->SetNum(nowTime_ / 60);
+		numbers_->SetTransform(numbersTransform_);
+
+		nowCount_ = (int)player_->GetWorldTransformPlayer().translation_.num[1] + 2;
+		numbers2_->SetNum(nowCount_);
+		numbers2_->SetTransform(numbersTransform2_);
+		if (nowCount_ <= 10 && nowCount_ > 5) {
+			numbers2_->SetColor({ 1.0f,1.0f,0.0f,1.0f });
+		}
+		else if (nowCount_ <= 5) {
+			numbers2_->SetColor({ 1.0f,0.0f,0.0f,1.0f });
+		}
+		else {
+			numbers2_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
+		}
+
+		if (cameraChange_ == true) {//DebugCamera
+			debugCamera_->Update();
+			viewProjection_.translation_ = debugCamera_->GetViewProjection()->translation_;
+			viewProjection_.rotation_ = debugCamera_->GetViewProjection()->rotation_;
+			viewProjection_.UpdateMatrix();
+		}
+		else {//FollowCamera
+			followCamera_->Update();
+			viewProjection_.translation_ = followCamera_->GetViewProjection().translation_;
+			viewProjection_.matView = followCamera_->GetViewProjection().matView;
+			viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
+			viewProjection_.TransferMatrix();
+		}
+
+		player_->Updete(viewProjection_);
 	}
-
-	startWorldTransform_.UpdateMatrix();
-
-	//操作形式が一部変わるのでCameraChange変数をPlayerにも送る
-	player_->SetCameraMode(cameraChange_);
-
-	mountain_->Update();
-
-	skydome_->Update();
-
-	goal_->Update();
-
-	particle_->Update();
-	particle_->SetEmitter(testEmitter_);
-	particle_->SetAccelerationField(accelerationField_);
-	particle_->SetisBillBoard(isBillBoard_);
-
-	//色を固定するならこれを使う
-	particle_->SetisColor(isColor_);
-	particle_->SetColor(particleColor_);
-
-	//Timer
-	if (player_->GetIsActive() == true) {
-		nowTime_++;
-	}
-
-	numbers_->SetNum(nowTime_ / 60);
-	numbers_->SetTransform(numbersTransform_);
-
-	nowCount_ = (int)player_->GetWorldTransformPlayer().translation_.num[1] + 2;
-	numbers2_->SetNum(nowCount_);
-	numbers2_->SetTransform(numbersTransform2_);
-	if (nowCount_ <= 10 && nowCount_ > 5) {
-		numbers2_->SetColor({ 1.0f,1.0f,0.0f,1.0f });
-	}
-	else if (nowCount_ <= 5) {
-		numbers2_->SetColor({ 1.0f,0.0f,0.0f,1.0f });
-	}
-	else {
-		numbers2_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
-	}
-
-	if (cameraChange_ == true) {//DebugCamera
-		debugCamera_->Update();
-		viewProjection_.translation_ = debugCamera_->GetViewProjection()->translation_;
-		viewProjection_.rotation_ = debugCamera_->GetViewProjection()->rotation_;
-		viewProjection_.UpdateMatrix();
-	}
-	else {//FollowCamera
-		followCamera_->Update();
-		viewProjection_.translation_ = followCamera_->GetViewProjection().translation_;
-		viewProjection_.matView = followCamera_->GetViewProjection().matView;
-		viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
-		viewProjection_.TransferMatrix();
-	}
-
-	player_->Updete(viewProjection_);
+	
 
 	for (Obj& obj : objects_) {
 		obj.world.UpdateMatrix();
@@ -291,7 +301,6 @@ void GamePlayScene::Update() {
 				player_->SetIsHitObj(isHitPlayer_);
 				std::pair<Vector3, Vector3> pair = ComputeCollisionVelocities(1.0f, player_->GetVelocity(), 1.0f, Vector3{ 0.0f,0.0f,0.0f }, 0.8f, Normalize(player_->GetWorldTransform().GetWorldPos() - obj.world.translation_));
 				player_->SetVelocity(-pair.first * 20.0f);
-				player_->SetIsDownSpeed(false);
 			}
 		}
 		else {
@@ -343,7 +352,6 @@ void GamePlayScene::Update() {
 
 	uiSpriteTransform_->rotate.num[2] += 0.05f;
 
-	ShowCursor(showCursor);//カーソル表示設定関数
 	if (showCursor == 0) {//カーソル非表示時、カーソルの座標を画面中央に固定
 		SetCursorPos(1280 / 2, 720 / 2);
 	}
@@ -352,6 +360,7 @@ void GamePlayScene::Update() {
 	ImGui::Text("CameraChange:Z key");
 	ImGui::Text("CorsorDemo:X key");
 	ImGui::Text("IsHitRay %d", isHitWire_);
+	ImGui::Text("IsPause %d", isPause_);
 
 	ImGui::InputText("BlockName", objName_, sizeof(objName_));
 	if (ImGui::Button("SpawnBlock")) {

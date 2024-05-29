@@ -146,20 +146,13 @@ void GamePlayScene2::Update() {
 	globalVariables = GlobalVariables::GetInstance();
 	ApplyGlobalVariables();
 
+	datas_->SetStageNum(2);
+
 	if (isGameStart_ == true) {//ゲーム開始時の処理
 		for (int i = 0; i < objCount_; i++) {
 			SetObject(EulerTransform{ { 1.0f,1.0f,1.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objNameHolder_[i]);
 		}
 		isGameStart_ = false;
-	}
-
-	//床についたとき
-	if (player_->GetIsDead())
-	{
-		startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
-		player_->SetWorldTransform(startWorldTransform_);
-		player_->SetIsDead(false);
-		nowTime_ = 0;
 	}
 
 	//Restart
@@ -267,14 +260,14 @@ void GamePlayScene2::Update() {
 		}
 	}
 
-	if (input_->TriggerKey(DIK_X)) {//Xkeyでカーソル表示変更
-		if (showCursor == (int)true) {
-			showCursor = (int)false;
-		}
-		else {
-			showCursor = (int)true;
-		}
-	}
+	//if (input_->TriggerKey(DIK_X)) {//Xkeyでカーソル表示変更
+	//	if (showCursor == (int)true) {
+	//		showCursor = (int)false;
+	//	}
+	//	else {
+	//		showCursor = (int)true;
+	//	}
+	//}
 
 	for (Obj& obj : objects_) {//レイとオブジェクトの当たり判定
 		if (obj.isHit == true) {
