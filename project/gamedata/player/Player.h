@@ -184,4 +184,9 @@ private:
 	float angle_ = 0.0f;
 	float angularVelocity = 3.14f;
 	float startAngle_ = 270.0f * physics_->DegToRad();
+
+	std::unique_ptr<Model> model_;
+	Vector4 modelMaterial_;
+
+	bool isRightMove_ = false;
 };

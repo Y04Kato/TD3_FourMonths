@@ -147,6 +147,7 @@ void GamePlayScene::Initialize() {
 	line_->SetLineThickness(0.2f);
 
 	startWorldTransform_.Initialize();
+	startWorldTransform_.rotation_ = { 1.5f,0.0f,2.0f };
 
 	datas_ = Datas::GetInstance();
 	datas_->Initialize();
@@ -328,9 +329,11 @@ void GamePlayScene::Update() {
 	if (input_->TriggerKey(DIK_X)) {//Xkeyでカーソル表示変更
 		if (showCursor == (int)true) {
 			showCursor = (int)false;
+			ShowCursor(showCursor);
 		}
 		else {
 			showCursor = (int)true;
+			ShowCursor(showCursor);
 		}
 	}
 

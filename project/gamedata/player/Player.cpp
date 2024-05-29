@@ -15,7 +15,7 @@ void Player::Initialize() {
 
 	//テクスチャ
 	uiResource_[0] = textureManager_->Load("project/gamedata/resources/UI/MoveUI.png");
-	uiResource_[1] = textureManager_->Load("project/gamedata/resources/UI/MoveUI.png");
+	uiResource_[1] = textureManager_->Load("project/gamedata/resources/UI/meter.png");
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -44,6 +44,7 @@ void Player::Initialize() {
 	worldTransformGrapple_.Initialize();
 
 	worldTransform_.translation_ = { 0.0f,20.0f,0.0f };
+	worldTransform_.rotation_ = { 1.5f,0.0f,2.0f };
 
 	for (int i = 0; i < 2; i++) {
 		sphere_[i] = std::make_unique <CreateSphere>();
@@ -106,6 +107,8 @@ void Player::Initialize() {
 	particle_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 	particle_->SetLifeTime(10.0f);
 
+	model_.reset(Model::CreateSkinningModel("project/gamedata/resources/star", "star.obj"));
+	modelMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 }
 
 void Player::Updete(const ViewProjection viewProjection) {
@@ -188,6 +191,12 @@ void Player::Updete(const ViewProjection viewProjection) {
 
 	ImGui::Begin("physics");
 	if (isActive_) {
+		if (isRightMove_ == false) {
+			worldTransform_.rotation_.num[2] += 0.1f;
+		}
+		else {
+			worldTransform_.rotation_.num[2] -= 0.1f;
+		}
 		if (isSetWire_ && !isRoll_) { // ワイヤー中
 			physics_->SetGravity(gravityHaveWire_); // ワイヤー中の重力
 			// ワイヤー中の物理挙動
@@ -209,7 +218,12 @@ void Player::Updete(const ViewProjection viewProjection) {
 			if (input_->PressKey(DIK_D)) { // 進んでいる方向に対して右
 				Vector3 force = sideForceValueHaveWire_ * dir;
 				physics_->AddForce(force, 1);
+				isRightMove_ = true;
 			}
+			else {
+				isRightMove_ = false;
+			}
+			
 			if (input_->PressKey(DIK_W)) { // 上に徐々に上がる
 				Vector3 force = { 0.0f, upSize_ * upSize_, 0.0f };
 				//upForce_ += 1.0f; // 上昇量
@@ -247,13 +261,16 @@ void Player::Updete(const ViewProjection viewProjection) {
 		else { // ワイヤーじゃない時
 			physics_->SetGravity(gravityNoWire_); // ワイヤー中じゃない時の重力
 			if (input_->PressKey(DIK_A)) {
-
 				Vector3 force = -sideForceValueNoWire_ * right_/*{ -sideForceValueNoWire_ , 0.0f, 0.0f }*/;
 				physics_->AddForce(force, 1);
 			}
 			if (input_->PressKey(DIK_D)) {
 				Vector3 force = sideForceValueNoWire_ * right_/*{ sideForceValueNoWire_, 0.0f, 0.0f }*/;
 				physics_->AddForce(force, 1);
+				isRightMove_ = true;
+			}
+			else {
+				isRightMove_ = false;
 			}
 			if (input_->PressKey(DIK_W)) {
 				Vector3 force = { 0.0f, 0.0f, 0.1f };
@@ -342,7 +359,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 
 	ImGui::Begin("player");
 	ImGui::DragFloat3("Pos", worldTransform_.translation_.num, 0.05f);
-	ImGui::DragFloat3("Rot", worldTransform2_.rotation_.num, 0.05f);
+	ImGui::DragFloat3("Rot", worldTransform_.rotation_.num, 0.05f);
 	ImGui::DragFloat3("ReticlePos", worldTransformReticle_.translation_.num, 0.05f);
 	ImGui::DragFloat3("velocity", accelerationField_.acceleration.num, 0.05f);
 	ImGui::DragFloat2("MouseSensitivity", sensitivity_.num, 0.05f);
@@ -365,7 +382,8 @@ void Player::Updete(const ViewProjection viewProjection) {
 }
 
 void Player::Draw(const ViewProjection viewProjection) {
-	sphere_[0]->Draw(worldTransform_, viewProjection, sphereMaterial_, textureManager_->white);
+	//sphere_[0]->Draw(worldTransform_, viewProjection, sphereMaterial_, textureManager_->white);
+	model_->Draw(worldTransform_, viewProjection, modelMaterial_);
 	if (isSetWire_ == true || isMissWire_ == true) {
 		line_->Draw(worldTransform2_, worldTransformWire_, viewProjection, lineMaterial_);
 	}
