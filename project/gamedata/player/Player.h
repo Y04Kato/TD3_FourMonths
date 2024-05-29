@@ -31,7 +31,7 @@ public:
 	WorldTransform GetWorldTransform() override { return worldTransform_; }
 	const WorldTransform& GetWorldTransformPlayer() { return worldTransform2_; }
 	const WorldTransform& GetWorldTransformReticle() { return worldTransformReticle_; }
-	const Vector3 GetVelocity() { return velocity_; }
+	const Vector3 GetVelocity() { return physics_->GetVelocity(); }
 
 	void SetWorldTransform(const WorldTransform world);
 	void SetWorldTransformReticle(const WorldTransform world);
@@ -52,9 +52,6 @@ public:
 
 	void OnCollision()override;
 
-	bool GetIsDead() { return isDead_; }
-	void SetIsDead(const bool isDead) { isDead_ = isDead; }
-
 	bool GetIsRestart() { return isRestart_; }
 	void SetIsRestart(const bool isRestart) { isRestart_ = isRestart; }
 
@@ -62,6 +59,8 @@ public:
 	void SetIsGoal(const bool isGoal) { isGoal_ = isGoal; }
 
 	bool GetIsActive() { return isActive_; }
+
+	void SetIsDownSpeed(bool isDownSpeed) { isDownSpeed_ = isDownSpeed; }
 
 private:
 	TextureManager* textureManager_;
@@ -122,18 +121,45 @@ private:
 	// 物理挙動クラス
 	std::unique_ptr<Physics> physics_;
 	bool isActive_ = false;
-	Vector3 velocity_;
-
-	//床についた時
-	bool isDead_ = false;
 
 	//Restart
 	bool isRestart_ = false;
 
 	//Goal
 	bool isGoal_ = false;
+
+	// 非ワイヤー中の重力
+	Vector3 gravityNoWire_ = { 0.0f, -7.0f, 0.0f };
+
+	// ワイヤー中の重力
+	Vector3 gravityHaveWire_ = { 0.0f, -5.0f, 0.0f };
+
+	// ワイヤーが自動で切れる角度
+	float limitAngle_ = 30.0f;
+
+	// 非ワイヤー中のADの力
+	float sideForceValueNoWire_ = 400.0f;
+
+	// ワイヤー中のADの力
+	float sideForceValueHaveWire_ = 1000.0f;
+
 	// ワイヤー中の上昇量が加算されていく変数
-	float upForce_ = 0.0f;
+	float upSize_ = 0.0f;
+	// upSizeへの加算量
+	float upSizeValue_ = 1.0f;
+	// upSizeの最大値
+	float maxUpSize_ = 30.0f;
+
+	// 非ワイヤー時の速度の大きさの最小値
+	float minSpeedVolume_ = 15.0f;
+	// 非ワイヤー時の速度の減少量が加算されていく変数
+	float downSpeedSize_ = 0.0f;
+	// 非ワイヤー時の速度の減少量
+	float downSpeedValue_ = 5.0f;
+	// 非ワイヤー時の速度の減少量が加算されていく変数の最大値
+	float maxDownSpeedSize_ = 20.0f;
+	// 非ワイヤー時の速度の減少を行うかのフラグ
+	bool isDownSpeed_;
 
 	// モデルの向き
 	Vector3 forwad_;
@@ -148,4 +174,9 @@ private:
 	uint32_t spriteResource_;
 	float accelerationTimer_ = 0.0f;
 	const float accelerationTimerMax_ = 60.0f;
+
+	bool isRoll_ = false;
+	float angle_ = 0.0f;
+	float angularVelocity = 3.14f;
+	float startAngle_ = 270.0f * physics_->DegToRad();
 };

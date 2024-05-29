@@ -74,12 +74,12 @@ void GameSelectScene::Update() {
 		spriteTransform_[2].translate.num[0] = 1048.0f;
 	}
 
-	if (input_->PressKey(DIK_S) && spriteTransform_[2].translate.num[1] == 360.0f)
+	if (input_->TriggerKey(DIK_S) && spriteTransform_[2].translate.num[1] == 360.0f)
 	{
 		spriteTransform_[2].translate.num[1] = 610.0f;
 	}
 
-	if (input_->PressKey(DIK_W) && spriteTransform_[2].translate.num[1] == 610.0f)
+	if (input_->TriggerKey(DIK_W) && spriteTransform_[2].translate.num[1] == 610.0f)
 	{
 		spriteTransform_[2].translate.num[1] = 360.0f;
 	}

@@ -79,7 +79,7 @@ void Player::Initialize() {
 	// 物理挙動クラス初期化
 	physics_ = std::make_unique<Physics>();
 	physics_->Initialize(1.0f);
-	upForce_ = 0.0f;
+	upSize_ = 0.0f;
 
 	// モデルの向き(無回転時)
 	forwad_ = { 0.0f, 0.0f, 1.0f };
@@ -123,7 +123,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 	worldTransform_.UpdateMatrix();
 	worldTransform2_.UpdateMatrix();
 
-	if (input_->pushMouse(MOUSE_BOTTON0)) {//左クリックした時
+	if (input_->pushMouse(MOUSE_BOTTON0) && isActive_ ) {//左クリックした時
 		DistancePlayerToReticle = kDistancePlayerToReticle;
 		isHitObj_ = false;
 		Reticle(viewProjection);
@@ -131,7 +131,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 			DistancePlayerToReticle = worldTransformObject_.translation_.num[2] - worldTransform2_.translation_.num[2];
 			worldTransformGrapple_ = worldTransformWire_; // ワイヤーが付いたポイントを保存
 			start_ = Normalize(worldTransformGrapple_.translation_ - worldTransform2_.translation_); // ワイヤーを付けた時の根本から先端への単位ベクトル
-			upForce_ = 0.0f; // 上昇量を初期化
+			upSize_ = 0.0f; // 上昇量を初期化
 			if (DistancePlayerToReticle <= 0) {
 				DistancePlayerToReticle = -DistancePlayerToReticle + 5.0f;
 			}
@@ -150,6 +150,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 	if (isSetWire_ == true) {//ワイヤー成功時の演出
 		DistancePlayerToReticle = kDistancePlayerToReticle;
 		Reticle(viewProjection);
+		isDownSpeed_ = true;
 	}
 
 	if (isMissWire_ == true) {//ワイヤー失敗時の演出
@@ -169,7 +170,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		HitTimer_ = 0;
 	}
 
-	if (input_->TriggerKey(DIK_SPACE)) {
+	if (input_->pushMouse(MOUSE_BOTTON0)) {
 		isActive_ = true;
 	}
 
@@ -188,46 +189,68 @@ void Player::Updete(const ViewProjection viewProjection) {
 	particle_->Update();
 
 	if (isActive_) {
-		// 
-		physics_->SetGravity({ 0.0f, -7.0f, 0.0f }); // ワイヤー中じゃない時の重力
-		if (isSetWire_) { // ワイヤー中
-			physics_->SetGravity({ 0.0f, -5.0f, 0.0f }); // ワイヤー中の重力
+		if (isSetWire_ && !isRoll_) { // ワイヤー中
+			physics_->SetGravity(gravityHaveWire_); // ワイヤー中の重力
 			// ワイヤー中の物理挙動
 			Vector3 force = physics_->RubberMovement(worldTransform_.translation_, worldTransformGrapple_.translation_, 1.0f, 0.0f);
 			physics_->AddForce(force);
 
 			// 進んでいる方向の単位ベクトルを求める(Y軸を除く)
-			Vector2 vec = physics_->Vector2Perpendicular();
+			Vector2 vec = physics_->Vector2Perpendicular({ start_.num[0], start_.num[2] });
 			vec = physics_->Vector2Normalize(vec);
-			Vector3 dir = { vec.num[0], 0.0f, vec.num[1] }; // 進んでいる方向の単位ベクトル
+			Vector3 dir = { vec.num[0], 0.0f ,vec.num[1] };/*{ vec.num[0], 0.0f, vec.num[1] }*/; // 進んでいる方向の単位ベクトル
 
 			if (input_->PressKey(DIK_A)) { // 進んでいる方向に対して左
-				Vector3 force = 700.0f * dir;
+				Vector3 force = sideForceValueHaveWire_ * dir;
 				physics_->AddForce(force, 1);
 			}
 			if (input_->PressKey(DIK_D)) { // 進んでいる方向に対して右
-				Vector3 force = -700.0f * dir;
+				Vector3 force = -sideForceValueHaveWire_ * dir;
 				physics_->AddForce(force, 1);
 			}
 			if (input_->PressKey(DIK_W)) { // 上に徐々に上がる
-				Vector3 force = { 0.0f, upForce_ * upForce_, 0.0f };
-				upForce_ += 1.5f; // 上昇量
+				Vector3 force = { 0.0f, upSize_ * upSize_, 0.0f };
+				//upForce_ += 1.0f; // 上昇量
+				if (upSize_ < maxUpSize_) {
+					upSize_ += upSizeValue_; // 上昇量
+				}
 				physics_->AddForce(force, 1);
 			}
 
 			// ある程度の進んだら自動でワイヤーが切れる(角度で判定)
-			if (physics_->Vector3Angle(start_, Normalize(worldTransform2_.translation_ - worldTransformGrapple_.translation_)) < 60.0f) {
+			if (physics_->Vector3Angle(start_, Normalize(worldTransform2_.translation_ - worldTransformGrapple_.translation_)) < limitAngle_) {
 				isSetWire_ = false;
 			}
 
 		}
+		else if (isRoll_) {
+			if (physics_->GetGravity().num[1] != 0.0f) {
+				physics_->SetGravity({ 0.0f, 0.0f, 0.0f });
+				physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
+			}
+
+			angle_ += angularVelocity * physics_->deltaTime_;
+
+			if (angle_ > 180.0f * physics_->DegToRad() || angle_ < -180.0f * physics_->DegToRad()) {
+				isRoll_ = false;
+				isSetWire_ = false;
+			}
+			else {
+				worldTransform_.translation_ = { worldTransformGrapple_.translation_.num[0] + std::cosf(startAngle_ + angle_) * 15.0f,worldTransform_.translation_.num[1], worldTransformGrapple_.translation_.num[2] + std::sinf(startAngle_ + angle_) * 15.0f };
+				float a2 = angularVelocity * angularVelocity /** 15.0f*/;
+				Vector3 force = { -15.0f * a2 * std::cosf(startAngle_ + angle_), 0.0f, -15.0f * a2 * std::sinf(startAngle_ + angle_) };
+				physics_->AddForce(force);
+			}
+		}
 		else { // ワイヤーじゃない時
+			physics_->SetGravity(gravityNoWire_); // ワイヤー中じゃない時の重力
 			if (input_->PressKey(DIK_A)) {
-				Vector3 force = { -400.0f, 0.0f, 0.0f };
+
+				Vector3 force = -sideForceValueNoWire_ * right_/*{ -sideForceValueNoWire_ , 0.0f, 0.0f }*/;
 				physics_->AddForce(force, 1);
 			}
 			if (input_->PressKey(DIK_D)) {
-				Vector3 force = { 400.0f, 0.0f, 0.0f };
+				Vector3 force = sideForceValueNoWire_ * right_/*{ sideForceValueNoWire_, 0.0f, 0.0f }*/;
 				physics_->AddForce(force, 1);
 			}
 			if (input_->PressKey(DIK_W)) {
@@ -238,12 +261,36 @@ void Player::Updete(const ViewProjection viewProjection) {
 				Vector3 force = { 0.0f, 0.0f, -200.0f };
 				physics_->AddForce(force, 1);
 			}
+
+			if (isDownSpeed_) {
+				Vector3 dir = physics_->GetVelocity();
+				if (dir.num[1] < 0.0f) {
+					dir.num[1] = 0.0f;
+				}
+				//dir.num[1] = 0.0f;
+				if (Length(dir) > minSpeedVolume_) {
+					if (downSpeedSize_ < maxDownSpeedSize_) {
+						// 減少量がだんだん大きくなる
+						downSpeedSize_ += downSpeedValue_;
+					}
+					Vector3 force = -downSpeedSize_ * Normalize(dir);
+					physics_->AddForce(force, 0);
+				}
+				else {
+					// 初期化
+					downSpeedSize_ = 0.0f;
+				}
+			}
 		}
 
-		velocity_ = physics_->Update();
-		worldTransform_.translation_ += velocity_ * physics_->deltaTime_;
-		Vector3 impulse = physics_->GetImpulse_();
-		worldTransform_.translation_ += impulse * physics_->deltaTime_;
+		Vector3 velocity = physics_->Update();
+		if (!isRoll_) {
+			worldTransform_.translation_ += velocity * physics_->deltaTime_;
+			Vector3 impulse = physics_->GetImpulse_();
+			worldTransform_.translation_ += impulse * physics_->deltaTime_;
+		}
+
+		//physics_->Vector3Direction((velocity + impulse), &forwad_, &right_);
 	}
 
 	//画面端
@@ -260,10 +307,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 	//床に落ちたとき
 	if (worldTransform_.translation_.num[1] <= -3.0f)
 	{
-		isDead_ = true;
-		isActive_ = false;
-		isSetWire_ = false;
-		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
+		worldTransform_.translation_.num[1] = -3.0f;
 	}
 
 	//リスタート
@@ -276,14 +320,14 @@ void Player::Updete(const ViewProjection viewProjection) {
 	}
 
 	//ゴール
-	if (GameSelectScene::stageNum == 1 && worldTransform_.translation_.num[2] >= 250.0f)
+	if (Iscene::sceneNo == GAME_SCENE && worldTransform_.translation_.num[2] >= 250.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
-	else if (GameSelectScene::stageNum == 2 && worldTransform_.translation_.num[2] >= 500.0f)
+	else if (Iscene::sceneNo == GAME_SCENE2 && worldTransform_.translation_.num[2] >= 500.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
@@ -298,6 +342,16 @@ void Player::Updete(const ViewProjection viewProjection) {
 	ImGui::DragFloat3("velocity", accelerationField_.acceleration.num, 0.05f);
 	ImGui::DragFloat2("MouseSensitivity", sensitivity_.num, 0.05f);
 	ImGui::DragFloat("LineThickness", &lineThickness_, 0.05f, 0.0f);
+	ImGui::DragFloat3("gravityNoWire", gravityNoWire_.num, 0.01f);
+	ImGui::DragFloat3("gravityHaveWire", gravityHaveWire_.num, 0.01f);
+	ImGui::DragFloat("limitAngle_", &limitAngle_, 1.0f);
+	ImGui::DragFloat("sideForceValueNoWire", &sideForceValueNoWire_, 10.0f);
+	ImGui::DragFloat("sideForceValueHaveWire", &sideForceValueHaveWire_, 10.0f);
+	ImGui::DragFloat("upForceValue", &upSizeValue_, 0.05f);
+	ImGui::DragFloat("maxUpForce", &maxUpSize_, 1.0f);
+	ImGui::DragFloat("minSpeedVolume", &minSpeedVolume_, 1.0f);
+	ImGui::DragFloat("downSpeedScale", &downSpeedValue_, 0.05f);
+	ImGui::Text("Timer %f", accelerationTimer_);
 	ImGui::Text("isHitObj %d", isHitObj_);
 	line_->SetLineThickness(lineThickness_);
 	ImGui::End();
