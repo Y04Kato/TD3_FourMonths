@@ -74,6 +74,8 @@ void GamePlayScene::Initialize() {
 
 	structSphere_.radius = 1.0f;
 
+	structSphereTree_.radius = 1.5f;
+
 	//Skydome
 	skydome_ = new Skydome();
 	skydome_->Initialize();
@@ -162,6 +164,7 @@ void GamePlayScene::Update() {
 			SetObject(EulerTransform{ { 4.0f,30.0f,4.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objNameHolder_[i]);
 		}
 		isGameStart_ = false;
+		ShowCursor(showCursor);//カーソル表示設定関数
 	}
 
 	if (input_->TriggerKey(DIK_TAB) && !isPause_)
@@ -297,7 +300,6 @@ void GamePlayScene::Update() {
 				player_->SetIsHitObj(isHitPlayer_);
 				std::pair<Vector3, Vector3> pair = ComputeCollisionVelocities(1.0f, player_->GetVelocity(), 1.0f, Vector3{ 0.0f,0.0f,0.0f }, 0.8f, Normalize(player_->GetWorldTransform().GetWorldPos() - obj.world.translation_));
 				player_->SetVelocity(-pair.first * 20.0f);
-				player_->SetIsDownSpeed(false);
 			}
 		}
 		else {
@@ -349,7 +351,6 @@ void GamePlayScene::Update() {
 
 	uiSpriteTransform_->rotate.num[2] += 0.05f;
 
-	ShowCursor(showCursor);//カーソル表示設定関数
 	if (showCursor == 0) {//カーソル非表示時、カーソルの座標を画面中央に固定
 		SetCursorPos(1280 / 2, 720 / 2);
 	}
