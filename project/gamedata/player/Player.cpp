@@ -87,8 +87,8 @@ void Player::Initialize() {
 
 	//Particle
 	testEmitter_.transform.translate = { 0.0f,0.0f,45.0f };
-	testEmitter_.transform.rotate = { 0.0f,0.0f,0.0f };
-	testEmitter_.transform.scale = { 1.0f,1.0f,1.0f };
+	testEmitter_.transform.rotate = { -1.0f,-1.0f,-1.0f };
+	testEmitter_.transform.scale = { 0.3f,0.3f,0.3f };
 	testEmitter_.count = 15;
 	testEmitter_.frequency = 0.05f;
 	testEmitter_.frequencyTime = 0.0f;//発生頻度の時刻
@@ -97,7 +97,7 @@ void Player::Initialize() {
 	accelerationField_.area.min = { -1.0f,-1.0f,-1.0f };
 	accelerationField_.area.max = { 1.0f,1.0f,1.0f };
 
-	spriteResource_ = textureManager_->Load("project/gamedata/resources/circle.png");
+	spriteResource_ = textureManager_->Load("project/gamedata/resources/UI/star.png");
 
 	particle_ = std::make_unique <CreateParticle>();
 

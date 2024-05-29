@@ -166,10 +166,27 @@ Particle CreateParticle::MakeNewParticle(std::mt19937& randomEngine, const Euler
 	std::uniform_real_distribution<float> distribution(-1.0f, 1.0f);
 	std::uniform_real_distribution<float> distColor(0.0f, 1.0f);
 	std::uniform_real_distribution<float> distTime(1.0f, 3.0f);
+	std::uniform_real_distribution<float> distRotate(0.0f, 360.0f);
 
 	Particle particles;
-	particles.transform.scale = { 1.0f,1.0f,1.0f };
-	particles.transform.rotate = { 0.0f,0.0f,0.0f };
+	particles.transform.scale = transform.scale;
+	if (transform.rotate.num[0] == -1.0f) {
+		if (transform.rotate.num[1] == -1.0f) {
+			if (transform.rotate.num[2] == -1.0f) {
+				Vector3 randomRotate = { distRotate(randomEngine),distRotate(randomEngine),distRotate(randomEngine) };
+				particles.transform.rotate = randomRotate;
+			}
+			else {
+				particles.transform.rotate = transform.rotate;
+			}
+		}
+		else {
+			particles.transform.rotate = transform.rotate;
+		}
+	}
+	else {
+		particles.transform.rotate = transform.rotate;
+	}
 	Vector3 randomTranslate = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
 	particles.transform.translate = transform.translate + randomTranslate / 3.0f;
 	if (isVelocity_) {
