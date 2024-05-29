@@ -94,15 +94,15 @@ void GameClearScene::Update() {
 	ImGui::End();
 
 	//左側(現在のステージを繰り返し)
-	if (spriteTransform_[3].translate.num[0] == 680.0f && input_->TriggerKey(DIK_SPACE) &&
-		GameSelectScene::stageNum == 1) {
+	if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
+		datas_->GetStageNum() == 1) {
 		sceneNo = GAME_SCENE;
 		isSceneStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
-	if (spriteTransform_[3].translate.num[0] == 680.0f && input_->TriggerKey(DIK_SPACE) &&
-		GameSelectScene::stageNum == 2) {
+	if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
+		datas_->GetStageNum() == 2) {
 		sceneNo = GAME_SCENE2;
 		isSceneStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);

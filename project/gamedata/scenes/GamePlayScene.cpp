@@ -230,14 +230,14 @@ void GamePlayScene::Update() {
 			nowTime_ = 0;
 		}
 
-		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 717.0f && !datas_->GetIsRule())
+		/*if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 717.0f && !datas_->GetIsRule())
 		{
 			datas_->SetIsRule(true);
 		}
 		else if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 717.0f && datas_->GetIsRule())
 		{
 			datas_->SetIsRule(false);
-		}
+		}*/
 	}
 	else
 	{
