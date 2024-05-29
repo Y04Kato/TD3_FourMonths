@@ -294,14 +294,14 @@ void Player::Updete(const ViewProjection viewProjection) {
 	}
 
 	//画面端
-	if (worldTransform_.translation_.num[0] >= 55.0f)
+	if (worldTransform_.translation_.num[0] >= 75.0f)
 	{
-		worldTransform_.translation_.num[0] = 55.0f;
+		worldTransform_.translation_.num[0] = 75.0f;
 	}
 
-	if (worldTransform_.translation_.num[0] <= -55.0f)
+	if (worldTransform_.translation_.num[0] <= -75.0f)
 	{
-		worldTransform_.translation_.num[0] = -55.0f;
+		worldTransform_.translation_.num[0] = -75.0f;
 	}
 
 	//床に落ちたとき
