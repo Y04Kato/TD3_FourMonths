@@ -170,8 +170,6 @@ void GamePlayScene::Update() {
 	if (isGameStart_ == true) {//ゲーム開始時の処理
 		uiSpriteTransform_[3].translate.num[0] = 1048.0f;
 		uiSpriteTransform_[3].translate.num[1] = 324.0f;
-		datas_->SetIsPause(false);
-		datas_->SetIsReset(false);
 		for (int i = 0; i < objCount_; i++) {
 			SetObject(EulerTransform{ { 4.0f,30.0f,4.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objNameHolder_[i]);
 		}
@@ -220,7 +218,6 @@ void GamePlayScene::Update() {
 			startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
 			player_->SetWorldTransform(startWorldTransform_);
 			nowTime_ = 0;
-			//isGameStart_ = true;
 		}
 
 		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 520.0f)
@@ -231,7 +228,6 @@ void GamePlayScene::Update() {
 			startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
 			player_->SetWorldTransform(startWorldTransform_);
 			nowTime_ = 0;
-			isGameStart_ = true;
 		}
 
 		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 717.0f && !datas_->GetIsRule())
@@ -245,6 +241,8 @@ void GamePlayScene::Update() {
 	}
 	else
 	{
+		uiSpriteTransform_[3].translate.num[0] = 1048.0f;
+		uiSpriteTransform_[3].translate.num[1] = 324.0f;
 		//Goal
 		if (player_->GetIsGoal())
 		{

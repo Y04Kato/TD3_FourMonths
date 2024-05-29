@@ -18,8 +18,8 @@ public:
 	void SetIsRule(const bool isRule) { isRule_ = isRule; }
 	const bool& GetIsRule() { return isRule_; }
 
-	void SetIsReset(const bool isReset) { isReset_ = isReset; }
-	const bool& GetIsReset() { return isReset_; }
+	void SetIsReset(bool isReset) { isReset_ = isReset; }
+	bool GetIsReset() { return isReset_; }
 
 private:
 	Datas() = default;

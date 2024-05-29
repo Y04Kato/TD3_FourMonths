@@ -59,7 +59,7 @@ void GameClearScene::Update() {
 
 	if (isSceneStart_ == true) {//ゲーム開始時の処理
 		spriteTransform_[3].translate.num[0] = 1061.0f;
-		spriteTransform_[3].translate.num[1] = 632.0f;
+		spriteTransform_[3].translate.num[1] = 690.0f;
 
 		isSceneStart_ = false;
 	}
@@ -69,7 +69,7 @@ void GameClearScene::Update() {
 
 	if (input_->TriggerKey(DIK_A) && spriteTransform_[3].translate.num[0] == 1061.0f)
 	{
-		spriteTransform_[3].translate.num[0] = 680.0f;
+		spriteTransform_[3].translate.num[0] = 678.0f;
 	}
 
 	if (input_->TriggerKey(DIK_A) && spriteTransform_[3].translate.num[0] == 1441.0f)
@@ -82,7 +82,7 @@ void GameClearScene::Update() {
 		spriteTransform_[3].translate.num[0] = 1441.0f;
 	}
 
-	if (input_->TriggerKey(DIK_D) && spriteTransform_[3].translate.num[0] == 680.0f)
+	if (input_->TriggerKey(DIK_D) && spriteTransform_[3].translate.num[0] == 678.0f)
 	{
 		spriteTransform_[3].translate.num[0] = 1061.0f;
 	}

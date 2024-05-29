@@ -320,6 +320,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
+		datas_->SetIsReset(false);
 	}
 
 	//ゴール
