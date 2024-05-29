@@ -1200,3 +1200,21 @@ bool IsCollision(const OBB& obb, const Segment& segment) {
 	localLine.diff = localLineEnd - localLine.origin;
 	return IsCollision(localAABB, localLine);
 }
+
+bool IsCollision(const StructSphere& sphere1, const StructSphere& sphere2) {
+	Vector3 posA = sphere1.center;
+	Vector3 posB = sphere2.center;
+	float radA = sphere1.radius;
+	float radB = sphere2.radius;
+
+	Vector3 Distance = {
+		(posB.num[0] - posA.num[0]) * (posB.num[0] - posA.num[0]), (posB.num[1] - posA.num[1]) * (posB.num[1] - posA.num[1]),
+		(posB.num[2] - posA.num[2]) * (posB.num[2] - posA.num[2]) };
+
+	if (Distance.num[0] + Distance.num[1] + Distance.num[2] <= (radA + radB) * (radA + radB)) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}

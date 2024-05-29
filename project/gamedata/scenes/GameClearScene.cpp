@@ -50,7 +50,7 @@ void GameClearScene::Initialize() {
 
 	numbersTransform_.scale = { 1.5f,1.5f,1.5f };
 	numbersTransform_.rotate = { 0.0f,0.0f,0.0f };
-	numbersTransform_.translate = { 500.0f,292.0f,0.0f };
+	numbersTransform_.translate = { 510.0f,360.0f,0.0f };
 
 	//Datas
 	datas_ = Datas::GetInstance();

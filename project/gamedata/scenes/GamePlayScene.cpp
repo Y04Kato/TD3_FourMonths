@@ -74,6 +74,8 @@ void GamePlayScene::Initialize() {
 
 	structSphere_.radius = 1.0f;
 
+	structSphereTree_.radius = 1.5f;
+
 	//Skydome
 	skydome_ = new Skydome();
 	skydome_->Initialize();
@@ -160,6 +162,7 @@ void GamePlayScene::Update() {
 			SetObject(EulerTransform{ { 4.0f,30.0f,4.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objNameHolder_[i]);
 		}
 		isGameStart_ = false;
+		ShowCursor(showCursor);//カーソル表示設定関数
 	}
 
 	//床についたとき
@@ -287,10 +290,14 @@ void GamePlayScene::Update() {
 		obj.obb_.size.num[2] = obj.world.scale_.num[2] * 0.5f;
 		if (IsCollision(obj.obb_, structSphere_)) {//Playerとオブジェクトの当たり判定
 			if (player_->GetIsHitObj() == false) {
-				isHitPlayer_ = true;
-				player_->SetIsHitObj(isHitPlayer_);
-				std::pair<Vector3, Vector3> pair = ComputeCollisionVelocities(1.0f, player_->GetVelocity(), 1.0f, Vector3{ 0.0f,0.0f,0.0f }, 0.8f, Normalize(player_->GetWorldTransform().GetWorldPos() - obj.world.translation_));
-				player_->SetVelocity(-pair.first * 20.0f);
+				structSphereTree_.center = obj.world.translation_;
+				structSphereTree_.center.num[1] = player_->GetWorldTransformPlayer().translation_.num[1];
+				if (IsCollision(structSphere_,structSphereTree_)) {
+					isHitPlayer_ = true;
+					player_->SetIsHitObj(isHitPlayer_);
+					std::pair<Vector3, Vector3> pair = ComputeCollisionVelocities(1.0f, player_->GetVelocity(), 1.0f, Vector3{ 0.0f,0.0f,0.0f }, 0.8f, Normalize(structSphere_.center - structSphereTree_.center));
+					player_->SetVelocity(-pair.first * 20.0f);
+				}
 			}
 		}
 		else {
@@ -318,9 +325,11 @@ void GamePlayScene::Update() {
 	if (input_->TriggerKey(DIK_X)) {//Xkeyでカーソル表示変更
 		if (showCursor == (int)true) {
 			showCursor = (int)false;
+			ShowCursor(showCursor);//カーソル表示設定関数
 		}
 		else {
 			showCursor = (int)true;
+			ShowCursor(showCursor);//カーソル表示設定関数
 		}
 	}
 
@@ -342,7 +351,6 @@ void GamePlayScene::Update() {
 
 	uiSpriteTransform_->rotate.num[2] += 0.05f;
 
-	ShowCursor(showCursor);//カーソル表示設定関数
 	if (showCursor == 0) {//カーソル非表示時、カーソルの座標を画面中央に固定
 		SetCursorPos(1280 / 2, 720 / 2);
 	}
