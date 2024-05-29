@@ -299,14 +299,14 @@ void Player::Updete(const ViewProjection viewProjection) {
 	ImGui::End();
 
 	//画面端
-	if (worldTransform_.translation_.num[0] >= 55.0f)
+	if (worldTransform_.translation_.num[0] >= 75.0f)
 	{
-		worldTransform_.translation_.num[0] = 55.0f;
+		worldTransform_.translation_.num[0] = 75.0f;
 	}
 
-	if (worldTransform_.translation_.num[0] <= -55.0f)
+	if (worldTransform_.translation_.num[0] <= -75.0f)
 	{
-		worldTransform_.translation_.num[0] = -55.0f;
+		worldTransform_.translation_.num[0] = -75.0f;
 	}
 
 	//床に落ちたとき
@@ -328,7 +328,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 	}
 
 	//ゴール
-	if (GameSelectScene::stageNum == 1 && worldTransform_.translation_.num[2] >= 250.0f)
+	if (GameSelectScene::stageNum == 1 && worldTransform_.translation_.num[2] >= 1000.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
