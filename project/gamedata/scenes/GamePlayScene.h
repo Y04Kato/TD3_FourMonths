@@ -141,4 +141,7 @@ private:
 
 	//Datas
 	Datas* datas_;
+
+	//Pause
+	bool isPause_ = false;
 };
