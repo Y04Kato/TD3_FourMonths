@@ -13,6 +13,7 @@
 #include "components/2d/CreateParticle.h"
 
 #include "Physics/Physics.h"
+#include "datas/datas.h"
 
 class Player : public Collider {
 public:
@@ -179,4 +180,7 @@ private:
 	float angle_ = 0.0f;
 	float angularVelocity = 3.14f;
 	float startAngle_ = 270.0f * physics_->DegToRad();
+
+	//Datas
+	Datas* datas_;
 };

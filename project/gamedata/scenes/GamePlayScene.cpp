@@ -27,6 +27,8 @@ void GamePlayScene::Initialize() {
 
 	uiResource_[0] = textureManager_->Load("project/gamedata/resources/reticle2.png");
 	uiResource_[1] = textureManager_->Load("project/gamedata/resources/UI/StartUI.png");
+	uiResource_[2] = textureManager_->Load("project/gamedata/resources/UI/Manu.png");
+	uiResource_[3] = textureManager_->Load("project/gamedata/resources/UI/Cursor.png");
 
 	//testSprite
 	spriteMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
@@ -44,7 +46,7 @@ void GamePlayScene::Initialize() {
 	sprite_->SetAnchor(Vector2{ 0.5f,0.5f });
 
 	//uiSprite
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		uiSpriteMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 		uiSpriteTransform_[i] = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
@@ -67,6 +69,12 @@ void GamePlayScene::Initialize() {
 
 	uiSprite_[1]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[1]);
 	uiSprite_[1]->SetAnchor(Vector2{ 0.5f,0.5f });
+
+	uiSprite_[2]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[2]);
+	uiSprite_[2]->SetAnchor(Vector2{ 0.5f,0.5f });
+
+	uiSprite_[3]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[3]);
+	uiSprite_[3]->SetAnchor(Vector2{ 0.5f,0.5f });
 
 	//Player
 	player_ = new Player();
@@ -160,6 +168,10 @@ void GamePlayScene::Update() {
 	datas_->SetStageNum(1);
 
 	if (isGameStart_ == true) {//ゲーム開始時の処理
+		uiSpriteTransform_[3].translate.num[0] = 1048.0f;
+		uiSpriteTransform_[3].translate.num[1] = 324.0f;
+		datas_->SetIsPause(false);
+		datas_->SetIsReset(false);
 		for (int i = 0; i < objCount_; i++) {
 			SetObject(EulerTransform{ { 4.0f,30.0f,4.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objNameHolder_[i]);
 		}
@@ -167,26 +179,72 @@ void GamePlayScene::Update() {
 		ShowCursor(showCursor);//カーソル表示設定関数
 	}
 
-	if (input_->TriggerKey(DIK_TAB) && !isPause_)
+	if (input_->TriggerKey(DIK_TAB) && !datas_->GetIsPause())
 	{
-		isPause_ = true;
+		datas_->SetIsPause(true);
 	}
-	else if (input_->TriggerKey(DIK_TAB) && isPause_)
+	else if (input_->TriggerKey(DIK_TAB) && datas_->GetIsPause())
 	{
-		isPause_ = false;
+		datas_->SetIsPause(false);
 	}
 
-	if (!isPause_)
+
+	if (datas_->GetIsPause())
 	{
-		//Restart
-		if (player_->GetIsRestart())
+		//カーソル移動の処理
+		if (input_->TriggerKey(DIK_S) && uiSpriteTransform_[3].translate.num[1] == 520.0f && !datas_->GetIsRule())
 		{
-			startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
-			player_->SetWorldTransform(startWorldTransform_);
-			player_->SetIsRestart(false);
-			nowTime_ = 0;
+			uiSpriteTransform_[3].translate.num[1] = 717.0f;
 		}
 
+		if (input_->TriggerKey(DIK_S) && uiSpriteTransform_[3].translate.num[1] == 324.0f && !datas_->GetIsRule())
+		{
+			uiSpriteTransform_[3].translate.num[1] = 520.0f;
+		}
+
+		if (input_->TriggerKey(DIK_W) && uiSpriteTransform_[3].translate.num[1] == 520.0f && !datas_->GetIsRule())
+		{
+			uiSpriteTransform_[3].translate.num[1] = 324.0f;
+		}
+
+		if (input_->TriggerKey(DIK_W) && uiSpriteTransform_[3].translate.num[1] == 717.0f && !datas_->GetIsRule())
+		{
+			uiSpriteTransform_[3].translate.num[1] = 520.0f;
+		}
+
+		//選択する処理
+		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 324.0f)
+		{
+			datas_->SetIsPause(false);
+			datas_->SetIsReset(true);
+			startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
+			player_->SetWorldTransform(startWorldTransform_);
+			nowTime_ = 0;
+			isGameStart_ = true;
+		}
+
+		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 520.0f)
+		{
+			datas_->SetIsPause(false);
+			datas_->SetIsReset(true);
+			sceneNo = SELECT_SCENE;
+			startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
+			player_->SetWorldTransform(startWorldTransform_);
+			nowTime_ = 0;
+			isGameStart_ = true;
+		}
+
+		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 717.0f && !datas_->GetIsRule())
+		{
+			datas_->SetIsRule(true);
+		}
+		else if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 717.0f && datas_->GetIsRule())
+		{
+			datas_->SetIsRule(false);
+		}
+	}
+	else
+	{
 		//Goal
 		if (player_->GetIsGoal())
 		{
@@ -359,7 +417,6 @@ void GamePlayScene::Update() {
 	ImGui::Text("CameraChange:Z key");
 	ImGui::Text("CorsorDemo:X key");
 	ImGui::Text("IsHitRay %d", isHitWire_);
-	ImGui::Text("IsPause %d", isPause_);
 
 	ImGui::InputText("BlockName", objName_, sizeof(objName_));
 	if (ImGui::Button("SpawnBlock")) {
@@ -409,7 +466,9 @@ void GamePlayScene::Update() {
 	ImGui::DragFloat("frequencyTime", &testEmitter_.frequencyTime, 0.1f);
 	ImGui::End();
 
-
+	ImGui::Begin("Cursor");
+	ImGui::DragFloat3("CursorWTF", &uiSpriteTransform_[3].translate.num[0], 1.0f);
+	ImGui::End();
 }
 
 void GamePlayScene::Draw() {
@@ -467,14 +526,29 @@ void GamePlayScene::Draw() {
 #pragma region 前景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
 
-	numbers_->Draw();
-	numbers2_->Draw();
-	player_->DrawUI();
-	if (isHitWire_ == true) {
-		uiSprite_[0]->Draw(uiSpriteTransform_[0], uiSpriteuvTransform_[0], uiSpriteMaterial_[0]);
+	if (datas_->GetIsPause())
+	{
+		uiSprite_[2]->Draw(uiSpriteTransform_[2], uiSpriteuvTransform_[2], uiSpriteMaterial_[2]);
+
+		uiSprite_[3]->Draw(uiSpriteTransform_[3], uiSpriteuvTransform_[3], uiSpriteMaterial_[3]);
+
+		if (datas_->GetIsRule())
+		{
+			numbers_->Draw();
+		}
 	}
-	if (player_->GetIsActive() == false) {
-		uiSprite_[1]->Draw(uiSpriteTransform_[1], uiSpriteuvTransform_[1], uiSpriteMaterial_[1]);
+	else
+	{
+		numbers_->Draw();
+		numbers2_->Draw();
+		player_->DrawUI();
+		if (isHitWire_ == true) {
+			uiSprite_[0]->Draw(uiSpriteTransform_[0], uiSpriteuvTransform_[0], uiSpriteMaterial_[0]);
+		}
+		if (player_->GetIsActive() == false) {
+			uiSprite_[1]->Draw(uiSpriteTransform_[1], uiSpriteuvTransform_[1], uiSpriteMaterial_[1]);
+		}
+
 	}
 
 #pragma endregion

@@ -106,6 +106,9 @@ void Player::Initialize() {
 	particle_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 	particle_->SetLifeTime(10.0f);
 
+	datas_ = Datas::GetInstance();
+	datas_->Initialize();
+
 }
 
 void Player::Updete(const ViewProjection viewProjection) {
@@ -311,7 +314,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 	}
 
 	//リスタート
-	if (input_->TriggerKey(DIK_R))
+	if (datas_->GetIsReset())
 	{
 		isRestart_ = true;
 		isActive_ = false;
