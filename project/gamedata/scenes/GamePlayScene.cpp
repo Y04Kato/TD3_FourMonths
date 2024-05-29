@@ -196,6 +196,7 @@ void GamePlayScene::Update() {
 			player_->SetIsGoal(false);
 			datas_->SetClearTime(nowTime_);
 			nowTime_ = 0;
+			ShowCursor(1);//カーソル表示設定関数
 		}
 
 		startWorldTransform_.UpdateMatrix();
