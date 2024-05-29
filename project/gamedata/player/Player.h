@@ -98,7 +98,7 @@ private:
 
 	//レティクルとワイヤー
 	void Reticle(const ViewProjection viewProjection);//レティクルの計算関数
-	const float kDistancePlayerToReticle = 40.0f;//自機とレティクルの距離、通常射程
+	const float kDistancePlayerToReticle = 90.0f;//自機とレティクルの距離、通常射程
 	float DistancePlayerToReticle = kDistancePlayerToReticle;//自機とレティクルの距離
 	void SetWire();//ワイヤー成功時関数
 	void SetWireMiss();//ワイヤー失敗時関数
