@@ -323,7 +323,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 	}
 
 	//ゴール
-	if (GameSelectScene::stageNum == 1 && worldTransform_.translation_.num[2] >= 250.0f)
+	if (GameSelectScene::stageNum == 1 && worldTransform_.translation_.num[2] >= 1000.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
