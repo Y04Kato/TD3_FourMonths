@@ -220,7 +220,7 @@ void GamePlayScene::Update() {
 			startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
 			player_->SetWorldTransform(startWorldTransform_);
 			nowTime_ = 0;
-			isGameStart_ = true;
+			//isGameStart_ = true;
 		}
 
 		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 520.0f)
