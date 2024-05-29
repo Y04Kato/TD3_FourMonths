@@ -57,4 +57,6 @@ private:
 	Vector3 force_;
 	// 質量
 	float mass_;
+	// 空気抵抗
+	float drag_ = 0.05f;
 };

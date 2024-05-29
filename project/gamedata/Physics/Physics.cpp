@@ -12,7 +12,12 @@ void Physics::Initialize(float mass)
 
 Vector3 Physics::Update()
 {
-	acceleration_ = gravity_;
+	// 空気抵抗airResistanceは、速度に比例して逆方向に発生する
+	Vector3 airResistance = -drag_ * velocity_;
+	// airResistanceAccelerationはairResitanceからの加速度
+	Vector3 airResistanceAcceleration = airResistance / mass_;
+
+	acceleration_ = gravity_ + airResistanceAcceleration;
 	acceleration_ += Multiply(1.0f / mass_, force_);
 	force_ = { 0.0f, 0.0f, 0.0f };
 	/*acceleration_ = Multiply(deltaTime_, gravity_);
@@ -32,7 +37,8 @@ void Physics::AddForce(const Vector3& force, uint32_t mode)
 		force_ += force;
 	}
 	else {
-		impulse_ += /* force / mass_;*/Multiply(deltaTime_, force / mass_);
+		velocity_ += force / mass_;
+		//impulse_ += /* force / mass_;*/Multiply(deltaTime_, force / mass_);
 		//velocity_ += acceleration * deltaTime_;
 	}
 
@@ -60,7 +66,8 @@ float Physics::Vector3XZAngle(const Vector3& v)
 
 Vector2 Physics::Vector2Perpendicular(Vector2 v)
 {
-	return { -v.num[1], v.num[0] };
+	/*return { -v.num[1], v.num[0] };*/
+	return { v.num[1], -v.num[0] };
 }
 
 Vector2 Physics::Vector2Normalize(const Vector2& v)
@@ -102,7 +109,7 @@ void Physics::Vector3Direction(const Vector3& v, Vector3* forward, Vector3* righ
 Vector3 Physics::RubberMovement(const Vector3& start, const Vector3& end, float stiffness, float dampingCoefficient)
 {
 	Vector3 diff = start - end;
-	float length = Length(diff);
+	float length = 10.0f/*Length(diff)*/;
 	//length = 100f;
 	if (length != 0.0f)
 	{
