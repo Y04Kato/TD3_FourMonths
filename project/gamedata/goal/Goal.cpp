@@ -21,7 +21,7 @@ void Goal::Update()
 	//worldTransform_.rotation_.num[1] += 0.001f;
 	//worldTransform_.rotation_.num[2] += 0.001f;
 
-	if (GameSelectScene::stageNum == 1)
+	if (Iscene::sceneNo == GAME_SCENE)
 	{
 		for (int i = 0; i < 2; i++)
 		{
@@ -30,7 +30,7 @@ void Goal::Update()
 			worldTransform_[i].scale_ = { 100.0f,100.0f,100.0f };
 		}
 	}
-	else if (GameSelectScene::stageNum == 2)
+	else if (Iscene::sceneNo == GAME_SCENE2)
 	{
 		for (int i = 0; i < 2; i++)
 		{

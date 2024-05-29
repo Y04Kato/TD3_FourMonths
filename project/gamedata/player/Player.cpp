@@ -170,7 +170,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		HitTimer_ = 0;
 	}
 
-	if (input_->TriggerKey(DIK_SPACE)) {
+	if (input_->pushMouse(MOUSE_BOTTON0)) {
 		isActive_ = true;
 	}
 
@@ -307,10 +307,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 	//床に落ちたとき
 	if (worldTransform_.translation_.num[1] <= -3.0f)
 	{
-		isDead_ = true;
-		isActive_ = false;
-		isSetWire_ = false;
-		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
+		worldTransform_.translation_.num[1] = -3.0f;
 	}
 
 	//リスタート
@@ -323,14 +320,14 @@ void Player::Updete(const ViewProjection viewProjection) {
 	}
 
 	//ゴール
-	if (GameSelectScene::stageNum == 1 && worldTransform_.translation_.num[2] >= 250.0f)
+	if (Iscene::sceneNo == GAME_SCENE && worldTransform_.translation_.num[2] >= 250.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
-	else if (GameSelectScene::stageNum == 2 && worldTransform_.translation_.num[2] >= 500.0f)
+	else if (Iscene::sceneNo == GAME_SCENE2 && worldTransform_.translation_.num[2] >= 500.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;

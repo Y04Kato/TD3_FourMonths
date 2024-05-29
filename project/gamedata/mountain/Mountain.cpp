@@ -67,7 +67,7 @@ void Mountain::Update()
 
 void Mountain::Draw(const ViewProjection viewProjection)
 {
-	if (GameSelectScene::stageNum == 1)
+	if (Iscene::sceneNo == GAME_SCENE)
 	{
 		for (int i = 0; i < 4; i++)
 		{
@@ -79,7 +79,7 @@ void Mountain::Draw(const ViewProjection viewProjection)
 			}
 		}
 	}
-	else if (GameSelectScene::stageNum == 2)
+	else if (Iscene::sceneNo == GAME_SCENE2)
 	{
 		for (int i = 0; i < 8; i++)
 		{
