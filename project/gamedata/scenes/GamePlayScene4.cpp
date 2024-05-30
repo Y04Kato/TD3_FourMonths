@@ -1,8 +1,8 @@
-#include "GamePlayScene2.h"
+#include "GamePlayScene4.h"
 #include "GameSelectScene.h"
 #include "components/utilities/globalVariables/GlobalVariables.h"
 
-void GamePlayScene2::Initialize() {
+void GamePlayScene4::Initialize() {
 	CJEngine_ = CitrusJunosEngine::GetInstance();
 	dxCommon_ = DirectXCommon::GetInstance();
 	textureManager_ = TextureManager::GetInstance();
@@ -155,12 +155,12 @@ void GamePlayScene2::Initialize() {
 	datas_->Initialize();
 }
 
-void GamePlayScene2::Update() {
+void GamePlayScene4::Update() {
 	GlobalVariables* globalVariables{};
 	globalVariables = GlobalVariables::GetInstance();
 	ApplyGlobalVariables();
 
-	datas_->SetStageNum(2);
+	datas_->SetStageNum(4);
 
 	if (isGameStart_ == true) {//ゲーム開始時の処理
 		uiSpriteTransform_[3].translate.num[0] = 1048.0f;
@@ -458,7 +458,7 @@ void GamePlayScene2::Update() {
 	ImGui::End();
 }
 
-void GamePlayScene2::Draw() {
+void GamePlayScene4::Draw() {
 #pragma region 背景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
 
@@ -539,13 +539,13 @@ void GamePlayScene2::Draw() {
 #pragma endregion
 }
 
-void GamePlayScene2::Finalize() {
+void GamePlayScene4::Finalize() {
 	delete player_;
 
 	objects_.clear();
 }
 
-void GamePlayScene2::ApplyGlobalVariables() {
+void GamePlayScene4::ApplyGlobalVariables() {
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 
 	objCount_ = globalVariables->GetIntValue(groupName, "ObjCount");
@@ -558,7 +558,7 @@ void GamePlayScene2::ApplyGlobalVariables() {
 	}
 }
 
-void GamePlayScene2::SetObject(EulerTransform trans, const std::string& name) {
+void GamePlayScene4::SetObject(EulerTransform trans, const std::string& name) {
 	Obj obj;
 	obj.model.Initialize(ObjModelData_, ObjTexture_);
 	obj.model.SetDirectionalLightFlag(true, 3);

@@ -123,8 +123,6 @@ private:
 	bool isColor_;
 	Vector4 particleColor_ = { 0.0f,0.0f,0.0f,0.0f };
 
-	std::unique_ptr<CreateLine> line_;
-
 	bool isGameStart_ = true;//ゲーム開始時に1回だけ呼ぶ
 
 	//Restart

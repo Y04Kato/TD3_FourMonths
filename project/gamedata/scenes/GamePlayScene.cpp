@@ -148,12 +148,6 @@ void GamePlayScene::Initialize() {
 
 	globalVariables->AddItem(groupName, "ObjCount", objCount_);
 
-	//Line
-	line_ = std::make_unique <CreateLine>();
-	line_->Initialize();
-	line_->SetDirectionalLightFlag(false, 0);
-	line_->SetLineThickness(0.2f);
-
 	startWorldTransform_.Initialize();
 	startWorldTransform_.rotation_ = { 1.5f,0.0f,2.0f };
 
@@ -175,7 +169,7 @@ void GamePlayScene::Update() {
 			SetObject(EulerTransform{ { 4.0f,30.0f,4.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objNameHolder_[i]);
 		}
 		isGameStart_ = false;
-		ShowCursor(showCursor);//カーソル表示設定関数
+		ShowCursor(0);//カーソル表示設定関数
 	}
 
 	if (input_->TriggerKey(DIK_TAB) && !datas_->GetIsPause())
@@ -230,15 +224,6 @@ void GamePlayScene::Update() {
 			player_->SetWorldTransform(startWorldTransform_);
 			nowTime_ = 0;
 		}
-
-		/*if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 717.0f && !datas_->GetIsRule())
-		{
-			datas_->SetIsRule(true);
-		}
-		else if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 717.0f && datas_->GetIsRule())
-		{
-			datas_->SetIsRule(false);
-		}*/
 	}
 	else
 	{
@@ -489,8 +474,6 @@ void GamePlayScene::Draw() {
 	skydome_->Draw(viewProjection_);
 
 	goal_->Draw(viewProjection_);
-
-	//line_->Draw(player_->GetWorldTransformPlayer(),player_->GetWorldTransformReticle(), viewProjection_, Vector4{ 1.0f,1.0f,1.0f,1.0f });
 
 	for (Obj& obj : objects_) {
 		obj.model.Draw(obj.world, viewProjection_, obj.material);

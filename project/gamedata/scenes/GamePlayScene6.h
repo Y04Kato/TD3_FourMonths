@@ -24,7 +24,7 @@
 #include "numbers/numbers.h"
 #include "datas/datas.h"
 
-class GamePlayScene2 :public Iscene {
+class GamePlayScene6 :public Iscene {
 public:
 	void Initialize() override;
 	void Update() override;
@@ -80,7 +80,7 @@ private:
 	std::string objNameHolder_[objCountMax_];//オブジェクトの名前を保存する変数
 	StructSphere structSphereTree_;//木の当たり判定用
 
-	const char* groupName = "GamePlayScene2";
+	const char* groupName = "GamePlayScene6";
 
 	//Skydome
 	Skydome* skydome_ = nullptr;
