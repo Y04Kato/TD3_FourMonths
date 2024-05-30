@@ -184,6 +184,38 @@ bool Input::PushYButton(XINPUT_STATE& out) {
 	return false;
 }
 
+void Input::ViewCursor() {
+	toggleCursor_ = true;
+
+	int c;
+
+	// カーソルを表示するループ
+	do {
+		c = ShowCursor(TRUE);  // カーソルを表示する
+	} while (c < 0);
+}
+
+void Input::HideCursor() {
+	toggleCursor_ = false;
+
+	int c;
+
+	// カーソルを非表示にするループ
+	do {
+		c = ShowCursor(FALSE);  // カーソルを非表示にする
+	} while (c >= 0);
+}
+
+void Input::ToggleCursor() {
+	if (toggleCursor_ == true) {
+		HideCursor();
+	}
+	else {
+		ViewCursor();
+	}
+
+}
+
 Vector2 Input::MousePos() {
 	POINT p;
 	GetCursorPos(&p);

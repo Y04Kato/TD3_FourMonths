@@ -173,7 +173,7 @@ void GamePlayScene4::Update() {
 			SetObject(EulerTransform{ { 4.0f,30.0f,4.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objNameHolder_[i]);
 		}
 		isGameStart_ = false;
-		ShowCursor(0);//カーソル表示設定関数
+		input_->HideCursor();
 	}
 
 	if (input_->TriggerKey(DIK_TAB) && !datas_->GetIsPause())
@@ -227,6 +227,7 @@ void GamePlayScene4::Update() {
 			startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
 			player_->SetWorldTransform(startWorldTransform_);
 			nowTime_ = 0;
+			input_->ViewCursor();
 		}
 	}
 	else
@@ -242,7 +243,7 @@ void GamePlayScene4::Update() {
 			player_->SetIsGoal(false);
 			datas_->SetClearTime(nowTime_);
 			nowTime_ = 0;
-			ShowCursor(1);//カーソル表示設定関数
+			input_->ViewCursor();
 		}
 
 		startWorldTransform_.UpdateMatrix();
@@ -372,14 +373,7 @@ void GamePlayScene4::Update() {
 	}
 
 	if (input_->TriggerKey(DIK_X)) {//Xkeyでカーソル表示変更
-		if (showCursor == (int)true) {
-			showCursor = (int)false;
-			ShowCursor(showCursor);
-		}
-		else {
-			showCursor = (int)true;
-			ShowCursor(showCursor);
-		}
+		input_->ToggleCursor();
 	}
 
 	for (Obj& obj : objects_) {//レイとオブジェクトの当たり判定の結果

@@ -49,6 +49,10 @@ public:
 	bool PushXButton(XINPUT_STATE& out);
 	bool PushYButton(XINPUT_STATE& out);
 
+	void ViewCursor();
+	void HideCursor();
+	void ToggleCursor();
+
 	MousePosition GetMousePosition() {
 		return m_Position_;
 	}
@@ -73,5 +77,6 @@ private:
 	Vector2 MousePos();
 	Vector2 MouseVelocity();
 	float MouseScroll();
+	bool toggleCursor_ = true;
 };
 
