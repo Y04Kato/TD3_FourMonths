@@ -21,6 +21,7 @@ void GameClearScene::Initialize() {
 	spriteResource_[1] = textureManager_->Load("project/gamedata/resources/UI/ResultUI.png");
 	spriteResource_[2] = textureManager_->Load("project/gamedata/resources/UI/GoalUI.png");
 	spriteResource_[3] = textureManager_->Load("project/gamedata/resources/UI/Cursor.png");
+	starTextureHandle_ = textureManager_->Load("project/gamedata/resources/UI/star.png");
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -40,17 +41,27 @@ void GameClearScene::Initialize() {
 		sprite_[i]->SetAnchor(Vector2{ 0.5f,0.5f });
 	}
 
-	//Timer
-	/*numbers_ = std::make_unique<Numbers>();
-	numbers_->Initialize();
-	numbers_->SetInitialNum(0 / 60);*/
+	spriteTransform_[1].translate.num[0] = 520.0f;
+	spriteTransform_[1].translate.num[1] = 300.0f;
+
+	for (uint32_t index = 0; index < 3; index++) {
+		starSprite_[index] = std::make_unique<CreateSprite>();
+		starSprite_[index]->Initialize({ starTextureSize_, starTextureSize_ }, starTextureHandle_);
+		starSprite_[index]->SetAnchor(Vector2{ 0.5f, 0.5f });
+	}
+	starTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{800.0f, 150.0f,0.0f} };
+
+
+	itemNumbers_ = std::make_unique<Numbers>();
+	itemNumbers_->Initialize();
+	itemNumbers_->SetInitialNum(0 / 60);
+	itemNumbersTransform_ = { {1.0f, 1.0f, 1.0f}, { 0.0f,0.0f,0.0f}, {430.0f,215.0f,0.0f} };
+
+	//クリアタイム
 	timer_ = std::make_unique<Timer>();
 	timer_->Initialize();
 	timer_->SetInitialNum(0 / 60);
-
-	numbersTransform_.scale = { 1.0f,1.0f,1.0f };
-	numbersTransform_.rotate = { 0.0f,0.0f,0.0f };
-	numbersTransform_.translate = { 520.0f,370.0f,0.0f };
+	timerTransform_ = { {1.0f, 1.0f, 1.0f}, { 0.0f,0.0f,0.0f}, {420.0f,310.0f,0.0f} };
 
 	//Datas
 	datas_ = Datas::GetInstance();
@@ -65,13 +76,19 @@ void GameClearScene::Update() {
 
 		spriteTransform_[3].translate.num[1] = 690.0f;
 
+		achievementCount_ = 0;
+
 		isSceneStart_ = false;
 	}
 
-	/*numbers_->SetNum(datas_->GetClearTime() / 60);
-	numbers_->SetTransform(numbersTransform_);*/
+	if (datas_->GetClearTime() < 10.0f) {
+		achievementCount_ = 1;
+	}
+
+	itemNumbers_->SetNum(1 / 60);
+	itemNumbers_->SetTransform(itemNumbersTransform_);
 	timer_->SetNum(datas_->GetClearTime());
-	timer_->SetTransform(numbersTransform_);
+	timer_->SetTransform(timerTransform_);
 
 	if (input_->TriggerKey(DIK_A) && spriteTransform_[3].translate.num[0] == 1061.0f)
 	{
@@ -96,7 +113,10 @@ void GameClearScene::Update() {
 	ImGui::Begin("debug");
 	ImGui::Text("GameClearScene");
 	ImGui::DragFloat3("SWTFT", &spriteTransform_[3].translate.num[0], 0.0f, 2280.0f);
-	ImGui::DragFloat3("trans", numbersTransform_.translate.num, 0.0f, 2280.0f);
+	ImGui::DragFloat3("trans", itemNumbersTransform_.translate.num, 0.0f, 2280.0f);
+	ImGui::DragFloat3("star", starTransform_.translate.num, 0.0f, 2280.0f);
+	ImGui::DragFloat3("item", itemNumbersTransform_.translate.num, 0.0f, 2280.0f);
+	ImGui::DragFloat3("time", timerTransform_.translate.num, 0.0f, 2280.0f);
 	ImGui::End();
 
 	//左側(現在のステージを繰り返し)
@@ -227,7 +247,13 @@ void GameClearScene::Draw() {
 
 	sprite_[3]->Draw(spriteTransform_[3], SpriteuvTransform_[3], spriteMaterial_[3]);
 
-	//numbers_->Draw();
+	for (uint32_t index = 0; index < achievementCount_; index++) {
+		EulerTransform transform = starTransform_;
+		transform.translate.num[1] += starTextureSize_ * index;
+		starSprite_[index]->Draw(transform, SpriteuvTransform_[0], { 1.0f, 1.0f, 1.0f, 1.0f });
+	}
+
+	itemNumbers_->Draw();
 	timer_->Draw();
 #pragma endregion
 }
