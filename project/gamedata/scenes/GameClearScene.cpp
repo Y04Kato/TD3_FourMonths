@@ -109,6 +109,34 @@ void GameClearScene::Update() {
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
+	if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
+		datas_->GetStageNum() == 3) {
+		sceneNo = GAME_SCENE3;
+		isSceneStart_ = true;
+		audio_->SoundPlayWave(selectData_, 0.1f, false);
+	}
+
+	if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
+		datas_->GetStageNum() == 4) {
+		sceneNo = GAME_SCENE4;
+		isSceneStart_ = true;
+		audio_->SoundPlayWave(selectData_, 0.1f, false);
+	}
+
+	if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
+		datas_->GetStageNum() == 5) {
+		sceneNo = GAME_SCENE5;
+		isSceneStart_ = true;
+		audio_->SoundPlayWave(selectData_, 0.1f, false);
+	}
+
+	if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
+		datas_->GetStageNum() == 6) {
+		sceneNo = GAME_SCENE6;
+		isSceneStart_ = true;
+		audio_->SoundPlayWave(selectData_, 0.1f, false);
+	}
+
 	//真ん中(次のステージ)
 	if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
 		datas_->GetStageNum() == 1) {
@@ -119,6 +147,34 @@ void GameClearScene::Update() {
 
 	if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
 		datas_->GetStageNum() == 2) {
+		sceneNo = GAME_SCENE3;
+		isSceneStart_ = true;
+		audio_->SoundPlayWave(selectData_, 0.1f, false);
+	}
+
+	if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
+		datas_->GetStageNum() == 3) {
+		sceneNo = GAME_SCENE4;
+		isSceneStart_ = true;
+		audio_->SoundPlayWave(selectData_, 0.1f, false);
+	}
+
+	if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
+		datas_->GetStageNum() == 4) {
+		sceneNo = GAME_SCENE5;
+		isSceneStart_ = true;
+		audio_->SoundPlayWave(selectData_, 0.1f, false);
+	}
+
+	if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
+		datas_->GetStageNum() == 5) {
+		sceneNo = GAME_SCENE6;
+		isSceneStart_ = true;
+		audio_->SoundPlayWave(selectData_, 0.1f, false);
+	}
+
+	if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
+		datas_->GetStageNum() == 6) {
 		sceneNo = TITLE_SCENE;
 		isSceneStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);

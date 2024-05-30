@@ -328,16 +328,16 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="project\gamedata\scenes\GamePlayScene3.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\project\gamedata\scenes</Filter>
     </ClCompile>
     <ClCompile Include="project\gamedata\scenes\GamePlayScene4.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\project\gamedata\scenes</Filter>
     </ClCompile>
     <ClCompile Include="project\gamedata\scenes\GamePlayScene5.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\project\gamedata\scenes</Filter>
     </ClCompile>
     <ClCompile Include="project\gamedata\scenes\GamePlayScene6.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\project\gamedata\scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -569,16 +569,16 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="project\gamedata\scenes\GamePlayScene3.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\project\gamedata\scenes</Filter>
     </ClInclude>
     <ClInclude Include="project\gamedata\scenes\GamePlayScene4.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\project\gamedata\scenes</Filter>
     </ClInclude>
     <ClInclude Include="project\gamedata\scenes\GamePlayScene5.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\project\gamedata\scenes</Filter>
     </ClInclude>
     <ClInclude Include="project\gamedata\scenes\GamePlayScene6.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\project\gamedata\scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
