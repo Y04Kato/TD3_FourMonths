@@ -52,6 +52,7 @@ private:
 
 	//Player
 	Player* player_ = nullptr;
+	StructSphere structSphere_;
 
 	//カーソルの表示変数、0で非表示、1で表示
 	//使用するShowCursor関数がboolを使えない為intで代用
@@ -69,6 +70,7 @@ private:
 		std::string name;
 		OBB obb_;
 		bool isHit;
+		bool isHitEye;
 	};
 	std::list<Obj> objects_;
 	ModelData ObjModelData_;
@@ -77,6 +79,7 @@ private:
 	static const int objCountMax_ = 100;//オブジェクト最大数
 	int objCount_ = 0;//オブジェクトの設置数
 	std::string objNameHolder_[objCountMax_];//オブジェクトの名前を保存する変数
+	StructSphere structSphereTree_;//木の当たり判定用
 
 	const char* groupName = "GamePlayScene2";
 
@@ -98,17 +101,19 @@ private:
 	uint32_t spriteResource_;
 
 	//UISprite
-	uint32_t uiResource_[2];
+	uint32_t uiResource_[5];
 
-	std::unique_ptr <CreateSprite> uiSprite_[2];
-	EulerTransform uiSpriteTransform_[2];
-	EulerTransform uiSpriteuvTransform_[2];
-	Vector4 uiSpriteMaterial_[2];
+	std::unique_ptr <CreateSprite> uiSprite_[5];
+	EulerTransform uiSpriteTransform_[5];
+	EulerTransform uiSpriteuvTransform_[5];
+	Vector4 uiSpriteMaterial_[5];
 
-	bool isSpriteDraw_[2];
+	bool isSpriteDraw_[5];
 
-	Segment segment_;
-	bool isHit_;
+	Segment segmentRay_;
+	Segment segmentEye_;
+	bool isHitWire_;
+	bool isHitPlayer_;
 	int resetTime_;
 
 	//Particle
@@ -118,8 +123,6 @@ private:
 	bool isBillBoard_ = true;
 	bool isColor_;
 	Vector4 particleColor_ = { 0.0f,0.0f,0.0f,0.0f };
-
-	std::unique_ptr<CreateLine> line_;
 
 	bool isGameStart_ = true;//ゲーム開始時に1回だけ呼ぶ
 
@@ -132,6 +135,10 @@ private:
 	std::unique_ptr<Timer> timer_;
 	float nowTime_ = 0.0f;
 	EulerTransform numbersTransform_;
+
+	std::unique_ptr<Numbers> numbers2_;
+	int nowCount_ = 0;
+	EulerTransform numbersTransform2_;
 
 	//Datas
 	Datas* datas_;

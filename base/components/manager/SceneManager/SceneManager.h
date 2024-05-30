@@ -16,6 +16,10 @@
 #include "GameSelectScene.h"
 #include "GamePlayScene.h"
 #include "GamePlayScene2.h"
+#include "GamePlayScene3.h"
+#include "GamePlayScene4.h"
+#include "GamePlayScene5.h"
+#include "GamePlayScene6.h"
 #include "GameClearScene.h"
 #include "GameDemoScene.h"
 

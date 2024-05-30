@@ -3,7 +3,7 @@
 
 void Mountain::Initialize()
 {
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 15; i++)
 	{
 		model_[i].reset(Model::CreateModel("project/gamedata/resources/models/mountain", "mountain.obj"));
 
@@ -45,6 +45,24 @@ void Mountain::Initialize()
 	worldTransform_[9].rotation_ = { 0.0f,3.13f,0.0f };
 	worldTransform_[9].scale_ = { 4.0f,4.0f,8.5f };
 
+	worldTransform_[10].translation_ = { -50.0f,-4.0f,1370.0f };
+	worldTransform_[10].scale_ = { 4.0f,4.0f,8.5f };
+
+	worldTransform_[11].translation_ = { 50.0f,-4.0f,1210.0f };
+	worldTransform_[11].rotation_ = { 0.0f,3.13f,0.0f };
+	worldTransform_[11].scale_ = { 4.0f,4.0f,8.5f };
+
+	worldTransform_[12].translation_ = { -50.0f,-4.0f,1640.0f };
+	worldTransform_[12].scale_ = { 4.0f,4.0f,8.5f };
+
+	worldTransform_[13].translation_ = { 50.0f,-4.0f,1448.0f };
+	worldTransform_[13].rotation_ = { 0.0f,3.13f,0.0f };
+	worldTransform_[13].scale_ = { 4.0f,4.0f,8.5f };
+
+	worldTransform_[14].translation_ = { 50.0f,-4.0f,1637.0f };
+	worldTransform_[14].rotation_ = { 0.0f,3.13f,0.0f };
+	worldTransform_[14].scale_ = { 4.0f,4.0f,8.5f };
+
 	modelMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 	//model_->SetDirectionalLightFlag(true, 3);
 }
@@ -54,7 +72,7 @@ void Mountain::Update()
 	//worldTransform_.rotation_.num[1] += 0.001f;
 	//worldTransform_.rotation_.num[2] += 0.001f;
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 15; i++)
 	{
 		worldTransform_[i].UpdateMatrix();
 	}
@@ -66,17 +84,17 @@ void Mountain::Update()
 	ImGui::End();
 
 	ImGui::Begin("Mountain2");
-	ImGui::DragFloat3("WTFT", &worldTransform_[3].translation_.num[0], -13.0f, 13.0f);
-	ImGui::DragFloat3("WTFR", &worldTransform_[3].rotation_.num[0], -13.0f, 13.0f);
-	ImGui::DragFloat3("WTFS", &worldTransform_[3].scale_.num[0], 1.0f, 100.0f);
+	ImGui::DragFloat3("WTFT", &worldTransform_[14].translation_.num[0], -13.0f, 13.0f);
+	ImGui::DragFloat3("WTFR", &worldTransform_[14].rotation_.num[0], -13.0f, 13.0f);
+	ImGui::DragFloat3("WTFS", &worldTransform_[14].scale_.num[0], 1.0f, 100.0f);
 	ImGui::End();
 }
 
 void Mountain::Draw(const ViewProjection viewProjection)
 {
-	if (Iscene::sceneNo == GAME_SCENE)
-	{
-		for (int i = 0; i < 10; i++)
+	/*if (Iscene::sceneNo == GAME_SCENE)
+	{*/
+		for (int i = 0; i < 15; i++)
 		{
 			if (viewProjection.translation_.num[1] <= 0) {
 				model_[i]->Draw(worldTransform_[i], viewProjection, Vector4{ modelMaterial_.num[0],modelMaterial_.num[1] ,modelMaterial_.num[2] ,0.05f });
@@ -85,10 +103,10 @@ void Mountain::Draw(const ViewProjection viewProjection)
 				model_[i]->Draw(worldTransform_[i], viewProjection, modelMaterial_);
 			}
 		}
-	}
-	else if (Iscene::sceneNo == GAME_SCENE2)
+	//}
+	/*else if (Iscene::sceneNo == GAME_SCENE2)
 	{
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 15; i++)
 		{
 			if (viewProjection.translation_.num[1] <= 0) {
 				model_[i]->Draw(worldTransform_[i], viewProjection, Vector4{ modelMaterial_.num[0],modelMaterial_.num[1] ,modelMaterial_.num[2] ,0.05f });
@@ -97,5 +115,5 @@ void Mountain::Draw(const ViewProjection viewProjection)
 				model_[i]->Draw(worldTransform_[i], viewProjection, modelMaterial_);
 			}
 		}
-	}
+	}*/
 }

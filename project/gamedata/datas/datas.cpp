@@ -7,5 +7,5 @@ Datas* Datas::GetInstance() {
 }
 
 void Datas::Initialize() {
-	clearTime_ = 0;
+
 }

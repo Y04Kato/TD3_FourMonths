@@ -6,17 +6,6 @@
 #include "TextureManager.h"
 #include "components/2d/CreateSprite.h"
 
-struct VectorInt2 {
-	int x;
-	int y;
-};
-
-struct VectorInt3 {
-	int x;
-	int y;
-	int z;
-};
-
 class Numbers {
 public:
 	void Initialize();

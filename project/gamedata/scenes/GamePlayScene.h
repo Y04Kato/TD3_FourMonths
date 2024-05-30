@@ -101,14 +101,14 @@ private:
 	uint32_t spriteResource_;
 
 	//UISprite
-	uint32_t uiResource_[2];
+	uint32_t uiResource_[5];
 
-	std::unique_ptr <CreateSprite> uiSprite_[2];
-	EulerTransform uiSpriteTransform_[2];
-	EulerTransform uiSpriteuvTransform_[2];
-	Vector4 uiSpriteMaterial_[2];
+	std::unique_ptr <CreateSprite> uiSprite_[5];
+	EulerTransform uiSpriteTransform_[5];
+	EulerTransform uiSpriteuvTransform_[5];
+	Vector4 uiSpriteMaterial_[5];
 
-	bool isSpriteDraw_[2];
+	bool isSpriteDraw_[5];
 
 	Segment segmentRay_;
 	Segment segmentEye_;
@@ -123,8 +123,6 @@ private:
 	bool isBillBoard_ = true;
 	bool isColor_;
 	Vector4 particleColor_ = { 0.0f,0.0f,0.0f,0.0f };
-
-	std::unique_ptr<CreateLine> line_;
 
 	bool isGameStart_ = true;//ゲーム開始時に1回だけ呼ぶ
 
@@ -144,7 +142,4 @@ private:
 
 	//Datas
 	Datas* datas_;
-
-	//Pause
-	bool isPause_ = false;
 };

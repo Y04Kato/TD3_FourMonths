@@ -49,6 +49,11 @@ public:
 	bool PushXButton(XINPUT_STATE& out);
 	bool PushYButton(XINPUT_STATE& out);
 
+	void ViewCursor();
+	void HideCursor();
+	void ToggleCursor();
+	bool GetToggleCursor() { return toggleCursor_; }
+
 	MousePosition GetMousePosition() {
 		return m_Position_;
 	}
@@ -67,11 +72,12 @@ private:
 
 	//マウス
 	DIMOUSESTATE2 mouse_;
-	DIMOUSESTATE2 mousePre_;
+	DIMOUSESTATE2 preMouse_;
 	Microsoft::WRL::ComPtr<IDirectInputDevice8> mouseInput_ = nullptr;
 	MousePosition m_Position_ = { {0.0f,0.0f},0.0f };
 	Vector2 MousePos();
 	Vector2 MouseVelocity();
 	float MouseScroll();
+	bool toggleCursor_ = true;
 };
 
