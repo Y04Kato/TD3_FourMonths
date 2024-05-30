@@ -169,6 +169,8 @@ void GamePlayScene3::Update() {
 	if (isGameStart_ == true) {//ゲーム開始時の処理
 		uiSpriteTransform_[3].translate.num[0] = 1048.0f;
 		uiSpriteTransform_[3].translate.num[1] = 324.0f;
+		startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
+		player_->SetWorldTransform(startWorldTransform_);
 		for (int i = 0; i < objCount_; i++) {
 			SetObject(EulerTransform{ { 4.0f,30.0f,4.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objNameHolder_[i]);
 		}
