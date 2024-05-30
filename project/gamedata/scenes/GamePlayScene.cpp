@@ -284,7 +284,7 @@ void GamePlayScene::Update() {
 		numbers_->SetNum(nowTime_ / 60);
 		numbers_->SetTransform(numbersTransform_);
 
-		nowCount_ = (int)player_->GetWorldTransformPlayer().translation_.num[1] + 2;
+		nowCount_ = (int)player_->GetWorldTransformPlayer().translation_.num[1] + 3;
 		numbers2_->SetNum(nowCount_);
 		numbers2_->SetTransform(numbersTransform2_);
 		if (nowCount_ <= 10 && nowCount_ > 5) {
