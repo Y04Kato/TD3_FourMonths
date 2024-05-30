@@ -319,6 +319,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 	ImGui::End();
 
 	//画面端
+	//左右
 	if (worldTransform_.translation_.num[0] >= 75.0f)
 	{
 		worldTransform_.translation_.num[0] = 75.0f;
@@ -327,6 +328,12 @@ void Player::Updete(const ViewProjection viewProjection) {
 	if (worldTransform_.translation_.num[0] <= -75.0f)
 	{
 		worldTransform_.translation_.num[0] = -75.0f;
+	}
+
+	//後ろ
+	if (worldTransform_.translation_.num[2] <= -5.0f)
+	{
+		worldTransform_.translation_.num[2] = -5.0f;
 	}
 
 	//床に落ちたとき
@@ -346,14 +353,14 @@ void Player::Updete(const ViewProjection viewProjection) {
 	}
 
 	//ゴール
-	if (GameSelectScene::stageNum == 1 && worldTransform_.translation_.num[2] >= 1000.0f)
+	if (Iscene::sceneNo == GAME_SCENE && worldTransform_.translation_.num[2] >= 1000.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
-	else if (GameSelectScene::stageNum == 2 && worldTransform_.translation_.num[2] >= 500.0f)
+	else if (Iscene::sceneNo == GAME_SCENE && worldTransform_.translation_.num[2] >= 1500.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
