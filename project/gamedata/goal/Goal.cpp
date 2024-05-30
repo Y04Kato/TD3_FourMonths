@@ -34,7 +34,7 @@ void Goal::Update()
 	{
 		for (int i = 0; i < 2; i++)
 		{
-			worldTransform_[i].translation_ = { -9.5f,49.3f,500.0f };
+			worldTransform_[i].translation_ = { -9.5f,49.3f,1000.0f };
 			worldTransform_[i].rotation_ = { 1.54f,0.0f,1.55f };
 			worldTransform_[i].scale_ = { 100.0f,100.0f,100.0f };
 		}
