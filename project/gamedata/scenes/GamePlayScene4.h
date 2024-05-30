@@ -130,7 +130,7 @@ private:
 
 	//Timer
 	std::unique_ptr<Numbers> numbers_;
-	int nowTime_ = 0;
+	float nowTime_ = 0;
 	EulerTransform numbersTransform_;
 
 	std::unique_ptr<Numbers> numbers2_;

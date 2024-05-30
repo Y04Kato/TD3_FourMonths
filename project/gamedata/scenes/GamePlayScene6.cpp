@@ -273,7 +273,7 @@ void GamePlayScene6::Update() {
 			nowTime_++;
 		}
 
-		numbers_->SetNum(nowTime_ / 60);
+		numbers_->SetNum(int(nowTime_) / 60);
 		numbers_->SetTransform(numbersTransform_);
 
 		nowCount_ = (int)player_->GetWorldTransformPlayer().translation_.num[1] + 3;

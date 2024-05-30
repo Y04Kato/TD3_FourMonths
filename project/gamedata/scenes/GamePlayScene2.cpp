@@ -310,6 +310,11 @@ void GamePlayScene2::Update() {
 		}
 
 		player_->Updete(viewProjection_);
+
+		if (player_->GetIsFell()) {
+			nowTime_ += 3.0f;
+			player_->SetIsFell(false);
+		}
 	}
 
 
