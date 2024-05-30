@@ -67,7 +67,7 @@ private:
 
 	//マウス
 	DIMOUSESTATE2 mouse_;
-	DIMOUSESTATE2 mousePre_;
+	DIMOUSESTATE2 preMouse_;
 	Microsoft::WRL::ComPtr<IDirectInputDevice8> mouseInput_ = nullptr;
 	MousePosition m_Position_ = { {0.0f,0.0f},0.0f };
 	Vector2 MousePos();

@@ -39,6 +39,9 @@ void Input::Initialize() {
 	//排他制御レベルのセット
 	result = mouseInput_->SetCooperativeLevel(
 		WinApp::GetInstance()->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+
+	mouse_ = {};
+	preMouse_ = {};
 }
 
 void Input::Update() {
@@ -50,7 +53,8 @@ void Input::Update() {
 	//全キーの入力状態を取得
 	keyboardInput_->GetDeviceState(sizeof(key_), &key_);
 
-	mousePre_ = mouse_;
+	preMouse_ = mouse_;
+
 	//マウス情報の取得開始
 	mouseInput_->Acquire();
 
@@ -88,14 +92,16 @@ bool Input::ReleaseKey(BYTE keyNumber)const {
 	}
 }
 
-bool Input::pushMouse(uint32_t Mousebutton){
-	if (mouse_.rgbButtons[Mousebutton] != 0) {
+bool Input::pushMouse(uint32_t Mousebutton) {
+	if (mouse_.rgbButtons[Mousebutton] != 0 && preMouse_.rgbButtons[Mousebutton] == 0) {
 		return true;
 	}
-	return false;
+	else {
+		return false;
+	}
 }
 
-bool Input::GetJoystickState(int32_t stickNo, XINPUT_STATE& out){
+bool Input::GetJoystickState(int32_t stickNo, XINPUT_STATE& out) {
 	DWORD dwResult = XInputGetState(stickNo, &out);
 	if (out.Gamepad.sThumbLX < XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {
 		if (-XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE < out.Gamepad.sThumbLX) {
@@ -122,56 +128,56 @@ bool Input::GetJoystickState(int32_t stickNo, XINPUT_STATE& out){
 	return dwResult == ERROR_SUCCESS;
 }
 
-bool Input::PushLTrigger(XINPUT_STATE& out){
+bool Input::PushLTrigger(XINPUT_STATE& out) {
 	if (out.Gamepad.bLeftTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD) {
 		return true;
 	}
 	return false;
 }
 
-bool Input::PushRTrigger(XINPUT_STATE& out){
+bool Input::PushRTrigger(XINPUT_STATE& out) {
 	if (out.Gamepad.bRightTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD) {
 		return true;
 	}
 	return false;
 }
 
-bool Input::PushLSHOULDER(XINPUT_STATE& out){
+bool Input::PushLSHOULDER(XINPUT_STATE& out) {
 	if (out.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) {
 		return true;
 	}
 	return false;
 }
 
-bool Input::PushRSHOULDER(XINPUT_STATE& out){
+bool Input::PushRSHOULDER(XINPUT_STATE& out) {
 	if (out.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
 		return true;
 	}
 	return false;
 }
 
-bool Input::PushAButton(XINPUT_STATE& out){
+bool Input::PushAButton(XINPUT_STATE& out) {
 	if (out.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 		return true;
 	}
 	return false;
 }
 
-bool Input::PushBButton(XINPUT_STATE& out){
+bool Input::PushBButton(XINPUT_STATE& out) {
 	if (out.Gamepad.wButtons & XINPUT_GAMEPAD_B) {
 		return true;
 	}
 	return false;
 }
 
-bool Input::PushXButton(XINPUT_STATE& out){
+bool Input::PushXButton(XINPUT_STATE& out) {
 	if (out.Gamepad.wButtons & XINPUT_GAMEPAD_X) {
 		return true;
 	}
 	return false;
 }
 
-bool Input::PushYButton(XINPUT_STATE& out){
+bool Input::PushYButton(XINPUT_STATE& out) {
 	if (out.Gamepad.wButtons & XINPUT_GAMEPAD_Y) {
 		return true;
 	}
@@ -189,6 +195,6 @@ Vector2 Input::MouseVelocity() {
 	return { (float)mouse_.lX,(float)mouse_.lY };
 }
 
-float Input::MouseScroll(){
+float Input::MouseScroll() {
 	return (float)mouse_.lZ;
 }

@@ -15,7 +15,7 @@ void Player::Initialize() {
 
 	//テクスチャ
 	uiResource_[0] = textureManager_->Load("project/gamedata/resources/UI/MoveUI.png");
-	uiResource_[1] = textureManager_->Load("project/gamedata/resources/UI/MoveUI.png");
+	uiResource_[1] = textureManager_->Load("project/gamedata/resources/UI/meter.png");
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -44,6 +44,7 @@ void Player::Initialize() {
 	worldTransformGrapple_.Initialize();
 
 	worldTransform_.translation_ = { 0.0f,20.0f,0.0f };
+	worldTransform_.rotation_ = { 1.5f,0.0f,2.0f };
 
 	for (int i = 0; i < 2; i++) {
 		sphere_[i] = std::make_unique <CreateSphere>();
@@ -87,8 +88,8 @@ void Player::Initialize() {
 
 	//Particle
 	testEmitter_.transform.translate = { 0.0f,0.0f,45.0f };
-	testEmitter_.transform.rotate = { 0.0f,0.0f,0.0f };
-	testEmitter_.transform.scale = { 1.0f,1.0f,1.0f };
+	testEmitter_.transform.rotate = { -1.0f,-1.0f,-1.0f };
+	testEmitter_.transform.scale = { 0.3f,0.3f,0.3f };
 	testEmitter_.count = 15;
 	testEmitter_.frequency = 0.05f;
 	testEmitter_.frequencyTime = 0.0f;//発生頻度の時刻
@@ -97,7 +98,7 @@ void Player::Initialize() {
 	accelerationField_.area.min = { -1.0f,-1.0f,-1.0f };
 	accelerationField_.area.max = { 1.0f,1.0f,1.0f };
 
-	spriteResource_ = textureManager_->Load("project/gamedata/resources/circle.png");
+	spriteResource_ = textureManager_->Load("project/gamedata/resources/UI/star.png");
 
 	particle_ = std::make_unique <CreateParticle>();
 
@@ -109,6 +110,8 @@ void Player::Initialize() {
 	datas_ = Datas::GetInstance();
 	datas_->Initialize();
 
+	model_.reset(Model::CreateSkinningModel("project/gamedata/resources/star", "star.obj"));
+	modelMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 }
 
 void Player::Updete(const ViewProjection viewProjection) {
@@ -132,8 +135,6 @@ void Player::Updete(const ViewProjection viewProjection) {
 		Reticle(viewProjection);
 		if (isHitWire_ == true) {//レティクルがオブジェクト捉えていれば
 			DistancePlayerToReticle = worldTransformObject_.translation_.num[2] - worldTransform2_.translation_.num[2];
-			worldTransformGrapple_ = worldTransformWire_; // ワイヤーが付いたポイントを保存
-			start_ = Normalize(worldTransformGrapple_.translation_ - worldTransform2_.translation_); // ワイヤーを付けた時の根本から先端への単位ベクトル
 			upSize_ = 0.0f; // 上昇量を初期化
 			if (DistancePlayerToReticle <= 0) {
 				DistancePlayerToReticle = -DistancePlayerToReticle + 5.0f;
@@ -191,26 +192,41 @@ void Player::Updete(const ViewProjection viewProjection) {
 	particle_->SetAccelerationField(accelerationField_);
 	particle_->Update();
 
+	ImGui::Begin("physics");
 	if (isActive_) {
+		if (isRightMove_ == false) {
+			worldTransform_.rotation_.num[2] += 0.1f;
+		}
+		else {
+			worldTransform_.rotation_.num[2] -= 0.1f;
+		}
 		if (isSetWire_ && !isRoll_) { // ワイヤー中
 			physics_->SetGravity(gravityHaveWire_); // ワイヤー中の重力
 			// ワイヤー中の物理挙動
-			Vector3 force = physics_->RubberMovement(worldTransform_.translation_, worldTransformGrapple_.translation_, 1.0f, 0.0f);
+			Vector3 force = physics_->RubberMovement(worldTransform_.translation_, worldTransformGrapple_.translation_, stiffness_, dampingCoefficient_);
 			physics_->AddForce(force);
 
 			// 進んでいる方向の単位ベクトルを求める(Y軸を除く)
 			Vector2 vec = physics_->Vector2Perpendicular({ start_.num[0], start_.num[2] });
 			vec = physics_->Vector2Normalize(vec);
 			Vector3 dir = { vec.num[0], 0.0f ,vec.num[1] };/*{ vec.num[0], 0.0f, vec.num[1] }*/; // 進んでいる方向の単位ベクトル
+			/*Vector2 vec = physics_->Vector2Perpendicular({ physics_->GetVelocity().num[0], physics_->GetVelocity().num[2]});
+			vec = physics_->Vector2Normalize(vec);
+			Vector3 dir = { vec.num[0], 0.0f, vec.num[1]};*/
 
 			if (input_->PressKey(DIK_A)) { // 進んでいる方向に対して左
-				Vector3 force = sideForceValueHaveWire_ * dir;
-				physics_->AddForce(force, 1);
-			}
-			if (input_->PressKey(DIK_D)) { // 進んでいる方向に対して右
 				Vector3 force = -sideForceValueHaveWire_ * dir;
 				physics_->AddForce(force, 1);
 			}
+			if (input_->PressKey(DIK_D)) { // 進んでいる方向に対して右
+				Vector3 force = sideForceValueHaveWire_ * dir;
+				physics_->AddForce(force, 1);
+				isRightMove_ = true;
+			}
+			else {
+				isRightMove_ = false;
+			}
+			
 			if (input_->PressKey(DIK_W)) { // 上に徐々に上がる
 				Vector3 force = { 0.0f, upSize_ * upSize_, 0.0f };
 				//upForce_ += 1.0f; // 上昇量
@@ -248,20 +264,23 @@ void Player::Updete(const ViewProjection viewProjection) {
 		else { // ワイヤーじゃない時
 			physics_->SetGravity(gravityNoWire_); // ワイヤー中じゃない時の重力
 			if (input_->PressKey(DIK_A)) {
-
 				Vector3 force = -sideForceValueNoWire_ * right_/*{ -sideForceValueNoWire_ , 0.0f, 0.0f }*/;
 				physics_->AddForce(force, 1);
 			}
 			if (input_->PressKey(DIK_D)) {
 				Vector3 force = sideForceValueNoWire_ * right_/*{ sideForceValueNoWire_, 0.0f, 0.0f }*/;
 				physics_->AddForce(force, 1);
+				isRightMove_ = true;
+			}
+			else {
+				isRightMove_ = false;
 			}
 			if (input_->PressKey(DIK_W)) {
-				Vector3 force = { 0.0f, 0.0f, 200.0f };
+				Vector3 force = { 0.0f, 0.0f, 0.1f };
 				physics_->AddForce(force, 1);
 			}
 			if (input_->PressKey(DIK_S)) {
-				Vector3 force = { 0.0f, 0.0f, -200.0f };
+				Vector3 force = { 0.0f, 0.0f, -0.1f };
 				physics_->AddForce(force, 1);
 			}
 
@@ -289,22 +308,25 @@ void Player::Updete(const ViewProjection viewProjection) {
 		Vector3 velocity = physics_->Update();
 		if (!isRoll_) {
 			worldTransform_.translation_ += velocity * physics_->deltaTime_;
-			Vector3 impulse = physics_->GetImpulse_();
-			worldTransform_.translation_ += impulse * physics_->deltaTime_;
+			//Vector3 impulse = physics_->GetImpulse_();
+			//worldTransform_.translation_ += impulse/* * physics_->deltaTime_*/;
+			ImGui::DragFloat3("velocity", velocity.num, 0.05f);
+			//ImGui::DragFloat3("impulse", impulse.num, 0.05f);
 		}
 
 		//physics_->Vector3Direction((velocity + impulse), &forwad_, &right_);
 	}
+	ImGui::End();
 
 	//画面端
-	if (worldTransform_.translation_.num[0] >= 55.0f)
+	if (worldTransform_.translation_.num[0] >= 75.0f)
 	{
-		worldTransform_.translation_.num[0] = 55.0f;
+		worldTransform_.translation_.num[0] = 75.0f;
 	}
 
-	if (worldTransform_.translation_.num[0] <= -55.0f)
+	if (worldTransform_.translation_.num[0] <= -75.0f)
 	{
-		worldTransform_.translation_.num[0] = -55.0f;
+		worldTransform_.translation_.num[0] = -75.0f;
 	}
 
 	//床に落ちたとき
@@ -324,14 +346,14 @@ void Player::Updete(const ViewProjection viewProjection) {
 	}
 
 	//ゴール
-	if (Iscene::sceneNo == GAME_SCENE && worldTransform_.translation_.num[2] >= 250.0f)
+	if (GameSelectScene::stageNum == 1 && worldTransform_.translation_.num[2] >= 1000.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
-	else if (Iscene::sceneNo == GAME_SCENE2 && worldTransform_.translation_.num[2] >= 500.0f)
+	else if (GameSelectScene::stageNum == 2 && worldTransform_.translation_.num[2] >= 500.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
@@ -341,7 +363,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 
 	ImGui::Begin("player");
 	ImGui::DragFloat3("Pos", worldTransform_.translation_.num, 0.05f);
-	ImGui::DragFloat3("Rot", worldTransform2_.rotation_.num, 0.05f);
+	ImGui::DragFloat3("Rot", worldTransform_.rotation_.num, 0.05f);
 	ImGui::DragFloat3("ReticlePos", worldTransformReticle_.translation_.num, 0.05f);
 	ImGui::DragFloat3("velocity", accelerationField_.acceleration.num, 0.05f);
 	ImGui::DragFloat2("MouseSensitivity", sensitivity_.num, 0.05f);
@@ -355,6 +377,8 @@ void Player::Updete(const ViewProjection viewProjection) {
 	ImGui::DragFloat("maxUpForce", &maxUpSize_, 1.0f);
 	ImGui::DragFloat("minSpeedVolume", &minSpeedVolume_, 1.0f);
 	ImGui::DragFloat("downSpeedScale", &downSpeedValue_, 0.05f);
+	ImGui::DragFloat("stiffness", &stiffness_, 0.5f);
+	ImGui::DragFloat("dampingCoefficient_", &dampingCoefficient_, 0.05f);
 	ImGui::Text("Timer %f", accelerationTimer_);
 	ImGui::Text("isHitObj %d", isHitObj_);
 	line_->SetLineThickness(lineThickness_);
@@ -362,7 +386,8 @@ void Player::Updete(const ViewProjection viewProjection) {
 }
 
 void Player::Draw(const ViewProjection viewProjection) {
-	sphere_[0]->Draw(worldTransform_, viewProjection, sphereMaterial_, textureManager_->white);
+	//sphere_[0]->Draw(worldTransform_, viewProjection, sphereMaterial_, textureManager_->white);
+	model_->Draw(worldTransform_, viewProjection, modelMaterial_);
 	if (isSetWire_ == true || isMissWire_ == true) {
 		line_->Draw(worldTransform2_, worldTransformWire_, viewProjection, lineMaterial_);
 	}
@@ -430,6 +455,8 @@ void Player::SetWire() {
 	isMissWire_ = false;
 
 	worldTransformWire_.translation_ = Vector3{ worldTransformObject_.translation_.num[0],worldTransformReticle_.translation_.num[1] ,worldTransformObject_.translation_.num[2] };
+	worldTransformGrapple_ = worldTransformWire_;
+	start_ = Normalize(worldTransformGrapple_.translation_ - worldTransform2_.translation_); // ワイヤーを付けた時の根本から先端への単位ベクトル
 }
 
 void Player::SetWireMiss() {

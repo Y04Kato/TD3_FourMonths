@@ -96,7 +96,7 @@ private:
 
 	//レティクルとワイヤー
 	void Reticle(const ViewProjection viewProjection);//レティクルの計算関数
-	const float kDistancePlayerToReticle = 40.0f;//自機とレティクルの距離、通常射程
+	const float kDistancePlayerToReticle = 90.0f;//自機とレティクルの距離、通常射程
 	float DistancePlayerToReticle = kDistancePlayerToReticle;//自機とレティクルの距離
 	void SetWire();//ワイヤー成功時関数
 	void SetWireMiss();//ワイヤー失敗時関数
@@ -136,31 +136,36 @@ private:
 	Vector3 gravityHaveWire_ = { 0.0f, -5.0f, 0.0f };
 
 	// ワイヤーが自動で切れる角度
-	float limitAngle_ = 30.0f;
+	float limitAngle_ = 60.0f;
 
 	// 非ワイヤー中のADの力
-	float sideForceValueNoWire_ = 400.0f;
+	float sideForceValueNoWire_ = 0.2f;
 
 	// ワイヤー中のADの力
-	float sideForceValueHaveWire_ = 1000.0f;
+	float sideForceValueHaveWire_ = 0.8f;
 
 	// ワイヤー中の上昇量が加算されていく変数
 	float upSize_ = 0.0f;
 	// upSizeへの加算量
-	float upSizeValue_ = 1.0f;
+	float upSizeValue_ = 0.1f;
 	// upSizeの最大値
-	float maxUpSize_ = 30.0f;
+	float maxUpSize_ = 10.0f;
 
 	// 非ワイヤー時の速度の大きさの最小値
 	float minSpeedVolume_ = 15.0f;
 	// 非ワイヤー時の速度の減少量が加算されていく変数
 	float downSpeedSize_ = 0.0f;
 	// 非ワイヤー時の速度の減少量
-	float downSpeedValue_ = 5.0f;
+	float downSpeedValue_ = 0.5f;
 	// 非ワイヤー時の速度の減少量が加算されていく変数の最大値
-	float maxDownSpeedSize_ = 20.0f;
+	float maxDownSpeedSize_ = 5.0f;
 	// 非ワイヤー時の速度の減少を行うかのフラグ
 	bool isDownSpeed_;
+
+	// バネ係数
+	float stiffness_ = 1.0f;
+	// 減衰係数
+	float dampingCoefficient_ = 1.0f;
 
 	// モデルの向き
 	Vector3 forwad_;
@@ -183,4 +188,9 @@ private:
 
 	//Datas
 	Datas* datas_;
+
+	std::unique_ptr<Model> model_;
+	Vector4 modelMaterial_;
+
+	bool isRightMove_ = false;
 };

@@ -59,6 +59,7 @@ void GameClearScene::Update() {
 
 	if (isSceneStart_ == true) {//ゲーム開始時の処理
 		spriteTransform_[3].translate.num[0] = 1061.0f;
+
 		spriteTransform_[3].translate.num[1] = 690.0f;
 
 		isSceneStart_ = false;
@@ -67,30 +68,30 @@ void GameClearScene::Update() {
 	numbers_->SetNum(datas_->GetClearTime() / 60);
 	numbers_->SetTransform(numbersTransform_);
 
-	if (input_->TriggerKey(DIK_A) && spriteTransform_[3].translate.num[0] == 1061.0f)
+	if (input_->TriggerKey(DIK_A) && spriteTransform_[3].translate.num[0] == 1060.0f)
 	{
 		spriteTransform_[3].translate.num[0] = 678.0f;
 	}
 
-	if (input_->TriggerKey(DIK_A) && spriteTransform_[3].translate.num[0] == 1441.0f)
+	if (input_->TriggerKey(DIK_A) && spriteTransform_[3].translate.num[0] == 1440.0f)
 	{
-		spriteTransform_[3].translate.num[0] = 1061.0f;
+		spriteTransform_[3].translate.num[0] = 1060.0f;
 	}
 
-	if (input_->TriggerKey(DIK_D) && spriteTransform_[3].translate.num[0] == 1061.0f)
+	if (input_->TriggerKey(DIK_D) && spriteTransform_[3].translate.num[0] == 1060.0f)
 	{
-		spriteTransform_[3].translate.num[0] = 1441.0f;
+		spriteTransform_[3].translate.num[0] = 1440.0f;
 	}
 
 	if (input_->TriggerKey(DIK_D) && spriteTransform_[3].translate.num[0] == 678.0f)
 	{
-		spriteTransform_[3].translate.num[0] = 1061.0f;
+		spriteTransform_[3].translate.num[0] = 1060.0f;
 	}
 
 	ImGui::Begin("debug");
 	ImGui::Text("GameClearScene");
-	ImGui::SliderFloat3("SWTFT", &spriteTransform_[3].translate.num[0], 0.0f, 2280.0f);
-	ImGui::SliderFloat3("trans", numbersTransform_.translate.num, 0.0f, 2280.0f);
+	ImGui::DragFloat3("SWTFT", &spriteTransform_[3].translate.num[0], 0.0f, 2280.0f);
+	ImGui::DragFloat3("trans", numbersTransform_.translate.num, 0.0f, 2280.0f);
 	ImGui::End();
 
 	//左側(現在のステージを繰り返し)
@@ -109,14 +110,14 @@ void GameClearScene::Update() {
 	}
 
 	//真ん中(次のステージ)
-	if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
+	if (spriteTransform_[3].translate.num[0] == 1060.0f && input_->TriggerKey(DIK_SPACE) &&
 		datas_->GetStageNum() == 1) {
 		sceneNo = GAME_SCENE2;
 		isSceneStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
-	if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
+	if (spriteTransform_[3].translate.num[0] == 1060.0f && input_->TriggerKey(DIK_SPACE) &&
 		datas_->GetStageNum() == 2) {
 		sceneNo = TITLE_SCENE;
 		isSceneStart_ = true;
@@ -124,7 +125,7 @@ void GameClearScene::Update() {
 	}
 
 	//右側(ステージセレクト)
-	if (spriteTransform_[3].translate.num[0] == 1441.0f && input_->TriggerKey(DIK_SPACE)) {
+	if (spriteTransform_[3].translate.num[0] == 1440.0f && input_->TriggerKey(DIK_SPACE)) {
 		sceneNo = SELECT_SCENE;
 		isSceneStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
