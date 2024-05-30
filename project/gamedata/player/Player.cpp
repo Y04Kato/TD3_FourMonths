@@ -107,6 +107,9 @@ void Player::Initialize() {
 	particle_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 	particle_->SetLifeTime(10.0f);
 
+	datas_ = Datas::GetInstance();
+	datas_->Initialize();
+
 	model_.reset(Model::CreateSkinningModel("project/gamedata/resources/star", "star.obj"));
 	modelMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 }
@@ -333,12 +336,13 @@ void Player::Updete(const ViewProjection viewProjection) {
 	}
 
 	//リスタート
-	if (input_->TriggerKey(DIK_R))
+	if (datas_->GetIsReset())
 	{
 		isRestart_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
+		datas_->SetIsReset(false);
 	}
 
 	//ゴール
