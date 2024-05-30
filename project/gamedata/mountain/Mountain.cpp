@@ -92,9 +92,9 @@ void Mountain::Update()
 
 void Mountain::Draw(const ViewProjection viewProjection)
 {
-	if (Iscene::sceneNo == GAME_SCENE)
-	{
-		for (int i = 0; i < 10; i++)
+	/*if (Iscene::sceneNo == GAME_SCENE)
+	{*/
+		for (int i = 0; i < 15; i++)
 		{
 			if (viewProjection.translation_.num[1] <= 0) {
 				model_[i]->Draw(worldTransform_[i], viewProjection, Vector4{ modelMaterial_.num[0],modelMaterial_.num[1] ,modelMaterial_.num[2] ,0.05f });
@@ -103,8 +103,8 @@ void Mountain::Draw(const ViewProjection viewProjection)
 				model_[i]->Draw(worldTransform_[i], viewProjection, modelMaterial_);
 			}
 		}
-	}
-	else if (Iscene::sceneNo == GAME_SCENE2)
+	//}
+	/*else if (Iscene::sceneNo == GAME_SCENE2)
 	{
 		for (int i = 0; i < 15; i++)
 		{
@@ -115,5 +115,5 @@ void Mountain::Draw(const ViewProjection viewProjection)
 				model_[i]->Draw(worldTransform_[i], viewProjection, modelMaterial_);
 			}
 		}
-	}
+	}*/
 }
