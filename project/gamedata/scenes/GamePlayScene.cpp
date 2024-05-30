@@ -235,7 +235,7 @@ void GamePlayScene::Update() {
 			sceneNo = SELECT_SCENE;
 			startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
 			player_->SetWorldTransform(startWorldTransform_);
-			nowTime_ = 0;
+			nowTime_ = 0.0f;
 			input_->ViewCursor();
 		}
 	}
@@ -318,6 +318,7 @@ void GamePlayScene::Update() {
 		if (player_->GetIsFell()) {
 			nowTime_ += 3.0f;
 			player_->SetIsFell(false);
+			timer_->AddTime();
 		}
 	}
 	
@@ -544,6 +545,7 @@ void GamePlayScene::Draw() {
 	{
 		//numbers_->Draw();
 		timer_->Draw();
+		timer_->AddTimeDraw();
 		numbers2_->Draw();
 		player_->DrawUI();
 		if (isHitWire_ == true) {
