@@ -29,6 +29,7 @@ void GamePlayScene2::Initialize() {
 	uiResource_[1] = textureManager_->Load("project/gamedata/resources/UI/StartUI.png");
 	uiResource_[2] = textureManager_->Load("project/gamedata/resources/UI/Manu.png");
 	uiResource_[3] = textureManager_->Load("project/gamedata/resources/UI/Cursor.png");
+	uiResource_[4] = textureManager_->Load("project/gamedata/resources/UI/stage2.png");
 
 	//testSprite
 	spriteMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
@@ -46,7 +47,7 @@ void GamePlayScene2::Initialize() {
 	sprite_->SetAnchor(Vector2{ 0.5f,0.5f });
 
 	//uiSprite
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		uiSpriteMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 		uiSpriteTransform_[i] = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
@@ -75,6 +76,9 @@ void GamePlayScene2::Initialize() {
 
 	uiSprite_[3]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[3]);
 	uiSprite_[3]->SetAnchor(Vector2{ 0.5f,0.5f });
+
+	uiSprite_[4]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[4]);
+	uiSprite_[4]->SetAnchor(Vector2{ 0.5f,0.5f });
 
 	//Player
 	player_ = new Player();
@@ -511,6 +515,8 @@ void GamePlayScene2::Draw() {
 #pragma region 前景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
 
+	uiSprite_[4]->Draw(uiSpriteTransform_[4], uiSpriteuvTransform_[4], uiSpriteMaterial_[4]);
+	
 	if (datas_->GetIsPause())
 	{
 		uiSprite_[2]->Draw(uiSpriteTransform_[2], uiSpriteuvTransform_[2], uiSpriteMaterial_[2]);
