@@ -339,6 +339,9 @@
     <ClCompile Include="project\gamedata\scenes\GamePlayScene6.cpp">
       <Filter>ソース ファイル\project\gamedata\scenes</Filter>
     </ClCompile>
+    <ClCompile Include="project\gamedata\floor\Floor.cpp">
+      <Filter>ソース ファイル\project\gamedata\gameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="project\gamedata\resources\shaders\Object3d.PS.hlsl">
@@ -579,6 +582,9 @@
     </ClInclude>
     <ClInclude Include="project\gamedata\scenes\GamePlayScene6.h">
       <Filter>ヘッダー ファイル\project\gamedata\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="project\gamedata\floor\Floor.h">
+      <Filter>ヘッダー ファイル\project\gamedata\gameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

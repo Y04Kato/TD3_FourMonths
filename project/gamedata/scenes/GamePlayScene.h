@@ -20,6 +20,7 @@
 #include "player/Player.h"
 #include "skydome/Skydome.h"
 #include "mountain/Mountain.h"
+#include "floor/Floor.h"
 #include "goal/Goal.h"
 #include "numbers/numbers.h"
 #include "datas/datas.h"
@@ -87,6 +88,9 @@ private:
 
 	//Mountain
 	Mountain* mountain_ = nullptr;
+
+	//Floor
+	Floor* floor_ = nullptr;
 
 	//Goal
 	Goal* goal_ = nullptr;

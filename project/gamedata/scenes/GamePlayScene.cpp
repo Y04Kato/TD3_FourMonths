@@ -96,6 +96,10 @@ void GamePlayScene::Initialize() {
 	mountain_ = new Mountain();
 	mountain_->Initialize();
 
+	//Floor
+	floor_ = new Floor();
+	floor_->Initialize();
+
 	//Goal
 	goal_ = new Goal();
 	goal_->Initialize();
@@ -254,6 +258,8 @@ void GamePlayScene::Update() {
 		player_->SetCameraMode(cameraChange_);
 
 		mountain_->Update();
+
+		floor_->Update();
 
 		skydome_->Update();
 
@@ -480,6 +486,8 @@ void GamePlayScene::Draw() {
 	}
 
 	mountain_->Draw(viewProjection_);
+
+	floor_->Draw(viewProjection_);
 
 	for (Obj& obj : objects_) {
 #ifdef _DEBUG
