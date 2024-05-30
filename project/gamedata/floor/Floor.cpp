@@ -1,7 +1,5 @@
 #include "Floor.h"
 
-#include "GameSelectScene.h"
-
 void Floor::Initialize()
 {
 	for (int i = 0; i < 15; i++)
@@ -80,7 +78,7 @@ void Floor::Draw(const ViewProjection viewProjection)
 {
 	for (int i = 0; i < 15; i++)
 	{
-		if (viewProjection.translation_.num[1] <= 3.0f) {
+		if (viewProjection.translation_.num[1] <= -3.0f) {
 			floorModel_[i]->Draw(worldTransform_[i], viewProjection, Vector4{ modelMaterial_.num[0],modelMaterial_.num[1] ,modelMaterial_.num[2] ,0.05f });
 		}
 		else {

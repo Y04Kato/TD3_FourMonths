@@ -1,5 +1,4 @@
 #include "Mountain.h"
-#include "GameSelectScene.h"
 
 void Mountain::Initialize()
 {
