@@ -129,7 +129,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 	worldTransform_.UpdateMatrix();
 	worldTransform2_.UpdateMatrix();
 
-	if (input_->pushMouse(MOUSE_BOTTON0) && isActive_ ) {//左クリックした時
+	if (input_->pushMouse(MOUSE_BOTTON0) ) {//左クリックした時
 		DistancePlayerToReticle = kDistancePlayerToReticle;
 		isHitObj_ = false;
 		Reticle(viewProjection);
@@ -141,9 +141,14 @@ void Player::Updete(const ViewProjection viewProjection) {
 			}
 			Reticle(viewProjection);
 			SetWire();
+			if (!isActive_) {
+				isActive_ = true;
+			}
 		}
 		else {//レティクルがオブジェクトを捉えられていなければ
-			SetWireMiss();
+			if (isActive_) {
+				SetWireMiss();
+			}
 		}
 	}
 
@@ -174,9 +179,9 @@ void Player::Updete(const ViewProjection viewProjection) {
 		HitTimer_ = 0;
 	}
 
-	if (input_->pushMouse(MOUSE_BOTTON0)) {
+	/*if (input_->pushMouse(MOUSE_BOTTON0)) {
 		isActive_ = true;
-	}
+	}*/
 
 	particle_->SetTranslate(worldTransform_.translation_);
 	accelerationTimer_++;
