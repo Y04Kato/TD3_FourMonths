@@ -394,7 +394,7 @@ void GamePlayScene6::Update() {
 
 	uiSpriteTransform_->rotate.num[2] += 0.05f;
 
-	if (showCursor == 0) {//カーソル非表示時、カーソルの座標を画面中央に固定
+	if (input_->GetToggleCursor() == false) {//カーソル非表示時、カーソルの座標を画面中央に固定
 		SetCursorPos(1280 / 2, 720 / 2);
 	}
 

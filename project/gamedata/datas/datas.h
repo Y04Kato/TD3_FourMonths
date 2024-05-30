@@ -1,4 +1,5 @@
 #pragma once
+#include "Vector.h"
 
 class Datas {
 public:
@@ -21,13 +22,16 @@ public:
 	void SetIsReset(bool isReset) { isReset_ = isReset; }
 	bool GetIsReset() { return isReset_; }
 
+	void SetUIResrouce(VectorInt4 uiResrouce) { uiResrouce_ = uiResrouce; }
+	bool GetUIResrouce() { return isReset_; }
+
 private:
 	Datas() = default;
 	~Datas() = default;
 	Datas(const Datas& obj) = default;
 	Datas& operator=(const Datas& obj) = default;
 
-	int clearTime_;
+	int clearTime_ = 0;
 
 	int stageNum_ = 0;
 
@@ -36,5 +40,9 @@ private:
 	bool isRule_ = false;
 
 	bool isReset_ = false;
+
+	VectorInt4 uiResrouce_ = { 0,0,0,0 };
+
+	
 };
 

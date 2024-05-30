@@ -52,6 +52,7 @@ public:
 	void ViewCursor();
 	void HideCursor();
 	void ToggleCursor();
+	bool GetToggleCursor() { return toggleCursor_; }
 
 	MousePosition GetMousePosition() {
 		return m_Position_;
