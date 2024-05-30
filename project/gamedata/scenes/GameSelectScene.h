@@ -44,5 +44,16 @@ private:
 	bool isSpriteDraw_[3];
 
 	int titleTimer_ = 60;
+
+	//トランジション用Sprite
+	std::unique_ptr<CreateSprite> transitionSprite_ = nullptr;
+	EulerTransform transitionSpriteTransform_;
+	EulerTransform transitionSpriteuvTransform_;
+	Vector4 transitionSpriteMaterial_;
+	uint32_t transitionResource_;
+	bool isTransitionStart_ = false;
+	bool isTransitionEnd_ = false;
+
+	bool isGameStart_ = true;//ゲーム開始時に1回だけ呼ぶ
 };
 

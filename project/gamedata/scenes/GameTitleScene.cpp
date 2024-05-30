@@ -21,6 +21,7 @@ void GameTitleScene::Initialize(){
 	titleResource_ = textureManager_->Load("project/gamedata/resources/UI/Title.png");
 	title1Resource_ = textureManager_->Load("project/gamedata/resources/UI/Title1.png");
 	bgResource_ = textureManager_->Load("project/gamedata/resources/UI/bg.png");
+	transitionResource_ = textureManager_->Load("project/gamedata/resources/UI/transitionStar.png");
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -45,11 +46,32 @@ void GameTitleScene::Initialize(){
 
 	sprite_[2]->Initialize(Vector2{ 1280.0f,720.0f }, bgResource_);
 	sprite_[2]->SetAnchor(Vector2{ 0.5f,0.5f });
+
+	//トランジション用Sprite
+	transitionSpriteMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
+	transitionSpriteTransform_ = { {0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
+
+	transitionSpriteuvTransform_ = {
+		{1.0f,1.0f,1.0f},
+		{0.0f,0.0f,0.0f},
+		{0.0f,0.0f,0.0f},
+	};
+
+	transitionSprite_ = std::make_unique <CreateSprite>();
+
+	transitionSprite_->Initialize(Vector2{ 1280.0f,720.0f }, transitionResource_);
+	transitionSprite_->SetAnchor(Vector2{ 0.5f,0.5f });
 }
 
 void GameTitleScene::Update(){
 	XINPUT_STATE joyState;
 	Input::GetInstance()->GetJoystickState(0, joyState);
+
+	if (isGameStart_ == true) {//ゲーム開始時の処理
+		
+		isTransitionEnd_ = false;
+		isGameStart_ = false;
+	}
 
 	//Title表示の処理
 	titleTimer_--;
@@ -67,13 +89,47 @@ void GameTitleScene::Update(){
 		titleTimer_ = 60;
 	}
 
+	//トランジション
+	if (!isTransitionEnd_)
+	{
+		transitionSpriteTransform_.scale.num[0] -= 0.3f;
+		transitionSpriteTransform_.scale.num[1] -= 0.3f;
+		transitionSpriteMaterial_.num[3] -= 0.03f;
+
+		if (transitionSpriteTransform_.scale.num[0] <= 0.0f && transitionSpriteTransform_.scale.num[1] <= 0.0f)
+		{
+			isTransitionEnd_ = true;
+			transitionSpriteTransform_.scale = { 0.0f,0.0f,0.0f };
+			transitionSpriteMaterial_ = { 1.0f,1.0f,1.0f,0.0f };
+		}
+	}
+
+	if (isTransitionStart_)
+	{
+		transitionSpriteTransform_.scale.num[0] += 0.3f;
+		transitionSpriteTransform_.scale.num[1] += 0.35f;
+		transitionSpriteMaterial_.num[3] += 0.03f;
+
+		if (transitionSpriteTransform_.scale.num[0] >= 9.0f && transitionSpriteTransform_.scale.num[1] >= 9.0f)
+		{
+			sceneNo = SELECT_SCENE;
+			isTransitionStart_ = false;
+			isGameStart_ = true;
+			transitionSpriteTransform_.scale = { 9.0f,9.0f,9.0f };
+			transitionSpriteMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
+		}
+	}
+
 	ImGui::Begin("debug");
 	ImGui::Text("GameTitleScene");
 	ImGui::End();
 
 	if (input_->TriggerKey(DIK_SPACE)) {
-		sceneNo = SELECT_SCENE;
-		audio_->SoundPlayWave(selectData_, 0.1f, false);
+		if (isTransitionEnd_)
+		{
+			isTransitionStart_ = true;
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
+		}
 	}
 
 	if (!Input::GetInstance()->GetJoystickState(0, joyState)) {
@@ -109,6 +165,8 @@ void GameTitleScene::Draw(){
 	if (isSpriteDraw_[0]){
 		sprite_[1]->Draw(spriteTransform_[1], SpriteuvTransform_[1], spriteMaterial_[1]);
 	}
+
+	transitionSprite_->Draw(transitionSpriteTransform_, transitionSpriteuvTransform_, transitionSpriteMaterial_);
 
 #pragma endregion
 }

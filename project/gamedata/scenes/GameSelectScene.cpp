@@ -24,6 +24,8 @@ void GameSelectScene::Initialize() {
 
 	spriteResource_[2] = textureManager_->Load("project/gamedata/resources/UI/Cursor.png");
 
+	transitionResource_ = textureManager_->Load("project/gamedata/resources/UI/transitionStar.png");
+
 	for (int i = 0; i < 3; i++)
 	{
 		spriteMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
@@ -47,11 +49,63 @@ void GameSelectScene::Initialize() {
 
 	sprite_[2]->Initialize(Vector2{ 1280.0f,720.0f }, spriteResource_[2]);
 	sprite_[2]->SetAnchor(Vector2{ 0.5f,0.5f });
+
+	//トランジション用Sprite
+	transitionSpriteMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
+	transitionSpriteTransform_ = { {9.0f,9.0f,9.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
+
+	transitionSpriteuvTransform_ = {
+		{1.0f,1.0f,1.0f},
+		{0.0f,0.0f,0.0f},
+		{0.0f,0.0f,0.0f},
+	};
+
+	transitionSprite_ = std::make_unique <CreateSprite>();
+
+	transitionSprite_->Initialize(Vector2{ 1280.0f,720.0f }, transitionResource_);
+	transitionSprite_->SetAnchor(Vector2{ 0.5f,0.5f });
 }
 
 void GameSelectScene::Update() {
 	XINPUT_STATE joyState;
 	Input::GetInstance()->GetJoystickState(0, joyState);
+
+	if (isGameStart_ == true) {//ゲーム開始時の処理
+
+		isTransitionEnd_ = false;
+		isGameStart_ = false;
+	}
+
+	//トランジション
+	if (!isTransitionEnd_)
+	{
+		transitionSpriteTransform_.scale.num[0] -= 0.3f;
+		transitionSpriteTransform_.scale.num[1] -= 0.3f;
+		transitionSpriteMaterial_.num[3] -= 0.03f;
+
+		if (transitionSpriteTransform_.scale.num[0] <= 0.0f && transitionSpriteTransform_.scale.num[1] <= 0.0f)
+		{
+			isTransitionEnd_ = true;
+			transitionSpriteTransform_.scale = { 0.0f,0.0f,0.0f };
+			transitionSpriteMaterial_ = { 1.0f,1.0f,1.0f,0.0f };
+		}
+	}
+
+	if (isTransitionStart_)
+	{
+		transitionSpriteTransform_.scale.num[0] += 0.3f;
+		transitionSpriteTransform_.scale.num[1] += 0.35f;
+		transitionSpriteMaterial_.num[3] += 0.03f;
+
+		if (transitionSpriteTransform_.scale.num[0] >= 9.0f && transitionSpriteTransform_.scale.num[1] >= 9.0f)
+		{
+			sceneNo = TITLE_SCENE;
+			isTransitionStart_ = false;
+			isGameStart_ = true;
+			transitionSpriteTransform_.scale = { 9.0f,9.0f,9.0f };
+			transitionSpriteMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
+		}
+	}
 
 	//Selectのカーソル移動の処理
 	if (input_->TriggerKey(DIK_A) && spriteTransform_[2].translate.num[0] == 1048.0f)
@@ -90,7 +144,7 @@ void GameSelectScene::Update() {
 		&& input_->TriggerKey(DIK_SPACE))
 	{
 		stageNum = 1;
-		sceneNo = GAME_SCENE;
+		isTransitionStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
@@ -99,7 +153,7 @@ void GameSelectScene::Update() {
 		&& input_->TriggerKey(DIK_SPACE))
 	{
 		stageNum = 2;
-		sceneNo = GAME_SCENE2;
+		isTransitionStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
@@ -108,7 +162,7 @@ void GameSelectScene::Update() {
 		&& input_->TriggerKey(DIK_SPACE))
 	{
 		stageNum = 3;
-		sceneNo = GAME_SCENE3;
+		isTransitionStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
@@ -117,7 +171,7 @@ void GameSelectScene::Update() {
 		&& input_->TriggerKey(DIK_SPACE))
 	{
 		stageNum = 4;
-		sceneNo = GAME_SCENE4;
+		isTransitionStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
@@ -126,7 +180,7 @@ void GameSelectScene::Update() {
 		&& input_->TriggerKey(DIK_SPACE))
 	{
 		stageNum = 5;
-		sceneNo = GAME_SCENE5;
+		isTransitionStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
@@ -135,7 +189,7 @@ void GameSelectScene::Update() {
 		&& input_->TriggerKey(DIK_SPACE))
 	{
 		stageNum = 6;
-		sceneNo = GAME_SCENE6;
+		isTransitionStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
@@ -180,6 +234,8 @@ void GameSelectScene::Draw() {
 			sprite_[i]->Draw(spriteTransform_[i], SpriteuvTransform_[i], spriteMaterial_[i]);
 		}
 	}
+
+	transitionSprite_->Draw(transitionSpriteTransform_, transitionSpriteuvTransform_, transitionSpriteMaterial_);
 
 #pragma endregion
 }
