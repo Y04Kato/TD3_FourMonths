@@ -86,7 +86,7 @@ void GamePlayScene::Initialize() {
 
 	structSphere_.radius = 1.0f;
 
-	structSphereTree_.radius = 1.5f;
+	structSphereTree_.radius = 2.0f;
 
 	//Skydome
 	skydome_ = new Skydome();
@@ -320,7 +320,7 @@ void GamePlayScene::Update() {
 			player_->SetIsFell(false);
 		}
 	}
-	
+
 
 	for (Obj& obj : objects_) {
 		obj.world.UpdateMatrix();
@@ -359,6 +359,7 @@ void GamePlayScene::Update() {
 		//Player用に当たり判定を小さくする
 		obj.obb_.size.num[0] = obj.world.scale_.num[0] * 0.5f;
 		obj.obb_.size.num[2] = obj.world.scale_.num[2] * 0.5f;
+
 		if (IsCollision(obj.obb_, structSphere_)) {//Playerとオブジェクトの当たり判定
 			if (player_->GetIsHitObj() == false) {
 				isHitPlayer_ = true;
@@ -369,6 +370,21 @@ void GamePlayScene::Update() {
 		}
 		else {
 		}
+
+		//if (IsCollision(obj.obb_, structSphere_)) {//Playerとオブジェクトの当たり判定
+		//	if (player_->GetIsHitObj() == false) {
+		//		isHitPlayer_ = true;
+		//		structSphereTree_.center = obj.world.translation_;
+		//		structSphereTree_.center.num[1] = player_->GetWorldTransformPlayer().translation_.num[1];
+		//		if (IsCollision(structSphere_, structSphereTree_)) {
+		//			player_->SetIsHitObj(isHitPlayer_);
+		//			std::pair<Vector3, Vector3> pair = ComputeCollisionVelocities(1.0f, player_->GetVelocity(), 1.0f, Vector3{ 0.0f,0.0f,0.0f }, 0.8f, Normalize(player_->GetWorldTransform().GetWorldPos() - structSphereTree_.center));
+		//			player_->SetVelocity(pair.first * 50.0f);
+		//		}
+		//	}
+		//}
+		//else {
+		//}
 	}
 
 	if (isHitWire_ == true) {//レイがヒットしている時
