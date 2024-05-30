@@ -23,6 +23,7 @@
 #include "goal/Goal.h"
 #include "numbers/numbers.h"
 #include "datas/datas.h"
+#include "timer/Timer.h"
 
 class GamePlayScene2 :public Iscene {
 public:
@@ -126,8 +127,10 @@ private:
 	WorldTransform startWorldTransform_;
 
 	//Timer
-	std::unique_ptr<Numbers> numbers_;
-	int nowTime_ = 0;
+	/*std::unique_ptr<Numbers> numbers_;
+	int nowTime_ = 0;*/
+	std::unique_ptr<Timer> timer_;
+	float nowTime_ = 0.0f;
 	EulerTransform numbersTransform_;
 
 	//Datas

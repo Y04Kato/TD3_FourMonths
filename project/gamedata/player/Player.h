@@ -62,6 +62,9 @@ public:
 
 	void SetIsDownSpeed(bool isDownSpeed) { isDownSpeed_ = isDownSpeed; }
 
+	void SetIsFell(bool flag) { isFell_ = flag; }
+	bool GetIsFell() { return isFell_; }
+
 private:
 	TextureManager* textureManager_;
 	Input* input_;
@@ -184,4 +187,6 @@ private:
 	float angle_ = 0.0f;
 	float angularVelocity = 3.14f;
 	float startAngle_ = 270.0f * physics_->DegToRad();
+
+	bool isFell_ = false;
 };

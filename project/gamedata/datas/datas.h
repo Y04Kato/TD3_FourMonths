@@ -6,8 +6,8 @@ public:
 
 	void Initialize();
 
-	void SetClearTime(const int clearTime) { clearTime_ = clearTime; }
-	const int& GetClearTime() { return clearTime_; }
+	void SetClearTime(const float clearTime) { clearTime_ = clearTime; }
+	const float& GetClearTime() { return clearTime_; }
 
 	void SetStageNum(const int stageNum) { stageNum_ = stageNum; }
 	const int& GetStageNum() { return stageNum_; }
@@ -18,7 +18,7 @@ private:
 	Datas(const Datas& obj) = default;
 	Datas& operator=(const Datas& obj) = default;
 
-	int clearTime_;
+	float clearTime_;
 
 	int stageNum_ = 0;
 };

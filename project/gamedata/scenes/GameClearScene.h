@@ -10,6 +10,7 @@
 
 #include "numbers/numbers.h"
 #include "datas/datas.h"
+#include "timer/Timer.h"
 
 class GameClearScene :public Iscene {
 public:
@@ -43,8 +44,10 @@ private:
 	bool isSpriteDraw_[4];
 
 	//Timer
-	std::unique_ptr<Numbers> numbers_;
-	int nowTime_ = 0;
+	/*std::unique_ptr<Numbers> numbers_;
+	int nowTime_ = 0;*/
+	std::unique_ptr<Timer> timer_;
+	float nowTime_ = 0.0f;
 	EulerTransform numbersTransform_;
 
 	//Datas

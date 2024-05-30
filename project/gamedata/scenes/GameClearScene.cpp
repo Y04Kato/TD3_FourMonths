@@ -41,13 +41,16 @@ void GameClearScene::Initialize() {
 	}
 
 	//Timer
-	numbers_ = std::make_unique<Numbers>();
+	/*numbers_ = std::make_unique<Numbers>();
 	numbers_->Initialize();
-	numbers_->SetInitialNum(0 / 60);
+	numbers_->SetInitialNum(0 / 60);*/
+	timer_ = std::make_unique<Timer>();
+	timer_->Initialize();
+	timer_->SetInitialNum(0 / 60);
 
-	numbersTransform_.scale = { 1.5f,1.5f,1.5f };
+	numbersTransform_.scale = { 1.0f,1.0f,1.0f };
 	numbersTransform_.rotate = { 0.0f,0.0f,0.0f };
-	numbersTransform_.translate = { 510.0f,360.0f,0.0f };
+	numbersTransform_.translate = { 520.0f,370.0f,0.0f };
 
 	//Datas
 	datas_ = Datas::GetInstance();
@@ -64,8 +67,10 @@ void GameClearScene::Update() {
 		isSceneStart_ = false;
 	}
 
-	numbers_->SetNum(datas_->GetClearTime() / 60);
-	numbers_->SetTransform(numbersTransform_);
+	/*numbers_->SetNum(datas_->GetClearTime() / 60);
+	numbers_->SetTransform(numbersTransform_);*/
+	timer_->SetNum(datas_->GetClearTime());
+	timer_->SetTransform(numbersTransform_);
 
 	if (input_->TriggerKey(DIK_A) && spriteTransform_[3].translate.num[0] == 1060.0f)
 	{
@@ -165,8 +170,8 @@ void GameClearScene::Draw() {
 
 	sprite_[3]->Draw(spriteTransform_[3], SpriteuvTransform_[3], spriteMaterial_[3]);
 
-	numbers_->Draw();
-
+	//numbers_->Draw();
+	timer_->Draw();
 #pragma endregion
 }
 

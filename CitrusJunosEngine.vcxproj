@@ -206,6 +206,7 @@
     <ClCompile Include="base\components\utilities\collisionManager\CollisionManager.cpp" />
     <ClCompile Include="base\components\utilities\globalVariables\GlobalVariables.cpp" />
     <ClCompile Include="project\gamedata\skydome\Skydome.cpp" />
+    <ClCompile Include="project\gamedata\timer\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="project\gamedata\resources\shaders\CopyImage.PS.hlsl">
@@ -377,6 +378,7 @@
     <ClInclude Include="base\components\utilities\globalVariables\GlobalVariables.h" />
     <ClInclude Include="project\gamedata\resources\resource.h" />
     <ClInclude Include="project\gamedata\skydome\Skydome.h" />
+    <ClInclude Include="project\gamedata\timer\Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="externals\imgui\LICENSE.txt" />

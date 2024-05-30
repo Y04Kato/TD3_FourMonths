@@ -255,14 +255,6 @@ void Player::Updete(const ViewProjection viewProjection) {
 				Vector3 force = sideForceValueNoWire_ * right_/*{ sideForceValueNoWire_, 0.0f, 0.0f }*/;
 				physics_->AddForce(force, 1);
 			}
-			if (input_->PressKey(DIK_W)) {
-				Vector3 force = { 0.0f, 0.0f, 0.1f };
-				physics_->AddForce(force, 1);
-			}
-			if (input_->PressKey(DIK_S)) {
-				Vector3 force = { 0.0f, 0.0f, -0.1f };
-				physics_->AddForce(force, 1);
-			}
 
 			if (isDownSpeed_) {
 				Vector3 dir = physics_->GetVelocity();
@@ -313,6 +305,11 @@ void Player::Updete(const ViewProjection viewProjection) {
 	if (worldTransform_.translation_.num[1] <= -3.0f)
 	{
 		worldTransform_.translation_.num[1] = -3.0f;
+		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
+		Vector3 force = { 0.0f, 25.0f, 0.0f };
+		physics_->AddForce(force, 1);
+		isFell_ = true;
+		
 	}
 
 	//リスタート

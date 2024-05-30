@@ -114,9 +114,12 @@ void GamePlayScene2::Initialize() {
 	particle_->SetisVelocity(true);
 
 	//Timer
-	numbers_ = std::make_unique<Numbers>();
+	/*numbers_ = std::make_unique<Numbers>();
 	numbers_->Initialize();
-	numbers_->SetInitialNum(0 / 60);
+	numbers_->SetInitialNum(0 / 60);*/
+	timer_ = std::make_unique<Timer>();
+	timer_->Initialize();
+	timer_->SetInitialNum(0 / 60);
 
 	numbersTransform_.scale = { 1.0f,1.0f,1.0f };
 	numbersTransform_.rotate = { 0.0f,0.0f,0.0f };
@@ -161,7 +164,7 @@ void GamePlayScene2::Update() {
 		startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
 		player_->SetWorldTransform(startWorldTransform_);
 		player_->SetIsRestart(false);
-		nowTime_ = 0;
+		nowTime_ = 0.0f;
 	}
 
 	//Goal
@@ -172,7 +175,7 @@ void GamePlayScene2::Update() {
 		player_->SetWorldTransform(startWorldTransform_);
 		player_->SetIsGoal(false);
 		datas_->SetClearTime(nowTime_);
-		nowTime_ = 0;
+		nowTime_ = 0.0f;
 	}
 
 	startWorldTransform_.UpdateMatrix();
@@ -197,11 +200,13 @@ void GamePlayScene2::Update() {
 
 	//Timer
 	if (player_->GetIsActive() == true) {
-		nowTime_++;
+		nowTime_ += 1.0f / 60.0f;
 	}
 
-	numbers_->SetNum(nowTime_ / 60);
-	numbers_->SetTransform(numbersTransform_);
+	/*numbers_->SetNum(nowTime_ / 60);
+	numbers_->SetTransform(numbersTransform_);*/
+	timer_->SetNum(nowTime_);
+	timer_->SetTransform(numbersTransform_);
 
 	if (cameraChange_ == true) {//DebugCamera
 		debugCamera_->Update();
@@ -396,7 +401,8 @@ void GamePlayScene2::Draw() {
 #pragma region 前景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
 
-	numbers_->Draw();
+	//numbers_->Draw();
+	timer_->Draw();
 	player_->DrawUI();
 	if (isHit_ == true) {
 		uiSprite_[0]->Draw(uiSpriteTransform_[0], uiSpriteuvTransform_[0], uiSpriteMaterial_[0]);
