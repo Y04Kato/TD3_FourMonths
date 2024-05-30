@@ -319,6 +319,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 	ImGui::End();
 
 	//画面端
+	//左右
 	if (worldTransform_.translation_.num[0] >= 75.0f)
 	{
 		worldTransform_.translation_.num[0] = 75.0f;
@@ -327,6 +328,12 @@ void Player::Updete(const ViewProjection viewProjection) {
 	if (worldTransform_.translation_.num[0] <= -75.0f)
 	{
 		worldTransform_.translation_.num[0] = -75.0f;
+	}
+
+	//後ろ
+	if (worldTransform_.translation_.num[2] <= -5.0f)
+	{
+		worldTransform_.translation_.num[2] = -5.0f;
 	}
 
 	//床に落ちたとき
