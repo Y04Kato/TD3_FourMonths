@@ -76,7 +76,6 @@ void Mountain::Update()
 
 void Mountain::Draw(const ViewProjection viewProjection)
 {
-	
 	for (int i = 0; i < 15; i++)
 	{
 		mountainModel_[i]->Draw(worldTransform_[i], viewProjection, modelMaterial_);

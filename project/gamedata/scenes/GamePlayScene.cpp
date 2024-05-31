@@ -123,14 +123,14 @@ void GamePlayScene::Initialize() {
 	testEmitter_.frequency = 0.05f;
 	testEmitter_.frequencyTime = 0.0f;//発生頻度の時刻
 
-	accelerationField_.acceleration = { 0.0f,0.0f,-10.0f };
+	accelerationField_.acceleration = { 0.0f,0.0f,0.0f };
 	accelerationField_.area.min = { -1.0f,-1.0f,-1.0f };
 	accelerationField_.area.max = { 1.0f,1.0f,1.0f };
 
 	particle_ = std::make_unique <CreateParticle>();
 
 	particle_->Initialize(1000, testEmitter_, accelerationField_, spriteResource_);
-	particle_->SetisVelocity(true);
+	particle_->SetisVelocity(false);
 
 	//Timer
 	/*numbers_ = std::make_unique<Numbers>();
@@ -175,6 +175,19 @@ void GamePlayScene::Initialize() {
 	startWorldTransform_.rotation_ = { 1.5f,0.0f,2.0f };
 
 	datas_ = Datas::GetInstance();
+
+	for (int i = 0; i < 2; i++)
+	{
+		wallModel_[i].reset(Model::CreateModel("project/gamedata/resources/models/wall", "wall.obj"));
+		wallWorldTransform_[i].Initialize();
+		wallMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
+	}
+
+	wallWorldTransform_[0].translation_ = { -78.0f,0.0f,1800.0f };
+	wallWorldTransform_[0].scale_ = { 1.0f,3.0f,60.0f };
+
+	wallWorldTransform_[1].translation_ = { 78.0f,0.0f,1800.0f };
+	wallWorldTransform_[1].scale_ = { 1.0f,3.0f,60.0f };
 }
 
 void GamePlayScene::Update() {
@@ -299,6 +312,38 @@ void GamePlayScene::Update() {
 		}
 
 		startWorldTransform_.UpdateMatrix();
+
+		ImGui::Begin("Wall");
+		ImGui::DragFloat3("WallWTFT", &wallWorldTransform_[0].translation_.num[0], -100.0f, 100.0f);
+		ImGui::DragFloat3("WallWTFR", &wallWorldTransform_[0].rotation_.num[0], -100.0f, 100.0f);
+		ImGui::DragFloat3("WallWTFS", &wallWorldTransform_[0].scale_.num[0], -100.0f, 100.0f);
+		ImGui::End();
+
+
+		//左の壁のalphaを変える処理
+		float distance = std::abs(player_->GetWorldTransformPlayer().translation_.num[0] - leftReferencePoint_);
+
+		if (distance > maxDistance_) {
+			wallMaterial_[0].num[3] = minAlpha_;
+		}
+		else {
+			wallMaterial_[0].num[3] = maxAlpha_ * (1.0f - distance / maxDistance_);
+		}
+
+		//右の壁のalphaを変える処理
+		float distance2 = std::abs(player_->GetWorldTransformPlayer().translation_.num[0] - rightReferencePoint_);
+
+		if (distance2 > maxDistance_) {
+			wallMaterial_[1].num[3] = minAlpha_;
+		}
+		else {
+			wallMaterial_[1].num[3] = minAlpha_ + (maxAlpha_ - minAlpha_) * (1.0f - distance2 / maxDistance_);
+		}
+
+		for (int i = 0; i < 2; i++)
+		{
+			wallWorldTransform_[i].UpdateMatrix();
+		}
 
 		//操作形式が一部変わるのでCameraChange変数をPlayerにも送る
 		player_->SetCameraMode(cameraChange_);
@@ -555,9 +600,15 @@ void GamePlayScene::Draw() {
 		obj.model.Draw(obj.world, viewProjection_, obj.material);
 	}
 
+
 	mountain_->Draw(viewProjection_);
 
 	floor_->Draw(viewProjection_);
+
+	for (int i = 0; i < 2; i++)
+	{
+		wallModel_[i]->Draw(wallWorldTransform_[i], viewProjection_, wallMaterial_[i]);
+	}
 
 	for (Obj& obj : objects_) {
 #ifdef _DEBUG
@@ -582,7 +633,7 @@ void GamePlayScene::Draw() {
 #pragma region パーティクル描画
 	CJEngine_->renderer_->Draw(PipelineType::Particle);
 	player_->DrawParticle(viewProjection_);
-	//particle_->Draw(viewProjection_);
+	particle_->Draw(viewProjection_);
 
 #pragma endregion
 

@@ -147,4 +147,19 @@ private:
 
 	//Datas
 	Datas* datas_;
+
+	//wall
+	std::unique_ptr<Model> wallModel_[2];
+	WorldTransform wallWorldTransform_[2];
+	Vector4 wallMaterial_[2];
+
+	//左の壁
+	float leftReferencePoint_ = -75.0f; //基準点
+
+	//右の壁
+	float rightReferencePoint_ = 75.0f; //基準点
+
+	float maxDistance_ = 75.0f; //最大
+	float maxAlpha_ = 0.4f; //最大アルファ値
+	float minAlpha_ = 0.0f; //最小アルファ値
 };
