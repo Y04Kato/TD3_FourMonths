@@ -198,4 +198,7 @@ private:
 	bool isRightMove_ = false;
 
 	bool isFell_ = false;
+
+	const Vector2 cameraMin = { -1.0f, -1.0f };
+	const Vector2 cameraMax = { 1.0f, 1.0f };
 };

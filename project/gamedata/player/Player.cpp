@@ -124,6 +124,8 @@ void Player::Updete(const ViewProjection viewProjection) {
 		worldTransform2_.translation_ = worldTransform_.translation_;
 		worldTransform2_.rotation_.num[1] += input_->GetMousePosition().Velocity.num[0] / sensitivity_.num[0];
 		worldTransform2_.rotation_.num[0] += input_->GetMousePosition().Velocity.num[1] / sensitivity_.num[0];
+		worldTransform2_.rotation_.num[1] = std::clamp(worldTransform2_.rotation_.num[1], cameraMin.num[1], cameraMax.num[1]);
+		worldTransform2_.rotation_.num[0] = std::clamp(worldTransform2_.rotation_.num[0], cameraMin.num[0], cameraMax.num[0]);
 	}
 
 	worldTransform_.UpdateMatrix();
