@@ -20,6 +20,7 @@
 #include "player/Player.h"
 #include "skydome/Skydome.h"
 #include "mountain/Mountain.h"
+#include "floor/Floor.h"
 #include "goal/Goal.h"
 #include "numbers/numbers.h"
 #include "datas/datas.h"
@@ -31,6 +32,7 @@ public:
 	void Update() override;
 	void Draw() override;
 	void Finalize() override;
+	void FinalizeGoal();
 
 	void ApplyGlobalVariables();
 
@@ -81,13 +83,16 @@ private:
 	std::string objNameHolder_[objCountMax_];//オブジェクトの名前を保存する変数
 	StructSphere structSphereTree_;//木の当たり判定用
 
-	const char* groupName = "GamePlayScene";
+	std::string nowGroupName_ = "GamePlayScene";
 
 	//Skydome
 	Skydome* skydome_ = nullptr;
 
 	//Mountain
 	Mountain* mountain_ = nullptr;
+
+	//Floor
+	Floor* floor_ = nullptr;
 
 	//Goal
 	Goal* goal_ = nullptr;
@@ -101,14 +106,14 @@ private:
 	uint32_t spriteResource_;
 
 	//UISprite
-	uint32_t uiResource_[5];
+	uint32_t uiResource_[10];
 
-	std::unique_ptr <CreateSprite> uiSprite_[5];
-	EulerTransform uiSpriteTransform_[5];
-	EulerTransform uiSpriteuvTransform_[5];
-	Vector4 uiSpriteMaterial_[5];
+	std::unique_ptr <CreateSprite> uiSprite_[10];
+	EulerTransform uiSpriteTransform_[10];
+	EulerTransform uiSpriteuvTransform_[10];
+	Vector4 uiSpriteMaterial_[10];
 
-	bool isSpriteDraw_[5];
+	bool isSpriteDraw_[10];
 
 	Segment segmentRay_;
 	Segment segmentEye_;

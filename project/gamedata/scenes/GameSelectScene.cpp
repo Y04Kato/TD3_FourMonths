@@ -47,6 +47,9 @@ void GameSelectScene::Initialize() {
 
 	sprite_[2]->Initialize(Vector2{ 1280.0f,720.0f }, spriteResource_[2]);
 	sprite_[2]->SetAnchor(Vector2{ 0.5f,0.5f });
+
+	datas_ = Datas::GetInstance();
+	datas_->Initialize();
 }
 
 void GameSelectScene::Update() {
@@ -90,6 +93,8 @@ void GameSelectScene::Update() {
 		&& input_->TriggerKey(DIK_SPACE))
 	{
 		stageNum = 1;
+		datas_->SetStageNum(stageNum);
+
 		sceneNo = GAME_SCENE;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
@@ -99,7 +104,9 @@ void GameSelectScene::Update() {
 		&& input_->TriggerKey(DIK_SPACE))
 	{
 		stageNum = 2;
-		sceneNo = GAME_SCENE2;
+		datas_->SetStageNum(stageNum);
+
+		sceneNo = GAME_SCENE;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
@@ -108,7 +115,9 @@ void GameSelectScene::Update() {
 		&& input_->TriggerKey(DIK_SPACE))
 	{
 		stageNum = 3;
-		sceneNo = GAME_SCENE3;
+		datas_->SetStageNum(stageNum);
+
+		sceneNo = GAME_SCENE;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
@@ -117,7 +126,9 @@ void GameSelectScene::Update() {
 		&& input_->TriggerKey(DIK_SPACE))
 	{
 		stageNum = 4;
-		sceneNo = GAME_SCENE4;
+		datas_->SetStageNum(stageNum);
+
+		sceneNo = GAME_SCENE;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
@@ -126,7 +137,9 @@ void GameSelectScene::Update() {
 		&& input_->TriggerKey(DIK_SPACE))
 	{
 		stageNum = 5;
-		sceneNo = GAME_SCENE5;
+		datas_->SetStageNum(stageNum);
+
+		sceneNo = GAME_SCENE;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
@@ -135,7 +148,9 @@ void GameSelectScene::Update() {
 		&& input_->TriggerKey(DIK_SPACE))
 	{
 		stageNum = 6;
-		sceneNo = GAME_SCENE6;
+		datas_->SetStageNum(stageNum);
+
+		sceneNo = GAME_SCENE;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 

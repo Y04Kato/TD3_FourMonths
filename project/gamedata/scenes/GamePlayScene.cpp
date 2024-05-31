@@ -29,7 +29,13 @@ void GamePlayScene::Initialize() {
 	uiResource_[1] = textureManager_->Load("project/gamedata/resources/UI/StartUI.png");
 	uiResource_[2] = textureManager_->Load("project/gamedata/resources/UI/Manu.png");
 	uiResource_[3] = textureManager_->Load("project/gamedata/resources/UI/Cursor.png");
+
 	uiResource_[4] = textureManager_->Load("project/gamedata/resources/UI/stage1.png");
+	uiResource_[5] = textureManager_->Load("project/gamedata/resources/UI/stage2.png");
+	uiResource_[6] = textureManager_->Load("project/gamedata/resources/UI/stage3.png");
+	uiResource_[7] = textureManager_->Load("project/gamedata/resources/UI/stage4.png");
+	uiResource_[8] = textureManager_->Load("project/gamedata/resources/UI/stage5.png");
+	uiResource_[9] = textureManager_->Load("project/gamedata/resources/UI/stage6.png");
 
 	//testSprite
 	spriteMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
@@ -47,7 +53,7 @@ void GamePlayScene::Initialize() {
 	sprite_->SetAnchor(Vector2{ 0.5f,0.5f });
 
 	//uiSprite
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		uiSpriteMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 		uiSpriteTransform_[i] = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
@@ -68,17 +74,10 @@ void GamePlayScene::Initialize() {
 	uiSpriteTransform_[0].translate.num[1] = 415.0f;
 	uiSpriteTransform_[0].scale = { 0.8f,0.8f,0.8f };
 
-	uiSprite_[1]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[1]);
-	uiSprite_[1]->SetAnchor(Vector2{ 0.5f,0.5f });
-
-	uiSprite_[2]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[2]);
-	uiSprite_[2]->SetAnchor(Vector2{ 0.5f,0.5f });
-
-	uiSprite_[3]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[3]);
-	uiSprite_[3]->SetAnchor(Vector2{ 0.5f,0.5f });
-
-	uiSprite_[4]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[4]);
-	uiSprite_[4]->SetAnchor(Vector2{ 0.5f,0.5f });
+	for (int i = 1; i < 10; i++){
+		uiSprite_[i]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[i]);
+		uiSprite_[i]->SetAnchor(Vector2{ 0.5f,0.5f });
+	}
 
 	//Player
 	player_ = new Player();
@@ -95,6 +94,10 @@ void GamePlayScene::Initialize() {
 	//Mountain
 	mountain_ = new Mountain();
 	mountain_->Initialize();
+
+	//Floor
+	floor_ = new Floor();
+	floor_->Initialize();
 
 	//Goal
 	goal_ = new Goal();
@@ -154,43 +157,77 @@ void GamePlayScene::Initialize() {
 	GlobalVariables* globalVariables{};
 	globalVariables = GlobalVariables::GetInstance();
 
-	GlobalVariables::GetInstance()->CreateGroup(groupName);
+	GlobalVariables::GetInstance()->CreateGroup("GamePlayScene");
+	GlobalVariables::GetInstance()->CreateGroup("GamePlayScene2");
+	GlobalVariables::GetInstance()->CreateGroup("GamePlayScene3");
+	GlobalVariables::GetInstance()->CreateGroup("GamePlayScene4");
+	GlobalVariables::GetInstance()->CreateGroup("GamePlayScene5");
+	GlobalVariables::GetInstance()->CreateGroup("GamePlayScene6");
 
-	globalVariables->AddItem(groupName, "ObjCount", objCount_);
+	globalVariables->AddItem("GamePlayScene", "ObjCount", objCount_);
+	globalVariables->AddItem("GamePlayScene2", "ObjCount", objCount_);
+	globalVariables->AddItem("GamePlayScene3", "ObjCount", objCount_);
+	globalVariables->AddItem("GamePlayScene4", "ObjCount", objCount_);
+	globalVariables->AddItem("GamePlayScene5", "ObjCount", objCount_);
+	globalVariables->AddItem("GamePlayScene6", "ObjCount", objCount_);
 
 	startWorldTransform_.Initialize();
 	startWorldTransform_.rotation_ = { 1.5f,0.0f,2.0f };
 
 	datas_ = Datas::GetInstance();
-	datas_->Initialize();
 }
 
 void GamePlayScene::Update() {
-	GlobalVariables* globalVariables{};
-	globalVariables = GlobalVariables::GetInstance();
-	ApplyGlobalVariables();
-
-	datas_->SetStageNum(1);
-
 	if (isGameStart_ == true) {//ゲーム開始時の処理
 		uiSpriteTransform_[3].translate.num[0] = 1048.0f;
 		uiSpriteTransform_[3].translate.num[1] = 324.0f;
 		startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
 		player_->SetWorldTransform(startWorldTransform_);
+		input_->HideCursor();
+
+		//ステージ選択を適用
+		if (datas_->GetStageNum() == 1) {
+			nowGroupName_ = "GamePlayScene";
+		}
+		if (datas_->GetStageNum() == 2) {
+			nowGroupName_ = "GamePlayScene2";
+		}
+		if (datas_->GetStageNum() == 3) {
+			nowGroupName_ = "GamePlayScene3";
+		}
+		if (datas_->GetStageNum() == 4) {
+			nowGroupName_ = "GamePlayScene4";
+		}
+		if (datas_->GetStageNum() == 5) {
+			nowGroupName_ = "GamePlayScen5";
+		}
+		if (datas_->GetStageNum() == 6) {
+			nowGroupName_ = "GamePlayScene6";
+		}
+
+		GlobalVariables* globalVariables{};
+		globalVariables = GlobalVariables::GetInstance();
+		ApplyGlobalVariables();
 		for (int i = 0; i < objCount_; i++) {
 			SetObject(EulerTransform{ { 4.0f,30.0f,4.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objNameHolder_[i]);
 		}
+
 		isGameStart_ = false;
-		input_->HideCursor();
 	}
+
+	GlobalVariables* globalVariables{};
+	globalVariables = GlobalVariables::GetInstance();
+	ApplyGlobalVariables();
 
 	if (input_->TriggerKey(DIK_TAB) && !datas_->GetIsPause())
 	{
 		datas_->SetIsPause(true);
+		input_->ToggleCursor();
 	}
 	else if (input_->TriggerKey(DIK_TAB) && datas_->GetIsPause())
 	{
 		datas_->SetIsPause(false);
+		input_->ToggleCursor();
 	}
 
 
@@ -237,6 +274,9 @@ void GamePlayScene::Update() {
 			player_->SetWorldTransform(startWorldTransform_);
 			nowTime_ = 0;
 			input_->ViewCursor();
+			isGameStart_ = true;
+
+			FinalizeGoal();
 		}
 	}
 	else
@@ -253,6 +293,9 @@ void GamePlayScene::Update() {
 			datas_->SetClearTime(nowTime_);
 			nowTime_ = 0.0f;
 			input_->ViewCursor();
+			isGameStart_ = true;
+
+			FinalizeGoal();
 		}
 
 		startWorldTransform_.UpdateMatrix();
@@ -261,6 +304,8 @@ void GamePlayScene::Update() {
 		player_->SetCameraMode(cameraChange_);
 
 		mountain_->Update();
+
+		floor_->Update();
 
 		skydome_->Update();
 
@@ -440,24 +485,24 @@ void GamePlayScene::Update() {
 	if (ImGui::Button("SpawnBlock")) {
 		SetObject(EulerTransform{ { 4.0f,30.0f,4.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objName_);
 		objCount_++;
-		globalVariables->SetValue(groupName, "ObjCount", objCount_);
+		globalVariables->SetValue(nowGroupName_, "ObjCount", objCount_);
 		for (Obj& obj : objects_) {
-			globalVariables->AddItem(groupName, obj.name, (std::string)objName_);
-			globalVariables->AddItem(groupName, obj.name + "Translate", obj.world.translation_);
+			globalVariables->AddItem(nowGroupName_, obj.name, (std::string)objName_);
+			globalVariables->AddItem(nowGroupName_, obj.name + "Translate", obj.world.translation_);
 			//globalVariables->AddItem(groupName,obj.name + "Rotate", obj.world.rotation_);
-			globalVariables->AddItem(groupName, obj.name + "Scale", obj.world.scale_);
-			globalVariables->AddItem(groupName, obj.name + "Material", obj.material);
+			globalVariables->AddItem(nowGroupName_, obj.name + "Scale", obj.world.scale_);
+			globalVariables->AddItem(nowGroupName_, obj.name + "Material", obj.material);
 		}
 	}
 	if (ImGui::Button("DeleteBlock")) {
 		SetObject(EulerTransform{ { 4.0f,30.0f,4.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objName_);
 		for (auto it = objects_.begin(); it != objects_.end();) {
 			if (it->name == objName_) {
-				globalVariables->RemoveItem(groupName, (std::string)objName_ + "Translate");
-				globalVariables->RemoveItem(groupName, (std::string)objName_ + "Scale");
-				globalVariables->RemoveItem(groupName, (std::string)objName_ + "Material");
+				globalVariables->RemoveItem(nowGroupName_, (std::string)objName_ + "Translate");
+				globalVariables->RemoveItem(nowGroupName_, (std::string)objName_ + "Scale");
+				globalVariables->RemoveItem(nowGroupName_, (std::string)objName_ + "Material");
 				objCount_--;
-				globalVariables->SetValue(groupName, "ObjCount", objCount_);
+				globalVariables->SetValue(nowGroupName_, "ObjCount", objCount_);
 				it = objects_.erase(it);
 			}
 			else {
@@ -512,6 +557,8 @@ void GamePlayScene::Draw() {
 
 	mountain_->Draw(viewProjection_);
 
+	floor_->Draw(viewProjection_);
+
 	for (Obj& obj : objects_) {
 #ifdef _DEBUG
 		model_->Draw(obj.world, viewProjection_, Vector4{ 1.0f,1.0f,1.0f,0.1f });
@@ -542,7 +589,11 @@ void GamePlayScene::Draw() {
 #pragma region 前景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
 
-	//numbers_->Draw();
+	for (int i = 4; i < 10; i++) {
+		if (datas_->GetStageNum() == i - 3) {
+			uiSprite_[i]->Draw(uiSpriteTransform_[i], uiSpriteuvTransform_[i], uiSpriteMaterial_[i]);
+		}
+	}
 
 	if (datas_->GetIsPause())
 	{
@@ -580,16 +631,20 @@ void GamePlayScene::Finalize() {
 	objects_.clear();
 }
 
+void GamePlayScene::FinalizeGoal() {
+	objects_.clear();
+}
+
 void GamePlayScene::ApplyGlobalVariables() {
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 
-	objCount_ = globalVariables->GetIntValue(groupName, "ObjCount");
+	objCount_ = globalVariables->GetIntValue(nowGroupName_, "ObjCount");
 
 	for (Obj& obj : objects_) {
-		obj.world.translation_ = globalVariables->GetVector3Value(groupName, obj.name + "Translate");
+		obj.world.translation_ = globalVariables->GetVector3Value(nowGroupName_, obj.name + "Translate");
 		//obj.world.rotation_ = globalVariables->GetVector3Value(groupName,  obj.name + "Rotate");
-		obj.world.scale_ = globalVariables->GetVector3Value(groupName, obj.name + "Scale");
-		obj.Backmaterial = globalVariables->GetVector4Value(groupName, obj.name + "Material");
+		obj.world.scale_ = globalVariables->GetVector3Value(nowGroupName_, obj.name + "Scale");
+		obj.Backmaterial = globalVariables->GetVector4Value(nowGroupName_, obj.name + "Material");
 	}
 }
 

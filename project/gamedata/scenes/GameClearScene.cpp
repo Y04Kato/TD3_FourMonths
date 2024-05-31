@@ -109,35 +109,35 @@ void GameClearScene::Update() {
 
 	if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
 		datas_->GetStageNum() == 2) {
-		sceneNo = GAME_SCENE2;
+		sceneNo = GAME_SCENE;
 		isSceneStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
 	if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
 		datas_->GetStageNum() == 3) {
-		sceneNo = GAME_SCENE3;
+		sceneNo = GAME_SCENE;
 		isSceneStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
 	if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
 		datas_->GetStageNum() == 4) {
-		sceneNo = GAME_SCENE4;
+		sceneNo = GAME_SCENE;
 		isSceneStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
 	if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
 		datas_->GetStageNum() == 5) {
-		sceneNo = GAME_SCENE5;
+		sceneNo = GAME_SCENE;
 		isSceneStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
 	if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
 		datas_->GetStageNum() == 6) {
-		sceneNo = GAME_SCENE6;
+		sceneNo = GAME_SCENE;
 		isSceneStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
@@ -145,40 +145,40 @@ void GameClearScene::Update() {
 	//真ん中(次のステージ)
 	if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
 		datas_->GetStageNum() == 1) {
-		sceneNo = GAME_SCENE2;
+		sceneNo = GAME_SCENE;
+		datas_->SetStageNum(2);
 		isSceneStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
-
-	if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
+	else if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
 		datas_->GetStageNum() == 2) {
-		sceneNo = GAME_SCENE3;
+		sceneNo = GAME_SCENE;
+		datas_->SetStageNum(3);
 		isSceneStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
-
-	if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
+	else if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
 		datas_->GetStageNum() == 3) {
-		sceneNo = GAME_SCENE4;
+		sceneNo = GAME_SCENE;
+		datas_->SetStageNum(4);
 		isSceneStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
-
-	if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
+	else if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
 		datas_->GetStageNum() == 4) {
-		sceneNo = GAME_SCENE5;
+		sceneNo = GAME_SCENE;
+		datas_->SetStageNum(5);
 		isSceneStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
-
-	if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
+	else if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
 		datas_->GetStageNum() == 5) {
-		sceneNo = GAME_SCENE6;
+		sceneNo = GAME_SCENE;
+		datas_->SetStageNum(6);
 		isSceneStart_ = true;
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
-
-	if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
+	else if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
 		datas_->GetStageNum() == 6) {
 		sceneNo = TITLE_SCENE;
 		isSceneStart_ = true;
@@ -220,7 +220,7 @@ void GameClearScene::Draw() {
 
 #pragma region 前景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
-		
+
 	sprite_[1]->Draw(spriteTransform_[1], SpriteuvTransform_[1], spriteMaterial_[1]);
 
 	sprite_[2]->Draw(spriteTransform_[2], SpriteuvTransform_[2], spriteMaterial_[2]);
