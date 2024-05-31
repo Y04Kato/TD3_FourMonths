@@ -9,6 +9,7 @@
 #include "components/2d/CreateSprite.h"
 
 #include "skydome/Skydome.h"
+#include "datas/datas.h"
 
 class GameSelectScene :public Iscene {
 public:
@@ -44,5 +45,8 @@ private:
 	bool isSpriteDraw_[3];
 
 	int titleTimer_ = 60;
+
+	//Datas
+	Datas* datas_;
 };
 

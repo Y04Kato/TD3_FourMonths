@@ -318,26 +318,11 @@
     <ClCompile Include="project\gamedata\Physics\Physics.cpp">
       <Filter>ソース ファイル\project\gamedata\gameObject</Filter>
     </ClCompile>
-    <ClCompile Include="project\gamedata\scenes\GamePlayScene2.cpp">
-      <Filter>ソース ファイル\project\gamedata\scenes</Filter>
-    </ClCompile>
     <ClCompile Include="project\gamedata\numbers\numbers.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="project\gamedata\datas\datas.cpp">
       <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="project\gamedata\scenes\GamePlayScene3.cpp">
-      <Filter>ソース ファイル\project\gamedata\scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="project\gamedata\scenes\GamePlayScene4.cpp">
-      <Filter>ソース ファイル\project\gamedata\scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="project\gamedata\scenes\GamePlayScene5.cpp">
-      <Filter>ソース ファイル\project\gamedata\scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="project\gamedata\scenes\GamePlayScene6.cpp">
-      <Filter>ソース ファイル\project\gamedata\scenes</Filter>
     </ClCompile>
     <ClCompile Include="project\gamedata\floor\Floor.cpp">
       <Filter>ソース ファイル\project\gamedata\gameObject</Filter>
@@ -562,26 +547,11 @@
     <ClInclude Include="project\gamedata\Physics\Physics.h">
       <Filter>ヘッダー ファイル\project\gamedata\gameObject</Filter>
     </ClInclude>
-    <ClInclude Include="project\gamedata\scenes\GamePlayScene2.h">
-      <Filter>ヘッダー ファイル\project\gamedata\scenes</Filter>
-    </ClInclude>
     <ClInclude Include="project\gamedata\numbers\numbers.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="project\gamedata\datas\datas.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="project\gamedata\scenes\GamePlayScene3.h">
-      <Filter>ヘッダー ファイル\project\gamedata\scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="project\gamedata\scenes\GamePlayScene4.h">
-      <Filter>ヘッダー ファイル\project\gamedata\scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="project\gamedata\scenes\GamePlayScene5.h">
-      <Filter>ヘッダー ファイル\project\gamedata\scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="project\gamedata\scenes\GamePlayScene6.h">
-      <Filter>ヘッダー ファイル\project\gamedata\scenes</Filter>
     </ClInclude>
     <ClInclude Include="project\gamedata\floor\Floor.h">
       <Filter>ヘッダー ファイル\project\gamedata\gameObject</Filter>

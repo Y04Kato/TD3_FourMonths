@@ -108,7 +108,6 @@ void Player::Initialize() {
 	particle_->SetLifeTime(10.0f);
 
 	datas_ = Datas::GetInstance();
-	datas_->Initialize();
 
 	model_.reset(Model::CreateSkinningModel("project/gamedata/resources/star", "star.obj"));
 	modelMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
@@ -353,42 +352,42 @@ void Player::Updete(const ViewProjection viewProjection) {
 	}
 
 	//ゴール
-	if (Iscene::sceneNo == GAME_SCENE && worldTransform_.translation_.num[2] >= 1700.0f)
+	if (datas_->GetStageNum() == 1 && worldTransform_.translation_.num[2] >= 1700.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
-	else if (Iscene::sceneNo == GAME_SCENE2 && worldTransform_.translation_.num[2] >= 1700.0f)
+	else if (datas_->GetStageNum() == 2 && worldTransform_.translation_.num[2] >= 1700.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
-	else if (Iscene::sceneNo == GAME_SCENE3 && worldTransform_.translation_.num[2] >= 1000.0f)
+	else if (datas_->GetStageNum() == 3 && worldTransform_.translation_.num[2] >= 1000.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
-	else if (Iscene::sceneNo == GAME_SCENE4 && worldTransform_.translation_.num[2] >= 1000.0f)
+	else if (datas_->GetStageNum() == 4 && worldTransform_.translation_.num[2] >= 1000.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
-	else if (Iscene::sceneNo == GAME_SCENE5 && worldTransform_.translation_.num[2] >= 1000.0f)
+	else if (datas_->GetStageNum() == 5 && worldTransform_.translation_.num[2] >= 1000.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
-	else if (Iscene::sceneNo == GAME_SCENE6 && worldTransform_.translation_.num[2] >= 1000.0f)
+	else if (datas_->GetStageNum() == 6 && worldTransform_.translation_.num[2] >= 1000.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;

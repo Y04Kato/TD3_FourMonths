@@ -3,6 +3,8 @@
 #include "components/3d/WorldTransform.h"
 #include "components/3d/ViewProjection.h"
 
+#include "datas/datas.h"
+
 class Goal
 {
 public:
@@ -16,5 +18,9 @@ private:
 	std::unique_ptr<Model> model_[2];
 	WorldTransform worldTransform_[2];
 	Vector4 modelMaterial_;
+
+
+	//Datas
+	Datas* datas_;
 };
 
