@@ -502,3 +502,9 @@ void Player::SetWireMiss() {
 	wireVelocity_ = worldTransformReticle_.translation_ - worldTransform2_.translation_;
 	wireVelocity_ = Normalize(wireVelocity_) * 5.0f;
 }
+
+void Player::Shake(int shakePower, int dividePower) {
+	worldTransform_.translation_.num[0] += (rand() % shakePower - shakePower / 2 + rand() / (float)RAND_MAX) / dividePower;
+	worldTransform_.translation_.num[1] += (rand() % shakePower - shakePower / 2 + rand() / (float)RAND_MAX) / dividePower;
+	worldTransform_.translation_.num[2] += (rand() % shakePower - shakePower / 2 + rand() / (float)RAND_MAX) / dividePower;
+}

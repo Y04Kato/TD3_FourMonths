@@ -158,4 +158,6 @@ private:
 
 	//Datas
 	Datas* datas_;
+	//必ず2の倍数にすること
+	VectorInt2 shakePower = { 2,2 };
 };

@@ -45,6 +45,8 @@ public:
 	void SetCameraMode(const bool cameraMode) { cameraChange_ = cameraMode; }
 	void SetIsHitWire(const bool isHit) { isHitWire_ = isHit; }
 
+	bool GetIsMissWire() { return isMissWire_; }
+
 	bool GetIsHitObj() { return isHitObj_; }
 	void SetIsHitObj(const bool isHit) {
 		isHitObj_ = isHit;
@@ -65,6 +67,8 @@ public:
 
 	void SetIsFell(bool flag) { isFell_ = flag; }
 	bool GetIsFell() { return isFell_; }
+
+	void Shake(int shakePower, int dividePower);
 
 private:
 	TextureManager* textureManager_;

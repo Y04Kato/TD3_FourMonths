@@ -72,13 +72,52 @@ void Mountain::Update()
 	{
 		worldTransform_[i].UpdateMatrix();
 	}
+
+	if (playerPos_.num[0] >= 75.0f) {
+
+	}
+	else if (playerPos_.num[0] <= -75.0f) {
+
+	}
+
 }
 
 void Mountain::Draw(const ViewProjection viewProjection)
 {
-	
-	for (int i = 0; i < 15; i++)
-	{
-		mountainModel_[i]->Draw(worldTransform_[i], viewProjection, modelMaterial_);
+
+	if (viewProjection.translation_.num[0] >= 75.0f) {
+
+		if (playerPos_.num[0] >= 75.0f) {
+			for (int i = 0; i < 15; i++)
+			{
+				mountainModel_[i]->Draw(worldTransform_[i], viewProjection, Vector4{ modelMaterial_.num[0],modelMaterial_.num[1] ,modelMaterial_.num[2] ,0.05f });
+			}
+		}
+		else {
+			for (int i = 0; i < 15; i++)
+			{
+				mountainModel_[i]->Draw(worldTransform_[i], viewProjection, modelMaterial_);
+			}
+		}
+	}
+	else if (viewProjection.translation_.num[0] <= -75.0f) {
+		if (playerPos_.num[0] <= -75.0f) {
+			for (int i = 0; i < 15; i++)
+			{
+				mountainModel_[i]->Draw(worldTransform_[i], viewProjection, Vector4{ modelMaterial_.num[0],modelMaterial_.num[1] ,modelMaterial_.num[2] ,0.05f });
+			}
+		}
+		else {
+			for (int i = 0; i < 15; i++)
+			{
+				mountainModel_[i]->Draw(worldTransform_[i], viewProjection, modelMaterial_);
+			}
+		}
+	}
+	else {
+		for (int i = 0; i < 15; i++)
+		{
+			mountainModel_[i]->Draw(worldTransform_[i], viewProjection, modelMaterial_);
+		}
 	}
 }

@@ -346,12 +346,26 @@ void GamePlayScene::Update() {
 
 		if (cameraChange_ == true) {//DebugCamera
 			debugCamera_->Update();
+			if (input_->PressKey(DIK_V)) {//Shakeテスト用
+				debugCamera_->ShakeCamera(shakePower.x, shakePower.y);
+			}
+
 			viewProjection_.translation_ = debugCamera_->GetViewProjection()->translation_;
 			viewProjection_.rotation_ = debugCamera_->GetViewProjection()->rotation_;
 			viewProjection_.UpdateMatrix();
 		}
 		else {//FollowCamera
 			followCamera_->Update();
+			if (player_->GetIsMissWire() == true) {
+				followCamera_->ShakeCamera(shakePower.x,shakePower.y);
+				//player_->Shake(shakePower.x, shakePower.y);
+			}
+
+			if (input_->PressKey(DIK_V)) {//Shakeテスト用
+				followCamera_->ShakeCamera(shakePower.x, shakePower.y);
+				//player_->Shake(shakePower.x, shakePower.y);
+			}
+
 			viewProjection_.translation_ = followCamera_->GetViewProjection().translation_;
 			viewProjection_.matView = followCamera_->GetViewProjection().matView;
 			viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
@@ -473,6 +487,8 @@ void GamePlayScene::Update() {
 		particle_->OccursOnlyOnce(occursNum_);
 	}
 
+	mountain_->SetPlayerPos(player_->GetWorldTransform().translation_);
+
 	for (Obj& obj : objects_) {//レイとオブジェクトの当たり判定の結果
 		if (obj.isHit == true) {
 			obj.material = { 1.0f,0.5f,0.0f,1.0f };
@@ -551,6 +567,7 @@ void GamePlayScene::Update() {
 	particle_->SetisVelocity(true, boostSpeed_);
 	ImGui::DragInt("OccursNum", &occursNum_, 1, 0);
 	ImGui::DragFloat("frequencyTime", &testEmitter_.frequencyTime, 0.1f);
+	ImGui::DragInt2("ShakePower", &shakePower.x, 1, 0);
 	ImGui::End();
 
 	ImGui::Begin("Cursor");
@@ -579,9 +596,9 @@ void GamePlayScene::Draw() {
 		obj.model.Draw(obj.world, viewProjection_, obj.material);
 	}
 
-	mountain_->Draw(viewProjection_);
-
 	floor_->Draw(viewProjection_);
+
+	mountain_->Draw(viewProjection_);
 
 	for (Obj& obj : objects_) {
 #ifdef _DEBUG
