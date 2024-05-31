@@ -381,6 +381,21 @@ void GamePlayScene::Update() {
 	structSphere_.center = player_->GetWorldTransform().translation_;
 
 	for (Obj& obj : objects_) {
+		//モード毎の処理
+		if (obj.treeMode == TREEMODE::NONE) {
+
+		}
+
+		if (obj.treeMode == TREEMODE::ROTATE) {
+			obj.material = { 0.0f,0.0f,1.0f,1.0f };
+			obj.Backmaterial = obj.material;
+		}
+
+		if (obj.treeMode == TREEMODE::ITEM) {
+			obj.material = { 1.0f,0.0f,0.0f,1.0f };
+			obj.Backmaterial = obj.material;
+		}
+
 		obj.obb_.center = obj.world.translation_;
 		GetOrientations(MakeRotateXYZMatrix(obj.world.rotation_), obj.obb_.orientation);
 		obj.obb_.size = obj.world.scale_;
@@ -492,6 +507,7 @@ void GamePlayScene::Update() {
 			//globalVariables->AddItem(groupName,obj.name + "Rotate", obj.world.rotation_);
 			globalVariables->AddItem(nowGroupName_, obj.name + "Scale", obj.world.scale_);
 			globalVariables->AddItem(nowGroupName_, obj.name + "Material", obj.material);
+			globalVariables->AddItem(nowGroupName_, obj.name + "TreeMode", obj.treeMode);
 		}
 	}
 	if (ImGui::Button("DeleteBlock")) {
@@ -501,6 +517,7 @@ void GamePlayScene::Update() {
 				globalVariables->RemoveItem(nowGroupName_, (std::string)objName_ + "Translate");
 				globalVariables->RemoveItem(nowGroupName_, (std::string)objName_ + "Scale");
 				globalVariables->RemoveItem(nowGroupName_, (std::string)objName_ + "Material");
+				globalVariables->RemoveItem(nowGroupName_, (std::string)objName_ + "TreeMode");
 				objCount_--;
 				globalVariables->SetValue(nowGroupName_, "ObjCount", objCount_);
 				it = objects_.erase(it);
@@ -645,6 +662,7 @@ void GamePlayScene::ApplyGlobalVariables() {
 		//obj.world.rotation_ = globalVariables->GetVector3Value(groupName,  obj.name + "Rotate");
 		obj.world.scale_ = globalVariables->GetVector3Value(nowGroupName_, obj.name + "Scale");
 		obj.Backmaterial = globalVariables->GetVector4Value(nowGroupName_, obj.name + "Material");
+		obj.treeMode = globalVariables->GetIntValue(nowGroupName_, obj.name + "TreeMode");
 	}
 }
 
@@ -662,7 +680,9 @@ void GamePlayScene::SetObject(EulerTransform trans, const std::string& name) {
 	obj.isHitEye = false;
 
 	obj.material = { 1.0f,1.0f,1.0f,1.0f };
-	obj.Backmaterial = { 1.0f,1.0f,1.0f,1.0f };
+	obj.Backmaterial = obj.material;
+
+	obj.treeMode = 0;
 
 	obj.name = name;
 	objects_.push_back(obj);

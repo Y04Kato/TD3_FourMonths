@@ -26,6 +26,14 @@
 #include "datas/datas.h"
 #include "timer/Timer.h"
 
+//木の種類
+enum TREEMODE {
+	NONE,//なし
+	ROTATE,//回転する木
+	ITEM,//アイテムカウントが増える木
+	MODE_MAX//MAXCOUNT
+};
+
 class GamePlayScene :public Iscene {
 public:
 	void Initialize() override;
@@ -73,6 +81,7 @@ private:
 		OBB obb_;
 		bool isHit;
 		bool isHitEye;
+		int treeMode;
 	};
 	std::list<Obj> objects_;
 	ModelData ObjModelData_;
