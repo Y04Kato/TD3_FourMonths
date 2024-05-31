@@ -355,14 +355,14 @@ void Player::Updete(const ViewProjection viewProjection) {
 	}
 
 	//ゴール
-	if (Iscene::sceneNo == GAME_SCENE && worldTransform_.translation_.num[2] >= 1000.0f)
+	if (Iscene::sceneNo == GAME_SCENE && worldTransform_.translation_.num[2] >= 1700.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
-	else if (Iscene::sceneNo == GAME_SCENE2 && worldTransform_.translation_.num[2] >= 1000.0f)
+	else if (Iscene::sceneNo == GAME_SCENE2 && worldTransform_.translation_.num[2] >= 1700.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
