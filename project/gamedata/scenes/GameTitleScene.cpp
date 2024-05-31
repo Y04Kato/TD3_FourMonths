@@ -21,8 +21,10 @@ void GameTitleScene::Initialize(){
 	titleResource_ = textureManager_->Load("project/gamedata/resources/UI/Title.png");
 	title1Resource_ = textureManager_->Load("project/gamedata/resources/UI/Title1.png");
 	bgResource_ = textureManager_->Load("project/gamedata/resources/UI/bg.png");
+	annotationResource_ = textureManager_->Load("project/gamedata/resources/UI/Annotention.png");
+	escapeResource_ = textureManager_->Load("project/gamedata/resources/UI/ESC.png");
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		spriteMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 		spriteTransform_[i] = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
@@ -45,6 +47,12 @@ void GameTitleScene::Initialize(){
 
 	sprite_[2]->Initialize(Vector2{ 1280.0f,720.0f }, bgResource_);
 	sprite_[2]->SetAnchor(Vector2{ 0.5f,0.5f });
+
+	sprite_[3]->Initialize(Vector2{ 1280.0f,720.0f }, annotationResource_);
+	sprite_[3]->SetAnchor(Vector2{ 0.5f,0.5f });
+
+	sprite_[4]->Initialize(Vector2{ 1280.0f,720.0f }, escapeResource_);
+	sprite_[4]->SetAnchor(Vector2{ 0.5f,0.5f });
 }
 
 void GameTitleScene::Update(){
@@ -109,6 +117,10 @@ void GameTitleScene::Draw(){
 	if (isSpriteDraw_[0]){
 		sprite_[1]->Draw(spriteTransform_[1], SpriteuvTransform_[1], spriteMaterial_[1]);
 	}
+
+	sprite_[3]->Draw(spriteTransform_[3], SpriteuvTransform_[3], spriteMaterial_[3]);
+
+	sprite_[4]->Draw(spriteTransform_[4], SpriteuvTransform_[4], spriteMaterial_[4]);
 
 #pragma endregion
 }

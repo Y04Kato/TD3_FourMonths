@@ -33,16 +33,18 @@ private:
 	SoundData selectData_;
 
 	//Sprite
-	std::unique_ptr <CreateSprite> sprite_[3];
-	EulerTransform spriteTransform_[3];
-	EulerTransform SpriteuvTransform_[3];
-	Vector4 spriteMaterial_[3];
+	std::unique_ptr <CreateSprite> sprite_[5];
+	EulerTransform spriteTransform_[5];
+	EulerTransform SpriteuvTransform_[5];
+	Vector4 spriteMaterial_[5];
 
 	uint32_t titleResource_;
 	uint32_t title1Resource_;
 	uint32_t bgResource_;
+	uint32_t annotationResource_;
+	uint32_t escapeResource_;
 
-	bool isSpriteDraw_[3];
+	bool isSpriteDraw_[5];
 
 	int titleTimer_ = 60;
 
