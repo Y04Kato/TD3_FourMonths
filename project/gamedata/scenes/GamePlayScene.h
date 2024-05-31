@@ -137,6 +137,8 @@ private:
 	bool isBillBoard_ = true;
 	bool isColor_;
 	Vector4 particleColor_ = { 0.0f,0.0f,0.0f,0.0f };
+	float boostSpeed_ = 10.0f;
+	int occursNum_ = 50;
 
 	bool isGameStart_ = true;//ゲーム開始時に1回だけ呼ぶ
 

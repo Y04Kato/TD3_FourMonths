@@ -189,11 +189,17 @@ Particle CreateParticle::MakeNewParticle(std::mt19937& randomEngine, const Euler
 	}
 	Vector3 randomTranslate = { distribution(randomEngine),distribution(randomEngine),distribution(randomEngine) };
 	particles.transform.translate = transform.translate + randomTranslate / 3.0f;
-	if (isVelocity_) {
+	if (isVelocity_ == false) {
 		particles.velocity = { 0.0f,0.0f,0.0f };
 	}
 	else {
-		particles.velocity = { distribution(randomEngine) ,distribution(randomEngine) ,distribution(randomEngine) };
+		if (velocityBoost_ == 0.0f) {
+			particles.velocity = { distribution(randomEngine) ,distribution(randomEngine) ,distribution(randomEngine) };
+		}
+		else {
+			particles.velocity = { distribution(randomEngine) ,distribution(randomEngine) ,distribution(randomEngine) };
+			particles.velocity = particles.velocity * velocityBoost_;
+		}
 	}
 	if (isColor_) {
 		particles.color = color_;
@@ -218,4 +224,12 @@ std::list<Particle> CreateParticle::Emission(const Emitter& emitter, std::mt1993
 		particles_.push_back(MakeNewParticle(randomEngine, emitter.transform));
 	}
 	return particles;
+}
+
+void CreateParticle::OccursOnlyOnce(int occursNum) {
+	std::mt19937 randomEngine(seedGenerator());
+	int backCount = emitter_.count;
+	emitter_.count = occursNum;
+	Emission(emitter_, randomEngine);
+	emitter_.count = backCount;
 }

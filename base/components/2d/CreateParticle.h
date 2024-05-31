@@ -27,8 +27,8 @@ public:
 	void SetAccelerationField(const AccelerationField& accelerationField) { accelerationField_ = accelerationField; };
 	void SetisBillBoard(const bool isBillBoard) { isBillBoard_ = isBillBoard; };
 	void SetisColor(const bool isColor) { isColor_ = isColor; };
-	//Velocityをランダムにするか否かFalseでランダムをOFF
-	void SetisVelocity(const bool isVelocity) { isVelocity_ = isVelocity; };
+	//Velocityをランダムにするか否かFalseでOFF、True+1以上ならランダムな値に値を掛ける
+	void SetisVelocity(const bool isVelocity, const float boost) { isVelocity_ = isVelocity; velocityBoost_ = boost; };
 	void SetTranslate(Vector3 transform) { emitter_.transform.translate = transform; }
 	void SetFrequency(float frequency) { emitter_.frequency = frequency; }
 
@@ -38,13 +38,15 @@ public:
 		isColor_ = true;
 	}
 
-	//パーティクルの色をランダムから指定した色に変更出来る
+	//パーティクル生きてる時間を変更出来る
 	void SetLifeTime(float lifeTime) {
 		lifeTime_ = lifeTime;
 		isLifeTimer = true;
 	}
 
 	int GetkNumMaxInstance() { return kNumMaxInstance_; }
+
+	void OccursOnlyOnce(int occursNum);
 
 private:
 	void SettingVertex();
@@ -99,6 +101,7 @@ private:
 
 	Vector3 velocity_;
 	bool isVelocity_ = false;
+	float velocityBoost_ = 0.0f;
 
 	float lifeTime_  = 0.0f;
 	bool isLifeTimer = false;

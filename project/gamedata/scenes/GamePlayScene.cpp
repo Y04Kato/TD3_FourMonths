@@ -74,7 +74,7 @@ void GamePlayScene::Initialize() {
 	uiSpriteTransform_[0].translate.num[1] = 415.0f;
 	uiSpriteTransform_[0].scale = { 0.8f,0.8f,0.8f };
 
-	for (int i = 1; i < 10; i++){
+	for (int i = 1; i < 10; i++) {
 		uiSprite_[i]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[i]);
 		uiSprite_[i]->SetAnchor(Vector2{ 0.5f,0.5f });
 	}
@@ -119,18 +119,18 @@ void GamePlayScene::Initialize() {
 	testEmitter_.transform.translate = { 0.0f,0.0f,45.0f };
 	testEmitter_.transform.rotate = { 0.0f,0.0f,0.0f };
 	testEmitter_.transform.scale = { 1.0f,1.0f,1.0f };
-	testEmitter_.count = 10;
+	testEmitter_.count = 0;
 	testEmitter_.frequency = 0.05f;
 	testEmitter_.frequencyTime = 0.0f;//発生頻度の時刻
 
-	accelerationField_.acceleration = { 0.0f,0.0f,-10.0f };
+	accelerationField_.acceleration = { 0.0f,0.0f,0.0f };
 	accelerationField_.area.min = { -1.0f,-1.0f,-1.0f };
 	accelerationField_.area.max = { 1.0f,1.0f,1.0f };
 
 	particle_ = std::make_unique <CreateParticle>();
 
 	particle_->Initialize(1000, testEmitter_, accelerationField_, spriteResource_);
-	particle_->SetisVelocity(true);
+	particle_->SetisVelocity(true, boostSpeed_);
 
 	//Timer
 	/*numbers_ = std::make_unique<Numbers>();
@@ -469,6 +469,10 @@ void GamePlayScene::Update() {
 		input_->ToggleCursor();
 	}
 
+	if (input_->TriggerKey(DIK_C)) {//Particleテスト用
+		particle_->OccursOnlyOnce(occursNum_);
+	}
+
 	for (Obj& obj : objects_) {//レイとオブジェクトの当たり判定の結果
 		if (obj.isHit == true) {
 			obj.material = { 1.0f,0.5f,0.0f,1.0f };
@@ -543,6 +547,9 @@ void GamePlayScene::Update() {
 	ImGui::DragFloat3("OccurrenceRangeMin", accelerationField_.area.min.num, 0.1f);
 	ImGui::DragFloat3("OccurrenceRangeMax", accelerationField_.area.max.num, 0.1f);
 	ImGui::DragFloat("frequency", &testEmitter_.frequency, 0.1f);
+	ImGui::DragFloat("BoostSpeed", &boostSpeed_, 0.1f);
+	particle_->SetisVelocity(true, boostSpeed_);
+	ImGui::DragInt("OccursNum", &occursNum_, 1, 0);
 	ImGui::DragFloat("frequencyTime", &testEmitter_.frequencyTime, 0.1f);
 	ImGui::End();
 
@@ -599,7 +606,7 @@ void GamePlayScene::Draw() {
 #pragma region パーティクル描画
 	CJEngine_->renderer_->Draw(PipelineType::Particle);
 	player_->DrawParticle(viewProjection_);
-	//particle_->Draw(viewProjection_);
+	particle_->Draw(viewProjection_);
 
 #pragma endregion
 
