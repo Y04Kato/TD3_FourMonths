@@ -352,6 +352,7 @@ void GamePlayScene::Update() {
 		}
 
 		//選択する処理
+		//Restart
 		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 324.0f)
 		{
 			datas_->SetIsPause(false);
@@ -363,9 +364,16 @@ void GamePlayScene::Update() {
 			nowTime_ = 0.0f;
 		}
 
+		//Select
 		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 520.0f)
 		{
 			isTransitionStart_ = true;
+		}
+
+		//Rule
+		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 520.0f)
+		{
+
 		}
 	}
 	else
