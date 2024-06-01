@@ -162,4 +162,7 @@ private:
 	float maxDistance_ = 75.0f; //最大
 	float maxAlpha_ = 0.4f; //最大アルファ値
 	float minAlpha_ = 0.0f; //最小アルファ値
+
+	//Camera初期化用のWorldTransform
+	WorldTransform cameraWorldTransform_;
 };

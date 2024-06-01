@@ -446,6 +446,10 @@ void Player::SetWorldTransform(const WorldTransform world) {
 	worldTransform_ = world;
 }
 
+void Player::SetWorldTransformCamera(const WorldTransform world) {
+	worldTransform2_ = world;
+}
+
 void Player::SetWorldTransformReticle(const WorldTransform world) {
 	worldTransformReticle_ = world;
 }

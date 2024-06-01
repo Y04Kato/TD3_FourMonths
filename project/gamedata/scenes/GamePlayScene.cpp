@@ -174,6 +174,8 @@ void GamePlayScene::Initialize() {
 	startWorldTransform_.Initialize();
 	startWorldTransform_.rotation_ = { 1.5f,0.0f,2.0f };
 
+	cameraWorldTransform_.Initialize();
+
 	datas_ = Datas::GetInstance();
 
 	for (int i = 0; i < 2; i++)
@@ -274,6 +276,7 @@ void GamePlayScene::Update() {
 			datas_->SetIsReset(true);
 			startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
 			player_->SetWorldTransform(startWorldTransform_);
+			player_->SetWorldTransformCamera(cameraWorldTransform_);
 			player_->SetIsRestart(false);
 			nowTime_ = 0.0f;
 		}
@@ -312,6 +315,7 @@ void GamePlayScene::Update() {
 		}
 
 		startWorldTransform_.UpdateMatrix();
+		cameraWorldTransform_.UpdateMatrix();
 
 		ImGui::Begin("Wall");
 		ImGui::DragFloat3("WallWTFT", &wallWorldTransform_[0].translation_.num[0], -100.0f, 100.0f);
