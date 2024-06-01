@@ -38,8 +38,7 @@ public:
 	void SetWorldTransformReticle(const WorldTransform world);
 	void SetWorldTransformObject(const WorldTransform world) { worldTransformObject_ = world; }
 	void SetVelocity(const Vector3 velocity) { 
-		physics_->AddForce(velocity, 0); 
-		physics_->SetVelocity({ 0.0f,0.0f,0.0f });
+		physics_->AddForce(velocity, 1); 
 	}
 
 	void SetCameraMode(const bool cameraMode) { cameraChange_ = cameraMode; }
