@@ -47,6 +47,14 @@ private:
 	uint32_t escapeResource_;
 	uint32_t starResource_;
 
+	//星(Test)Sprite
+	uint32_t testResource_;
+
+	std::unique_ptr <CreateSprite> testSprite_;
+	EulerTransform testSpriteTransform_;
+	EulerTransform testSpriteuvTransform_;
+	Vector4 testSpriteMaterial_;
+
 	bool isSpriteDraw_[5];
 
 	int titleTimer_ = 60;

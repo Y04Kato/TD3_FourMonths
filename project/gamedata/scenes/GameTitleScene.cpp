@@ -27,6 +27,8 @@ void GameTitleScene::Initialize(){
 	escapeResource_ = textureManager_->Load("project/gamedata/resources/UI/ESC.png");
 	starResource_ = textureManager_->Load("project/gamedata/resources/UI/star.png");
 
+	testResource_ = textureManager_->Load("project/gamedata/resources/UI/star.png");
+
 	for (int i = 0; i < 5; i++)
 	{
 		spriteMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
@@ -71,11 +73,49 @@ void GameTitleScene::Initialize(){
 	starSprite_->Initialize(Vector2{ 512.0f,512.0f }, starResource_);
 	starSprite_->SetAnchor(Vector2{ 0.5f,0.5f });
 
+	//Test用
+	testSpriteMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
+	testSpriteTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
+
+	testSpriteuvTransform_ = {
+		{1.0f,1.0f,1.0f},
+		{0.0f,0.0f,0.0f},
+		{0.0f,0.0f,0.0f},
+	};
+
+	testSprite_ = std::make_unique <CreateSprite>();
+
+	testSprite_->Initialize(Vector2{ 64.0f,64.0f }, testResource_);
+	testSprite_->SetAnchor(Vector2{ 0.5f,0.5f });
 }
 
 void GameTitleScene::Update(){
 	XINPUT_STATE joyState;
 	Input::GetInstance()->GetJoystickState(0, joyState);
+
+	if (input_->PressKey(DIK_L))
+	{
+		testSpriteTransform_.scale.num[0] += 0.04f;
+		testSpriteTransform_.scale.num[1] += 0.04f;
+
+		if (testSpriteTransform_.scale.num[0] >= 3.0f)
+		{
+			testSpriteTransform_.scale.num[0] = 3.0f;
+		}
+	}
+
+	if (input_->PressKey(DIK_K))
+	{
+		testSpriteTransform_.scale.num[0] -= 0.06f;
+		testSpriteTransform_.scale.num[1] -= 0.06f;
+
+		testSpriteTransform_.rotate.num[1] += 0.6f;
+
+		if (testSpriteTransform_.scale.num[0] <= 1.0f)
+		{
+			testSpriteTransform_.scale.num[0] = 1.0f;
+		}
+	}
 
 	if (isFirstTransition)
 	{
@@ -184,6 +224,8 @@ void GameTitleScene::Draw(){
 	sprite_[4]->Draw(spriteTransform_[4], SpriteuvTransform_[4], spriteMaterial_[4]);
 
 	starSprite_->Draw(starSpriteTransform_, starSpriteuvTransform_, starSpriteMaterial_);
+
+	testSprite_->Draw(testSpriteTransform_, testSpriteuvTransform_, testSpriteMaterial_);
 
 #pragma endregion
 }
