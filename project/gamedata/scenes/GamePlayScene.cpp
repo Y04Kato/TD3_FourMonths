@@ -216,8 +216,6 @@ void GamePlayScene::Update() {
 	if (isGameStart_ == true) {//ゲーム開始時の処理
 		uiSpriteTransform_[3].translate.num[0] = 1048.0f;
 		uiSpriteTransform_[3].translate.num[1] = 324.0f;
-		startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
-		player_->SetWorldTransform(startWorldTransform_);
 		input_->HideCursor();
 
 		//ステージ選択を適用
@@ -252,6 +250,8 @@ void GamePlayScene::Update() {
 
 	if (isFirstTransition)
 	{
+		startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
+		player_->SetWorldTransform(startWorldTransform_);
 		starSpriteMaterial_ = { 0.0f,0.0f,0.0f,1.0f };
 		starSpriteTransform_ = { {10.0f,10.0f,10.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
 		isTransitionStart_ = false;
@@ -293,7 +293,7 @@ void GamePlayScene::Update() {
 		starSpriteTransform_.scale.num[1] += 0.4f;
 		starSpriteMaterial_.num[3] += 0.03f;
 
-		if (starSpriteMaterial_.num[3] >= 1.0f && player_->GetIsGoal())
+		if (starSpriteMaterial_.num[3] > 1.0f && player_->GetIsGoal())
 		{
 			isTransitionStart_ = false;
 			isFirstTransition = true;
@@ -301,9 +301,16 @@ void GamePlayScene::Update() {
 			starSpriteTransform_.scale.num[1] = 10.0f;
 			starSpriteMaterial_.num[3] = 1.0f;
 			sceneNo = CLEAR_SCENE;
+			startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
+			player_->SetWorldTransform(startWorldTransform_);
+			player_->SetIsGoal(false);
+			datas_->SetClearTime(nowTime_);
+			nowTime_ = 0.0f;
+			input_->ViewCursor();
+			FinalizeGoal();
 			isGameStart_ = true;
 		}
-		else if (starSpriteMaterial_.num[3] >= 1.0f && !player_->GetIsGoal())
+		else if (starSpriteMaterial_.num[3] > 1.0f && datas_->GetIsPause())
 		{
 			isTransitionStart_ = false;
 			isFirstTransition = true;
@@ -311,6 +318,11 @@ void GamePlayScene::Update() {
 			starSpriteTransform_.scale.num[1] = 10.0f;
 			starSpriteMaterial_.num[3] = 1.0f;
 			sceneNo = SELECT_SCENE;
+			datas_->SetIsPause(false);
+			datas_->SetIsReset(true);
+			nowTime_ = 0;
+			input_->ViewCursor();
+			FinalizeGoal();
 			isGameStart_ = true;
 		}
 	}
@@ -353,15 +365,7 @@ void GamePlayScene::Update() {
 
 		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 520.0f)
 		{
-			datas_->SetIsPause(false);
-			datas_->SetIsReset(true);
-			startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
-			player_->SetWorldTransform(startWorldTransform_);
-			nowTime_ = 0;
-			input_->ViewCursor();
 			isTransitionStart_ = true;
-
-			FinalizeGoal();
 		}
 	}
 	else
@@ -371,15 +375,7 @@ void GamePlayScene::Update() {
 		//Goal
 		if (player_->GetIsGoal())
 		{
-			startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
-			player_->SetWorldTransform(startWorldTransform_);
-			player_->SetIsGoal(false);
-			datas_->SetClearTime(nowTime_);
-			nowTime_ = 0.0f;
-			input_->ViewCursor();
 			isTransitionStart_ = true;
-
-			FinalizeGoal();
 		}
 
 		startWorldTransform_.UpdateMatrix();
@@ -712,13 +708,7 @@ void GamePlayScene::Draw() {
 #pragma region 前景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
 
-	for (int i = 4; i < 10; i++) {
-		if (datas_->GetStageNum() == i - 3) {
-			uiSprite_[i]->Draw(uiSpriteTransform_[i], uiSpriteuvTransform_[i], uiSpriteMaterial_[i]);
-		}
-	}
-
-	if (datas_->GetIsPause())
+	if (datas_->GetIsPause() && !isTransitionStart_ && isTransitionEnd_)
 	{
 		uiSprite_[2]->Draw(uiSpriteTransform_[2], uiSpriteuvTransform_[2], uiSpriteMaterial_[2]);
 
@@ -732,6 +722,12 @@ void GamePlayScene::Draw() {
 	}
 	else
 	{
+		for (int i = 4; i < 10; i++) {
+			if (datas_->GetStageNum() == i - 3) {
+				uiSprite_[i]->Draw(uiSpriteTransform_[i], uiSpriteuvTransform_[i], uiSpriteMaterial_[i]);
+			}
+		}
+
 		//numbers_->Draw();
 		timer_->Draw();
 		numbers2_->Draw();
@@ -739,8 +735,12 @@ void GamePlayScene::Draw() {
 		if (isHitWire_ == true) {
 			uiSprite_[0]->Draw(uiSpriteTransform_[0], uiSpriteuvTransform_[0], uiSpriteMaterial_[0]);
 		}
-		if (player_->GetIsActive() == false) {
-			uiSprite_[1]->Draw(uiSpriteTransform_[1], uiSpriteuvTransform_[1], uiSpriteMaterial_[1]);
+
+		if (!player_->GetIsGoal() && !isTransitionStart_ && isTransitionEnd_)
+		{
+			if (player_->GetIsActive() == false) {
+				uiSprite_[1]->Draw(uiSpriteTransform_[1], uiSpriteuvTransform_[1], uiSpriteMaterial_[1]);
+			}
 		}
 
 	}

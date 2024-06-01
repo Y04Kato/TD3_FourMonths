@@ -76,6 +76,7 @@ void GameSelectScene::Update() {
 
 	if (isFirstTransition)
 	{
+		spriteTransform_[2].translate = { 1280 / 2.0f,720 / 2.0f,0.0f };
 		starSpriteMaterial_ = { 0.0f,0.0f,0.0f,1.0f };
 		starSpriteTransform_ = { {10.0f,10.0f,10.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
 		isTransitionStart_ = false;
