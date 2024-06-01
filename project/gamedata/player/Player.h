@@ -32,6 +32,7 @@ public:
 	WorldTransform GetWorldTransform() override { return worldTransform_; }
 	const WorldTransform& GetWorldTransformPlayer() { return worldTransform2_; }
 	const WorldTransform& GetWorldTransformReticle() { return worldTransformReticle_; }
+	const WorldTransform& GetWorldTransformWire() { return worldTransformWire_; }
 	const Vector3 GetVelocity() { return physics_->GetVelocity(); }
 
 	void SetWorldTransform(const WorldTransform world);
@@ -59,6 +60,10 @@ public:
 
 	bool GetIsGoal() { return isGoal_; }
 	void SetIsGoal(const bool isGoal) { isGoal_ = isGoal; }
+	
+	
+	bool GetisWireParticle() { return isWireParticle_; }
+	void SetisWireParticle(const bool isWireParticle) { isWireParticle_ = isWireParticle; }
 
 	bool GetIsActive() { return isActive_; }
 
@@ -204,4 +209,6 @@ private:
 
 	const Vector2 cameraMin = { -1.0f, -1.0f };
 	const Vector2 cameraMax = { 1.0f, 1.0f };
+
+	bool isWireParticle_ = false;
 };

@@ -132,6 +132,7 @@ private:
 
 	//Particle
 	std::unique_ptr<CreateParticle> particle_;
+	uint32_t particleResource_;
 	Emitter testEmitter_ = {};
 	AccelerationField accelerationField_;
 	bool isBillBoard_ = true;
