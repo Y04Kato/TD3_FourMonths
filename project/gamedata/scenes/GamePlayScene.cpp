@@ -38,6 +38,7 @@ void GamePlayScene::Initialize() {
 	uiResource_[7] = textureManager_->Load("project/gamedata/resources/UI/stage4.png");
 	uiResource_[8] = textureManager_->Load("project/gamedata/resources/UI/stage5.png");
 	uiResource_[9] = textureManager_->Load("project/gamedata/resources/UI/stage6.png");
+	uiResource_[10] = textureManager_->Load("project/gamedata/resources/UI/Rule.png");
 
 	starResource_ = textureManager_->Load("project/gamedata/resources/UI/star.png");
 
@@ -57,7 +58,7 @@ void GamePlayScene::Initialize() {
 	sprite_->SetAnchor(Vector2{ 0.5f,0.5f });
 
 	//uiSprite
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 11; i++)
 	{
 		uiSpriteMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 		uiSpriteTransform_[i] = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
@@ -78,7 +79,7 @@ void GamePlayScene::Initialize() {
 	uiSpriteTransform_[0].translate.num[1] = 415.0f;
 	uiSpriteTransform_[0].scale = { 0.8f,0.8f,0.8f };
 
-	for (int i = 1; i < 10; i++){
+	for (int i = 1; i < 11; i++){
 		uiSprite_[i]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[i]);
 		uiSprite_[i]->SetAnchor(Vector2{ 0.5f,0.5f });
 	}
@@ -371,9 +372,13 @@ void GamePlayScene::Update() {
 		}
 
 		//Rule
-		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 520.0f)
+		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 717.0f && !datas_->GetIsRule())
 		{
-
+			datas_->SetIsRule(true);
+		}
+		else if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 717.0f && datas_->GetIsRule())
+		{
+			datas_->SetIsRule(false);
 		}
 	}
 	else
@@ -718,14 +723,15 @@ void GamePlayScene::Draw() {
 
 	if (datas_->GetIsPause() && !isTransitionStart_ && isTransitionEnd_)
 	{
-		uiSprite_[2]->Draw(uiSpriteTransform_[2], uiSpriteuvTransform_[2], uiSpriteMaterial_[2]);
-
-		uiSprite_[3]->Draw(uiSpriteTransform_[3], uiSpriteuvTransform_[3], uiSpriteMaterial_[3]);
-
 		if (datas_->GetIsRule())
 		{
-			//numbers_->Draw();
-			timer_->Draw();
+			uiSprite_[10]->Draw(uiSpriteTransform_[10], uiSpriteuvTransform_[10], uiSpriteMaterial_[10]);
+		}
+		else
+		{
+			uiSprite_[2]->Draw(uiSpriteTransform_[2], uiSpriteuvTransform_[2], uiSpriteMaterial_[2]);
+
+			uiSprite_[3]->Draw(uiSpriteTransform_[3], uiSpriteuvTransform_[3], uiSpriteMaterial_[3]);
 		}
 	}
 	else

@@ -108,14 +108,14 @@ private:
 	uint32_t spriteResource_;
 
 	//UISprite
-	uint32_t uiResource_[10];
+	uint32_t uiResource_[11];
 
-	std::unique_ptr <CreateSprite> uiSprite_[10];
-	EulerTransform uiSpriteTransform_[10];
-	EulerTransform uiSpriteuvTransform_[10];
-	Vector4 uiSpriteMaterial_[10];
+	std::unique_ptr <CreateSprite> uiSprite_[11];
+	EulerTransform uiSpriteTransform_[11];
+	EulerTransform uiSpriteuvTransform_[11];
+	Vector4 uiSpriteMaterial_[11];
 
-	bool isSpriteDraw_[10];
+	bool isSpriteDraw_[11];
 
 	Segment segmentRay_;
 	Segment segmentEye_;
