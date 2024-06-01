@@ -266,6 +266,7 @@ void GamePlayScene::Update() {
 			player_->SetWorldTransform(startWorldTransform_);
 			player_->SetIsRestart(false);
 			nowTime_ = 0.0f;
+			input_->HideCursor();
 		}
 
 		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 520.0f)
@@ -445,6 +446,9 @@ void GamePlayScene::Update() {
 				pair.first.num[0] = -pair.first.num[0];
 				pair.first.num[2] = -pair.first.num[2];
 				player_->SetVelocity(pair.first);
+				particle_->SetColor(obj.Backmaterial);
+				particle_->SetTranslate(Vector3{ player_->GetWorldTransformWire().translation_.num[0],player_->GetWorldTransform().translation_.num[1],player_->GetWorldTransformWire().translation_.num[2]});
+				particle_->OccursOnlyOnce(occursNum_);
 			}
 		}
 		else {
