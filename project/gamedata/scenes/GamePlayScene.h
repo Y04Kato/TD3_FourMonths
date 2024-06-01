@@ -28,6 +28,8 @@
 
 class GamePlayScene :public Iscene {
 public:
+	static bool isFirstTransition;
+
 	void Initialize() override;
 	void Update() override;
 	void Draw() override;
@@ -165,4 +167,15 @@ private:
 
 	//Camera初期化用のWorldTransform
 	WorldTransform cameraWorldTransform_;
+
+	//Transition用のSprite
+	std::unique_ptr <CreateSprite> starSprite_;
+	EulerTransform starSpriteTransform_;
+	EulerTransform starSpriteuvTransform_;
+	Vector4 starSpriteMaterial_;
+
+	uint32_t starResource_;
+
+	bool isTransitionStart_ = false;
+	bool isTransitionEnd_ = false;
 };

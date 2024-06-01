@@ -1,5 +1,7 @@
 #include"GameTitleScene.h"
 
+bool GameTitleScene::isFirstTransition = false;
+
 void GameTitleScene::Initialize(){
 	//CJEngine
 	CJEngine_ = CitrusJunosEngine::GetInstance();
@@ -23,6 +25,7 @@ void GameTitleScene::Initialize(){
 	bgResource_ = textureManager_->Load("project/gamedata/resources/UI/bg.png");
 	annotationResource_ = textureManager_->Load("project/gamedata/resources/UI/Annotention.png");
 	escapeResource_ = textureManager_->Load("project/gamedata/resources/UI/ESC.png");
+	starResource_ = textureManager_->Load("project/gamedata/resources/UI/star.png");
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -53,11 +56,66 @@ void GameTitleScene::Initialize(){
 
 	sprite_[4]->Initialize(Vector2{ 1280.0f,720.0f }, escapeResource_);
 	sprite_[4]->SetAnchor(Vector2{ 0.5f,0.5f });
+
+	starSpriteMaterial_ = { 0.0f,0.0f,0.0f,0.0f };
+	starSpriteTransform_ = { {0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
+
+	starSpriteuvTransform_ = {
+		{1.0f,1.0f,1.0f},
+		{0.0f,0.0f,0.0f},
+		{0.0f,0.0f,0.0f},
+	};
+
+	starSprite_ = std::make_unique <CreateSprite>();
+
+	starSprite_->Initialize(Vector2{ 512.0f,512.0f }, starResource_);
+	starSprite_->SetAnchor(Vector2{ 0.5f,0.5f });
+
 }
 
 void GameTitleScene::Update(){
 	XINPUT_STATE joyState;
 	Input::GetInstance()->GetJoystickState(0, joyState);
+
+	if (isFirstTransition)
+	{
+		starSpriteMaterial_ = { 0.0f,0.0f,0.0f,1.0f };
+		starSpriteTransform_ = { {10.0f,10.0f,10.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
+		isTransitionStart_ = false;
+		isTransitionEnd_ = false;
+		isFirstTransition = false;
+	}
+
+	if (!isTransitionEnd_)
+	{
+		starSpriteMaterial_.num[3] -= 0.03f;
+
+		if (starSpriteMaterial_.num[3] <= 0.0f)
+		{
+			isTransitionEnd_ = true;
+			starSpriteTransform_.scale.num[0] = 0.0f;
+			starSpriteTransform_.scale.num[1] = 0.0f;
+			starSpriteMaterial_.num[3] = 0.0f;
+		}
+	}
+
+	if (isTransitionStart_)
+	{
+		starSpriteTransform_.scale.num[0] += 0.4f;
+		starSpriteTransform_.scale.num[1] += 0.4f;
+		starSpriteMaterial_.num[3] += 0.03f;
+
+		if (starSpriteMaterial_.num[3] >= 1.0f)
+		{
+			isTransitionStart_ = false;
+			isFirstTransition = true;
+			starSpriteTransform_.scale.num[0] = 10.0f;
+			starSpriteTransform_.scale.num[1] = 10.0f;
+			starSpriteMaterial_.num[3] = 1.0f;
+			sceneNo = SELECT_SCENE;
+		}
+	}
+
 
 	//Title表示の処理
 	titleTimer_--;
@@ -80,8 +138,11 @@ void GameTitleScene::Update(){
 	ImGui::End();
 
 	if (input_->TriggerKey(DIK_SPACE)) {
-		sceneNo = SELECT_SCENE;
-		audio_->SoundPlayWave(selectData_, 0.1f, false);
+		if (isTransitionEnd_)
+		{
+			isTransitionStart_ = true;
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
+		}
 	}
 
 	if (!Input::GetInstance()->GetJoystickState(0, joyState)) {
@@ -121,6 +182,8 @@ void GameTitleScene::Draw(){
 	sprite_[3]->Draw(spriteTransform_[3], SpriteuvTransform_[3], spriteMaterial_[3]);
 
 	sprite_[4]->Draw(spriteTransform_[4], SpriteuvTransform_[4], spriteMaterial_[4]);
+
+	starSprite_->Draw(starSpriteTransform_, starSpriteuvTransform_, starSpriteMaterial_);
 
 #pragma endregion
 }

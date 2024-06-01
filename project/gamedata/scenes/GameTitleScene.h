@@ -12,6 +12,8 @@
 
 class GameTitleScene :public Iscene{
 public:
+	static bool isFirstTransition;
+
 	void Initialize() override;
 	void Update() override;
 	void Draw() override;
@@ -43,10 +45,20 @@ private:
 	uint32_t bgResource_;
 	uint32_t annotationResource_;
 	uint32_t escapeResource_;
+	uint32_t starResource_;
 
 	bool isSpriteDraw_[5];
 
 	int titleTimer_ = 60;
 
 	Skydome* skydome_ = nullptr;
+
+	//Transition用のSprite
+	std::unique_ptr <CreateSprite> starSprite_;
+	EulerTransform starSpriteTransform_;
+	EulerTransform starSpriteuvTransform_;
+	Vector4 starSpriteMaterial_;
+
+	bool isTransitionStart_ = false;
+	bool isTransitionEnd_ = false;
 };

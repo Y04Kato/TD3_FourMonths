@@ -2,6 +2,8 @@
 #include "GameSelectScene.h"
 #include "components/utilities/globalVariables/GlobalVariables.h"
 
+bool GamePlayScene::isFirstTransition = false;
+
 void GamePlayScene::Initialize() {
 	CJEngine_ = CitrusJunosEngine::GetInstance();
 	dxCommon_ = DirectXCommon::GetInstance();
@@ -36,6 +38,8 @@ void GamePlayScene::Initialize() {
 	uiResource_[7] = textureManager_->Load("project/gamedata/resources/UI/stage4.png");
 	uiResource_[8] = textureManager_->Load("project/gamedata/resources/UI/stage5.png");
 	uiResource_[9] = textureManager_->Load("project/gamedata/resources/UI/stage6.png");
+
+	starResource_ = textureManager_->Load("project/gamedata/resources/UI/star.png");
 
 	//testSprite
 	spriteMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
@@ -190,6 +194,22 @@ void GamePlayScene::Initialize() {
 
 	wallWorldTransform_[1].translation_ = { 78.0f,0.0f,1800.0f };
 	wallWorldTransform_[1].scale_ = { 1.0f,3.0f,60.0f };
+
+	//Transition用Sprite
+
+	starSpriteMaterial_ = { 0.0f,0.0f,0.0f,0.0f };
+	starSpriteTransform_ = { {0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
+
+	starSpriteuvTransform_ = {
+		{1.0f,1.0f,1.0f},
+		{0.0f,0.0f,0.0f},
+		{0.0f,0.0f,0.0f},
+	};
+
+	starSprite_ = std::make_unique <CreateSprite>();
+
+	starSprite_->Initialize(Vector2{ 512.0f,512.0f }, starResource_);
+	starSprite_->SetAnchor(Vector2{ 0.5f,0.5f });
 }
 
 void GamePlayScene::Update() {
@@ -230,6 +250,15 @@ void GamePlayScene::Update() {
 		isGameStart_ = false;
 	}
 
+	if (isFirstTransition)
+	{
+		starSpriteMaterial_ = { 0.0f,0.0f,0.0f,1.0f };
+		starSpriteTransform_ = { {10.0f,10.0f,10.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
+		isTransitionStart_ = false;
+		isTransitionEnd_ = false;
+		isFirstTransition = false;
+	}
+
 	GlobalVariables* globalVariables{};
 	globalVariables = GlobalVariables::GetInstance();
 	ApplyGlobalVariables();
@@ -245,8 +274,49 @@ void GamePlayScene::Update() {
 		input_->ToggleCursor();
 	}
 
+	if (!isTransitionEnd_)
+	{
+		starSpriteMaterial_.num[3] -= 0.03f;
 
-	if (datas_->GetIsPause())
+		if (starSpriteMaterial_.num[3] <= 0.0f)
+		{
+			isTransitionEnd_ = true;
+			starSpriteTransform_.scale.num[0] = 0.0f;
+			starSpriteTransform_.scale.num[1] = 0.0f;
+			starSpriteMaterial_.num[3] = 0.0f;
+		}
+	}
+
+	if (isTransitionStart_)
+	{
+		starSpriteTransform_.scale.num[0] += 0.4f;
+		starSpriteTransform_.scale.num[1] += 0.4f;
+		starSpriteMaterial_.num[3] += 0.03f;
+
+		if (starSpriteMaterial_.num[3] >= 1.0f && player_->GetIsGoal())
+		{
+			isTransitionStart_ = false;
+			isFirstTransition = true;
+			starSpriteTransform_.scale.num[0] = 10.0f;
+			starSpriteTransform_.scale.num[1] = 10.0f;
+			starSpriteMaterial_.num[3] = 1.0f;
+			sceneNo = CLEAR_SCENE;
+			isGameStart_ = true;
+		}
+		else if (starSpriteMaterial_.num[3] >= 1.0f && !player_->GetIsGoal())
+		{
+			isTransitionStart_ = false;
+			isFirstTransition = true;
+			starSpriteTransform_.scale.num[0] = 10.0f;
+			starSpriteTransform_.scale.num[1] = 10.0f;
+			starSpriteMaterial_.num[3] = 1.0f;
+			sceneNo = SELECT_SCENE;
+			isGameStart_ = true;
+		}
+	}
+
+
+	if (datas_->GetIsPause() && !isTransitionStart_ && isTransitionEnd_)
 	{
 		//カーソル移動の処理
 		if (input_->TriggerKey(DIK_S) && uiSpriteTransform_[3].translate.num[1] == 520.0f && !datas_->GetIsRule())
@@ -285,12 +355,11 @@ void GamePlayScene::Update() {
 		{
 			datas_->SetIsPause(false);
 			datas_->SetIsReset(true);
-			sceneNo = SELECT_SCENE;
 			startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
 			player_->SetWorldTransform(startWorldTransform_);
 			nowTime_ = 0;
 			input_->ViewCursor();
-			isGameStart_ = true;
+			isTransitionStart_ = true;
 
 			FinalizeGoal();
 		}
@@ -302,14 +371,13 @@ void GamePlayScene::Update() {
 		//Goal
 		if (player_->GetIsGoal())
 		{
-			sceneNo = CLEAR_SCENE;
 			startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
 			player_->SetWorldTransform(startWorldTransform_);
 			player_->SetIsGoal(false);
 			datas_->SetClearTime(nowTime_);
 			nowTime_ = 0.0f;
 			input_->ViewCursor();
-			isGameStart_ = true;
+			isTransitionStart_ = true;
 
 			FinalizeGoal();
 		}
@@ -676,6 +744,8 @@ void GamePlayScene::Draw() {
 		}
 
 	}
+
+	starSprite_->Draw(starSpriteTransform_, starSpriteuvTransform_, starSpriteMaterial_);
 
 #pragma endregion
 }
