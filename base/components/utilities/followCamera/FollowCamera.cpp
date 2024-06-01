@@ -28,6 +28,8 @@ void FollowCamera::Update() {
 		interTarget_ = Lerp(interTarget_, worldTranslate, latency);
 
 		viewprojection_.translation_ = worldTranslate + offset;
+
+		viewprojection_.rotation_ = target_->rotation_;
 	}
 
 	XINPUT_STATE joystate;
@@ -41,8 +43,6 @@ void FollowCamera::Update() {
 			destinationAngleY_ = 0.0f;
 		}
 	}
-
-	viewprojection_.rotation_ = target_->rotation_;
 
 	viewprojection_.UpdateViewMatrix();
 	viewprojection_.TransferMatrix();
@@ -75,4 +75,13 @@ void FollowCamera::ApplyGlobalVariables() {
 	const char* groupName = "FollowCamera";
 
 	latency = globalVariables->GetFloatValue(groupName, "Latency");
+}
+
+void FollowCamera::ShakeCamera(int shakePower, int dividePower) {
+	viewprojection_.translation_.num[0] += (rand() % shakePower - shakePower / 2 + rand() / (float)RAND_MAX) / dividePower;
+	viewprojection_.translation_.num[1] += (rand() % shakePower - shakePower / 2 + rand() / (float)RAND_MAX) / dividePower;
+	viewprojection_.translation_.num[2] += (rand() % shakePower - shakePower / 2 + rand() / (float)RAND_MAX) / dividePower;
+
+	viewprojection_.UpdateViewMatrix();
+	viewprojection_.TransferMatrix();
 }

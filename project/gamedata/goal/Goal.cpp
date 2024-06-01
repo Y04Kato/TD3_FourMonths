@@ -14,6 +14,8 @@ void Goal::Initialize()
 
 	modelMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
 	//model_->SetDirectionalLightFlag(true, 3);
+
+	datas_ = Datas::GetInstance();
 }
 
 void Goal::Update()
@@ -21,7 +23,43 @@ void Goal::Update()
 	//worldTransform_.rotation_.num[1] += 0.001f;
 	//worldTransform_.rotation_.num[2] += 0.001f;
 
-	if (Iscene::sceneNo == GAME_SCENE)
+	if (datas_->GetStageNum() == 1)
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			worldTransform_[i].translation_ = { -9.5f,49.3f,1700.0f };
+			worldTransform_[i].rotation_ = { 1.54f,0.0f,1.55f };
+			worldTransform_[i].scale_ = { 100.0f,100.0f,100.0f };
+		}
+	}
+	else if (datas_->GetStageNum() == 2)
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			worldTransform_[i].translation_ = { -9.5f,49.3f,1700.0f };
+			worldTransform_[i].rotation_ = { 1.54f,0.0f,1.55f };
+			worldTransform_[i].scale_ = { 100.0f,100.0f,100.0f };
+		}
+	}
+	else if (datas_->GetStageNum() == 3)
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			worldTransform_[i].translation_ = { -9.5f,49.3f,1700.0f };
+			worldTransform_[i].rotation_ = { 1.54f,0.0f,1.55f };
+			worldTransform_[i].scale_ = { 100.0f,100.0f,100.0f };
+		}
+	}
+	else if (datas_->GetStageNum() == 4)
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			worldTransform_[i].translation_ = { -9.5f,49.3f,1700.0f };
+			worldTransform_[i].rotation_ = { 1.54f,0.0f,1.55f };
+			worldTransform_[i].scale_ = { 100.0f,100.0f,100.0f };
+		}
+	}
+	else if (datas_->GetStageNum() == 5)
 	{
 		for (int i = 0; i < 2; i++)
 		{
@@ -30,43 +68,7 @@ void Goal::Update()
 			worldTransform_[i].scale_ = { 100.0f,100.0f,100.0f };
 		}
 	}
-	else if (Iscene::sceneNo == GAME_SCENE2)
-	{
-		for (int i = 0; i < 2; i++)
-		{
-			worldTransform_[i].translation_ = { -9.5f,49.3f,1000.0f };
-			worldTransform_[i].rotation_ = { 1.54f,0.0f,1.55f };
-			worldTransform_[i].scale_ = { 100.0f,100.0f,100.0f };
-		}
-	}
-	else if (Iscene::sceneNo == GAME_SCENE3)
-	{
-		for (int i = 0; i < 2; i++)
-		{
-			worldTransform_[i].translation_ = { -9.5f,49.3f,1000.0f };
-			worldTransform_[i].rotation_ = { 1.54f,0.0f,1.55f };
-			worldTransform_[i].scale_ = { 100.0f,100.0f,100.0f };
-		}
-	}
-	else if (Iscene::sceneNo == GAME_SCENE4)
-	{
-		for (int i = 0; i < 2; i++)
-		{
-			worldTransform_[i].translation_ = { -9.5f,49.3f,1000.0f };
-			worldTransform_[i].rotation_ = { 1.54f,0.0f,1.55f };
-			worldTransform_[i].scale_ = { 100.0f,100.0f,100.0f };
-		}
-	}
-	else if (Iscene::sceneNo == GAME_SCENE5)
-	{
-		for (int i = 0; i < 2; i++)
-		{
-			worldTransform_[i].translation_ = { -9.5f,49.3f,1000.0f };
-			worldTransform_[i].rotation_ = { 1.54f,0.0f,1.55f };
-			worldTransform_[i].scale_ = { 100.0f,100.0f,100.0f };
-		}
-	}
-	else if (Iscene::sceneNo == GAME_SCENE6)
+	else if (datas_->GetStageNum() == 6)
 	{
 		for (int i = 0; i < 2; i++)
 		{

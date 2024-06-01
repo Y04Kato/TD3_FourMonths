@@ -49,11 +49,6 @@ void SceneManager::Initialize() {
 	scene_[TITLE_SCENE] = std::make_unique<GameTitleScene>();
 	scene_[SELECT_SCENE] = std::make_unique<GameSelectScene>();
 	scene_[GAME_SCENE] = std::make_unique<GamePlayScene>();
-	scene_[GAME_SCENE2] = std::make_unique<GamePlayScene2>();
-	scene_[GAME_SCENE3] = std::make_unique<GamePlayScene3>();
-	scene_[GAME_SCENE4] = std::make_unique<GamePlayScene4>();
-	scene_[GAME_SCENE5] = std::make_unique<GamePlayScene5>();
-	scene_[GAME_SCENE6] = std::make_unique<GamePlayScene6>();
 	scene_[CLEAR_SCENE] = std::make_unique<GameClearScene>();
 	scene_[DEMO_SCENE] = std::make_unique<GameDemoScene>();
 	for (int i = 0; i < SCENE_MAX; i++) {

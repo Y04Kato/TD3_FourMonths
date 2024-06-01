@@ -1,11 +1,10 @@
 #include "Mountain.h"
-#include "GameSelectScene.h"
 
 void Mountain::Initialize()
 {
 	for (int i = 0; i < 15; i++)
 	{
-		model_[i].reset(Model::CreateModel("project/gamedata/resources/models/mountain", "mountain.obj"));
+		mountainModel_[i].reset(Model::CreateModel("project/gamedata/resources/models/mountain", "mountain.obj"));
 
 		worldTransform_[i].Initialize();
 	}
@@ -69,51 +68,56 @@ void Mountain::Initialize()
 
 void Mountain::Update()
 {
-	//worldTransform_.rotation_.num[1] += 0.001f;
-	//worldTransform_.rotation_.num[2] += 0.001f;
-
 	for (int i = 0; i < 15; i++)
 	{
 		worldTransform_[i].UpdateMatrix();
 	}
 
-	ImGui::Begin("Mountain");
-	ImGui::DragFloat3("WTFT", &worldTransform_[2].translation_.num[0], -13.0f, 13.0f);
-	ImGui::DragFloat3("WTFR", &worldTransform_[2].rotation_.num[0], -13.0f, 13.0f);
-	ImGui::DragFloat3("WTFS", &worldTransform_[2].scale_.num[0], 1.0f, 100.0f);
-	ImGui::End();
+	if (playerPos_.num[0] >= 75.0f) {
 
-	ImGui::Begin("Mountain2");
-	ImGui::DragFloat3("WTFT", &worldTransform_[14].translation_.num[0], -13.0f, 13.0f);
-	ImGui::DragFloat3("WTFR", &worldTransform_[14].rotation_.num[0], -13.0f, 13.0f);
-	ImGui::DragFloat3("WTFS", &worldTransform_[14].scale_.num[0], 1.0f, 100.0f);
-	ImGui::End();
+	}
+	else if (playerPos_.num[0] <= -75.0f) {
+
+	}
+
 }
 
 void Mountain::Draw(const ViewProjection viewProjection)
 {
-	/*if (Iscene::sceneNo == GAME_SCENE)
-	{*/
-		for (int i = 0; i < 15; i++)
-		{
-			if (viewProjection.translation_.num[1] <= 0) {
-				model_[i]->Draw(worldTransform_[i], viewProjection, Vector4{ modelMaterial_.num[0],modelMaterial_.num[1] ,modelMaterial_.num[2] ,0.05f });
-			}
-			else {
-				model_[i]->Draw(worldTransform_[i], viewProjection, modelMaterial_);
+
+	if (viewProjection.translation_.num[0] >= 75.0f) {
+
+		if (playerPos_.num[0] >= 75.0f) {
+			for (int i = 0; i < 15; i++)
+			{
+				mountainModel_[i]->Draw(worldTransform_[i], viewProjection, Vector4{ modelMaterial_.num[0],modelMaterial_.num[1] ,modelMaterial_.num[2] ,0.05f });
 			}
 		}
-	//}
-	/*else if (Iscene::sceneNo == GAME_SCENE2)
-	{
-		for (int i = 0; i < 15; i++)
-		{
-			if (viewProjection.translation_.num[1] <= 0) {
-				model_[i]->Draw(worldTransform_[i], viewProjection, Vector4{ modelMaterial_.num[0],modelMaterial_.num[1] ,modelMaterial_.num[2] ,0.05f });
-			}
-			else {
-				model_[i]->Draw(worldTransform_[i], viewProjection, modelMaterial_);
+		else {
+			for (int i = 0; i < 15; i++)
+			{
+				mountainModel_[i]->Draw(worldTransform_[i], viewProjection, modelMaterial_);
 			}
 		}
-	}*/
+	}
+	else if (viewProjection.translation_.num[0] <= -75.0f) {
+		if (playerPos_.num[0] <= -75.0f) {
+			for (int i = 0; i < 15; i++)
+			{
+				mountainModel_[i]->Draw(worldTransform_[i], viewProjection, Vector4{ modelMaterial_.num[0],modelMaterial_.num[1] ,modelMaterial_.num[2] ,0.05f });
+			}
+		}
+		else {
+			for (int i = 0; i < 15; i++)
+			{
+				mountainModel_[i]->Draw(worldTransform_[i], viewProjection, modelMaterial_);
+			}
+		}
+	}
+	else {
+		for (int i = 0; i < 15; i++)
+		{
+			mountainModel_[i]->Draw(worldTransform_[i], viewProjection, modelMaterial_);
+		}
+	}
 }
