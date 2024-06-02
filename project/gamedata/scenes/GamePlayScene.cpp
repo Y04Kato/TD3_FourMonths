@@ -42,7 +42,7 @@ void GamePlayScene::Initialize() {
 
 	starResource_ = textureManager_->Load("project/gamedata/resources/UI/star.png");
 	
-	particleResource_ = textureManager_->Load("project/gamedata/resources/Leaf.png");
+	particleResource_ = textureManager_->Load("project/gamedata/resources/circle.png");
 
 
 	//testSprite
@@ -626,7 +626,7 @@ void GamePlayScene::Update() {
 
 	for (Obj& obj : objects_) {//レイとオブジェクトの当たり判定の結果
 		if (obj.isHit == true) {
-			obj.material = { 1.0f,0.5f,0.0f,1.0f };
+			obj.material = { 0.5f,0.5f,0.5f,1.0f };
 		}
 		else {
 			obj.material = obj.Backmaterial;

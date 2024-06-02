@@ -361,28 +361,28 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
-	else if (datas_->GetStageNum() == 3 && worldTransform_.translation_.num[2] >= 1000.0f)
+	else if (datas_->GetStageNum() == 3 && worldTransform_.translation_.num[2] >= 1700.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
-	else if (datas_->GetStageNum() == 4 && worldTransform_.translation_.num[2] >= 1000.0f)
+	else if (datas_->GetStageNum() == 4 && worldTransform_.translation_.num[2] >= 1700.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
-	else if (datas_->GetStageNum() == 5 && worldTransform_.translation_.num[2] >= 1000.0f)
+	else if (datas_->GetStageNum() == 5 && worldTransform_.translation_.num[2] >= 1700.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
-	else if (datas_->GetStageNum() == 6 && worldTransform_.translation_.num[2] >= 1000.0f)
+	else if (datas_->GetStageNum() == 6 && worldTransform_.translation_.num[2] >= 1700.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
