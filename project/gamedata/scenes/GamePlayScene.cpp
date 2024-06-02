@@ -552,14 +552,6 @@ void GamePlayScene::Update() {
 		}
 
 		if (player_->GetIsSetWire() == true) {
-			if (obj.treeMode == TREEMODE::LEFTROTATE) {
-				player_->SetIsRoll(true);
-				player_->SetLeftRoll(true);
-			}
-			if (obj.treeMode == TREEMODE::RIGHTROTATE) {
-				player_->SetIsRoll(true);
-				player_->SetLeftRoll(false);
-			}
 
 			if (obj.treeMode == TREEMODE::ITEM) {
 				datas_->SetItem(datas_->GetItem() + 1);
@@ -577,6 +569,18 @@ void GamePlayScene::Update() {
 			player_->SetIsHitWire(true);
 			isHitWire_ = true;
 			obj.isHit = true;
+
+			if (input_->pushMouse(MOUSE_BOTTON0)) {
+				if (obj.treeMode == TREEMODE::LEFTROTATE) {
+					player_->SetIsRoll(true);
+					player_->SetLeftRoll(true);
+				}
+				if (obj.treeMode == TREEMODE::RIGHTROTATE) {
+					player_->SetIsRoll(true);
+					player_->SetLeftRoll(false);
+				}
+			}
+
 		}
 		else {
 			obj.isHit = false;
@@ -584,6 +588,7 @@ void GamePlayScene::Update() {
 
 		if (IsCollision(obj.obb_, segmentEye_)) {//レイ(視点~自機)とオブジェクトの当たり判定
 			obj.isHitEye = true;
+
 		}
 		else {
 			obj.isHitEye = false;

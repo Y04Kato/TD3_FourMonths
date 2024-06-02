@@ -131,12 +131,16 @@ void Player::Updete(const ViewProjection viewProjection) {
 	worldTransform2_.UpdateMatrix();
 
 	if (input_->pushMouse(MOUSE_BOTTON0) ) {//左クリックした時
-		if (DistancePlayerToReticle != kDistancePlayerToReticleFell) {
+		if (isFell_) {
+			DistancePlayerToReticle = kDistancePlayerToReticleFell;
+		}
+		else {
 			DistancePlayerToReticle = kDistancePlayerToReticle;
 		}
 		isHitObj_ = false;
 		Reticle(viewProjection);
 		if (isHitWire_ == true) {//レティクルがオブジェクト捉えていれば
+			isFell_ = false;
 			DistancePlayerToReticle = worldTransformObject_.translation_.num[2] - worldTransform2_.translation_.num[2];
 			upSize_ = 0.0f; // 上昇量を初期化
 			if (DistancePlayerToReticle <= 0) {
@@ -390,6 +394,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isRestart_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
+		isWireSet_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 		datas_->SetIsReset(false);
 		forwad_ = { 0.0f, 0.0f, 1.0f };
@@ -402,6 +407,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
+		isWireSet_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 		forwad_ = { 0.0f, 0.0f, 1.0f };
 		right_ = { 1.0f, 0.0f, 0.0f };
@@ -411,6 +417,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
+		isWireSet_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 		forwad_ = { 0.0f, 0.0f, 1.0f };
 		right_ = { 1.0f, 0.0f, 0.0f };
@@ -420,6 +427,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
+		isWireSet_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 		forwad_ = { 0.0f, 0.0f, 1.0f };
 		right_ = { 1.0f, 0.0f, 0.0f };
@@ -429,6 +437,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
+		isWireSet_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 		forwad_ = { 0.0f, 0.0f, 1.0f };
 		right_ = { 1.0f, 0.0f, 0.0f };
@@ -438,6 +447,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
+		isWireSet_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 		forwad_ = { 0.0f, 0.0f, 1.0f };
 		right_ = { 1.0f, 0.0f, 0.0f };
@@ -447,6 +457,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
+		isWireSet_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 		forwad_ = { 0.0f, 0.0f, 1.0f };
 		right_ = { 1.0f, 0.0f, 0.0f };
