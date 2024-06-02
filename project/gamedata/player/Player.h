@@ -79,6 +79,7 @@ public:
 
 	void Shake(int shakePower, int dividePower);
 
+	void SetIsRoll(bool isRoll) { isRoll_ = isRoll; }
 	void SetLeftRoll(bool leftRoll) { leftRoll_ = leftRoll; }
 	void SetStargAngle(float startAngle) { startAngle_ = startAngle; }
 

@@ -31,6 +31,8 @@ enum TREEMODE {
 	NONE,//なし
 	ROTATE,//回転する木
 	ITEM,//アイテムカウントが増える木
+	LEFTROTATE, // 左に回転する木
+	RIGHTROTATE, // 右に回転する木
 	MODE_MAX//MAXCOUNT
 };
 

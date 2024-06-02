@@ -533,6 +533,16 @@ void GamePlayScene::Update() {
 			obj.Backmaterial = obj.material;
 		}
 
+		if (obj.treeMode == TREEMODE::LEFTROTATE) {
+			obj.material = { 1.0f,0.0f,0.0f,1.0f };
+			obj.Backmaterial = obj.material;
+		}
+
+		if (obj.treeMode == TREEMODE::RIGHTROTATE) {
+			obj.material = { 1.0f,0.0f,0.0f,1.0f };
+			obj.Backmaterial = obj.material;
+		}
+
 		if (player_->GetisWireParticle() == true) {
 			particle_->SetColor(obj.Backmaterial);
 			particle_->SetTranslate(player_->GetWorldTransformWire().translation_);
@@ -541,8 +551,13 @@ void GamePlayScene::Update() {
 		}
 
 		if (player_->GetIsSetWire() == true) {
-			if (obj.treeMode == TREEMODE::ROTATE) {
-				
+			if (obj.treeMode == TREEMODE::LEFTROTATE) {
+				player_->SetIsRoll(true);
+				player_->SetLeftRoll(true);
+			}
+			if (obj.treeMode == TREEMODE::RIGHTROTATE) {
+				player_->SetIsRoll(true);
+				player_->SetLeftRoll(false);
 			}
 
 			if (obj.treeMode == TREEMODE::ITEM) {
