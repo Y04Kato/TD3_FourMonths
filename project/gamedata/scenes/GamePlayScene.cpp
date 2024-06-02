@@ -276,6 +276,7 @@ void GamePlayScene::Update() {
 	else if (input_->TriggerKey(DIK_TAB) && datas_->GetIsPause())
 	{
 		datas_->SetIsPause(false);
+		datas_->SetIsRule(false);
 		input_->ToggleCursor();
 	}
 
