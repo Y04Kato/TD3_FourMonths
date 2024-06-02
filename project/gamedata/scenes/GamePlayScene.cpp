@@ -139,6 +139,7 @@ void GamePlayScene::Initialize() {
 
 	particle_->Initialize(1000, testEmitter_, accelerationField_, particleResource_);
 	particle_->SetisVelocity(true, boostSpeed_);
+	particle_->SetLifeTime(3.0f);
 
 	//Timer
 	/*numbers_ = std::make_unique<Numbers>();
@@ -582,7 +583,7 @@ void GamePlayScene::Update() {
 				isHitPlayer_ = true;
 				player_->SetIsHitObj(isHitPlayer_);
 				std::pair<Vector3, Vector3> pair = ComputeCollisionVelocities(1.0f, player_->GetVelocity(), 1.0f, Vector3{ 0.0f,0.0f,0.0f }, 0.4f, Normalize(player_->GetWorldTransform().GetWorldPos() - obj.world.translation_));
-				pair.first.num[1] *= 0.5f;
+				pair.first.num[1] *= 0.4f;
 				pair.first.num[0] = -pair.first.num[0];
 				pair.first.num[2] = -pair.first.num[2];
 				player_->SetVelocity(pair.first);
