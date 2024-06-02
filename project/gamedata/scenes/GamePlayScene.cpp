@@ -590,6 +590,7 @@ void GamePlayScene::Update() {
 				particle_->SetColor(obj.Backmaterial);
 				particle_->SetTranslate(Vector3{ player_->GetWorldTransformWire().translation_.num[0],player_->GetWorldTransform().translation_.num[1],player_->GetWorldTransformWire().translation_.num[2] });
 				particle_->OccursOnlyOnce(occursNum_);
+				followCamera_->ShakeCamera(shakePower.x, shakePower.y);
 			}
 		}
 		else {
