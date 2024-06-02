@@ -83,7 +83,7 @@ void Player::Initialize() {
 	upSize_ = 0.0f;
 
 	// モデルの向き(無回転時)
-	forwad_ = { 1.0f, 0.0f, 0.0f };
+	forwad_ = { 0.0f, 0.0f, 1.0f };
 	right_ = { 1.0f, 0.0f, 0.0f };
 
 	//Particle
@@ -392,6 +392,8 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 		datas_->SetIsReset(false);
+		forwad_ = { 0.0f, 0.0f, 1.0f };
+		right_ = { 1.0f, 0.0f, 0.0f };
 	}
 
 	//ゴール
@@ -401,6 +403,8 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
+		forwad_ = { 0.0f, 0.0f, 1.0f };
+		right_ = { 1.0f, 0.0f, 0.0f };
 	}
 	else if (datas_->GetStageNum() == 2 && worldTransform_.translation_.num[2] >= 1700.0f)
 	{
@@ -408,6 +412,8 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
+		forwad_ = { 0.0f, 0.0f, 1.0f };
+		right_ = { 1.0f, 0.0f, 0.0f };
 	}
 	else if (datas_->GetStageNum() == 3 && worldTransform_.translation_.num[2] >= 1700.0f)
 	{
@@ -415,6 +421,8 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
+		forwad_ = { 0.0f, 0.0f, 1.0f };
+		right_ = { 1.0f, 0.0f, 0.0f };
 	}
 	else if (datas_->GetStageNum() == 4 && worldTransform_.translation_.num[2] >= 1700.0f)
 	{
@@ -422,6 +430,8 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
+		forwad_ = { 0.0f, 0.0f, 1.0f };
+		right_ = { 1.0f, 0.0f, 0.0f };
 	}
 	else if (datas_->GetStageNum() == 5 && worldTransform_.translation_.num[2] >= 1700.0f)
 	{
@@ -429,6 +439,8 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
+		forwad_ = { 0.0f, 0.0f, 1.0f };
+		right_ = { 1.0f, 0.0f, 0.0f };
 	}
 	else if (datas_->GetStageNum() == 6 && worldTransform_.translation_.num[2] >= 1700.0f)
 	{
@@ -436,6 +448,8 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
+		forwad_ = { 0.0f, 0.0f, 1.0f };
+		right_ = { 1.0f, 0.0f, 0.0f };
 	}
 
 	ImGui::Begin("player");
