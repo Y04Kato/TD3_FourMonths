@@ -39,7 +39,7 @@ private:
 	//Sprite
 	std::unique_ptr <CreateSprite> sprite_[3];
 	EulerTransform spriteTransform_[3];
-	EulerTransform SpriteuvTransform_[3];
+	EulerTransform spriteuvTransform_[3];
 	Vector4 spriteMaterial_[3];
 
 	uint32_t spriteResource_[3];
@@ -52,13 +52,23 @@ private:
 	Datas* datas_;
 
 	//Transition用のSprite
-	std::unique_ptr <CreateSprite> starSprite_;
-	EulerTransform starSpriteTransform_;
-	EulerTransform starSpriteuvTransform_;
-	Vector4 starSpriteMaterial_;
+	std::unique_ptr <CreateSprite> transitionSprite_;
+	EulerTransform transitionSpriteTransform_;
+	EulerTransform transitionSpriteuvTransform_;
+	Vector4 transitionSpriteMaterial_;
 	uint32_t starResource_;
 
 	bool isTransitionStart_ = false;
 	bool isTransitionEnd_ = false;
+
+	// 星のスプライト
+	std::unique_ptr <CreateSprite> starSprite_[3];
+	EulerTransform starTransform_;
+	const float starTextureSize_ = 96.0f;
+
+	std::unique_ptr <CreateSprite> emptyStarSprite_[3];
+	uint32_t emptyStarTextureHandle_;
+	EulerTransform emptyStarTransform_;
+	const float emptyStarTextureSize_ = 97.0f;
 };
 

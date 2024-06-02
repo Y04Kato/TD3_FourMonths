@@ -28,12 +28,14 @@ void GameSelectScene::Initialize() {
 
 	starResource_ = textureManager_->Load("project/gamedata/resources/UI/star.png");
 
+
+
 	for (int i = 0; i < 3; i++)
 	{
 		spriteMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 		spriteTransform_[i] = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f}};
 
-		SpriteuvTransform_[i] = {
+		spriteuvTransform_[i] = {
 			{1.0f,1.0f,1.0f},
 			{0.0f,0.0f,0.0f},
 			{0.0f,0.0f,0.0f},
@@ -52,19 +54,37 @@ void GameSelectScene::Initialize() {
 	sprite_[2]->Initialize(Vector2{ 1280.0f,720.0f }, spriteResource_[2]);
 	sprite_[2]->SetAnchor(Vector2{ 0.5f,0.5f });
 
-	starSpriteMaterial_ = { 0.0f,0.0f,0.0f,0.0f };
-	starSpriteTransform_ = { {0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
+	//Transition
+	transitionSpriteMaterial_ = { 0.0f,0.0f,0.0f,0.0f };
+	transitionSpriteTransform_ = { {0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
 
-	starSpriteuvTransform_ = {
+	transitionSpriteuvTransform_ = {
 		{1.0f,1.0f,1.0f},
 		{0.0f,0.0f,0.0f},
 		{0.0f,0.0f,0.0f},
 	};
 
-	starSprite_ = std::make_unique <CreateSprite>();
+	transitionSprite_ = std::make_unique <CreateSprite>();
 
-	starSprite_->Initialize(Vector2{ 512.0f,512.0f }, starResource_);
-	starSprite_->SetAnchor(Vector2{ 0.5f,0.5f });
+	transitionSprite_->Initialize(Vector2{ 512.0f,512.0f }, starResource_);
+	transitionSprite_->SetAnchor(Vector2{ 0.5f,0.5f });
+
+
+	//星
+	for (uint32_t index = 0; index < 3; index++) {
+		starSprite_[index] = std::make_unique<CreateSprite>();
+		starSprite_[index]->Initialize({ starTextureSize_, starTextureSize_ }, starResource_);
+		starSprite_[index]->SetAnchor(Vector2{ 0.5f, 0.5f });
+	}
+	starTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{849.0f, 185.0f,0.0f} };
+
+	emptyStarTextureHandle_ = textureManager_->Load("project/gamedata/resources/UI/emptyStar.png");
+	for (uint32_t index = 0; index < 3; index++) {
+		emptyStarSprite_[index] = std::make_unique<CreateSprite>();
+		emptyStarSprite_[index]->Initialize({ emptyStarTextureSize_, emptyStarTextureSize_ }, emptyStarTextureHandle_);
+		emptyStarSprite_[index]->SetAnchor(Vector2{ 0.5f, 0.5f });
+	}
+	emptyStarTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{500.0f, 90.0f,0.0f} };
 
 	datas_ = Datas::GetInstance();
 	datas_->Initialize();
@@ -77,8 +97,8 @@ void GameSelectScene::Update() {
 	if (isFirstTransition)
 	{
 		spriteTransform_[2].translate = { 1280 / 2.0f,720 / 2.0f,0.0f };
-		starSpriteMaterial_ = { 0.0f,0.0f,0.0f,1.0f };
-		starSpriteTransform_ = { {10.0f,10.0f,10.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
+		transitionSpriteMaterial_ = { 0.0f,0.0f,0.0f,1.0f };
+		transitionSpriteTransform_ = { {10.0f,10.0f,10.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
 		isTransitionStart_ = false;
 		isTransitionEnd_ = false;
 		isFirstTransition = false;
@@ -96,30 +116,30 @@ void GameSelectScene::Update() {
 
 	if (!isTransitionEnd_)
 	{
-		starSpriteMaterial_.num[3] -= 0.03f;
+		transitionSpriteMaterial_.num[3] -= 0.03f;
 		
-		if (starSpriteMaterial_.num[3] <= 0.0f)
+		if (transitionSpriteMaterial_.num[3] <= 0.0f)
 		{
 			isTransitionEnd_ = true;
-			starSpriteTransform_.scale.num[0] = 0.0f;
-			starSpriteTransform_.scale.num[1] = 0.0f;
-			starSpriteMaterial_.num[3] = 0.0f;
+			transitionSpriteTransform_.scale.num[0] = 0.0f;
+			transitionSpriteTransform_.scale.num[1] = 0.0f;
+			transitionSpriteMaterial_.num[3] = 0.0f;
 		}
 	}
 
 	if (isTransitionStart_)
 	{
-		starSpriteTransform_.scale.num[0] += 0.4f;
-		starSpriteTransform_.scale.num[1] += 0.4f;
-		starSpriteMaterial_.num[3] += 0.03f;
+		transitionSpriteTransform_.scale.num[0] += 0.4f;
+		transitionSpriteTransform_.scale.num[1] += 0.4f;
+		transitionSpriteMaterial_.num[3] += 0.03f;
 
-		if (starSpriteTransform_.scale.num[0] >= 10.0f)
+		if (transitionSpriteTransform_.scale.num[0] >= 10.0f)
 		{
 			isTransitionStart_ = false;
 			isFirstTransition = true;
-			starSpriteTransform_.scale.num[0] = 10.0f;
-			starSpriteTransform_.scale.num[1] = 10.0f;
-			starSpriteMaterial_.num[3] = 1.0f;
+			transitionSpriteTransform_.scale.num[0] = 10.0f;
+			transitionSpriteTransform_.scale.num[1] = 10.0f;
+			transitionSpriteMaterial_.num[3] = 1.0f;
 
 			sceneNo = GAME_SCENE;
 		}
@@ -264,11 +284,11 @@ void GameSelectScene::Draw() {
 		if (isSpriteDraw_[i])
 		{
 			//Sprite描画
-			sprite_[i]->Draw(spriteTransform_[i], SpriteuvTransform_[i], spriteMaterial_[i]);
+			sprite_[i]->Draw(spriteTransform_[i], spriteuvTransform_[i], spriteMaterial_[i]);
 		}
 	}
 
-	starSprite_->Draw(starSpriteTransform_, starSpriteuvTransform_, starSpriteMaterial_);
+	transitionSprite_->Draw(transitionSpriteTransform_, transitionSpriteuvTransform_, transitionSpriteMaterial_);
 
 #pragma endregion
 }
