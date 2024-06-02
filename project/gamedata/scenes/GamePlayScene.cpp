@@ -25,7 +25,7 @@ void GamePlayScene::Initialize() {
 	collisionManager_ = CollisionManager::GetInstance();
 
 	//テクスチャ
-	spriteResource_ = textureManager_->Load("project/gamedata/resources/UI/bg.png");
+	spriteResource_ = textureManager_->Load("project/gamedata/resources/UI/bg2.png");
 
 	uiResource_[0] = textureManager_->Load("project/gamedata/resources/reticle2.png");
 	uiResource_[1] = textureManager_->Load("project/gamedata/resources/UI/StartUI.png");
