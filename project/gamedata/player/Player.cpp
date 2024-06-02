@@ -165,7 +165,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 
 	if (isMissWire_ == true) {//ワイヤー失敗時の演出
 		missTimer_++;
-		worldTransformWire_.translation_ += wireVelocity_;
+		//worldTransformWire_.translation_ += wireVelocity_;
 	}
 	if (missTimer_ >= 15) {
 		isMissWire_ = false;
@@ -426,7 +426,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 void Player::Draw(const ViewProjection viewProjection) {
 	//sphere_[0]->Draw(worldTransform_, viewProjection, sphereMaterial_, textureManager_->white);
 	model_->Draw(worldTransform_, viewProjection, modelMaterial_);
-	if (isSetWire_ == true || isMissWire_ == true) {
+	if (isSetWire_ == true) {
 		line_->Draw(worldTransform2_, worldTransformWire_, viewProjection, lineMaterial_);
 	}
 }
@@ -490,6 +490,7 @@ void Player::Reticle(const ViewProjection viewProjection) {
 
 void Player::SetWire() {
 	isSetWire_ = true;
+	isWireParticle_ = true;
 	isMissWire_ = false;
 
 	worldTransformWire_.translation_ = Vector3{ worldTransformObject_.translation_.num[0],worldTransformReticle_.translation_.num[1] ,worldTransformObject_.translation_.num[2] };

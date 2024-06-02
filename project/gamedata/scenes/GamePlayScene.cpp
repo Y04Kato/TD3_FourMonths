@@ -36,6 +36,9 @@ void GamePlayScene::Initialize() {
 	uiResource_[7] = textureManager_->Load("project/gamedata/resources/UI/stage4.png");
 	uiResource_[8] = textureManager_->Load("project/gamedata/resources/UI/stage5.png");
 	uiResource_[9] = textureManager_->Load("project/gamedata/resources/UI/stage6.png");
+	
+	particleResource_ = textureManager_->Load("project/gamedata/resources/Leaf.png");
+
 
 	//testSprite
 	spriteMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
@@ -129,7 +132,7 @@ void GamePlayScene::Initialize() {
 
 	particle_ = std::make_unique <CreateParticle>();
 
-	particle_->Initialize(1000, testEmitter_, accelerationField_, spriteResource_);
+	particle_->Initialize(1000, testEmitter_, accelerationField_, particleResource_);
 	particle_->SetisVelocity(true, boostSpeed_);
 
 	//Timer
@@ -263,6 +266,7 @@ void GamePlayScene::Update() {
 			player_->SetWorldTransform(startWorldTransform_);
 			player_->SetIsRestart(false);
 			nowTime_ = 0.0f;
+			input_->HideCursor();
 		}
 
 		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 520.0f)
@@ -310,15 +314,6 @@ void GamePlayScene::Update() {
 		skydome_->Update();
 
 		goal_->Update();
-
-		particle_->Update();
-		particle_->SetEmitter(testEmitter_);
-		particle_->SetAccelerationField(accelerationField_);
-		particle_->SetisBillBoard(isBillBoard_);
-
-		//色を固定するならこれを使う
-		particle_->SetisColor(isColor_);
-		particle_->SetColor(particleColor_);
 
 		//Timer
 		if (player_->GetIsActive() == true) {
@@ -411,6 +406,13 @@ void GamePlayScene::Update() {
 			obj.Backmaterial = obj.material;
 		}
 
+		if (player_->GetisWireParticle() == true) {
+			particle_->SetColor(obj.Backmaterial);
+			particle_->SetTranslate(player_->GetWorldTransformWire().translation_);
+			particle_->OccursOnlyOnce(occursNum_);
+			player_->SetisWireParticle(false);
+		}
+
 		obj.obb_.center = obj.world.translation_;
 		GetOrientations(MakeRotateXYZMatrix(obj.world.rotation_), obj.obb_.orientation);
 		obj.obb_.size = obj.world.scale_;
@@ -441,7 +443,12 @@ void GamePlayScene::Update() {
 				player_->SetIsHitObj(isHitPlayer_);
 				std::pair<Vector3, Vector3> pair = ComputeCollisionVelocities(1.0f, player_->GetVelocity(), 1.0f, Vector3{ 0.0f,0.0f,0.0f }, 0.4f, Normalize(player_->GetWorldTransform().GetWorldPos() - obj.world.translation_));
 				pair.first.num[1] *= 0.5f;
-				player_->SetVelocity(-pair.first);
+				pair.first.num[0] = -pair.first.num[0];
+				pair.first.num[2] = -pair.first.num[2];
+				player_->SetVelocity(pair.first);
+				particle_->SetColor(obj.Backmaterial);
+				particle_->SetTranslate(Vector3{ player_->GetWorldTransformWire().translation_.num[0],player_->GetWorldTransform().translation_.num[1],player_->GetWorldTransformWire().translation_.num[2]});
+				particle_->OccursOnlyOnce(occursNum_);
 			}
 		}
 		else {
@@ -508,6 +515,9 @@ void GamePlayScene::Update() {
 	}
 
 	uiSpriteTransform_->rotate.num[2] += 0.05f;
+
+	particle_->Update();
+	particle_->SetAccelerationField(accelerationField_);
 
 	if (input_->GetToggleCursor() == false) {//カーソル非表示時、カーソルの座標を画面中央に固定
 		SetCursorPos(1280 / 2, 720 / 2);
