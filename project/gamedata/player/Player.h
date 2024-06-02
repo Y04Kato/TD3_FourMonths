@@ -46,6 +46,9 @@ public:
 	void SetCameraMode(const bool cameraMode) { cameraChange_ = cameraMode; }
 	void SetIsHitWire(const bool isHit) { isHitWire_ = isHit; }
 
+	bool GetIsSetWire() { return isWireSet_; }
+	void SetIsSetWire(const bool isWireSet) { isWireSet_ = isWireSet; }
+
 	bool GetIsMissWire() { return isMissWire_; }
 
 	bool GetIsHitObj() { return isHitObj_; }
@@ -212,4 +215,5 @@ private:
 	const Vector2 cameraMax = { 1.0f, 1.0f };
 
 	bool isWireParticle_ = false;
+	bool isWireSet_ = false;
 };

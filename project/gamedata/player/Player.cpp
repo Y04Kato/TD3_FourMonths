@@ -496,6 +496,8 @@ void Player::SetWire() {
 void Player::SetWireMiss() {
 	isMissWire_ = true;
 	isSetWire_ = false;
+	isWireSet_ = true;
+
 	worldTransformWire_.translation_ = worldTransform2_.translation_;
 	wireVelocity_ = worldTransformReticle_.translation_ - worldTransform2_.translation_;
 	wireVelocity_ = Normalize(wireVelocity_) * 5.0f;
