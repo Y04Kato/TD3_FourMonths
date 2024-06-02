@@ -24,7 +24,7 @@ void GameClearScene::Initialize() {
 	spriteResource_[2] = textureManager_->Load("project/gamedata/resources/UI/GoalTab.png");
 	spriteResource_[3] = textureManager_->Load("project/gamedata/resources/UI/Cursor.png");
 
-	starResource_ = textureManager_->Load("project/gamedata/resources/UI/star.png");
+	starTextureHandle_ = textureManager_->Load("project/gamedata/resources/UI/star.png");
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -94,19 +94,20 @@ void GameClearScene::Initialize() {
 	time_->SetInitialNum(0 / 60);
 	timeTransform_ = { {1.0f, 1.0f, 1.0f}, { 0.0f,0.0f,0.0f}, {480.0f,260.0f,0.0f} };
 
-	starSpriteMaterial_ = { 0.0f,0.0f,0.0f,0.0f };
-	starSpriteTransform_ = { {0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
+	//Transition
+	transitionSpriteMaterial_ = { 0.0f,0.0f,0.0f,0.0f };
+	transitionSpriteTransform_ = { {0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
 
-	starSpriteuvTransform_ = {
+	transitionSpriteuvTransform_ = {
 		{1.0f,1.0f,1.0f},
 		{0.0f,0.0f,0.0f},
 		{0.0f,0.0f,0.0f},
 	};
 
-	starSprite_ = std::make_unique <CreateSprite>();
+	transitionSprite_ = std::make_unique <CreateSprite>();
 
-	starSprite_->Initialize(Vector2{ 512.0f,512.0f }, starResource_);
-	starSprite_->SetAnchor(Vector2{ 0.5f,0.5f });
+	transitionSprite_->Initialize(Vector2{ 512.0f,512.0f }, starTextureHandle_);
+	transitionSprite_->SetAnchor(Vector2{ 0.5f,0.5f });
 
 	//Datas
 	datas_ = Datas::GetInstance();
@@ -156,41 +157,43 @@ void GameClearScene::Update() {
 		achievement_.num[2] = 1.0f;
 	}
 
+	//2回目以降のTransitionの初期化処理
 	if (isFirstTransition)
 	{
-		starSpriteMaterial_ = { 0.0f,0.0f,0.0f,1.0f };
-		starSpriteTransform_ = { {10.0f,10.0f,10.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
+		transitionSpriteMaterial_ = { 0.0f,0.0f,0.0f,1.0f };
+		transitionSpriteTransform_ = { {10.0f,10.0f,10.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
 		isTransitionStart_ = false;
 		isTransitionEnd_ = false;
 		isFirstTransition = false;
 	}
 
+	//Transition
 	if (!isTransitionEnd_)
 	{
-		starSpriteMaterial_.num[3] -= 0.03f;
+		transitionSpriteMaterial_.num[3] -= 0.03f;
 		
-		if (starSpriteMaterial_.num[3] <= 0.0f)
+		if (transitionSpriteMaterial_.num[3] <= 0.0f)
 		{
 			isTransitionEnd_ = true;
-			starSpriteTransform_.scale.num[0] = 0.0f;
-			starSpriteTransform_.scale.num[1] = 0.0f;
-			starSpriteMaterial_.num[3] = 0.0f;
+			transitionSpriteTransform_.scale.num[0] = 0.0f;
+			transitionSpriteTransform_.scale.num[1] = 0.0f;
+			transitionSpriteMaterial_.num[3] = 0.0f;
 		}
 	}
 
 	if (isTransitionStart_)
 	{
-		starSpriteTransform_.scale.num[0] += 0.4f;
-		starSpriteTransform_.scale.num[1] += 0.4f;
-		starSpriteMaterial_.num[3] += 0.03f;
+		transitionSpriteTransform_.scale.num[0] += 0.4f;
+		transitionSpriteTransform_.scale.num[1] += 0.4f;
+		transitionSpriteMaterial_.num[3] += 0.03f;
 
-		if (starSpriteTransform_.scale.num[0] >= 10.0f)
+		if (transitionSpriteTransform_.scale.num[0] >= 10.0f)
 		{
 			isTransitionStart_ = false;
 			isFirstTransition = true;
-			starSpriteTransform_.scale.num[0] = 10.0f;
-			starSpriteTransform_.scale.num[1] = 10.0f;
-			starSpriteMaterial_.num[3] = 1.0f;
+			transitionSpriteTransform_.scale.num[0] = 10.0f;
+			transitionSpriteTransform_.scale.num[1] = 10.0f;
+			transitionSpriteMaterial_.num[3] = 1.0f;
 
 			sceneNo = GAME_SCENE;
 			isSceneStart_ = true;
@@ -401,7 +404,7 @@ void GameClearScene::Draw() {
 	time_->Draw();
 	targetTime_->Draw();
   
-  starSprite_->Draw(starSpriteTransform_, starSpriteuvTransform_, starSpriteMaterial_);
+    transitionSprite_->Draw(transitionSpriteTransform_, transitionSpriteuvTransform_, transitionSpriteMaterial_);
   
 #pragma endregion
 }

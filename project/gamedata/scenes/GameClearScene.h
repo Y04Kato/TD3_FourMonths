@@ -95,11 +95,11 @@ private:
 	bool isSceneStart_ = true;//シーン開始時に1回だけ呼ぶ
 
 	//Transition用のSprite
-	std::unique_ptr <CreateSprite> starSprite_;
-	EulerTransform starSpriteTransform_;
-	EulerTransform starSpriteuvTransform_;
-	Vector4 starSpriteMaterial_;
-	uint32_t starResource_;
+	std::unique_ptr <CreateSprite> transitionSprite_;
+	EulerTransform transitionSpriteTransform_;
+	EulerTransform transitionSpriteuvTransform_;
+	Vector4 transitionSpriteMaterial_;
+	uint32_t transitionResource_;
 
 	bool isTransitionStart_ = false;
 	bool isTransitionEnd_ = false;
