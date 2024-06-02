@@ -12,11 +12,13 @@ class Timer {
 public:
 	void Initialize();
 	void Draw();
+	void AddTimeDraw();
 
 	void SetNum(float nowNum) { numFloat_ = nowNum; }
 	void SetInitialNum(int initialNum) { initialNum_ = initialNum; };
 	void SetSpace(int space) { space_ = space; };
 	void SetColor(Vector4 color) { color_ = color; };
+	void AddTime() { isAddTime = true; }
 
 	void SetTransform(EulerTransform transform);
 
@@ -30,11 +32,13 @@ private:
 	static const int32_t kDigits = 4;
 	// 小数点
 	static const int32_t kDecimalPoint = 2;
-	// 加算秒数
+	// 加算秒数の桁数
 	static const int32_t kPlusSecond = 3;
 
 	EulerTransform transform_[kDigits];
-	EulerTransform decimalPosintTransform_;
+	EulerTransform decimalPosintTransform_[2];
+	EulerTransform plusSecondTransform_[kPlusSecond];
+	EulerTransform plusTransform_;
 
 	//開始位置
 	const int32_t kLeft = 140;
@@ -52,10 +56,15 @@ private:
 	std::array<std::unique_ptr<CreateSprite>, kDigits> Sprites_;
 	uint32_t numberTextureHandle_ = 0;
 	// 小数点のスプライト
-	std::unique_ptr<CreateSprite> sprite_;
+	std::array<std::unique_ptr<CreateSprite>, 2> decimalPosintSprites_;
 	uint32_t decimalPointTextureHandle_ = 0;
+	// 加算秒数のスプライト
+	std::array<std::unique_ptr<CreateSprite>, kPlusSecond> plusSecondSprites_;
+	uint32_t plusSecondTextureHandle_ = 0;
 	// プラスのスプライト
-	std::array<std::unique_ptr<CreateSprite>, kPlusSecond> plusSprites_;
+	std::unique_ptr<CreateSprite> plusSprite_;
 	uint32_t plusTextureHandle_ = 0;
+	bool isAddTime = false;
+	float displaytime_ = 0;
 
 };

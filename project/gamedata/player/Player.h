@@ -32,6 +32,7 @@ public:
 	WorldTransform GetWorldTransform() override { return worldTransform_; }
 	const WorldTransform& GetWorldTransformPlayer() { return worldTransform2_; }
 	const WorldTransform& GetWorldTransformReticle() { return worldTransformReticle_; }
+	const WorldTransform& GetWorldTransformWire() { return worldTransformWire_; }
 	const Vector3 GetVelocity() { return physics_->GetVelocity(); }
 
 	void SetWorldTransform(const WorldTransform world);
@@ -39,12 +40,13 @@ public:
 	void SetWorldTransformReticle(const WorldTransform world);
 	void SetWorldTransformObject(const WorldTransform world) { worldTransformObject_ = world; }
 	void SetVelocity(const Vector3 velocity) { 
-		physics_->AddForce(velocity, 0); 
-		physics_->SetVelocity({ 0.0f,0.0f,0.0f });
+		physics_->AddForce(velocity, 1); 
 	}
 
 	void SetCameraMode(const bool cameraMode) { cameraChange_ = cameraMode; }
 	void SetIsHitWire(const bool isHit) { isHitWire_ = isHit; }
+
+	bool GetIsMissWire() { return isMissWire_; }
 
 	bool GetIsHitObj() { return isHitObj_; }
 	void SetIsHitObj(const bool isHit) {
@@ -59,6 +61,10 @@ public:
 
 	bool GetIsGoal() { return isGoal_; }
 	void SetIsGoal(const bool isGoal) { isGoal_ = isGoal; }
+	
+	
+	bool GetisWireParticle() { return isWireParticle_; }
+	void SetisWireParticle(const bool isWireParticle) { isWireParticle_ = isWireParticle; }
 
 	bool GetIsActive() { return isActive_; }
 
@@ -66,6 +72,8 @@ public:
 
 	void SetIsFell(bool flag) { isFell_ = flag; }
 	bool GetIsFell() { return isFell_; }
+
+	void Shake(int shakePower, int dividePower);
 
 private:
 	TextureManager* textureManager_;
@@ -199,4 +207,9 @@ private:
 	bool isRightMove_ = false;
 
 	bool isFell_ = false;
+
+	const Vector2 cameraMin = { -1.0f, -1.0f };
+	const Vector2 cameraMax = { 1.0f, 1.0f };
+
+	bool isWireParticle_ = false;
 };

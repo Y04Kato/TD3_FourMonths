@@ -26,6 +26,14 @@
 #include "datas/datas.h"
 #include "timer/Timer.h"
 
+//木の種類
+enum TREEMODE {
+	NONE,//なし
+	ROTATE,//回転する木
+	ITEM,//アイテムカウントが増える木
+	MODE_MAX//MAXCOUNT
+};
+
 class GamePlayScene :public Iscene {
 public:
 	static bool isFirstTransition;
@@ -75,6 +83,7 @@ private:
 		OBB obb_;
 		bool isHit;
 		bool isHitEye;
+		int treeMode;
 	};
 	std::list<Obj> objects_;
 	ModelData ObjModelData_;
@@ -125,11 +134,14 @@ private:
 
 	//Particle
 	std::unique_ptr<CreateParticle> particle_;
+	uint32_t particleResource_;
 	Emitter testEmitter_ = {};
 	AccelerationField accelerationField_;
 	bool isBillBoard_ = true;
 	bool isColor_;
 	Vector4 particleColor_ = { 0.0f,0.0f,0.0f,0.0f };
+	float boostSpeed_ = 10.0f;
+	int occursNum_ = 50;
 
 	bool isGameStart_ = true;//ゲーム開始時に1回だけ呼ぶ
 
@@ -178,4 +190,7 @@ private:
 
 	bool isTransitionStart_ = false;
 	bool isTransitionEnd_ = false;
+
+	//必ず2の倍数にすること
+	VectorInt2 shakePower = { 2,2 };
 };

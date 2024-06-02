@@ -123,6 +123,8 @@ void Player::Updete(const ViewProjection viewProjection) {
 		worldTransform2_.translation_ = worldTransform_.translation_;
 		worldTransform2_.rotation_.num[1] += input_->GetMousePosition().Velocity.num[0] / sensitivity_.num[0];
 		worldTransform2_.rotation_.num[0] += input_->GetMousePosition().Velocity.num[1] / sensitivity_.num[0];
+		worldTransform2_.rotation_.num[1] = std::clamp(worldTransform2_.rotation_.num[1], cameraMin.num[1], cameraMax.num[1]);
+		worldTransform2_.rotation_.num[0] = std::clamp(worldTransform2_.rotation_.num[0], cameraMin.num[0], cameraMax.num[0]);
 	}
 
 	worldTransform_.UpdateMatrix();
@@ -163,7 +165,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 
 	if (isMissWire_ == true) {//ワイヤー失敗時の演出
 		missTimer_++;
-		worldTransformWire_.translation_ += wireVelocity_;
+		//worldTransformWire_.translation_ += wireVelocity_;
 	}
 	if (missTimer_ >= 15) {
 		isMissWire_ = false;
@@ -415,7 +417,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 void Player::Draw(const ViewProjection viewProjection) {
 	//sphere_[0]->Draw(worldTransform_, viewProjection, sphereMaterial_, textureManager_->white);
 	model_->Draw(worldTransform_, viewProjection, modelMaterial_);
-	if (isSetWire_ == true || isMissWire_ == true) {
+	if (isSetWire_ == true) {
 		line_->Draw(worldTransform2_, worldTransformWire_, viewProjection, lineMaterial_);
 	}
 }
@@ -483,6 +485,7 @@ void Player::Reticle(const ViewProjection viewProjection) {
 
 void Player::SetWire() {
 	isSetWire_ = true;
+	isWireParticle_ = true;
 	isMissWire_ = false;
 
 	worldTransformWire_.translation_ = Vector3{ worldTransformObject_.translation_.num[0],worldTransformReticle_.translation_.num[1] ,worldTransformObject_.translation_.num[2] };
@@ -496,4 +499,10 @@ void Player::SetWireMiss() {
 	worldTransformWire_.translation_ = worldTransform2_.translation_;
 	wireVelocity_ = worldTransformReticle_.translation_ - worldTransform2_.translation_;
 	wireVelocity_ = Normalize(wireVelocity_) * 5.0f;
+}
+
+void Player::Shake(int shakePower, int dividePower) {
+	worldTransform_.translation_.num[0] += (rand() % shakePower - shakePower / 2 + rand() / (float)RAND_MAX) / dividePower;
+	worldTransform_.translation_.num[1] += (rand() % shakePower - shakePower / 2 + rand() / (float)RAND_MAX) / dividePower;
+	worldTransform_.translation_.num[2] += (rand() % shakePower - shakePower / 2 + rand() / (float)RAND_MAX) / dividePower;
 }

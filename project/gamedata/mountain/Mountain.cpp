@@ -78,6 +78,13 @@ void Mountain::Update()
 	ImGui::DragFloat3("WTFR", &worldTransform_[4].rotation_.num[0], 0.1f, -13.0f, 13.0f);
 	ImGui::DragFloat3("WTFS", &worldTransform_[4].scale_.num[0], 0.1f, 1.0f, 50.0f);
 	ImGui::End();
+  
+	if (playerPos_.num[0] >= 75.0f) {
+
+	}
+	else if (playerPos_.num[0] <= -75.0f) {
+
+	}
 }
 
 void Mountain::Draw(const ViewProjection viewProjection)

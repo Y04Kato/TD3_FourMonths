@@ -25,13 +25,21 @@ public:
 	void SetUIResrouce(VectorInt4 uiResrouce) { uiResrouce_ = uiResrouce; }
 	bool GetUIResrouce() { return isReset_; }
 
+	void SetItem(int getItem) { getItem_ = getItem; }
+	int GetItem() { return getItem_; }
+
+	void SetFell(bool fell) { fell_ = fell; }
+	bool GetFell() { return fell_; }
+
 private:
 	Datas() = default;
 	~Datas() = default;
 	Datas(const Datas& obj) = default;
 	Datas& operator=(const Datas& obj) = default;
 
+	int getItem_;
 	float clearTime_;
+	bool fell_;
 
 	int stageNum_ = 0;
 

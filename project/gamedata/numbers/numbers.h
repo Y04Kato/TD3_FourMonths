@@ -15,6 +15,7 @@ public:
 	void SetInitialNum(int initialNum) { initialNum_ = initialNum; };
 	void SetSpace(int space) { space_ = space; };
 	void SetColor(Vector4 color) { color_ = color; };
+	void SetDrawCount(int32_t drawCount) { drawCount_ = drawCount; }
 
 	void SetTransform(EulerTransform transform);
 
@@ -43,4 +44,7 @@ private:
 
 	std::array<std::unique_ptr<CreateSprite>, kDigits> Sprites_;
 	uint32_t numberTextureHandle_ = 0;
+
+	// 何桁表示するか
+	int32_t drawCount_ = 3;
 };

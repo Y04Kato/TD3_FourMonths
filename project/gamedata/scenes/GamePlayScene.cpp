@@ -41,6 +41,9 @@ void GamePlayScene::Initialize() {
 	uiResource_[10] = textureManager_->Load("project/gamedata/resources/UI/Rule.png");
 
 	starResource_ = textureManager_->Load("project/gamedata/resources/UI/star.png");
+	
+	particleResource_ = textureManager_->Load("project/gamedata/resources/Leaf.png");
+
 
 	//testSprite
 	spriteMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
@@ -124,7 +127,7 @@ void GamePlayScene::Initialize() {
 	testEmitter_.transform.translate = { 0.0f,0.0f,45.0f };
 	testEmitter_.transform.rotate = { 0.0f,0.0f,0.0f };
 	testEmitter_.transform.scale = { 1.0f,1.0f,1.0f };
-	testEmitter_.count = 10;
+	testEmitter_.count = 0;
 	testEmitter_.frequency = 0.05f;
 	testEmitter_.frequencyTime = 0.0f;//発生頻度の時刻
 
@@ -134,8 +137,8 @@ void GamePlayScene::Initialize() {
 
 	particle_ = std::make_unique <CreateParticle>();
 
-	particle_->Initialize(1000, testEmitter_, accelerationField_, spriteResource_);
-	particle_->SetisVelocity(false);
+	particle_->Initialize(1000, testEmitter_, accelerationField_, particleResource_);
+	particle_->SetisVelocity(true, boostSpeed_);
 
 	//Timer
 	/*numbers_ = std::make_unique<Numbers>();
@@ -363,6 +366,7 @@ void GamePlayScene::Update() {
 			player_->SetWorldTransformCamera(cameraWorldTransform_);
 			player_->SetIsRestart(false);
 			nowTime_ = 0.0f;
+			input_->HideCursor();
 		}
 
 		//Select
@@ -437,15 +441,6 @@ void GamePlayScene::Update() {
 
 		goal_->Update();
 
-		particle_->Update();
-		particle_->SetEmitter(testEmitter_);
-		particle_->SetAccelerationField(accelerationField_);
-		particle_->SetisBillBoard(isBillBoard_);
-
-		//色を固定するならこれを使う
-		particle_->SetisColor(isColor_);
-		particle_->SetColor(particleColor_);
-
 		//Timer
 		if (player_->GetIsActive() == true) {
 			//nowTime_++;
@@ -472,12 +467,26 @@ void GamePlayScene::Update() {
 
 		if (cameraChange_ == true) {//DebugCamera
 			debugCamera_->Update();
+			if (input_->PressKey(DIK_V)) {//Shakeテスト用
+				debugCamera_->ShakeCamera(shakePower.x, shakePower.y);
+			}
+
 			viewProjection_.translation_ = debugCamera_->GetViewProjection()->translation_;
 			viewProjection_.rotation_ = debugCamera_->GetViewProjection()->rotation_;
 			viewProjection_.UpdateMatrix();
 		}
 		else {//FollowCamera
 			followCamera_->Update();
+			if (player_->GetIsMissWire() == true) {
+				followCamera_->ShakeCamera(shakePower.x,shakePower.y);
+				//player_->Shake(shakePower.x, shakePower.y);
+			}
+
+			if (input_->PressKey(DIK_V)) {//Shakeテスト用
+				followCamera_->ShakeCamera(shakePower.x, shakePower.y);
+				//player_->Shake(shakePower.x, shakePower.y);
+			}
+
 			viewProjection_.translation_ = followCamera_->GetViewProjection().translation_;
 			viewProjection_.matView = followCamera_->GetViewProjection().matView;
 			viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
@@ -489,6 +498,7 @@ void GamePlayScene::Update() {
 		if (player_->GetIsFell()) {
 			nowTime_ += 3.0f;
 			player_->SetIsFell(false);
+			timer_->AddTime();
 		}
 	}
 
@@ -507,6 +517,28 @@ void GamePlayScene::Update() {
 	structSphere_.center = player_->GetWorldTransform().translation_;
 
 	for (Obj& obj : objects_) {
+		//モード毎の処理
+		if (obj.treeMode == TREEMODE::NONE) {
+
+		}
+
+		if (obj.treeMode == TREEMODE::ROTATE) {
+			obj.material = { 0.0f,0.0f,1.0f,1.0f };
+			obj.Backmaterial = obj.material;
+		}
+
+		if (obj.treeMode == TREEMODE::ITEM) {
+			obj.material = { 1.0f,0.0f,0.0f,1.0f };
+			obj.Backmaterial = obj.material;
+		}
+
+		if (player_->GetisWireParticle() == true) {
+			particle_->SetColor(obj.Backmaterial);
+			particle_->SetTranslate(player_->GetWorldTransformWire().translation_);
+			particle_->OccursOnlyOnce(occursNum_);
+			player_->SetisWireParticle(false);
+		}
+
 		obj.obb_.center = obj.world.translation_;
 		GetOrientations(MakeRotateXYZMatrix(obj.world.rotation_), obj.obb_.orientation);
 		obj.obb_.size = obj.world.scale_;
@@ -535,8 +567,14 @@ void GamePlayScene::Update() {
 			if (player_->GetIsHitObj() == false) {
 				isHitPlayer_ = true;
 				player_->SetIsHitObj(isHitPlayer_);
-				std::pair<Vector3, Vector3> pair = ComputeCollisionVelocities(1.0f, player_->GetVelocity(), 1.0f, Vector3{ 0.0f,0.0f,0.0f }, 0.8f, Normalize(player_->GetWorldTransform().GetWorldPos() - obj.world.translation_));
-				player_->SetVelocity(-pair.first * 20.0f);
+				std::pair<Vector3, Vector3> pair = ComputeCollisionVelocities(1.0f, player_->GetVelocity(), 1.0f, Vector3{ 0.0f,0.0f,0.0f }, 0.4f, Normalize(player_->GetWorldTransform().GetWorldPos() - obj.world.translation_));
+				pair.first.num[1] *= 0.5f;
+				pair.first.num[0] = -pair.first.num[0];
+				pair.first.num[2] = -pair.first.num[2];
+				player_->SetVelocity(pair.first);
+				particle_->SetColor(obj.Backmaterial);
+				particle_->SetTranslate(Vector3{ player_->GetWorldTransformWire().translation_.num[0],player_->GetWorldTransform().translation_.num[1],player_->GetWorldTransformWire().translation_.num[2]});
+				particle_->OccursOnlyOnce(occursNum_);
 			}
 		}
 		else {
@@ -580,6 +618,12 @@ void GamePlayScene::Update() {
 		input_->ToggleCursor();
 	}
 
+	if (input_->TriggerKey(DIK_C)) {//Particleテスト用
+		particle_->OccursOnlyOnce(occursNum_);
+	}
+
+	mountain_->SetPlayerPos(player_->GetWorldTransform().translation_);
+
 	for (Obj& obj : objects_) {//レイとオブジェクトの当たり判定の結果
 		if (obj.isHit == true) {
 			obj.material = { 1.0f,0.5f,0.0f,1.0f };
@@ -597,6 +641,9 @@ void GamePlayScene::Update() {
 	}
 
 	uiSpriteTransform_->rotate.num[2] += 0.05f;
+
+	particle_->Update();
+	particle_->SetAccelerationField(accelerationField_);
 
 	if (input_->GetToggleCursor() == false) {//カーソル非表示時、カーソルの座標を画面中央に固定
 		SetCursorPos(1280 / 2, 720 / 2);
@@ -618,6 +665,7 @@ void GamePlayScene::Update() {
 			//globalVariables->AddItem(groupName,obj.name + "Rotate", obj.world.rotation_);
 			globalVariables->AddItem(nowGroupName_, obj.name + "Scale", obj.world.scale_);
 			globalVariables->AddItem(nowGroupName_, obj.name + "Material", obj.material);
+			globalVariables->AddItem(nowGroupName_, obj.name + "TreeMode", obj.treeMode);
 		}
 	}
 	if (ImGui::Button("DeleteBlock")) {
@@ -627,6 +675,7 @@ void GamePlayScene::Update() {
 				globalVariables->RemoveItem(nowGroupName_, (std::string)objName_ + "Translate");
 				globalVariables->RemoveItem(nowGroupName_, (std::string)objName_ + "Scale");
 				globalVariables->RemoveItem(nowGroupName_, (std::string)objName_ + "Material");
+				globalVariables->RemoveItem(nowGroupName_, (std::string)objName_ + "TreeMode");
 				objCount_--;
 				globalVariables->SetValue(nowGroupName_, "ObjCount", objCount_);
 				it = objects_.erase(it);
@@ -652,7 +701,11 @@ void GamePlayScene::Update() {
 	ImGui::DragFloat3("OccurrenceRangeMin", accelerationField_.area.min.num, 0.1f);
 	ImGui::DragFloat3("OccurrenceRangeMax", accelerationField_.area.max.num, 0.1f);
 	ImGui::DragFloat("frequency", &testEmitter_.frequency, 0.1f);
+	ImGui::DragFloat("BoostSpeed", &boostSpeed_, 0.1f);
+	particle_->SetisVelocity(true, boostSpeed_);
+	ImGui::DragInt("OccursNum", &occursNum_, 1, 0);
 	ImGui::DragFloat("frequencyTime", &testEmitter_.frequencyTime, 0.1f);
+	ImGui::DragInt2("ShakePower", &shakePower.x, 1, 0);
 	ImGui::End();
 
 	ImGui::Begin("Cursor");
@@ -680,7 +733,6 @@ void GamePlayScene::Draw() {
 	for (Obj& obj : objects_) {
 		obj.model.Draw(obj.world, viewProjection_, obj.material);
 	}
-
 
 	mountain_->Draw(viewProjection_);
 
@@ -744,6 +796,7 @@ void GamePlayScene::Draw() {
 
 		//numbers_->Draw();
 		timer_->Draw();
+		timer_->AddTimeDraw();
 		numbers2_->Draw();
 		player_->DrawUI();
 		if (isHitWire_ == true) {
@@ -784,6 +837,7 @@ void GamePlayScene::ApplyGlobalVariables() {
 		//obj.world.rotation_ = globalVariables->GetVector3Value(groupName,  obj.name + "Rotate");
 		obj.world.scale_ = globalVariables->GetVector3Value(nowGroupName_, obj.name + "Scale");
 		obj.Backmaterial = globalVariables->GetVector4Value(nowGroupName_, obj.name + "Material");
+		obj.treeMode = globalVariables->GetIntValue(nowGroupName_, obj.name + "TreeMode");
 	}
 }
 
@@ -801,7 +855,9 @@ void GamePlayScene::SetObject(EulerTransform trans, const std::string& name) {
 	obj.isHitEye = false;
 
 	obj.material = { 1.0f,1.0f,1.0f,1.0f };
-	obj.Backmaterial = { 1.0f,1.0f,1.0f,1.0f };
+	obj.Backmaterial = obj.material;
+
+	obj.treeMode = 0;
 
 	obj.name = name;
 	objects_.push_back(obj);
