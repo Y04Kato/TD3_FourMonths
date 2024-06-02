@@ -78,12 +78,17 @@ void GameClearScene::Initialize() {
 	fractionTransform_[0] = { {1.0f, 1.0f ,1.0f}, {0.0f, 0.0f, 0.0f}, {715.0f,190.0f,0.0f} };
 	fractionTransform_[1] = { {1.0f, 1.0f ,1.0f}, {0.0f, 0.0f, 0.0f}, {830.0f,285.0f,0.0f} };
 
+	// 目標タイム
+	targetTime_ = std::make_unique<Timer>();
+	targetTime_->Initialize();
+	targetTime_->SetInitialNum(0 / 60);
+	targetTimeTransform_ = { {1.0f, 1.0f, 1.0f}, { 0.0f,0.0f,0.0f}, {700.0f,260.0f,0.0f} };
 
 	//クリアタイム
-	timer_ = std::make_unique<Timer>();
-	timer_->Initialize();
-	timer_->SetInitialNum(0 / 60);
-	timerTransform_ = { {1.0f, 1.0f, 1.0f}, { 0.0f,0.0f,0.0f}, {480.0f,260.0f,0.0f} };
+	time_ = std::make_unique<Timer>();
+	time_->Initialize();
+	time_->SetInitialNum(0 / 60);
+	timeTransform_ = { {1.0f, 1.0f, 1.0f}, { 0.0f,0.0f,0.0f}, {480.0f,260.0f,0.0f} };
 
 	//Datas
 	datas_ = Datas::GetInstance();
@@ -123,18 +128,20 @@ void GameClearScene::Update() {
 	targetItemNumbers_->SetTransform(targetItemNumbersTransform_);
 	getItemNumbers_->SetTransform(getItemNumbersTransform_);
 
-	if (datas_->GetItem() == targets_->item) {
+	if (datas_->GetItem() == targets_[datas_->GetStageNum()].item) {
 		achievement_.num[0] = 1.0f;
 	}
-	if (datas_->GetClearTime() <= targets_->time) {
+	if (datas_->GetClearTime() <= targets_[datas_->GetStageNum()].time) {
 		achievement_.num[1] = 1.0f;
 	}
 	if (!datas_->GetFell()) {
 		achievement_.num[2] = 1.0f;
 	}
 
-	timer_->SetNum(datas_->GetClearTime());
-	timer_->SetTransform(timerTransform_);
+	targetTime_->SetNum(targets_[datas_->GetStageNum()].time);
+	targetTime_->SetTransform(targetTimeTransform_);
+	time_->SetNum(datas_->GetClearTime());
+	time_->SetTransform(timeTransform_);
 
 	if (input_->TriggerKey(DIK_A) && spriteTransform_[3].translate.num[0] == 1061.0f)
 	{
@@ -163,9 +170,10 @@ void GameClearScene::Update() {
 	ImGui::DragFloat3("star", starTransform_.translate.num, 0.0f, 2280.0f);
 	ImGui::DragFloat3("TargetItem", targetItemNumbersTransform_.translate.num, 0.0f, 2280.0f);
 	ImGui::DragFloat3("GetItem", getItemNumbersTransform_.translate.num, 0.0f, 2280.0f);
-	ImGui::DragFloat3("time", timerTransform_.translate.num, 0.0f, 2280.0f);
+	ImGui::DragFloat3("time", timeTransform_.translate.num, 0.0f, 2280.0f);
 	ImGui::DragFloat3("fraction", fractionTransform_[1].translate.num, 0.0f, 2280.0f);
 	ImGui::DragFloat3("empty", emptyStarTransform_.translate.num, 0.0f, 2280.0f);
+	ImGui::DragFloat3("targetTime", targetTimeTransform_.translate.num, 0.0f, 2280.0f);
 	ImGui::End();
 
 	//左側(現在のステージを繰り返し)
@@ -325,7 +333,8 @@ void GameClearScene::Draw() {
 	}
 	getItemNumbers_->Draw();
 
-	timer_->Draw();
+	time_->Draw();
+	targetTime_->Draw();
 #pragma endregion
 }
 

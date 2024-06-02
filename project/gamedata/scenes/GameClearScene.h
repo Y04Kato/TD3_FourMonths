@@ -75,10 +75,15 @@ private:
 	EulerTransform fractionTransform_[2];
 
 	//int nowTime_ = 0;
+	// 目標タイム
+	std::unique_ptr<Timer> targetTime_;
+	EulerTransform targetTimeTransform_;
+	
+	
 	// クリアタイム
-	std::unique_ptr<Timer> timer_;
+	std::unique_ptr<Timer> time_;
 	float nowTime_ = 0.0f;
-	EulerTransform timerTransform_;
+	EulerTransform timeTransform_;
 	// 落ちる
 	std::unique_ptr<Numbers> fall_;
 
