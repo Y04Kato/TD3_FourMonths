@@ -139,6 +139,7 @@ void GamePlayScene::Initialize() {
 
 	particle_->Initialize(1000, testEmitter_, accelerationField_, particleResource_);
 	particle_->SetisVelocity(true, boostSpeed_);
+	particle_->SetLifeTime(3.0f);
 
 	//Timer
 	/*numbers_ = std::make_unique<Numbers>();
