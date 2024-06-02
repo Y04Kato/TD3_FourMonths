@@ -47,6 +47,9 @@ public:
 	void SetCameraMode(const bool cameraMode) { cameraChange_ = cameraMode; }
 	void SetIsHitWire(const bool isHit) { isHitWire_ = isHit; }
 
+	bool GetIsSetWire() { return isWireSet_; }
+	void SetIsSetWire(const bool isWireSet) { isWireSet_ = isWireSet; }
+
 	bool GetIsMissWire() { return isMissWire_; }
 
 	bool GetIsHitObj() { return isHitObj_; }
@@ -224,4 +227,5 @@ private:
 
 	uint32_t speedUpCount_ = 0;
 	const uint32_t maxSpeedUp_ = 5;
+	bool isWireSet_ = false;
 };
