@@ -131,7 +131,9 @@ void Player::Updete(const ViewProjection viewProjection) {
 	worldTransform2_.UpdateMatrix();
 
 	if (input_->pushMouse(MOUSE_BOTTON0) ) {//左クリックした時
-		DistancePlayerToReticle = kDistancePlayerToReticle;
+		if (DistancePlayerToReticle != kDistancePlayerToReticleFell) {
+			DistancePlayerToReticle = kDistancePlayerToReticle;
+		}
 		isHitObj_ = false;
 		Reticle(viewProjection);
 		if (isHitWire_ == true) {//レティクルがオブジェクト捉えていれば
@@ -145,9 +147,13 @@ void Player::Updete(const ViewProjection viewProjection) {
 			if (!isActive_) {
 				isActive_ = true;
 			}
+			if (speedUpCount_ < maxSpeedUp_) {
+				speedUpCount_++;
+			}
 		}
 		else {//レティクルがオブジェクトを捉えられていなければ
 			if (isActive_) {
+				speedUpCount_ = 0;
 				SetWireMiss();
 			}
 		}
@@ -245,7 +251,12 @@ void Player::Updete(const ViewProjection viewProjection) {
 				physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 			}
 
-			angle_ += angularVelocity * physics_->deltaTime_;
+			if (leftRoll_) {
+				angle_ += angularVelocity * physics_->deltaTime_;
+			}
+			else {
+				angle_ -= angularVelocity * physics_->deltaTime_;
+			}
 
 			if (angle_ > 180.0f * physics_->DegToRad() || angle_ < -180.0f * physics_->DegToRad()) {
 				isRoll_ = false;
@@ -294,12 +305,22 @@ void Player::Updete(const ViewProjection viewProjection) {
 			}
 		}
 
+		if (upperLimit_ - worldTransform_.translation_.num[1] < 15.0f && !isRoll_) {
+			float gravity = physics_->GetGravity().num[1];
+			gravity *= 5.0f;
+			physics_->SetGravity({ 0.0f, gravity, 0.0f });
+		}
 		Vector3 velocity = physics_->Update();
 		if (!isRoll_) {
+			float k = 1.0f + float(speedUpCount_) / 10.0f;
+			velocity.num[0] *= k;
+			velocity.num[2] *= k;
+
 			worldTransform_.translation_ += velocity * physics_->deltaTime_;
 			//Vector3 impulse = physics_->GetImpulse_();
 			//worldTransform_.translation_ += impulse/* * physics_->deltaTime_*/;
 			ImGui::DragFloat3("velocity", velocity.num, 0.05f);
+			ImGui::DragFloat("k", &k);
 			//ImGui::DragFloat3("impulse", impulse.num, 0.05f);
 		}
 
@@ -333,7 +354,8 @@ void Player::Updete(const ViewProjection viewProjection) {
 		Vector3 force = { 0.0f, 25.0f, 0.0f };
 		physics_->AddForce(force, 1);
 		isFell_ = true;
-		
+		speedUpCount_ = 0;
+		DistancePlayerToReticle = kDistancePlayerToReticleFell;
 	}
 
 	//リスタート
@@ -361,28 +383,28 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
-	else if (datas_->GetStageNum() == 3 && worldTransform_.translation_.num[2] >= 1000.0f)
+	else if (datas_->GetStageNum() == 3 && worldTransform_.translation_.num[2] >= 1700.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
-	else if (datas_->GetStageNum() == 4 && worldTransform_.translation_.num[2] >= 1000.0f)
+	else if (datas_->GetStageNum() == 4 && worldTransform_.translation_.num[2] >= 1700.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
-	else if (datas_->GetStageNum() == 5 && worldTransform_.translation_.num[2] >= 1000.0f)
+	else if (datas_->GetStageNum() == 5 && worldTransform_.translation_.num[2] >= 1700.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
 		isSetWire_ = false;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 	}
-	else if (datas_->GetStageNum() == 6 && worldTransform_.translation_.num[2] >= 1000.0f)
+	else if (datas_->GetStageNum() == 6 && worldTransform_.translation_.num[2] >= 1700.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
@@ -496,6 +518,8 @@ void Player::SetWire() {
 void Player::SetWireMiss() {
 	isMissWire_ = true;
 	isSetWire_ = false;
+	isWireSet_ = true;
+
 	worldTransformWire_.translation_ = worldTransform2_.translation_;
 	wireVelocity_ = worldTransformReticle_.translation_ - worldTransform2_.translation_;
 	wireVelocity_ = Normalize(wireVelocity_) * 5.0f;

@@ -25,7 +25,7 @@ void GamePlayScene::Initialize() {
 	collisionManager_ = CollisionManager::GetInstance();
 
 	//テクスチャ
-	spriteResource_ = textureManager_->Load("project/gamedata/resources/UI/bg.png");
+	spriteResource_ = textureManager_->Load("project/gamedata/resources/UI/bg2.png");
 
 	uiResource_[0] = textureManager_->Load("project/gamedata/resources/reticle2.png");
 	uiResource_[1] = textureManager_->Load("project/gamedata/resources/UI/StartUI.png");
@@ -41,7 +41,7 @@ void GamePlayScene::Initialize() {
 	uiResource_[10] = textureManager_->Load("project/gamedata/resources/UI/Rule.png");
 
 	starResource_ = textureManager_->Load("project/gamedata/resources/UI/star.png");
-	
+
 	particleResource_ = textureManager_->Load("project/gamedata/resources/circle.png");
 
 
@@ -82,7 +82,7 @@ void GamePlayScene::Initialize() {
 	uiSpriteTransform_[0].translate.num[1] = 415.0f;
 	uiSpriteTransform_[0].scale = { 0.8f,0.8f,0.8f };
 
-	for (int i = 1; i < 11; i++){
+	for (int i = 1; i < 11; i++) {
 		uiSprite_[i]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[i]);
 		uiSprite_[i]->SetAnchor(Vector2{ 0.5f,0.5f });
 	}
@@ -479,7 +479,7 @@ void GamePlayScene::Update() {
 		else {//FollowCamera
 			followCamera_->Update();
 			if (player_->GetIsMissWire() == true) {
-				followCamera_->ShakeCamera(shakePower.x,shakePower.y);
+				followCamera_->ShakeCamera(shakePower.x, shakePower.y);
 				//player_->Shake(shakePower.x, shakePower.y);
 			}
 
@@ -520,7 +520,8 @@ void GamePlayScene::Update() {
 	for (Obj& obj : objects_) {
 		//モード毎の処理
 		if (obj.treeMode == TREEMODE::NONE) {
-
+			obj.material = { 0.0f,1.0f,0.0f,1.0f };
+			obj.Backmaterial = obj.material;
 		}
 
 		if (obj.treeMode == TREEMODE::ROTATE) {
@@ -538,6 +539,19 @@ void GamePlayScene::Update() {
 			particle_->SetTranslate(player_->GetWorldTransformWire().translation_);
 			particle_->OccursOnlyOnce(occursNum_);
 			player_->SetisWireParticle(false);
+		}
+
+		if (player_->GetIsSetWire() == true) {
+			if (obj.treeMode == TREEMODE::ROTATE) {
+				
+			}
+
+			if (obj.treeMode == TREEMODE::ITEM) {
+				datas_->SetItem(datas_->GetItem() + 1);
+				obj.treeMode = TREEMODE::NONE;
+			}
+
+			player_->SetIsSetWire(false);
 		}
 
 		obj.obb_.center = obj.world.translation_;
@@ -569,12 +583,12 @@ void GamePlayScene::Update() {
 				isHitPlayer_ = true;
 				player_->SetIsHitObj(isHitPlayer_);
 				std::pair<Vector3, Vector3> pair = ComputeCollisionVelocities(1.0f, player_->GetVelocity(), 1.0f, Vector3{ 0.0f,0.0f,0.0f }, 0.4f, Normalize(player_->GetWorldTransform().GetWorldPos() - obj.world.translation_));
-				pair.first.num[1] *= 0.5f;
+				pair.first.num[1] *= 0.4f;
 				pair.first.num[0] = -pair.first.num[0];
 				pair.first.num[2] = -pair.first.num[2];
 				player_->SetVelocity(pair.first);
 				particle_->SetColor(obj.Backmaterial);
-				particle_->SetTranslate(Vector3{ player_->GetWorldTransformWire().translation_.num[0],player_->GetWorldTransform().translation_.num[1],player_->GetWorldTransformWire().translation_.num[2]});
+				particle_->SetTranslate(Vector3{ player_->GetWorldTransformWire().translation_.num[0],player_->GetWorldTransform().translation_.num[1],player_->GetWorldTransformWire().translation_.num[2] });
 				particle_->OccursOnlyOnce(occursNum_);
 			}
 		}
@@ -627,7 +641,7 @@ void GamePlayScene::Update() {
 
 	for (Obj& obj : objects_) {//レイとオブジェクトの当たり判定の結果
 		if (obj.isHit == true) {
-			obj.material = { 1.0f,0.5f,0.0f,1.0f };
+			obj.material = { 0.5f,0.5f,0.5f,1.0f };
 		}
 		else {
 			obj.material = obj.Backmaterial;

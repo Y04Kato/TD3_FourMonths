@@ -41,10 +41,14 @@ public:
 	void SetWorldTransformObject(const WorldTransform world) { worldTransformObject_ = world; }
 	void SetVelocity(const Vector3 velocity) { 
 		physics_->AddForce(velocity, 1); 
+		speedUpCount_ = 0;
 	}
 
 	void SetCameraMode(const bool cameraMode) { cameraChange_ = cameraMode; }
 	void SetIsHitWire(const bool isHit) { isHitWire_ = isHit; }
+
+	bool GetIsSetWire() { return isWireSet_; }
+	void SetIsSetWire(const bool isWireSet) { isWireSet_ = isWireSet; }
 
 	bool GetIsMissWire() { return isMissWire_; }
 
@@ -74,6 +78,9 @@ public:
 	bool GetIsFell() { return isFell_; }
 
 	void Shake(int shakePower, int dividePower);
+
+	void SetLeftRoll(bool leftRoll) { leftRoll_ = leftRoll; }
+	void SetStargAngle(float startAngle) { startAngle_ = startAngle; }
 
 private:
 	TextureManager* textureManager_;
@@ -109,6 +116,7 @@ private:
 	//レティクルとワイヤー
 	void Reticle(const ViewProjection viewProjection);//レティクルの計算関数
 	const float kDistancePlayerToReticle = 90.0f;//自機とレティクルの距離、通常射程
+	const float kDistancePlayerToReticleFell = 130.0f;//自機とレティクルの距離、落ちた時の射程
 	float DistancePlayerToReticle = kDistancePlayerToReticle;//自機とレティクルの距離
 	void SetWire();//ワイヤー成功時関数
 	void SetWireMiss();//ワイヤー失敗時関数
@@ -194,9 +202,10 @@ private:
 	const float accelerationTimerMax_ = 60.0f;
 
 	bool isRoll_ = false;
+	bool leftRoll_ = false;
 	float angle_ = 0.0f;
 	float angularVelocity = 3.14f;
-	float startAngle_ = 270.0f * physics_->DegToRad();
+	float startAngle_ = 0.0f/*270.0f * physics_->DegToRad()*/;
 
 	//Datas
 	Datas* datas_;
@@ -212,4 +221,11 @@ private:
 	const Vector2 cameraMax = { 1.0f, 1.0f };
 
 	bool isWireParticle_ = false;
+
+	// 最大高度
+	float upperLimit_ = 60.0f;
+
+	uint32_t speedUpCount_ = 0;
+	const uint32_t maxSpeedUp_ = 5;
+	bool isWireSet_ = false;
 };
