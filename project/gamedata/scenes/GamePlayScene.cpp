@@ -534,12 +534,12 @@ void GamePlayScene::Update() {
 		}
 
 		if (obj.treeMode == TREEMODE::LEFTROTATE) {
-			obj.material = { 1.0f,0.0f,0.0f,1.0f };
+			obj.material = { 1.0f,1.0f,1.0f,1.0f };
 			obj.Backmaterial = obj.material;
 		}
 
 		if (obj.treeMode == TREEMODE::RIGHTROTATE) {
-			obj.material = { 1.0f,0.0f,0.0f,1.0f };
+			obj.material = { 1.0f,1.0f,1.0f,1.0f };
 			obj.Backmaterial = obj.material;
 		}
 

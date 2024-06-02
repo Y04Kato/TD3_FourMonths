@@ -83,7 +83,7 @@ void Player::Initialize() {
 	upSize_ = 0.0f;
 
 	// モデルの向き(無回転時)
-	forwad_ = { 0.0f, 0.0f, 1.0f };
+	forwad_ = { 1.0f, 0.0f, 0.0f };
 	right_ = { 1.0f, 0.0f, 0.0f };
 
 	//Particle
@@ -249,6 +249,23 @@ void Player::Updete(const ViewProjection viewProjection) {
 			if (physics_->GetGravity().num[1] != 0.0f) {
 				physics_->SetGravity({ 0.0f, 0.0f, 0.0f });
 				physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
+
+				if (forwad_.num[0] == 0.0f) {
+					if (forwad_.num[2] == 1.0f) {
+						startAngle_ = -90.0f * physics_->DegToRad();
+					}
+					else if (forwad_.num[2] == -1.0f) {
+						startAngle_ = 90.0f * physics_->DegToRad();
+					}
+				}
+				if (forwad_.num[2] == 0.0f) {
+					if (forwad_.num[0] == 1.0f) {
+						startAngle_ = 180.0f * physics_->DegToRad();
+					}
+					if (forwad_.num[0] == -1.0f) {
+						startAngle_ = 0.0f * physics_->DegToRad();
+					}
+				}
 			}
 
 			if (leftRoll_) {
@@ -261,6 +278,16 @@ void Player::Updete(const ViewProjection viewProjection) {
 			if (angle_ > 180.0f * physics_->DegToRad() || angle_ < -180.0f * physics_->DegToRad()) {
 				isRoll_ = false;
 				isSetWire_ = false;
+				if (leftRoll_) {
+					Matrix4x4 rotate = MakeRotateYMatrix(-90.0f * physics_->DegToRad());
+					forwad_ = TransformNormal(forwad_, rotate);
+					right_ = TransformNormal(right_, rotate);
+				}
+				else {
+					Matrix4x4 rotate = MakeRotateYMatrix(90.0f * physics_->DegToRad());
+					forwad_ = TransformNormal(forwad_, rotate);
+					right_ = TransformNormal(right_, rotate);
+				}
 			}
 			else {
 				worldTransform_.translation_ = { worldTransformGrapple_.translation_.num[0] + std::cosf(startAngle_ + angle_) * 15.0f,worldTransform_.translation_.num[1], worldTransformGrapple_.translation_.num[2] + std::sinf(startAngle_ + angle_) * 15.0f };
@@ -304,7 +331,6 @@ void Player::Updete(const ViewProjection viewProjection) {
 				}
 			}
 		}
-
 		if (upperLimit_ - worldTransform_.translation_.num[1] < 15.0f && !isRoll_) {
 			float gravity = physics_->GetGravity().num[1];
 			gravity *= 5.0f;
@@ -509,6 +535,7 @@ void Player::SetWire() {
 	isSetWire_ = true;
 	isWireParticle_ = true;
 	isMissWire_ = false;
+	isWireSet_ = true;
 
 	worldTransformWire_.translation_ = Vector3{ worldTransformObject_.translation_.num[0],worldTransformReticle_.translation_.num[1] ,worldTransformObject_.translation_.num[2] };
 	worldTransformGrapple_ = worldTransformWire_;
@@ -518,7 +545,7 @@ void Player::SetWire() {
 void Player::SetWireMiss() {
 	isMissWire_ = true;
 	isSetWire_ = false;
-	isWireSet_ = true;
+	isWireSet_ = false;
 
 	worldTransformWire_.translation_ = worldTransform2_.translation_;
 	wireVelocity_ = worldTransformReticle_.translation_ - worldTransform2_.translation_;

@@ -1,7 +1,6 @@
 {
     "GamePlayScene": {
         "ObjCount": 42,
-        "test0": "test42",
         "test0Material": [
             0.0,
             1.0,
@@ -18,9 +17,7 @@
             26.0,
             68.0
         ],
-        "test0TreeMode": 0,
-        "test1": "test42",
-        "test10": "test42",
+        "test0TreeMode": 3,
         "test10Material": [
             0.0,
             1.0,
@@ -38,7 +35,6 @@
             495.0
         ],
         "test10TreeMode": 0,
-        "test11": "test42",
         "test11Material": [
             0.0,
             1.0,
@@ -56,7 +52,6 @@
             495.0
         ],
         "test11TreeMode": 0,
-        "test12": "test42",
         "test12Material": [
             0.0,
             1.0,
@@ -74,7 +69,6 @@
             520.0
         ],
         "test12TreeMode": 0,
-        "test13": "test42",
         "test13Material": [
             0.0,
             1.0,
@@ -92,7 +86,6 @@
             600.0
         ],
         "test13TreeMode": 0,
-        "test14": "test42",
         "test14Material": [
             0.0,
             1.0,
@@ -110,7 +103,6 @@
             600.0
         ],
         "test14TreeMode": 0,
-        "test15": "test42",
         "test15Material": [
             0.0,
             1.0,
@@ -128,7 +120,6 @@
             660.0
         ],
         "test15TreeMode": 0,
-        "test16": "test42",
         "test16Material": [
             0.0,
             1.0,
@@ -146,7 +137,6 @@
             761.0
         ],
         "test16TreeMode": 0,
-        "test17": "test42",
         "test17Material": [
             0.0,
             1.0,
@@ -164,7 +154,6 @@
             840.0
         ],
         "test17TreeMode": 0,
-        "test18": "test42",
         "test18Material": [
             0.0,
             1.0,
@@ -182,7 +171,6 @@
             726.0
         ],
         "test18TreeMode": 0,
-        "test19": "test42",
         "test19Material": [
             0.0,
             1.0,
@@ -217,8 +205,6 @@
             160.0
         ],
         "test1TreeMode": 0,
-        "test2": "test42",
-        "test20": "test42",
         "test20Material": [
             0.0,
             1.0,
@@ -236,7 +222,6 @@
             925.0
         ],
         "test20TreeMode": 0,
-        "test21": "test42",
         "test21Material": [
             0.0,
             1.0,
@@ -254,7 +239,6 @@
             954.0
         ],
         "test21TreeMode": 0,
-        "test22": "test42",
         "test22Material": [
             0.0,
             1.0,
@@ -272,7 +256,6 @@
             956.0
         ],
         "test22TreeMode": 0,
-        "test23": "test42",
         "test23Material": [
             0.0,
             1.0,
@@ -290,7 +273,6 @@
             832.0
         ],
         "test23TreeMode": 0,
-        "test24": "test42",
         "test24Material": [
             0.0,
             1.0,
@@ -308,7 +290,6 @@
             1067.0
         ],
         "test24TreeMode": 0,
-        "test25": "test42",
         "test25Material": [
             0.0,
             1.0,
@@ -326,7 +307,6 @@
             1067.0
         ],
         "test25TreeMode": 0,
-        "test26": "test42",
         "test26Material": [
             0.0,
             1.0,
@@ -344,7 +324,6 @@
             1019.0
         ],
         "test26TreeMode": 0,
-        "test27": "test42",
         "test27Material": [
             0.0,
             1.0,
@@ -362,7 +341,6 @@
             1162.0
         ],
         "test27TreeMode": 0,
-        "test28": "test42",
         "test28Material": [
             0.0,
             1.0,
@@ -380,7 +358,6 @@
             1163.0
         ],
         "test28TreeMode": 0,
-        "test29": "test42",
         "test29Material": [
             0.0,
             1.0,
@@ -415,8 +392,6 @@
             110.0
         ],
         "test2TreeMode": 1,
-        "test3": "test42",
-        "test30": "test42",
         "test30Material": [
             0.0,
             1.0,
@@ -434,7 +409,6 @@
             1265.0
         ],
         "test30TreeMode": 0,
-        "test31": "test42",
         "test31Material": [
             0.0,
             1.0,
@@ -452,7 +426,6 @@
             1264.0
         ],
         "test31TreeMode": 0,
-        "test32": "test42",
         "test32Material": [
             0.0,
             1.0,
@@ -470,7 +443,6 @@
             1232.0
         ],
         "test32TreeMode": 0,
-        "test33": "test42",
         "test33Material": [
             0.0,
             1.0,
@@ -488,7 +460,6 @@
             1362.0
         ],
         "test33TreeMode": 0,
-        "test34": "test42",
         "test34Material": [
             0.0,
             1.0,
@@ -506,7 +477,6 @@
             1362.0
         ],
         "test34TreeMode": 0,
-        "test35": "test42",
         "test35Material": [
             0.0,
             1.0,
@@ -524,7 +494,6 @@
             1362.0
         ],
         "test35TreeMode": 0,
-        "test36": "test42",
         "test36Material": [
             0.0,
             1.0,
@@ -542,7 +511,6 @@
             1459.0
         ],
         "test36TreeMode": 0,
-        "test37": "test42",
         "test37Material": [
             0.0,
             1.0,
@@ -560,7 +528,6 @@
             1459.0
         ],
         "test37TreeMode": 0,
-        "test38": "test42",
         "test38Material": [
             0.0,
             1.0,
@@ -578,7 +545,6 @@
             1535.0
         ],
         "test38TreeMode": 0,
-        "test39": "test42",
         "test39Material": [
             0.0,
             1.0,
@@ -613,8 +579,6 @@
             280.0
         ],
         "test3TreeMode": 2,
-        "test4": "test42",
-        "test40": "test42",
         "test40Material": [
             0.0,
             1.0,
@@ -649,7 +613,6 @@
             1649.0
         ],
         "test41TreeMode": 0,
-        "test42": "test42",
         "test42Material": [
             0.0,
             1.0,
@@ -684,7 +647,6 @@
             110.0
         ],
         "test4TreeMode": 0,
-        "test5": "test42",
         "test5Material": [
             0.0,
             1.0,
@@ -702,7 +664,6 @@
             245.0
         ],
         "test5TreeMode": 0,
-        "test6": "test42",
         "test6Material": [
             0.0,
             1.0,
@@ -720,7 +681,6 @@
             245.0
         ],
         "test6TreeMode": 0,
-        "test7": "test42",
         "test7Material": [
             0.0,
             1.0,
@@ -738,7 +698,6 @@
             350.0
         ],
         "test7TreeMode": 0,
-        "test8": "test42",
         "test8Material": [
             0.0,
             1.0,
@@ -756,7 +715,6 @@
             350.0
         ],
         "test8TreeMode": 0,
-        "test9": "test42",
         "test9Material": [
             0.0,
             1.0,
