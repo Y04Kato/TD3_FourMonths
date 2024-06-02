@@ -2,6 +2,8 @@
 #include "GameSelectScene.h"
 #include "components/utilities/globalVariables/GlobalVariables.h"
 
+bool GamePlayScene::isFirstTransition = false;
+
 void GamePlayScene::Initialize() {
 	CJEngine_ = CitrusJunosEngine::GetInstance();
 	dxCommon_ = DirectXCommon::GetInstance();
@@ -36,6 +38,9 @@ void GamePlayScene::Initialize() {
 	uiResource_[7] = textureManager_->Load("project/gamedata/resources/UI/stage4.png");
 	uiResource_[8] = textureManager_->Load("project/gamedata/resources/UI/stage5.png");
 	uiResource_[9] = textureManager_->Load("project/gamedata/resources/UI/stage6.png");
+	uiResource_[10] = textureManager_->Load("project/gamedata/resources/UI/Rule.png");
+
+	starResource_ = textureManager_->Load("project/gamedata/resources/UI/star.png");
 	
 	particleResource_ = textureManager_->Load("project/gamedata/resources/Leaf.png");
 
@@ -56,7 +61,7 @@ void GamePlayScene::Initialize() {
 	sprite_->SetAnchor(Vector2{ 0.5f,0.5f });
 
 	//uiSprite
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 11; i++)
 	{
 		uiSpriteMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 		uiSpriteTransform_[i] = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
@@ -77,7 +82,7 @@ void GamePlayScene::Initialize() {
 	uiSpriteTransform_[0].translate.num[1] = 415.0f;
 	uiSpriteTransform_[0].scale = { 0.8f,0.8f,0.8f };
 
-	for (int i = 1; i < 10; i++) {
+	for (int i = 1; i < 11; i++){
 		uiSprite_[i]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[i]);
 		uiSprite_[i]->SetAnchor(Vector2{ 0.5f,0.5f });
 	}
@@ -177,15 +182,44 @@ void GamePlayScene::Initialize() {
 	startWorldTransform_.Initialize();
 	startWorldTransform_.rotation_ = { 1.5f,0.0f,2.0f };
 
+	cameraWorldTransform_.Initialize();
+
 	datas_ = Datas::GetInstance();
+
+	for (int i = 0; i < 2; i++)
+	{
+		wallModel_[i].reset(Model::CreateModel("project/gamedata/resources/models/wall", "wall.obj"));
+		wallWorldTransform_[i].Initialize();
+		wallMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
+	}
+
+	wallWorldTransform_[0].translation_ = { -78.0f,0.0f,1800.0f };
+	wallWorldTransform_[0].scale_ = { 1.0f,3.0f,60.0f };
+
+	wallWorldTransform_[1].translation_ = { 78.0f,0.0f,1800.0f };
+	wallWorldTransform_[1].scale_ = { 1.0f,3.0f,60.0f };
+
+	//Transition用Sprite
+
+	starSpriteMaterial_ = { 0.0f,0.0f,0.0f,0.0f };
+	starSpriteTransform_ = { {0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
+
+	starSpriteuvTransform_ = {
+		{1.0f,1.0f,1.0f},
+		{0.0f,0.0f,0.0f},
+		{0.0f,0.0f,0.0f},
+	};
+
+	starSprite_ = std::make_unique <CreateSprite>();
+
+	starSprite_->Initialize(Vector2{ 512.0f,512.0f }, starResource_);
+	starSprite_->SetAnchor(Vector2{ 0.5f,0.5f });
 }
 
 void GamePlayScene::Update() {
 	if (isGameStart_ == true) {//ゲーム開始時の処理
 		uiSpriteTransform_[3].translate.num[0] = 1048.0f;
 		uiSpriteTransform_[3].translate.num[1] = 324.0f;
-		startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
-		player_->SetWorldTransform(startWorldTransform_);
 		input_->HideCursor();
 
 		//ステージ選択を適用
@@ -218,6 +252,17 @@ void GamePlayScene::Update() {
 		isGameStart_ = false;
 	}
 
+	if (isFirstTransition)
+	{
+		startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
+		player_->SetWorldTransform(startWorldTransform_);
+		starSpriteMaterial_ = { 0.0f,0.0f,0.0f,1.0f };
+		starSpriteTransform_ = { {10.0f,10.0f,10.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
+		isTransitionStart_ = false;
+		isTransitionEnd_ = false;
+		isFirstTransition = false;
+	}
+
 	GlobalVariables* globalVariables{};
 	globalVariables = GlobalVariables::GetInstance();
 	ApplyGlobalVariables();
@@ -233,8 +278,61 @@ void GamePlayScene::Update() {
 		input_->ToggleCursor();
 	}
 
+	if (!isTransitionEnd_)
+	{
+		starSpriteMaterial_.num[3] -= 0.03f;
 
-	if (datas_->GetIsPause())
+		if (starSpriteMaterial_.num[3] <= 0.0f)
+		{
+			isTransitionEnd_ = true;
+			starSpriteTransform_.scale.num[0] = 0.0f;
+			starSpriteTransform_.scale.num[1] = 0.0f;
+			starSpriteMaterial_.num[3] = 0.0f;
+		}
+	}
+
+	if (isTransitionStart_)
+	{
+		starSpriteTransform_.scale.num[0] += 0.4f;
+		starSpriteTransform_.scale.num[1] += 0.4f;
+		starSpriteMaterial_.num[3] += 0.03f;
+
+		if (starSpriteMaterial_.num[3] > 1.0f && player_->GetIsGoal())
+		{
+			isTransitionStart_ = false;
+			isFirstTransition = true;
+			starSpriteTransform_.scale.num[0] = 10.0f;
+			starSpriteTransform_.scale.num[1] = 10.0f;
+			starSpriteMaterial_.num[3] = 1.0f;
+			sceneNo = CLEAR_SCENE;
+			startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
+			player_->SetWorldTransform(startWorldTransform_);
+			player_->SetIsGoal(false);
+			datas_->SetClearTime(nowTime_);
+			nowTime_ = 0.0f;
+			input_->ViewCursor();
+			FinalizeGoal();
+			isGameStart_ = true;
+		}
+		else if (starSpriteMaterial_.num[3] > 1.0f && datas_->GetIsPause())
+		{
+			isTransitionStart_ = false;
+			isFirstTransition = true;
+			starSpriteTransform_.scale.num[0] = 10.0f;
+			starSpriteTransform_.scale.num[1] = 10.0f;
+			starSpriteMaterial_.num[3] = 1.0f;
+			sceneNo = SELECT_SCENE;
+			datas_->SetIsPause(false);
+			datas_->SetIsReset(true);
+			nowTime_ = 0;
+			input_->ViewCursor();
+			FinalizeGoal();
+			isGameStart_ = true;
+		}
+	}
+
+
+	if (datas_->GetIsPause() && !isTransitionStart_ && isTransitionEnd_)
 	{
 		//カーソル移動の処理
 		if (input_->TriggerKey(DIK_S) && uiSpriteTransform_[3].translate.num[1] == 520.0f && !datas_->GetIsRule())
@@ -258,29 +356,33 @@ void GamePlayScene::Update() {
 		}
 
 		//選択する処理
+		//Restart
 		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 324.0f)
 		{
 			datas_->SetIsPause(false);
 			datas_->SetIsReset(true);
 			startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
 			player_->SetWorldTransform(startWorldTransform_);
+			player_->SetWorldTransformCamera(cameraWorldTransform_);
 			player_->SetIsRestart(false);
 			nowTime_ = 0.0f;
 			input_->HideCursor();
 		}
 
+		//Select
 		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 520.0f)
 		{
-			datas_->SetIsPause(false);
-			datas_->SetIsReset(true);
-			sceneNo = SELECT_SCENE;
-			startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
-			player_->SetWorldTransform(startWorldTransform_);
-			nowTime_ = 0.0f;
-			input_->ViewCursor();
-			isGameStart_ = true;
+			isTransitionStart_ = true;
+		}
 
-			FinalizeGoal();
+		//Rule
+		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 717.0f && !datas_->GetIsRule())
+		{
+			datas_->SetIsRule(true);
+		}
+		else if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 717.0f && datas_->GetIsRule())
+		{
+			datas_->SetIsRule(false);
 		}
 	}
 	else
@@ -290,19 +392,43 @@ void GamePlayScene::Update() {
 		//Goal
 		if (player_->GetIsGoal())
 		{
-			sceneNo = CLEAR_SCENE;
-			startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
-			player_->SetWorldTransform(startWorldTransform_);
-			player_->SetIsGoal(false);
-			datas_->SetClearTime(nowTime_);
-			nowTime_ = 0.0f;
-			input_->ViewCursor();
-			isGameStart_ = true;
-
-			FinalizeGoal();
+			isTransitionStart_ = true;
 		}
 
 		startWorldTransform_.UpdateMatrix();
+		cameraWorldTransform_.UpdateMatrix();
+
+		ImGui::Begin("Wall");
+		ImGui::DragFloat3("WallWTFT", &wallWorldTransform_[0].translation_.num[0], -100.0f, 100.0f);
+		ImGui::DragFloat3("WallWTFR", &wallWorldTransform_[0].rotation_.num[0], -100.0f, 100.0f);
+		ImGui::DragFloat3("WallWTFS", &wallWorldTransform_[0].scale_.num[0], -100.0f, 100.0f);
+		ImGui::End();
+
+
+		//左の壁のalphaを変える処理
+		float distance = std::abs(player_->GetWorldTransformPlayer().translation_.num[0] - leftReferencePoint_);
+
+		if (distance > maxDistance_) {
+			wallMaterial_[0].num[3] = minAlpha_;
+		}
+		else {
+			wallMaterial_[0].num[3] = maxAlpha_ * (1.0f - distance / maxDistance_);
+		}
+
+		//右の壁のalphaを変える処理
+		float distance2 = std::abs(player_->GetWorldTransformPlayer().translation_.num[0] - rightReferencePoint_);
+
+		if (distance2 > maxDistance_) {
+			wallMaterial_[1].num[3] = minAlpha_;
+		}
+		else {
+			wallMaterial_[1].num[3] = minAlpha_ + (maxAlpha_ - minAlpha_) * (1.0f - distance2 / maxDistance_);
+		}
+
+		for (int i = 0; i < 2; i++)
+		{
+			wallWorldTransform_[i].UpdateMatrix();
+		}
 
 		//操作形式が一部変わるのでCameraChange変数をPlayerにも送る
 		player_->SetCameraMode(cameraChange_);
@@ -608,9 +734,14 @@ void GamePlayScene::Draw() {
 		obj.model.Draw(obj.world, viewProjection_, obj.material);
 	}
 
+	mountain_->Draw(viewProjection_);
+
 	floor_->Draw(viewProjection_);
 
-	mountain_->Draw(viewProjection_);
+	for (int i = 0; i < 2; i++)
+	{
+		wallModel_[i]->Draw(wallWorldTransform_[i], viewProjection_, wallMaterial_[i]);
+	}
 
 	for (Obj& obj : objects_) {
 #ifdef _DEBUG
@@ -642,26 +773,27 @@ void GamePlayScene::Draw() {
 #pragma region 前景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
 
-	for (int i = 4; i < 10; i++) {
-		if (datas_->GetStageNum() == i - 3) {
-			uiSprite_[i]->Draw(uiSpriteTransform_[i], uiSpriteuvTransform_[i], uiSpriteMaterial_[i]);
-		}
-	}
-
-	if (datas_->GetIsPause())
+	if (datas_->GetIsPause() && !isTransitionStart_ && isTransitionEnd_)
 	{
-		uiSprite_[2]->Draw(uiSpriteTransform_[2], uiSpriteuvTransform_[2], uiSpriteMaterial_[2]);
-
-		uiSprite_[3]->Draw(uiSpriteTransform_[3], uiSpriteuvTransform_[3], uiSpriteMaterial_[3]);
-
 		if (datas_->GetIsRule())
 		{
-			//numbers_->Draw();
-			timer_->Draw();
+			uiSprite_[10]->Draw(uiSpriteTransform_[10], uiSpriteuvTransform_[10], uiSpriteMaterial_[10]);
+		}
+		else
+		{
+			uiSprite_[2]->Draw(uiSpriteTransform_[2], uiSpriteuvTransform_[2], uiSpriteMaterial_[2]);
+
+			uiSprite_[3]->Draw(uiSpriteTransform_[3], uiSpriteuvTransform_[3], uiSpriteMaterial_[3]);
 		}
 	}
 	else
 	{
+		for (int i = 4; i < 10; i++) {
+			if (datas_->GetStageNum() == i - 3) {
+				uiSprite_[i]->Draw(uiSpriteTransform_[i], uiSpriteuvTransform_[i], uiSpriteMaterial_[i]);
+			}
+		}
+
 		//numbers_->Draw();
 		timer_->Draw();
 		timer_->AddTimeDraw();
@@ -670,11 +802,17 @@ void GamePlayScene::Draw() {
 		if (isHitWire_ == true) {
 			uiSprite_[0]->Draw(uiSpriteTransform_[0], uiSpriteuvTransform_[0], uiSpriteMaterial_[0]);
 		}
-		if (player_->GetIsActive() == false) {
-			uiSprite_[1]->Draw(uiSpriteTransform_[1], uiSpriteuvTransform_[1], uiSpriteMaterial_[1]);
+
+		if (!player_->GetIsGoal() && !isTransitionStart_ && isTransitionEnd_)
+		{
+			if (player_->GetIsActive() == false) {
+				uiSprite_[1]->Draw(uiSpriteTransform_[1], uiSpriteuvTransform_[1], uiSpriteMaterial_[1]);
+			}
 		}
 
 	}
+
+	starSprite_->Draw(starSpriteTransform_, starSpriteuvTransform_, starSpriteMaterial_);
 
 #pragma endregion
 }

@@ -36,6 +36,7 @@ public:
 	const Vector3 GetVelocity() { return physics_->GetVelocity(); }
 
 	void SetWorldTransform(const WorldTransform world);
+	void SetWorldTransformCamera(const WorldTransform world);
 	void SetWorldTransformReticle(const WorldTransform world);
 	void SetWorldTransformObject(const WorldTransform world) { worldTransformObject_ = world; }
 	void SetVelocity(const Vector3 velocity) { 

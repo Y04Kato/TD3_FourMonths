@@ -1,6 +1,8 @@
 #include"GameClearScene.h"
 #include "GameSelectScene.h"
 
+bool GameClearScene::isFirstTransition = false;
+
 void GameClearScene::Initialize() {
 	//CJEngine
 	CJEngine_ = CitrusJunosEngine::GetInstance();
@@ -21,6 +23,8 @@ void GameClearScene::Initialize() {
 	spriteResource_[1] = textureManager_->Load("project/gamedata/resources/UI/ResultUI.png");
 	spriteResource_[2] = textureManager_->Load("project/gamedata/resources/UI/GoalTab.png");
 	spriteResource_[3] = textureManager_->Load("project/gamedata/resources/UI/Cursor.png");
+
+	starResource_ = textureManager_->Load("project/gamedata/resources/UI/star.png");
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -90,6 +94,20 @@ void GameClearScene::Initialize() {
 	time_->SetInitialNum(0 / 60);
 	timeTransform_ = { {1.0f, 1.0f, 1.0f}, { 0.0f,0.0f,0.0f}, {480.0f,260.0f,0.0f} };
 
+	starSpriteMaterial_ = { 0.0f,0.0f,0.0f,0.0f };
+	starSpriteTransform_ = { {0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
+
+	starSpriteuvTransform_ = {
+		{1.0f,1.0f,1.0f},
+		{0.0f,0.0f,0.0f},
+		{0.0f,0.0f,0.0f},
+	};
+
+	starSprite_ = std::make_unique <CreateSprite>();
+
+	starSprite_->Initialize(Vector2{ 512.0f,512.0f }, starResource_);
+	starSprite_->SetAnchor(Vector2{ 0.5f,0.5f });
+
 	//Datas
 	datas_ = Datas::GetInstance();
 
@@ -138,6 +156,50 @@ void GameClearScene::Update() {
 		achievement_.num[2] = 1.0f;
 	}
 
+	if (isFirstTransition)
+	{
+		starSpriteMaterial_ = { 0.0f,0.0f,0.0f,1.0f };
+		starSpriteTransform_ = { {10.0f,10.0f,10.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
+		isTransitionStart_ = false;
+		isTransitionEnd_ = false;
+		isFirstTransition = false;
+	}
+
+	if (!isTransitionEnd_)
+	{
+		starSpriteMaterial_.num[3] -= 0.03f;
+		
+		if (starSpriteMaterial_.num[3] <= 0.0f)
+		{
+			isTransitionEnd_ = true;
+			starSpriteTransform_.scale.num[0] = 0.0f;
+			starSpriteTransform_.scale.num[1] = 0.0f;
+			starSpriteMaterial_.num[3] = 0.0f;
+		}
+	}
+
+	if (isTransitionStart_)
+	{
+		starSpriteTransform_.scale.num[0] += 0.4f;
+		starSpriteTransform_.scale.num[1] += 0.4f;
+		starSpriteMaterial_.num[3] += 0.03f;
+
+		if (starSpriteTransform_.scale.num[0] >= 10.0f)
+		{
+			isTransitionStart_ = false;
+			isFirstTransition = true;
+			starSpriteTransform_.scale.num[0] = 10.0f;
+			starSpriteTransform_.scale.num[1] = 10.0f;
+			starSpriteMaterial_.num[3] = 1.0f;
+
+			sceneNo = GAME_SCENE;
+			isSceneStart_ = true;
+		}
+	}
+
+	/*numbers_->SetNum(datas_->GetClearTime() / 60);
+	numbers_->SetTransform(numbersTransform_);*/
+  
 	targetTime_->SetNum(targets_[datas_->GetStageNum()].time);
 	targetTime_->SetTransform(targetTimeTransform_);
 	time_->SetNum(datas_->GetClearTime());
@@ -176,106 +238,109 @@ void GameClearScene::Update() {
 	ImGui::DragFloat3("targetTime", targetTimeTransform_.translate.num, 0.0f, 2280.0f);
 	ImGui::End();
 
-	//左側(現在のステージを繰り返し)
-	if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
-		datas_->GetStageNum() == 1) {
-		sceneNo = GAME_SCENE;
-		isSceneStart_ = true;
-		audio_->SoundPlayWave(selectData_, 0.1f, false);
-	}
+	if (!isTransitionStart_ && isTransitionEnd_)
+	{
+		//左側(現在のステージを繰り返し)
+		if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
+			datas_->GetStageNum() == 1) {
+			sceneNo = GAME_SCENE;
+			isSceneStart_ = true;
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
+		}
 
-	if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
-		datas_->GetStageNum() == 2) {
-		sceneNo = GAME_SCENE;
-		isSceneStart_ = true;
-		audio_->SoundPlayWave(selectData_, 0.1f, false);
-	}
+		if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
+			datas_->GetStageNum() == 2) {
+			sceneNo = GAME_SCENE;
+			isSceneStart_ = true;
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
+		}
 
-	if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
-		datas_->GetStageNum() == 3) {
-		sceneNo = GAME_SCENE;
-		isSceneStart_ = true;
-		audio_->SoundPlayWave(selectData_, 0.1f, false);
-	}
+		if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
+			datas_->GetStageNum() == 3) {
+			sceneNo = GAME_SCENE;
+			isSceneStart_ = true;
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
+		}
 
-	if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
-		datas_->GetStageNum() == 4) {
-		sceneNo = GAME_SCENE;
-		isSceneStart_ = true;
-		audio_->SoundPlayWave(selectData_, 0.1f, false);
-	}
+		if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
+			datas_->GetStageNum() == 4) {
+			sceneNo = GAME_SCENE;
+			isSceneStart_ = true;
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
+		}
 
-	if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
-		datas_->GetStageNum() == 5) {
-		sceneNo = GAME_SCENE;
-		isSceneStart_ = true;
-		audio_->SoundPlayWave(selectData_, 0.1f, false);
-	}
+		if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
+			datas_->GetStageNum() == 5) {
+			sceneNo = GAME_SCENE;
+			isSceneStart_ = true;
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
+		}
 
-	if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
-		datas_->GetStageNum() == 6) {
-		sceneNo = GAME_SCENE;
-		isSceneStart_ = true;
-		audio_->SoundPlayWave(selectData_, 0.1f, false);
-	}
+		if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE) &&
+			datas_->GetStageNum() == 6) {
+			sceneNo = GAME_SCENE;
+			isSceneStart_ = true;
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
+		}
 
-	//真ん中(次のステージ)
-	if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
-		datas_->GetStageNum() == 1) {
-		sceneNo = GAME_SCENE;
-		datas_->SetStageNum(2);
-		isSceneStart_ = true;
-		audio_->SoundPlayWave(selectData_, 0.1f, false);
-	}
-	else if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
-		datas_->GetStageNum() == 2) {
-		sceneNo = GAME_SCENE;
-		datas_->SetStageNum(3);
-		isSceneStart_ = true;
-		audio_->SoundPlayWave(selectData_, 0.1f, false);
-	}
-	else if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
-		datas_->GetStageNum() == 3) {
-		sceneNo = GAME_SCENE;
-		datas_->SetStageNum(4);
-		isSceneStart_ = true;
-		audio_->SoundPlayWave(selectData_, 0.1f, false);
-	}
-	else if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
-		datas_->GetStageNum() == 4) {
-		sceneNo = GAME_SCENE;
-		datas_->SetStageNum(5);
-		isSceneStart_ = true;
-		audio_->SoundPlayWave(selectData_, 0.1f, false);
-	}
-	else if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
-		datas_->GetStageNum() == 5) {
-		sceneNo = GAME_SCENE;
-		datas_->SetStageNum(6);
-		isSceneStart_ = true;
-		audio_->SoundPlayWave(selectData_, 0.1f, false);
-	}
-	else if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
-		datas_->GetStageNum() == 6) {
-		sceneNo = TITLE_SCENE;
-		isSceneStart_ = true;
-		audio_->SoundPlayWave(selectData_, 0.1f, false);
-	}
+		//真ん中(次のステージ)
+		if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
+			datas_->GetStageNum() == 1) {
+			sceneNo = GAME_SCENE;
+			datas_->SetStageNum(2);
+			isSceneStart_ = true;
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
+		}
+		else if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
+			datas_->GetStageNum() == 2) {
+			sceneNo = GAME_SCENE;
+			datas_->SetStageNum(3);
+			isSceneStart_ = true;
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
+		}
+		else if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
+			datas_->GetStageNum() == 3) {
+			sceneNo = GAME_SCENE;
+			datas_->SetStageNum(4);
+			isSceneStart_ = true;
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
+		}
+		else if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
+			datas_->GetStageNum() == 4) {
+			sceneNo = GAME_SCENE;
+			datas_->SetStageNum(5);
+			isSceneStart_ = true;
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
+		}
+		else if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
+			datas_->GetStageNum() == 5) {
+			sceneNo = GAME_SCENE;
+			datas_->SetStageNum(6);
+			isSceneStart_ = true;
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
+		}
+		else if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE) &&
+			datas_->GetStageNum() == 6) {
+			sceneNo = TITLE_SCENE;
+			isSceneStart_ = true;
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
+		}
 
-	//右側(ステージセレクト)
-	if (spriteTransform_[3].translate.num[0] == 1440.0f && input_->TriggerKey(DIK_SPACE)) {
-		sceneNo = SELECT_SCENE;
-		isSceneStart_ = true;
-		audio_->SoundPlayWave(selectData_, 0.1f, false);
-	}
+		//右側(ステージセレクト)
+		if (spriteTransform_[3].translate.num[0] == 1440.0f && input_->TriggerKey(DIK_SPACE)) {
+			sceneNo = SELECT_SCENE;
+			isSceneStart_ = true;
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
+		}
 
-	if (!Input::GetInstance()->GetJoystickState(0, joyState)) {
-		return;
-	}
+		if (!Input::GetInstance()->GetJoystickState(0, joyState)) {
+			return;
+		}
 
-	if (input_->PushAButton(joyState)) {
-		sceneNo = SELECT_SCENE;
-		isSceneStart_ = true;
+		if (input_->PushAButton(joyState)) {
+			sceneNo = SELECT_SCENE;
+			isSceneStart_ = true;
+		}
 	}
 }
 
@@ -335,6 +400,9 @@ void GameClearScene::Draw() {
 
 	time_->Draw();
 	targetTime_->Draw();
+  
+  starSprite_->Draw(starSpriteTransform_, starSpriteuvTransform_, starSpriteMaterial_);
+  
 #pragma endregion
 }
 

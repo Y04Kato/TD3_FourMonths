@@ -19,6 +19,8 @@ class GameClearScene :public Iscene {
 	};
 
 public:
+	static bool isFirstTransition;
+
 	void Initialize() override;
 	void Update() override;
 	void Draw() override;
@@ -91,4 +93,14 @@ private:
 	Datas* datas_;
 
 	bool isSceneStart_ = true;//シーン開始時に1回だけ呼ぶ
+
+	//Transition用のSprite
+	std::unique_ptr <CreateSprite> starSprite_;
+	EulerTransform starSpriteTransform_;
+	EulerTransform starSpriteuvTransform_;
+	Vector4 starSpriteMaterial_;
+	uint32_t starResource_;
+
+	bool isTransitionStart_ = false;
+	bool isTransitionEnd_ = false;
 };

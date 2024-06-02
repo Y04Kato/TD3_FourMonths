@@ -36,6 +36,8 @@ enum TREEMODE {
 
 class GamePlayScene :public Iscene {
 public:
+	static bool isFirstTransition;
+
 	void Initialize() override;
 	void Update() override;
 	void Draw() override;
@@ -115,14 +117,14 @@ private:
 	uint32_t spriteResource_;
 
 	//UISprite
-	uint32_t uiResource_[10];
+	uint32_t uiResource_[11];
 
-	std::unique_ptr <CreateSprite> uiSprite_[10];
-	EulerTransform uiSpriteTransform_[10];
-	EulerTransform uiSpriteuvTransform_[10];
-	Vector4 uiSpriteMaterial_[10];
+	std::unique_ptr <CreateSprite> uiSprite_[11];
+	EulerTransform uiSpriteTransform_[11];
+	EulerTransform uiSpriteuvTransform_[11];
+	Vector4 uiSpriteMaterial_[11];
 
-	bool isSpriteDraw_[10];
+	bool isSpriteDraw_[11];
 
 	Segment segmentRay_;
 	Segment segmentEye_;
@@ -159,6 +161,36 @@ private:
 
 	//Datas
 	Datas* datas_;
+
+	//wall
+	std::unique_ptr<Model> wallModel_[2];
+	WorldTransform wallWorldTransform_[2];
+	Vector4 wallMaterial_[2];
+
+	//左の壁
+	float leftReferencePoint_ = -75.0f; //基準点
+
+	//右の壁
+	float rightReferencePoint_ = 75.0f; //基準点
+
+	float maxDistance_ = 75.0f; //最大
+	float maxAlpha_ = 0.4f; //最大アルファ値
+	float minAlpha_ = 0.0f; //最小アルファ値
+
+	//Camera初期化用のWorldTransform
+	WorldTransform cameraWorldTransform_;
+
+	//Transition用のSprite
+	std::unique_ptr <CreateSprite> starSprite_;
+	EulerTransform starSpriteTransform_;
+	EulerTransform starSpriteuvTransform_;
+	Vector4 starSpriteMaterial_;
+
+	uint32_t starResource_;
+
+	bool isTransitionStart_ = false;
+	bool isTransitionEnd_ = false;
+
 	//必ず2の倍数にすること
 	VectorInt2 shakePower = { 2,2 };
 };

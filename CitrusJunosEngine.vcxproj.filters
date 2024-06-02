@@ -321,10 +321,13 @@
     <ClCompile Include="project\gamedata\numbers\numbers.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="project\gamedata\datas\datas.cpp">
+    <ClCompile Include="project\gamedata\floor\Floor.cpp">
+      <Filter>ソース ファイル\project\gamedata\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="project\gamedata\timer\Timer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="project\gamedata\floor\Floor.cpp">
+    <ClCompile Include="project\gamedata\datas\datas.cpp">
       <Filter>ソース ファイル\project\gamedata\gameObject</Filter>
     </ClCompile>
   </ItemGroup>
@@ -550,10 +553,13 @@
     <ClInclude Include="project\gamedata\numbers\numbers.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="project\gamedata\datas\datas.h">
+    <ClInclude Include="project\gamedata\floor\Floor.h">
+      <Filter>ヘッダー ファイル\project\gamedata\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="project\gamedata\timer\Timer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="project\gamedata\floor\Floor.h">
+    <ClInclude Include="project\gamedata\datas\datas.h">
       <Filter>ヘッダー ファイル\project\gamedata\gameObject</Filter>
     </ClInclude>
   </ItemGroup>

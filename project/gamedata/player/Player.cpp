@@ -232,15 +232,6 @@ void Player::Updete(const ViewProjection viewProjection) {
 			else {
 				isRightMove_ = false;
 			}
-			
-			if (input_->PressKey(DIK_W)) { // 上に徐々に上がる
-				Vector3 force = { 0.0f, upSize_ * upSize_, 0.0f };
-				//upForce_ += 1.0f; // 上昇量
-				if (upSize_ < maxUpSize_) {
-					upSize_ += upSizeValue_; // 上昇量
-				}
-				physics_->AddForce(force, 1);
-			}
 
 			// ある程度の進んだら自動でワイヤーが切れる(角度で判定)
 			if (physics_->Vector3Angle(start_, Normalize(worldTransform2_.translation_ - worldTransformGrapple_.translation_)) < limitAngle_) {
@@ -446,6 +437,10 @@ void Player::DrawUI() {
 
 void Player::SetWorldTransform(const WorldTransform world) {
 	worldTransform_ = world;
+}
+
+void Player::SetWorldTransformCamera(const WorldTransform world) {
+	worldTransform2_ = world;
 }
 
 void Player::SetWorldTransformReticle(const WorldTransform world) {
