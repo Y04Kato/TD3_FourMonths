@@ -13,6 +13,11 @@
 #include "timer/Timer.h"
 
 class GameClearScene :public Iscene {
+	struct Target {
+		int item;
+		float time;
+	};
+
 public:
 	void Initialize() override;
 	void Update() override;
@@ -45,14 +50,30 @@ private:
 	EulerTransform starTransform_;
 	const float starTextureSize_ = 96.0f;
 
+	std::unique_ptr <CreateSprite> emptyStarSprite_[3];
+	uint32_t emptyStarTextureHandle_;
+	EulerTransform emptyStarTransform_;
+	const float emptyStarTextureSize_ = 97.0f;
+
 	bool isSpriteDraw_[4];
 
+	// ステージごとの目標
+	Target targets_[6];
 	// 達成数
-	uint32_t achievementCount_;
+	Vector3 achievement_;
 
-	// アイテム
-	std::unique_ptr<Numbers> itemNumbers_;
-	EulerTransform itemNumbersTransform_;
+	// 目標アイテム数
+	std::unique_ptr<Numbers> targetItemNumbers_;
+	EulerTransform targetItemNumbersTransform_;
+	// 獲得アイテム
+	std::unique_ptr<Numbers> getItemNumbers_;
+	EulerTransform getItemNumbersTransform_;
+
+	// 
+	uint32_t fractionTextureHandle_;
+	std::unique_ptr<CreateSprite> fractionSprites_[2];
+	EulerTransform fractionTransform_[2];
+
 	//int nowTime_ = 0;
 	// クリアタイム
 	std::unique_ptr<Timer> timer_;
