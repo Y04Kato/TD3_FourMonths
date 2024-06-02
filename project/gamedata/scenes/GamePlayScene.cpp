@@ -754,9 +754,12 @@ void GamePlayScene::Draw() {
 
 	floor_->Draw(viewProjection_);
 
-	for (int i = 0; i < 2; i++)
+	if (viewProjection_.translation_.num[0] > -75.0f && viewProjection_.translation_.num[0] < 75.0f)
 	{
-		wallModel_[i]->Draw(wallWorldTransform_[i], viewProjection_, wallMaterial_[i]);
+		for (int i = 0; i < 2; i++)
+		{
+			wallModel_[i]->Draw(wallWorldTransform_[i], viewProjection_, wallMaterial_[i]);
+		}
 	}
 
 	for (Obj& obj : objects_) {
