@@ -69,4 +69,6 @@ private:
 
 	bool isTransitionStart_ = false;
 	bool isTransitionEnd_ = false;
+
+	bool isGameStart_ = true;//ゲーム開始時に1回だけ呼ぶ
 };

@@ -34,6 +34,7 @@ private:
 	Audio* audio_;
 
 	//Audio
+	SoundData bgmData_;
 	SoundData selectData_;
 	SoundData cursolData_;
 
@@ -71,5 +72,7 @@ private:
 	uint32_t emptyStarTextureHandle_;
 	EulerTransform emptyStarTransform_;
 	const float emptyStarTextureSize_ = 97.0f;
+
+	bool isGameStart_ = true;//ゲーム開始時に1回だけ呼ぶ
 };
 

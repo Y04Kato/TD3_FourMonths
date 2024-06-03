@@ -17,6 +17,7 @@ void GameSelectScene::Initialize() {
 	//Audio
 	audio_ = Audio::GetInstance();
 
+	bgmData_ = audio_->SoundLoad("project/gamedata/resources/sounds/Title.mp3");
 	selectData_ = audio_->SoundLoad("project/gamedata/resources/sounds/select.mp3");
 	cursolData_ = audio_->SoundLoad("project/gamedata/resources/sounds/cursol.mp3");
 
@@ -92,6 +93,12 @@ void GameSelectScene::Initialize() {
 }
 
 void GameSelectScene::Update() {
+
+	if (isGameStart_ == true) {//ゲーム開始時の処理
+		audio_->SoundPlayWave(bgmData_, 0.1f, true);
+		isGameStart_ = false;
+	}
+
 	XINPUT_STATE joyState;
 	Input::GetInstance()->GetJoystickState(0, joyState);
 
@@ -109,6 +116,7 @@ void GameSelectScene::Update() {
 	if (input_->TriggerKey(DIK_L))
 	{
 		sceneNo = TITLE_SCENE;
+		audio_->SoundStopWave(&bgmData_);
 		/*if (isTransitionEnd_)
 		{
 			isTransitionStart_ = true;
@@ -143,6 +151,8 @@ void GameSelectScene::Update() {
 			transitionSpriteMaterial_.num[3] = 1.0f;
 
 			sceneNo = GAME_SCENE;
+			isGameStart_ = true;
+			audio_->SoundStopWave(&bgmData_);
 		}
 	}
 

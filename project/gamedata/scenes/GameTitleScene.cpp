@@ -15,9 +15,8 @@ void GameTitleScene::Initialize(){
 	//Audio
 	audio_ = Audio::GetInstance();
 
-	bgmData_ = audio_->SoundLoad("project/gamedata/resources/sounds/bgm.mp3");
+	bgmData_ = audio_->SoundLoad("project/gamedata/resources/sounds/Title.mp3");
 	selectData_ = audio_->SoundLoad("project/gamedata/resources/sounds/select.mp3");
-	audio_->SoundPlayWave(bgmData_, 0.1f, true);
 
 	//テクスチャ
 	titleResource_ = textureManager_->Load("project/gamedata/resources/UI/Title.png");
@@ -90,6 +89,12 @@ void GameTitleScene::Initialize(){
 }
 
 void GameTitleScene::Update(){
+
+	if (isGameStart_ == true) {//ゲーム開始時の処理
+		audio_->SoundPlayWave(bgmData_, 0.1f, true);
+		isGameStart_ = false;
+	}
+
 	XINPUT_STATE joyState;
 	Input::GetInstance()->GetJoystickState(0, joyState);
 
@@ -153,6 +158,8 @@ void GameTitleScene::Update(){
 			starSpriteTransform_.scale.num[1] = 10.0f;
 			starSpriteMaterial_.num[3] = 1.0f;
 			sceneNo = SELECT_SCENE;
+			isGameStart_ = true;
+			audio_->SoundStopWave(&bgmData_);
 		}
 	}
 
