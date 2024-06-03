@@ -258,7 +258,7 @@ void GamePlayScene::Update() {
 			datas_->SetClearResultNum(15);
 		}
 		if (datas_->GetStageNum() == 5) {
-			nowGroupName_ = "GamePlayScen5";
+			nowGroupName_ = "GamePlayScene5";
 			datas_->SetClearResultNum(15);
 		}
 		if (datas_->GetStageNum() == 6) {
