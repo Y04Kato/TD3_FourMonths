@@ -1,4 +1,5 @@
 #pragma once
+#include "Audio.h"
 #include "components/3d/Model.h"
 #include "components/3d/CreateSphere.h"
 #include "components/3d/WorldTransform.h"
@@ -42,6 +43,7 @@ public:
 	void SetVelocity(const Vector3 velocity) { 
 		physics_->AddForce(velocity, 1); 
 		speedUpCount_ = 0;
+		audio_->SoundPlayWave(hitData_, 0.1f, false);
 	}
 
 	void SetCameraMode(const bool cameraMode) { cameraChange_ = cameraMode; }
@@ -86,6 +88,13 @@ public:
 private:
 	TextureManager* textureManager_;
 	Input* input_;
+
+	Audio* audio_;
+
+	//Audio
+	SoundData wireData_;
+	SoundData wire2Data_;
+	SoundData hitData_;
 
 	WorldTransform worldTransform_;//自機用
 	WorldTransform worldTransform2_;//視点用

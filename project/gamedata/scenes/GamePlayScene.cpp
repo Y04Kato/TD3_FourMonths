@@ -15,6 +15,10 @@ void GamePlayScene::Initialize() {
 	//Audio
 	audio_ = Audio::GetInstance();
 
+	bgmData_ = audio_->SoundLoad("project/gamedata/resources/sounds/BGM.mp3");
+	selectData_ = audio_->SoundLoad("project/gamedata/resources/sounds/select.mp3");
+	cursolData_ = audio_->SoundLoad("project/gamedata/resources/sounds/cursol.mp3");
+
 	// デバッグカメラの初期化
 	debugCamera_ = DebugCamera::GetInstance();
 	debugCamera_->initialize();
@@ -288,6 +292,8 @@ void GamePlayScene::Update() {
 		datas_->SetItem(0);
 		nowHitCount_ = 0;
 
+		audio_->SoundPlayWave(bgmData_, 0.1f, true);
+
 		isGameStart_ = false;
 	}
 
@@ -310,12 +316,14 @@ void GamePlayScene::Update() {
 	{
 		datas_->SetIsPause(true);
 		input_->ToggleCursor();
+		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 	else if (input_->TriggerKey(DIK_TAB) && datas_->GetIsPause())
 	{
 		datas_->SetIsPause(false);
 		datas_->SetIsRule(false);
 		input_->ToggleCursor();
+		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
 	if (!isTransitionEnd_)
@@ -353,6 +361,7 @@ void GamePlayScene::Update() {
 			nowTime_ = 0.0f;
 			input_->ViewCursor();
 			FinalizeGoal();
+			audio_->SoundStopWave(&bgmData_);
 			isGameStart_ = true;
 		}
 		else if (starSpriteMaterial_.num[3] > 1.0f && datas_->GetIsPause())
@@ -368,6 +377,7 @@ void GamePlayScene::Update() {
 			nowTime_ = 0;
 			input_->ViewCursor();
 			FinalizeGoal();
+			audio_->SoundStopWave(&bgmData_);
 			isGameStart_ = true;
 		}
 	}
@@ -379,21 +389,25 @@ void GamePlayScene::Update() {
 		if (input_->TriggerKey(DIK_S) && uiSpriteTransform_[3].translate.num[1] == 520.0f && !datas_->GetIsRule())
 		{
 			uiSpriteTransform_[3].translate.num[1] = 717.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_S) && uiSpriteTransform_[3].translate.num[1] == 324.0f && !datas_->GetIsRule())
 		{
 			uiSpriteTransform_[3].translate.num[1] = 520.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_W) && uiSpriteTransform_[3].translate.num[1] == 520.0f && !datas_->GetIsRule())
 		{
 			uiSpriteTransform_[3].translate.num[1] = 324.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_W) && uiSpriteTransform_[3].translate.num[1] == 717.0f && !datas_->GetIsRule())
 		{
 			uiSpriteTransform_[3].translate.num[1] = 520.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		//選択する処理
@@ -408,22 +422,26 @@ void GamePlayScene::Update() {
 			player_->SetIsRestart(false);
 			nowTime_ = 0.0f;
 			input_->HideCursor();
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
 		}
 
 		//Select
 		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 520.0f)
 		{
 			isTransitionStart_ = true;
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
 		}
 
 		//Rule
 		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 717.0f && !datas_->GetIsRule())
 		{
 			datas_->SetIsRule(true);
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
 		}
 		else if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 717.0f && datas_->GetIsRule())
 		{
 			datas_->SetIsRule(false);
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
 		}
 	}
 	else

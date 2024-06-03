@@ -64,6 +64,11 @@ private:
 
 	std::unique_ptr<Model> model_;
 
+	//Audio
+	SoundData bgmData_;
+	SoundData selectData_;
+	SoundData cursolData_;
+
 	//Player
 	Player* player_ = nullptr;
 	StructSphere structSphere_;

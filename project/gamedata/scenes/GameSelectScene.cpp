@@ -17,7 +17,9 @@ void GameSelectScene::Initialize() {
 	//Audio
 	audio_ = Audio::GetInstance();
 
+	bgmData_ = audio_->SoundLoad("project/gamedata/resources/sounds/Title.mp3");
 	selectData_ = audio_->SoundLoad("project/gamedata/resources/sounds/select.mp3");
+	cursolData_ = audio_->SoundLoad("project/gamedata/resources/sounds/cursol.mp3");
 
 	//テクスチャ
 	spriteResource_[0] = textureManager_->Load("project/gamedata/resources/UI/bg.png");
@@ -91,6 +93,12 @@ void GameSelectScene::Initialize() {
 }
 
 void GameSelectScene::Update() {
+
+	if (isGameStart_ == true) {//ゲーム開始時の処理
+		audio_->SoundPlayWave(bgmData_, 0.1f, true);
+		isGameStart_ = false;
+	}
+
 	XINPUT_STATE joyState;
 	Input::GetInstance()->GetJoystickState(0, joyState);
 
@@ -108,6 +116,8 @@ void GameSelectScene::Update() {
 	if (input_->TriggerKey(DIK_L))
 	{
 		sceneNo = TITLE_SCENE;
+		audio_->SoundStopWave(&bgmData_);
+		isGameStart_ = true;
 		/*if (isTransitionEnd_)
 		{
 			isTransitionStart_ = true;
@@ -142,6 +152,8 @@ void GameSelectScene::Update() {
 			transitionSpriteMaterial_.num[3] = 1.0f;
 
 			sceneNo = GAME_SCENE;
+			isGameStart_ = true;
+			audio_->SoundStopWave(&bgmData_);
 		}
 	}
 
@@ -151,31 +163,37 @@ void GameSelectScene::Update() {
 		if (input_->TriggerKey(DIK_A) && spriteTransform_[2].translate.num[0] == 1048.0f)
 		{
 			spriteTransform_[2].translate.num[0] = 640.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_A) && spriteTransform_[2].translate.num[0] == 1460.0f)
 		{
 			spriteTransform_[2].translate.num[0] = 1048.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_D) && spriteTransform_[2].translate.num[0] == 1048.0f)
 		{
 			spriteTransform_[2].translate.num[0] = 1460.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_D) && spriteTransform_[2].translate.num[0] == 640.0f)
 		{
 			spriteTransform_[2].translate.num[0] = 1048.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_S) && spriteTransform_[2].translate.num[1] == 360.0f)
 		{
 			spriteTransform_[2].translate.num[1] = 610.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_W) && spriteTransform_[2].translate.num[1] == 610.0f)
 		{
 			spriteTransform_[2].translate.num[1] = 360.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		//ステージ番号
