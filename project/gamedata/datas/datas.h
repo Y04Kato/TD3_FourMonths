@@ -3,6 +3,12 @@
 
 class Datas {
 public:
+	struct StarsEarned {
+		bool item = false;
+		bool time = false;
+		bool hit = false;
+	};
+public:
 	static Datas* GetInstance();
 
 	void Initialize();
@@ -28,8 +34,20 @@ public:
 	void SetItem(int getItem) { getItem_ = getItem; }
 	int GetItem() { return getItem_; }
 
+	void SetMaxItem(int getMaxItem) { getMaxItem_ = getMaxItem; }
+	int GetMaxItem() { return getMaxItem_; }
+
+	void SetHitCount(int hitCount) { hitCount_ = hitCount; }
+	int GetHitCount() { return hitCount_; }
+
 	void SetFell(bool fell) { fell_ = fell; }
 	bool GetFell() { return fell_; }
+
+	void SetClearResultNum(const float clearResultTime) { clearResultTime_ = clearResultTime; }
+	const float& GetClearResultTimeNum() { return clearResultTime_; }
+
+	void SetStarsEarned(int num, bool item, bool time, bool hit);
+	StarsEarned* GetStarsEarned() { return starsEarned_; }
 
 private:
 	Datas() = default;
@@ -38,6 +56,7 @@ private:
 	Datas& operator=(const Datas& obj) = default;
 
 	int getItem_;
+	int getMaxItem_;
 	float clearTime_;
 	bool fell_;
 
@@ -49,8 +68,13 @@ private:
 
 	bool isReset_ = false;
 
+	float clearResultTime_ = 0;
+
+	int hitCount_ = 0;
+
 	VectorInt4 uiResrouce_ = { 0,0,0,0 };
 
+	StarsEarned starsEarned_[6];
 	
 };
 

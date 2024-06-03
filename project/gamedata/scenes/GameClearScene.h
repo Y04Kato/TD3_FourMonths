@@ -38,7 +38,9 @@ private:
 	Audio* audio_;
 
 	//Audio
+	SoundData bgmData_;
 	SoundData selectData_;
+	SoundData cursolData_;
 
 	//Sprite
 	std::unique_ptr <CreateSprite> sprite_[4];
@@ -86,8 +88,11 @@ private:
 	std::unique_ptr<Timer> time_;
 	float nowTime_ = 0.0f;
 	EulerTransform timeTransform_;
-	// 落ちる
-	std::unique_ptr<Numbers> fall_;
+
+	// 当たった回数
+	std::unique_ptr<Numbers> hitCountNumbers_;
+	uint32_t hitCount_;
+	EulerTransform hitCountTransform_;
 
 	//Datas
 	Datas* datas_;

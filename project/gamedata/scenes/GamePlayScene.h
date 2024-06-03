@@ -64,6 +64,11 @@ private:
 
 	std::unique_ptr<Model> model_;
 
+	//Audio
+	SoundData bgmData_;
+	SoundData selectData_;
+	SoundData cursolData_;
+
 	//Player
 	Player* player_ = nullptr;
 	StructSphere structSphere_;
@@ -153,8 +158,6 @@ private:
 	//Timer
 	std::unique_ptr<Timer> timer_;
 	float nowTime_ = 0.0f;
-	/*std::unique_ptr<Numbers> numbers_;
-	int nowTime_ = 0;*/
 	EulerTransform numbersTransform_;
 
 	std::unique_ptr<Numbers> numbers2_;
@@ -195,4 +198,9 @@ private:
 
 	//必ず2の倍数にすること
 	VectorInt2 shakePower = { 2,2 };
+
+	std::unique_ptr<Numbers> numbersResult_[6];
+	int nowCountResult_[6];
+	EulerTransform numbersTransformResult_[6];
+	int nowHitCount_ = 0;
 };

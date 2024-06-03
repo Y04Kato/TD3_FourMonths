@@ -13,6 +13,12 @@
 
 class GameSelectScene :public Iscene {
 public:
+	struct SpriteData {
+		std::unique_ptr <CreateSprite> Sprite_[3];
+		EulerTransform starTransform_;
+	};
+
+
 	static int stageNum;
 
 	static bool isFirstTransition;
@@ -34,7 +40,9 @@ private:
 	Audio* audio_;
 
 	//Audio
+	SoundData bgmData_;
 	SoundData selectData_;
+	SoundData cursolData_;
 
 	//Sprite
 	std::unique_ptr <CreateSprite> sprite_[3];
@@ -56,19 +64,17 @@ private:
 	EulerTransform transitionSpriteTransform_;
 	EulerTransform transitionSpriteuvTransform_;
 	Vector4 transitionSpriteMaterial_;
-	uint32_t starResource_;
 
 	bool isTransitionStart_ = false;
 	bool isTransitionEnd_ = false;
 
 	// 星のスプライト
-	std::unique_ptr <CreateSprite> starSprite_[3];
-	EulerTransform starTransform_;
-	const float starTextureSize_ = 96.0f;
-
-	std::unique_ptr <CreateSprite> emptyStarSprite_[3];
+	uint32_t starResource_;
 	uint32_t emptyStarTextureHandle_;
-	EulerTransform emptyStarTransform_;
-	const float emptyStarTextureSize_ = 97.0f;
+	std::unique_ptr<SpriteData> starSprites_[6];
+	std::unique_ptr<SpriteData> emptyStarSprites_[6];
+	const float starTextureSize_ = 40.0f;
+	const float emptyStarTextureSize_ = 40.0f;
+	bool isGameStart_ = true;//ゲーム開始時に1回だけ呼ぶ
 };
 

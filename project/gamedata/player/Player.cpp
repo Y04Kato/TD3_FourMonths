@@ -13,6 +13,13 @@ void Player::Initialize() {
 	textureManager_ = TextureManager::GetInstance();
 	input_ = Input::GetInstance();
 
+	//Audio
+	audio_ = Audio::GetInstance();
+
+	wireData_ = audio_->SoundLoad("project/gamedata/resources/sounds/Wire.mp3");
+	wire2Data_ = audio_->SoundLoad("project/gamedata/resources/sounds/Wire2.mp3");
+	hitData_ = audio_->SoundLoad("project/gamedata/resources/sounds/Hit.mp3");
+
 	//テクスチャ
 	uiResource_[0] = textureManager_->Load("project/gamedata/resources/UI/MoveUI.png");
 	uiResource_[1] = textureManager_->Load("project/gamedata/resources/UI/meter.png");
@@ -140,6 +147,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isHitObj_ = false;
 		Reticle(viewProjection);
 		if (isHitWire_ == true) {//レティクルがオブジェクト捉えていれば
+			audio_->SoundPlayWave(wireData_, 0.1f, false);
 			isFell_ = false;
 			DistancePlayerToReticle = worldTransformObject_.translation_.num[2] - worldTransform2_.translation_.num[2];
 			upSize_ = 0.0f; // 上昇量を初期化
@@ -157,6 +165,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		}
 		else {//レティクルがオブジェクトを捉えられていなければ
 			if (isActive_) {
+				audio_->SoundPlayWave(wire2Data_, 0.1f, false);
 				speedUpCount_ = 0;
 				SetWireMiss();
 			}

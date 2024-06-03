@@ -15,6 +15,10 @@ void GamePlayScene::Initialize() {
 	//Audio
 	audio_ = Audio::GetInstance();
 
+	bgmData_ = audio_->SoundLoad("project/gamedata/resources/sounds/BGM.mp3");
+	selectData_ = audio_->SoundLoad("project/gamedata/resources/sounds/select.mp3");
+	cursolData_ = audio_->SoundLoad("project/gamedata/resources/sounds/cursol.mp3");
+
 	// デバッグカメラの初期化
 	debugCamera_ = DebugCamera::GetInstance();
 	debugCamera_->initialize();
@@ -215,6 +219,23 @@ void GamePlayScene::Initialize() {
 
 	starSprite_->Initialize(Vector2{ 512.0f,512.0f }, starResource_);
 	starSprite_->SetAnchor(Vector2{ 0.5f,0.5f });
+
+	for (int i = 0; i < 6; i++) {
+		numbersResult_[i] = std::make_unique<Numbers>();
+		numbersResult_[i]->Initialize();
+		numbersResult_[i]->SetInitialNum(0);
+		numbersResult_[i]->SetSpace(-35);
+		numbersResult_[i]->SetDrawCount(2);
+		numbersTransformResult_[i].scale = { 0.7f,0.7f,0.7f };
+		numbersTransformResult_[i].rotate = { 0.0f,0.0f,0.0f };
+	}
+
+	numbersTransformResult_[0].translate = { 940.0f,25.0f,0.0f };
+	numbersTransformResult_[1].translate = { 940.0f,70.0f,0.0f };
+	numbersTransformResult_[2].translate = { 940.0f,115.0f,0.0f };
+	numbersTransformResult_[3].translate = { 1030.0f,25.0f,0.0f };
+	numbersTransformResult_[4].translate = { 1030.0f,70.0f,0.0f };
+	numbersTransformResult_[5].translate = { 1030.0f,115.0f,0.0f };
 }
 
 void GamePlayScene::Update() {
@@ -226,21 +247,27 @@ void GamePlayScene::Update() {
 		//ステージ選択を適用
 		if (datas_->GetStageNum() == 1) {
 			nowGroupName_ = "GamePlayScene";
+			datas_->SetClearResultNum(15.00f);
 		}
 		if (datas_->GetStageNum() == 2) {
 			nowGroupName_ = "GamePlayScene2";
+			datas_->SetClearResultNum(15.00f);
 		}
 		if (datas_->GetStageNum() == 3) {
 			nowGroupName_ = "GamePlayScene3";
+			datas_->SetClearResultNum(15.00f);
 		}
 		if (datas_->GetStageNum() == 4) {
 			nowGroupName_ = "GamePlayScene4";
+			datas_->SetClearResultNum(15.00f);
 		}
 		if (datas_->GetStageNum() == 5) {
-			nowGroupName_ = "GamePlayScen5";
+			nowGroupName_ = "GamePlayScene5";
+			datas_->SetClearResultNum(15.00f);
 		}
 		if (datas_->GetStageNum() == 6) {
 			nowGroupName_ = "GamePlayScene6";
+			datas_->SetClearResultNum(15.00f);
 		}
 
 		GlobalVariables* globalVariables{};
@@ -249,6 +276,23 @@ void GamePlayScene::Update() {
 		for (int i = 0; i < objCount_; i++) {
 			SetObject(EulerTransform{ { 4.0f,30.0f,4.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objNameHolder_[i]);
 		}
+		ApplyGlobalVariables();
+		int treeCount = 0;
+		for (Obj& obj : objects_) {
+			if (obj.treeMode == TREEMODE::ITEM) {
+				treeCount++;
+			}
+
+		}
+		
+		numbersResult_[3]->SetNum(treeCount * 10);
+		numbersResult_[4]->SetNum(int(datas_->GetClearResultTimeNum()) * 10);
+		numbersResult_[5]->SetNum(1 * 10);
+		datas_->SetMaxItem(treeCount);
+		datas_->SetItem(0);
+		nowHitCount_ = 0;
+
+		audio_->SoundPlayWave(bgmData_, 0.1f, true);
 
 		isGameStart_ = false;
 	}
@@ -272,12 +316,14 @@ void GamePlayScene::Update() {
 	{
 		datas_->SetIsPause(true);
 		input_->ToggleCursor();
+		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 	else if (input_->TriggerKey(DIK_TAB) && datas_->GetIsPause())
 	{
 		datas_->SetIsPause(false);
 		datas_->SetIsRule(false);
 		input_->ToggleCursor();
+		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
 	if (!isTransitionEnd_)
@@ -311,9 +357,11 @@ void GamePlayScene::Update() {
 			player_->SetWorldTransform(startWorldTransform_);
 			player_->SetIsGoal(false);
 			datas_->SetClearTime(nowTime_);
+			datas_->SetHitCount(nowHitCount_);
 			nowTime_ = 0.0f;
 			input_->ViewCursor();
 			FinalizeGoal();
+			audio_->SoundStopWave(&bgmData_);
 			isGameStart_ = true;
 		}
 		else if (starSpriteMaterial_.num[3] > 1.0f && datas_->GetIsPause())
@@ -329,6 +377,7 @@ void GamePlayScene::Update() {
 			nowTime_ = 0;
 			input_->ViewCursor();
 			FinalizeGoal();
+			audio_->SoundStopWave(&bgmData_);
 			isGameStart_ = true;
 		}
 	}
@@ -340,21 +389,25 @@ void GamePlayScene::Update() {
 		if (input_->TriggerKey(DIK_S) && uiSpriteTransform_[3].translate.num[1] == 520.0f && !datas_->GetIsRule())
 		{
 			uiSpriteTransform_[3].translate.num[1] = 717.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_S) && uiSpriteTransform_[3].translate.num[1] == 324.0f && !datas_->GetIsRule())
 		{
 			uiSpriteTransform_[3].translate.num[1] = 520.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_W) && uiSpriteTransform_[3].translate.num[1] == 520.0f && !datas_->GetIsRule())
 		{
 			uiSpriteTransform_[3].translate.num[1] = 324.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_W) && uiSpriteTransform_[3].translate.num[1] == 717.0f && !datas_->GetIsRule())
 		{
 			uiSpriteTransform_[3].translate.num[1] = 520.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		//選択する処理
@@ -369,22 +422,26 @@ void GamePlayScene::Update() {
 			player_->SetIsRestart(false);
 			nowTime_ = 0.0f;
 			input_->HideCursor();
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
 		}
 
 		//Select
 		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 520.0f)
 		{
 			isTransitionStart_ = true;
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
 		}
 
 		//Rule
 		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 717.0f && !datas_->GetIsRule())
 		{
 			datas_->SetIsRule(true);
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
 		}
 		else if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 717.0f && datas_->GetIsRule())
 		{
 			datas_->SetIsRule(false);
+			audio_->SoundPlayWave(selectData_, 0.1f, false);
 		}
 	}
 	else
@@ -467,6 +524,13 @@ void GamePlayScene::Update() {
 			numbers2_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 		}
 
+		for (int i = 0; i < 6; i++) {
+			numbersResult_[i]->SetTransform(numbersTransformResult_[i]);
+		}
+		numbersResult_[0]->SetNum(datas_->GetItem() * 10);
+		numbersResult_[1]->SetNum((int)nowTime_ * 10);
+		numbersResult_[2]->SetNum(nowHitCount_ * 10);
+
 		if (cameraChange_ == true) {//DebugCamera
 			debugCamera_->Update();
 			if (input_->PressKey(DIK_V)) {//Shakeテスト用
@@ -531,7 +595,7 @@ void GamePlayScene::Update() {
 		}
 
 		if (obj.treeMode == TREEMODE::ITEM) {
-			obj.material = { 1.0f,0.0f,0.0f,1.0f };
+			obj.material = { 1.0f,0.3f,0.15f,1.0f };
 			obj.Backmaterial = obj.material;
 		}
 
@@ -554,10 +618,7 @@ void GamePlayScene::Update() {
 
 		if (player_->GetIsSetWire() == true) {
 
-			if (obj.treeMode == TREEMODE::ITEM) {
-				datas_->SetItem(datas_->GetItem() + 1);
-				obj.treeMode = TREEMODE::NONE;
-			}
+		
 
 			player_->SetIsSetWire(false);
 		}
@@ -579,6 +640,11 @@ void GamePlayScene::Update() {
 				if (obj.treeMode == TREEMODE::RIGHTROTATE) {
 					player_->SetIsRoll(true);
 					player_->SetLeftRoll(false);
+				}
+
+				if (obj.treeMode == TREEMODE::ITEM) {
+					datas_->SetItem(datas_->GetItem() + 1);
+					obj.treeMode = TREEMODE::NONE;
 				}
 			}
 
@@ -612,6 +678,7 @@ void GamePlayScene::Update() {
 				particle_->SetTranslate(Vector3{ player_->GetWorldTransformWire().translation_.num[0],player_->GetWorldTransform().translation_.num[1],player_->GetWorldTransformWire().translation_.num[2] });
 				particle_->OccursOnlyOnce(occursNum_);
 				followCamera_->ShakeCamera(shakePower.x, shakePower.y);
+				nowHitCount_++;
 			}
 		}
 		else {
@@ -839,6 +906,9 @@ void GamePlayScene::Draw() {
 		timer_->AddTimeDraw();
 		numbers2_->Draw();
 		player_->DrawUI();
+		for (int i = 0; i < 6; i++) {
+			numbersResult_[i]->Draw();
+		}
 		if (isHitWire_ == true) {
 			uiSprite_[0]->Draw(uiSpriteTransform_[0], uiSpriteuvTransform_[0], uiSpriteMaterial_[0]);
 		}
@@ -877,7 +947,9 @@ void GamePlayScene::ApplyGlobalVariables() {
 		//obj.world.rotation_ = globalVariables->GetVector3Value(groupName,  obj.name + "Rotate");
 		obj.world.scale_ = globalVariables->GetVector3Value(nowGroupName_, obj.name + "Scale");
 		obj.Backmaterial = globalVariables->GetVector4Value(nowGroupName_, obj.name + "Material");
-		obj.treeMode = globalVariables->GetIntValue(nowGroupName_, obj.name + "TreeMode");
+		if ((int)nowTime_ <= 1) {
+			obj.treeMode = globalVariables->GetIntValue(nowGroupName_, obj.name + "TreeMode");
+		}
 	}
 }
 

@@ -17,7 +17,9 @@ void GameSelectScene::Initialize() {
 	//Audio
 	audio_ = Audio::GetInstance();
 
+	bgmData_ = audio_->SoundLoad("project/gamedata/resources/sounds/Title.mp3");
 	selectData_ = audio_->SoundLoad("project/gamedata/resources/sounds/select.mp3");
+	cursolData_ = audio_->SoundLoad("project/gamedata/resources/sounds/cursol.mp3");
 
 	//テクスチャ
 	spriteResource_[0] = textureManager_->Load("project/gamedata/resources/UI/bg.png");
@@ -28,7 +30,7 @@ void GameSelectScene::Initialize() {
 
 	starResource_ = textureManager_->Load("project/gamedata/resources/UI/star.png");
 
-
+	emptyStarTextureHandle_ = textureManager_->Load("project/gamedata/resources/UI/emptyStar.png");
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -71,26 +73,35 @@ void GameSelectScene::Initialize() {
 
 
 	//星
-	for (uint32_t index = 0; index < 3; index++) {
-		starSprite_[index] = std::make_unique<CreateSprite>();
-		starSprite_[index]->Initialize({ starTextureSize_, starTextureSize_ }, starResource_);
-		starSprite_[index]->SetAnchor(Vector2{ 0.5f, 0.5f });
-	}
-	starTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{849.0f, 185.0f,0.0f} };
+	for (uint32_t index0 = 0; index0 < 6; index0++) {
+		starSprites_[index0] = std::make_unique<SpriteData>();
+		starSprites_[index0]->starTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{270.0f, 190.0f,0.0f} };
+		emptyStarSprites_[index0] = std::make_unique<SpriteData>();
+		emptyStarSprites_[index0]->starTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{270.0f, 190.0f,0.0f} };
+		for (uint32_t index1 = 0; index1 < 3; index1++) {
+			starSprites_[index0]->Sprite_[index1] = std::make_unique<CreateSprite>();
+			starSprites_[index0]->Sprite_[index1]->Initialize({ starTextureSize_, starTextureSize_ }, starResource_);
+			starSprites_[index0]->Sprite_[index1]->SetAnchor({ 0.5f, 0.5f });
+			emptyStarSprites_[index0]->Sprite_[index1] = std::make_unique<CreateSprite>();
+			emptyStarSprites_[index0]->Sprite_[index1]->Initialize({ emptyStarTextureSize_, emptyStarTextureSize_ }, emptyStarTextureHandle_);
+			emptyStarSprites_[index0]->Sprite_[index1]->SetAnchor({ 0.5f, 0.5f });
 
-	emptyStarTextureHandle_ = textureManager_->Load("project/gamedata/resources/UI/emptyStar.png");
-	for (uint32_t index = 0; index < 3; index++) {
-		emptyStarSprite_[index] = std::make_unique<CreateSprite>();
-		emptyStarSprite_[index]->Initialize({ emptyStarTextureSize_, emptyStarTextureSize_ }, emptyStarTextureHandle_);
-		emptyStarSprite_[index]->SetAnchor(Vector2{ 0.5f, 0.5f });
+		}
 	}
-	emptyStarTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{500.0f, 90.0f,0.0f} };
+
 
 	datas_ = Datas::GetInstance();
 	datas_->Initialize();
+
 }
 
 void GameSelectScene::Update() {
+
+	if (isGameStart_ == true) {//ゲーム開始時の処理
+		audio_->SoundPlayWave(bgmData_, 0.1f, true);
+		isGameStart_ = false;
+	}
+
 	XINPUT_STATE joyState;
 	Input::GetInstance()->GetJoystickState(0, joyState);
 
@@ -108,6 +119,9 @@ void GameSelectScene::Update() {
 	if (input_->TriggerKey(DIK_L))
 	{
 		sceneNo = TITLE_SCENE;
+		audio_->SoundStopWave(&bgmData_);
+		isGameStart_ = true;
+		datas_->Initialize();
 		/*if (isTransitionEnd_)
 		{
 			isTransitionStart_ = true;
@@ -142,6 +156,8 @@ void GameSelectScene::Update() {
 			transitionSpriteMaterial_.num[3] = 1.0f;
 
 			sceneNo = GAME_SCENE;
+			isGameStart_ = true;
+			audio_->SoundStopWave(&bgmData_);
 		}
 	}
 
@@ -151,31 +167,37 @@ void GameSelectScene::Update() {
 		if (input_->TriggerKey(DIK_A) && spriteTransform_[2].translate.num[0] == 1048.0f)
 		{
 			spriteTransform_[2].translate.num[0] = 640.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_A) && spriteTransform_[2].translate.num[0] == 1460.0f)
 		{
 			spriteTransform_[2].translate.num[0] = 1048.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_D) && spriteTransform_[2].translate.num[0] == 1048.0f)
 		{
 			spriteTransform_[2].translate.num[0] = 1460.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_D) && spriteTransform_[2].translate.num[0] == 640.0f)
 		{
 			spriteTransform_[2].translate.num[0] = 1048.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_S) && spriteTransform_[2].translate.num[1] == 360.0f)
 		{
 			spriteTransform_[2].translate.num[1] = 610.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_W) && spriteTransform_[2].translate.num[1] == 610.0f)
 		{
 			spriteTransform_[2].translate.num[1] = 360.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		//ステージ番号
@@ -246,9 +268,29 @@ void GameSelectScene::Update() {
 		}
 	}
 
+	/*if (input_->TriggerKey(DIK_7)) {
+		for (int i = 0; i < 6; i++) {
+			datas_->SetStarsEarned(i, 1.0f, false, 1.0f);
+		}
+	}
+
+	if (input_->TriggerKey(DIK_8)) {
+		for (int i = 0; i < 6; i++) {
+			datas_->SetStarsEarned(i, true, true, false);
+		}
+	}
+
+	if (input_->TriggerKey(DIK_9)) {
+		for (int i = 0; i < 6; i++) {
+			datas_->SetStarsEarned(i, false, true, true);
+		}
+	}*/
+
+
 	ImGui::Begin("debug");
 	ImGui::Text("GameSelectScene");
 	ImGui::SliderFloat3("SWTFT", &spriteTransform_[2].translate.num[0], 0.0f, 2280.0f);
+	ImGui::DragFloat3("Star", emptyStarSprites_[0]->starTransform_.translate.num, 0.0f, 2280.0f);
 	ImGui::End();
 
 	if (!Input::GetInstance()->GetJoystickState(0, joyState)) {
@@ -289,6 +331,30 @@ void GameSelectScene::Draw() {
 	}
 
 	transitionSprite_->Draw(transitionSpriteTransform_, transitionSpriteuvTransform_, transitionSpriteMaterial_);
+
+	for (uint32_t index0 = 0; index0 < 6; index0++) {
+		for (uint32_t index1 = 0; index1 < 3; index1++) {
+			EulerTransform emptyTransform = emptyStarSprites_[index0]->starTransform_;
+			emptyTransform.translate.num[0] += 410.0f * (index0 % 3);
+			emptyTransform.translate.num[1] += 250.0f * (index0 / 3);
+			emptyTransform.translate.num[0] += emptyStarTextureSize_ * index1;
+			emptyStarSprites_[index0]->Sprite_[index1]->Draw(emptyTransform, spriteTransform_[0], {1.0f, 1.0f, 1.0f, 1.0f});
+
+			EulerTransform transform = starSprites_[index0]->starTransform_;
+			transform.translate.num[0] += 410.0f * (index0 % 3);
+			transform.translate.num[1] += 250.0f * (index0 / 3);
+			transform.translate.num[0] += starTextureSize_ * index1;
+			if (datas_->GetStarsEarned()[index0].item && index1 == 0) {
+				starSprites_[index0]->Sprite_[0]->Draw(transform, spriteTransform_[0], { 1.0f, 1.0f, 1.0f, 1.0f });
+			}
+			if (datas_->GetStarsEarned()[index0].time && index1 == 1) {
+				starSprites_[index0]->Sprite_[1]->Draw(transform, spriteTransform_[0], { 1.0f, 1.0f, 1.0f, 1.0f });
+			}
+			if (datas_->GetStarsEarned()[index0].hit && index1 == 2) {
+				starSprites_[index0]->Sprite_[2]->Draw(transform, spriteTransform_[0], { 1.0f, 1.0f, 1.0f, 1.0f });
+			}
+		}
+	}
 
 #pragma endregion
 }

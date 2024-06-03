@@ -14,7 +14,7 @@ void Numbers::Draw() {
 	int32_t drawNum;
 	EulerTransform uv = { {1.0f,1.0f / 10.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 	for (int index = 0; index < drawCount_; index++) {
-		drawNum = num_ / int(std::pow(10, kDigits - index - 1));
+		drawNum = num_ / int(std::pow(10, drawCount_ - index - 1));
 		drawNum %= 10;
 		uv.translate.num[1] = 0.1f * float(drawNum);
 		Sprites_[index]->Draw(transform_[index], uv, color_);
