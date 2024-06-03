@@ -159,6 +159,18 @@ void GameClearScene::Update() {
 		targetTime_->SetNum(datas_->GetClearResultTimeNum());
 		time_->SetNum(datas_->GetClearTime());
 
+		if (datas_->GetItem() == datas_->GetMaxItem()) {
+			achievement_.num[0] = 1.0f;
+		}
+		if (datas_->GetClearTime() <= datas_->GetClearResultTimeNum()) {
+			achievement_.num[1] = 1.0f;
+		}
+		if (datas_->GetHitCount() == 0) {
+			achievement_.num[2] = 1.0f;
+		}
+
+		datas_->SetStarsEarned(datas_->GetStageNum() - 1, achievement_.num[0], achievement_.num[1], achievement_.num[2]);
+
 		audio_->SoundPlayWave(bgmData_, 0.1f, true);
 
 		isSceneStart_ = false;
@@ -168,16 +180,6 @@ void GameClearScene::Update() {
 	hitCountNumbers_->SetTransform(hitCountTransform_);
 	targetTime_->SetTransform(targetTimeTransform_);
 	time_->SetTransform(timeTransform_);
-
-	if (datas_->GetItem() == datas_->GetMaxItem()) {
-		achievement_.num[0] = 1.0f;
-	}
-	if (datas_->GetClearTime() <= datas_->GetClearResultTimeNum()) {
-		achievement_.num[1] = 1.0f;
-	}
-	if (!datas_->GetFell()) {
-		achievement_.num[2] = 1.0f;
-	}
 
 	//2回目以降のTransitionの初期化処理
 	if (isFirstTransition)
@@ -398,8 +400,6 @@ void GameClearScene::Update() {
 			isSceneStart_ = true;
 		}
 	}
-
-	datas_->SetStarsEarned(datas_->GetStageNum(), achievement_.num[0], achievement_.num[1], achievement_.num[2]);
 }
 
 void GameClearScene::Draw() {
