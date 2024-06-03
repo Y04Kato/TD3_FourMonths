@@ -289,14 +289,16 @@ void GamePlayScene::Update() {
 
 		}
 		
-		numbersResult_[3]->SetNum(treeCount * 10);
-		numbersResult_[4]->SetNum(int(datas_->GetClearResultTimeNum()) * 10);
-		numbersResult_[5]->SetNum(1 * 10);
+		numbersResult_[3]->SetNum(treeCount * 1);
+		numbersResult_[4]->SetNum(int(datas_->GetClearResultTimeNum()) * 1);
+		numbersResult_[5]->SetNum(0);
 		datas_->SetMaxItem(treeCount);
 		datas_->SetItem(0);
 		nowHitCount_ = 0;
 
 		audio_->SoundPlayWave(bgmData_, 0.1f, true);
+
+		player_->SetIsHitObj(false);
 
 		isGameStart_ = false;
 	}
@@ -531,9 +533,9 @@ void GamePlayScene::Update() {
 		for (int i = 0; i < 6; i++) {
 			numbersResult_[i]->SetTransform(numbersTransformResult_[i]);
 		}
-		numbersResult_[0]->SetNum(datas_->GetItem() * 10);
-		numbersResult_[1]->SetNum((int)nowTime_ * 10);
-		numbersResult_[2]->SetNum(nowHitCount_ * 10);
+		numbersResult_[0]->SetNum(datas_->GetItem() * 1);
+		numbersResult_[1]->SetNum((int)nowTime_ * 1);
+		numbersResult_[2]->SetNum(nowHitCount_ * 1);
 
 		if (cameraChange_ == true) {//DebugCamera
 			debugCamera_->Update();

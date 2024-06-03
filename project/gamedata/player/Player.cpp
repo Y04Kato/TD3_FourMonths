@@ -118,6 +118,8 @@ void Player::Initialize() {
 
 	model_.reset(Model::CreateSkinningModel("project/gamedata/resources/star", "star.obj"));
 	modelMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
+
+	DistancePlayerToReticle = kDistancePlayerToReticle;
 }
 
 void Player::Updete(const ViewProjection viewProjection) {
@@ -174,6 +176,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 
 	if (input_->pushMouse(MOUSE_BOTTON1)) {//右クリックした時
 		isSetWire_ = false; // ワイヤーを外す
+		DistancePlayerToReticle = kDistancePlayerToReticle;
 	}
 
 	if (isSetWire_ == true) {//ワイヤー成功時の演出
@@ -184,7 +187,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 
 	if (isMissWire_ == true) {//ワイヤー失敗時の演出
 		missTimer_++;
-		//worldTransformWire_.translation_ += wireVelocity_;
+		DistancePlayerToReticle = kDistancePlayerToReticle;
 	}
 	if (missTimer_ >= 15) {
 		isMissWire_ = false;
