@@ -111,7 +111,7 @@ void GameClearScene::Initialize() {
 	hitCountNumbers_ = std::make_unique<Numbers>();
 	hitCountNumbers_->Initialize();
 	hitCountNumbers_->SetInitialNum(0);
-	hitCountTransform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {480.0f, 360.0f, 0.0f} };
+	hitCountTransform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {550.0f, 400.0f, 0.0f} };
 
 	//Transition
 	transitionSpriteMaterial_ = { 0.0f,0.0f,0.0f,0.0f };
