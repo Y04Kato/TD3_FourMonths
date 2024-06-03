@@ -118,6 +118,8 @@ void Player::Initialize() {
 
 	model_.reset(Model::CreateSkinningModel("project/gamedata/resources/star", "star.obj"));
 	modelMaterial_ = { 1.0f,1.0f,1.0f,1.0f };
+
+	DistancePlayerToReticle = kDistancePlayerToReticle;
 }
 
 void Player::Updete(const ViewProjection viewProjection) {
