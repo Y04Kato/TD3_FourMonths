@@ -298,6 +298,8 @@ void GamePlayScene::Update() {
 
 		audio_->SoundPlayWave(bgmData_, 0.1f, true);
 
+		player_->SetIsHitObj(false);
+
 		isGameStart_ = false;
 	}
 
