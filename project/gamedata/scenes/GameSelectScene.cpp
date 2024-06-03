@@ -117,6 +117,7 @@ void GameSelectScene::Update() {
 	{
 		sceneNo = TITLE_SCENE;
 		audio_->SoundStopWave(&bgmData_);
+		isGameStart_ = true;
 		/*if (isTransitionEnd_)
 		{
 			isTransitionStart_ = true;
