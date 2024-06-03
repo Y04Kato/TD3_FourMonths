@@ -157,7 +157,7 @@ void GameTitleScene::Update(){
 			starSpriteTransform_.scale.num[0] = 10.0f;
 			starSpriteTransform_.scale.num[1] = 10.0f;
 			starSpriteMaterial_.num[3] = 1.0f;
-			sceneNo = CLEAR_SCENE;
+			sceneNo = SELECT_SCENE;
 			isGameStart_ = true;
 			audio_->SoundStopWave(&bgmData_);
 		}
