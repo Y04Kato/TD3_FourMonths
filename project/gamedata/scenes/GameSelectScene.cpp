@@ -18,6 +18,7 @@ void GameSelectScene::Initialize() {
 	audio_ = Audio::GetInstance();
 
 	selectData_ = audio_->SoundLoad("project/gamedata/resources/sounds/select.mp3");
+	cursolData_ = audio_->SoundLoad("project/gamedata/resources/sounds/cursol.mp3");
 
 	//テクスチャ
 	spriteResource_[0] = textureManager_->Load("project/gamedata/resources/UI/bg.png");
@@ -151,31 +152,37 @@ void GameSelectScene::Update() {
 		if (input_->TriggerKey(DIK_A) && spriteTransform_[2].translate.num[0] == 1048.0f)
 		{
 			spriteTransform_[2].translate.num[0] = 640.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_A) && spriteTransform_[2].translate.num[0] == 1460.0f)
 		{
 			spriteTransform_[2].translate.num[0] = 1048.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_D) && spriteTransform_[2].translate.num[0] == 1048.0f)
 		{
 			spriteTransform_[2].translate.num[0] = 1460.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_D) && spriteTransform_[2].translate.num[0] == 640.0f)
 		{
 			spriteTransform_[2].translate.num[0] = 1048.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_S) && spriteTransform_[2].translate.num[1] == 360.0f)
 		{
 			spriteTransform_[2].translate.num[1] = 610.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_W) && spriteTransform_[2].translate.num[1] == 610.0f)
 		{
 			spriteTransform_[2].translate.num[1] = 360.0f;
+			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		//ステージ番号

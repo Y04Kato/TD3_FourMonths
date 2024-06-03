@@ -35,6 +35,7 @@ private:
 
 	//Audio
 	SoundData selectData_;
+	SoundData cursolData_;
 
 	//Sprite
 	std::unique_ptr <CreateSprite> sprite_[3];
