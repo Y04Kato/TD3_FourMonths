@@ -376,11 +376,13 @@ void Player::Updete(const ViewProjection viewProjection) {
 	if (worldTransform_.translation_.num[0] >= 75.0f)
 	{
 		worldTransform_.translation_.num[0] = 75.0f;
+		speedUpCount_ = 0;
 	}
 
 	if (worldTransform_.translation_.num[0] <= -75.0f)
 	{
 		worldTransform_.translation_.num[0] = -75.0f;
+		speedUpCount_ = 0;
 	}
 
 	//後ろ

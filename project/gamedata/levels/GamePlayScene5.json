@@ -64,7 +64,7 @@
             4.0
         ],
         "test12Translate": [
-            7.0,
+            5.0,
             26.0,
             525.0
         ],
@@ -81,9 +81,9 @@
             4.0
         ],
         "test13Translate": [
-            -53.0,
+            -34.0,
             26.0,
-            680.0
+            674.0
         ],
         "test13TreeMode": 0,
         "test14Material": [
@@ -183,9 +183,9 @@
             4.0
         ],
         "test19Translate": [
-            -20.0,
+            -17.0,
             26.0,
-            631.0
+            676.0
         ],
         "test19TreeMode": 0,
         "test1Material": [
@@ -219,7 +219,7 @@
         "test20Translate": [
             -2.0,
             26.0,
-            724.0
+            676.0
         ],
         "test20TreeMode": 0,
         "test21Material": [
@@ -289,7 +289,7 @@
             26.0,
             460.0
         ],
-        "test24TreeMode": 0,
+        "test24TreeMode": 2,
         "test25Material": [
             0.0,
             1.0,
@@ -353,9 +353,9 @@
             4.0
         ],
         "test28Translate": [
-            33.0,
+            30.0,
             26.0,
-            1130.0
+            1184.0
         ],
         "test28TreeMode": 0,
         "test29Material": [
@@ -370,9 +370,9 @@
             4.0
         ],
         "test29Translate": [
-            -52.0,
+            -42.0,
             26.0,
-            1129.0
+            1184.0
         ],
         "test29TreeMode": 0,
         "test2Material": [
@@ -421,9 +421,9 @@
             4.0
         ],
         "test31Translate": [
-            -5.0,
+            -6.0,
             26.0,
-            1192.0
+            1073.0
         ],
         "test31TreeMode": 0,
         "test32Material": [
@@ -440,9 +440,9 @@
         "test32Translate": [
             -7.0,
             26.0,
-            1009.0
+            1045.0
         ],
-        "test32TreeMode": 0,
+        "test32TreeMode": 2,
         "test33Material": [
             0.0,
             1.0,
@@ -457,7 +457,7 @@
         "test33Translate": [
             -8.0,
             26.0,
-            1307.0
+            1309.0
         ],
         "test33TreeMode": 0,
         "test34Material": [
@@ -472,7 +472,7 @@
             4.0
         ],
         "test34Translate": [
-            -60.0,
+            -61.0,
             26.0,
             1240.0
         ],
@@ -642,11 +642,11 @@
             4.0
         ],
         "test43Translate": [
-            -66.0,
+            -25.0,
             26.0,
-            1581.0
+            749.0
         ],
-        "test43TreeMode": 0,
+        "test43TreeMode": 2,
         "test44Material": [
             0.0,
             1.0,
@@ -663,7 +663,7 @@
             26.0,
             1622.0
         ],
-        "test44TreeMode": 0,
+        "test44TreeMode": 2,
         "test45Material": [
             0.0,
             1.0,

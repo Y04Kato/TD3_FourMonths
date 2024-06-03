@@ -1,6 +1,6 @@
 {
     "GamePlayScene6": {
-        "ObjCount": 48,
+        "ObjCount": 34,
         "test0Material": [
             0.0,
             1.0,
@@ -9,13 +9,13 @@
         ],
         "test0Scale": [
             4.0,
-            30.0,
+            14.0,
             4.0
         ],
         "test0Translate": [
-            -16.0,
-            26.0,
-            79.0
+            33.0,
+            8.0,
+            242.0
         ],
         "test0TreeMode": 0,
         "test10Material": [
@@ -30,9 +30,9 @@
             4.0
         ],
         "test10Translate": [
-            7.0,
+            -34.0,
             10.0,
-            246.0
+            102.0
         ],
         "test10TreeMode": 0,
         "test11Material": [
@@ -47,9 +47,9 @@
             4.0
         ],
         "test11Translate": [
-            -5.0,
+            0.0,
             7.0,
-            991.0
+            996.0
         ],
         "test11TreeMode": 0,
         "test12Material": [
@@ -64,9 +64,9 @@
             4.0
         ],
         "test12Translate": [
-            30.0,
+            50.0,
             10.0,
-            788.0
+            982.0
         ],
         "test12TreeMode": 0,
         "test13Material": [
@@ -98,9 +98,9 @@
             4.0
         ],
         "test14Translate": [
-            32.0,
+            13.0,
             26.0,
-            581.0
+            412.0
         ],
         "test14TreeMode": 0,
         "test15Material": [
@@ -115,11 +115,11 @@
             4.0
         ],
         "test15Translate": [
-            43.0,
+            49.0,
             26.0,
-            863.0
+            573.0
         ],
-        "test15TreeMode": 0,
+        "test15TreeMode": 2,
         "test16Material": [
             0.0,
             1.0,
@@ -128,12 +128,12 @@
         ],
         "test16Scale": [
             4.0,
-            30.0,
+            14.0,
             4.0
         ],
         "test16Translate": [
-            -53.0,
-            26.0,
+            -49.0,
+            8.0,
             836.0
         ],
         "test16TreeMode": 0,
@@ -149,9 +149,9 @@
             4.0
         ],
         "test17Translate": [
-            -4.0,
+            -50.0,
             8.0,
-            1029.0
+            1231.0
         ],
         "test17TreeMode": 0,
         "test18Material": [
@@ -166,7 +166,7 @@
             4.0
         ],
         "test18Translate": [
-            39.0,
+            41.0,
             26.0,
             731.0
         ],
@@ -183,9 +183,9 @@
             4.0
         ],
         "test19Translate": [
-            -20.0,
+            -46.0,
             26.0,
-            631.0
+            644.0
         ],
         "test19TreeMode": 0,
         "test1Material": [
@@ -200,9 +200,9 @@
             4.0
         ],
         "test1Translate": [
-            27.0,
+            1.0,
             26.0,
-            78.0
+            76.0
         ],
         "test1TreeMode": 0,
         "test20Material": [
@@ -230,13 +230,13 @@
         ],
         "test21Scale": [
             4.0,
-            30.0,
+            14.0,
             4.0
         ],
         "test21Translate": [
-            40.0,
-            26.0,
-            1029.0
+            -23.0,
+            8.0,
+            1107.0
         ],
         "test21TreeMode": 0,
         "test22Material": [
@@ -251,11 +251,11 @@
             4.0
         ],
         "test22Translate": [
-            -7.0,
+            -33.0,
             26.0,
-            917.0
+            960.0
         ],
-        "test22TreeMode": 0,
+        "test22TreeMode": 2,
         "test23Material": [
             0.0,
             1.0,
@@ -264,12 +264,12 @@
         ],
         "test23Scale": [
             4.0,
-            30.0,
+            14.0,
             4.0
         ],
         "test23Translate": [
             -5.0,
-            26.0,
+            8.0,
             798.0
         ],
         "test23TreeMode": 0,
@@ -281,12 +281,12 @@
         ],
         "test24Scale": [
             4.0,
-            30.0,
+            14.0,
             4.0
         ],
         "test24Translate": [
             36.0,
-            26.0,
+            8.0,
             442.0
         ],
         "test24TreeMode": 0,
@@ -302,7 +302,7 @@
             4.0
         ],
         "test25Translate": [
-            -6.0,
+            30.0,
             8.0,
             1094.0
         ],
@@ -332,13 +332,13 @@
         ],
         "test27Scale": [
             4.0,
-            30.0,
+            14.0,
             4.0
         ],
         "test27Translate": [
-            -52.0,
-            26.0,
-            1034.0
+            38.0,
+            8.0,
+            1337.0
         ],
         "test27TreeMode": 0,
         "test28Material": [
@@ -349,13 +349,13 @@
         ],
         "test28Scale": [
             4.0,
-            30.0,
+            14.0,
             4.0
         ],
         "test28Translate": [
             33.0,
-            26.0,
-            1123.0
+            8.0,
+            1514.0
         ],
         "test28TreeMode": 0,
         "test29Material": [
@@ -366,13 +366,13 @@
         ],
         "test29Scale": [
             4.0,
-            30.0,
+            14.0,
             4.0
         ],
         "test29Translate": [
-            -52.0,
-            26.0,
-            1122.0
+            -34.0,
+            8.0,
+            1636.0
         ],
         "test29TreeMode": 0,
         "test2Material": [
@@ -383,13 +383,13 @@
         ],
         "test2Scale": [
             4.0,
-            30.0,
+            14.0,
             4.0
         ],
         "test2Translate": [
-            7.0,
-            26.0,
-            165.0
+            32.0,
+            8.0,
+            107.0
         ],
         "test2TreeMode": 0,
         "test30Material": [
@@ -404,9 +404,9 @@
             4.0
         ],
         "test30Translate": [
-            -50.0,
+            0.0,
             8.0,
-            1222.0
+            1485.0
         ],
         "test30TreeMode": 0,
         "test31Material": [
@@ -417,13 +417,13 @@
         ],
         "test31Scale": [
             4.0,
-            30.0,
+            14.0,
             4.0
         ],
         "test31Translate": [
-            -5.0,
-            26.0,
-            1299.0
+            18.0,
+            8.0,
+            1659.0
         ],
         "test31TreeMode": 0,
         "test32Material": [
@@ -438,11 +438,11 @@
             4.0
         ],
         "test32Translate": [
-            -7.0,
+            -40.0,
             26.0,
-            1182.0
+            1410.0
         ],
-        "test32TreeMode": 0,
+        "test32TreeMode": 2,
         "test33Material": [
             0.0,
             1.0,
@@ -451,117 +451,15 @@
         ],
         "test33Scale": [
             4.0,
-            14.0,
+            30.0,
             4.0
         ],
         "test33Translate": [
-            -42.0,
-            8.0,
-            1281.0
+            -19.0,
+            26.0,
+            300.0
         ],
         "test33TreeMode": 0,
-        "test34Material": [
-            0.0,
-            1.0,
-            0.0,
-            1.0
-        ],
-        "test34Scale": [
-            4.0,
-            14.0,
-            4.0
-        ],
-        "test34Translate": [
-            -62.0,
-            8.0,
-            1359.0
-        ],
-        "test34TreeMode": 0,
-        "test35Material": [
-            0.0,
-            1.0,
-            0.0,
-            1.0
-        ],
-        "test35Scale": [
-            4.0,
-            14.0,
-            4.0
-        ],
-        "test35Translate": [
-            42.0,
-            8.0,
-            1283.0
-        ],
-        "test35TreeMode": 0,
-        "test36Material": [
-            0.0,
-            1.0,
-            0.0,
-            1.0
-        ],
-        "test36Scale": [
-            4.0,
-            14.0,
-            4.0
-        ],
-        "test36Translate": [
-            54.0,
-            8.0,
-            1365.0
-        ],
-        "test36TreeMode": 0,
-        "test37Material": [
-            0.0,
-            1.0,
-            0.0,
-            1.0
-        ],
-        "test37Scale": [
-            4.0,
-            30.0,
-            4.0
-        ],
-        "test37Translate": [
-            -5.0,
-            26.0,
-            1433.0
-        ],
-        "test37TreeMode": 0,
-        "test38Material": [
-            0.0,
-            1.0,
-            0.0,
-            1.0
-        ],
-        "test38Scale": [
-            4.0,
-            30.0,
-            4.0
-        ],
-        "test38Translate": [
-            59.0,
-            26.0,
-            1434.0
-        ],
-        "test38TreeMode": 0,
-        "test39Material": [
-            0.0,
-            1.0,
-            0.0,
-            1.0
-        ],
-        "test39Scale": [
-            4.0,
-            30.0,
-            4.0
-        ],
-        "test39Translate": [
-            -65.0,
-            26.0,
-            1431.0
-        ],
-        "test39TreeMode": 0,
         "test3Material": [
             0.0,
             1.0,
@@ -570,151 +468,15 @@
         ],
         "test3Scale": [
             4.0,
-            30.0,
+            14.0,
             4.0
         ],
         "test3Translate": [
             5.0,
-            26.0,
+            8.0,
             316.0
         ],
         "test3TreeMode": 0,
-        "test40Material": [
-            0.0,
-            1.0,
-            0.0,
-            1.0
-        ],
-        "test40Scale": [
-            4.0,
-            14.0,
-            4.0
-        ],
-        "test40Translate": [
-            3.0,
-            8.0,
-            1559.0
-        ],
-        "test40TreeMode": 0,
-        "test41Material": [
-            0.0,
-            1.0,
-            0.0,
-            1.0
-        ],
-        "test41Scale": [
-            4.0,
-            14.0,
-            4.0
-        ],
-        "test41Translate": [
-            -6.0,
-            8.0,
-            1492.0
-        ],
-        "test41TreeMode": 0,
-        "test42Material": [
-            0.0,
-            1.0,
-            0.0,
-            1.0
-        ],
-        "test42Scale": [
-            4.0,
-            30.0,
-            4.0
-        ],
-        "test42Translate": [
-            48.0,
-            26.0,
-            1556.0
-        ],
-        "test42TreeMode": 0,
-        "test43Material": [
-            0.0,
-            1.0,
-            0.0,
-            1.0
-        ],
-        "test43Scale": [
-            4.0,
-            30.0,
-            4.0
-        ],
-        "test43Translate": [
-            -52.0,
-            26.0,
-            1556.0
-        ],
-        "test43TreeMode": 0,
-        "test44Material": [
-            0.0,
-            1.0,
-            0.0,
-            1.0
-        ],
-        "test44Scale": [
-            4.0,
-            14.0,
-            4.0
-        ],
-        "test44Translate": [
-            -15.0,
-            8.0,
-            1623.0
-        ],
-        "test44TreeMode": 0,
-        "test45Material": [
-            0.0,
-            1.0,
-            0.0,
-            1.0
-        ],
-        "test45Scale": [
-            4.0,
-            30.0,
-            4.0
-        ],
-        "test45Translate": [
-            -58.0,
-            26.0,
-            1679.0
-        ],
-        "test45TreeMode": 0,
-        "test46Material": [
-            0.0,
-            1.0,
-            0.0,
-            1.0
-        ],
-        "test46Scale": [
-            4.0,
-            30.0,
-            4.0
-        ],
-        "test46Translate": [
-            53.0,
-            26.0,
-            1673.0
-        ],
-        "test46TreeMode": 0,
-        "test47Material": [
-            0.0,
-            1.0,
-            0.0,
-            1.0
-        ],
-        "test47Scale": [
-            4.0,
-            14.0,
-            4.0
-        ],
-        "test47Translate": [
-            1.0,
-            8.0,
-            1692.0
-        ],
-        "test47TreeMode": 0,
         "test4Material": [
             0.0,
             1.0,
@@ -723,12 +485,12 @@
         ],
         "test4Scale": [
             4.0,
-            30.0,
+            14.0,
             4.0
         ],
         "test4Translate": [
-            -49.0,
-            26.0,
+            -45.0,
+            8.0,
             232.0
         ],
         "test4TreeMode": 0,
@@ -744,9 +506,9 @@
             4.0
         ],
         "test5Translate": [
-            -60.0,
+            50.0,
             10.0,
-            339.0
+            358.0
         ],
         "test5TreeMode": 0,
         "test6Material": [
@@ -757,13 +519,13 @@
         ],
         "test6Scale": [
             4.0,
-            30.0,
+            14.0,
             4.0
         ],
         "test6Translate": [
-            57.0,
-            26.0,
-            238.0
+            40.0,
+            8.0,
+            188.0
         ],
         "test6TreeMode": 0,
         "test7Material": [
@@ -778,9 +540,9 @@
             4.0
         ],
         "test7Translate": [
-            -44.0,
+            -49.0,
             11.0,
-            449.0
+            500.0
         ],
         "test7TreeMode": 0,
         "test8Material": [
@@ -795,9 +557,9 @@
             4.0
         ],
         "test8Translate": [
-            -47.0,
+            -7.0,
             9.0,
-            512.0
+            577.0
         ],
         "test8TreeMode": 0,
         "test9Material": [
@@ -812,9 +574,9 @@
             4.0
         ],
         "test9Translate": [
-            -46.0,
+            -50.0,
             10.0,
-            395.0
+            375.0
         ],
         "test9TreeMode": 0
     }

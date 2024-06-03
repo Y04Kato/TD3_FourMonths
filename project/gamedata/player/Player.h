@@ -169,10 +169,10 @@ private:
 	float limitAngle_ = 60.0f;
 
 	// 非ワイヤー中のADの力
-	float sideForceValueNoWire_ = 0.2f;
+	float sideForceValueNoWire_ = 0.6f;
 
 	// ワイヤー中のADの力
-	float sideForceValueHaveWire_ = 0.8f;
+	float sideForceValueHaveWire_ = 1.0f;
 
 	// ワイヤー中の上昇量が加算されていく変数
 	float upSize_ = 0.0f;
