@@ -387,6 +387,8 @@ void GameClearScene::Update() {
 			isSceneStart_ = true;
 		}
 	}
+
+	datas_->SetStarsEarned(datas_->GetStageNum(), achievement_.num[0], achievement_.num[1], achievement_.num[2]);
 }
 
 void GameClearScene::Draw() {

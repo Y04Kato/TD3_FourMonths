@@ -3,6 +3,12 @@
 
 class Datas {
 public:
+	struct StarsEarned {
+		bool item = false;
+		bool time = false;
+		bool hit = false;
+	};
+public:
 	static Datas* GetInstance();
 
 	void Initialize();
@@ -40,6 +46,11 @@ public:
 	void SetClearResultNum(const int clearResultTime) { clearResultTime_ = clearResultTime; }
 	const int& GetClearResultTimeNum() { return clearResultTime_; }
 
+	void SetStarsEarned(int num, bool item, bool time, bool hit) {
+		starsEarned_[num] = { item, time, hit };
+	}
+	StarsEarned* GetStarsEarned() { return starsEarned_; }
+
 private:
 	Datas() = default;
 	~Datas() = default;
@@ -65,6 +76,7 @@ private:
 
 	VectorInt4 uiResrouce_ = { 0,0,0,0 };
 
+	StarsEarned starsEarned_[6];
 	
 };
 
