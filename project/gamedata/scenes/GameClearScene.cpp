@@ -52,6 +52,10 @@ void GameClearScene::Initialize() {
 	spriteTransform_[1].translate.num[0] = 580.0f;
 	spriteTransform_[1].translate.num[1] = 385.0f;
 
+	spriteTransform_[3].translate.num[0] = 1061.0f;
+
+	spriteTransform_[3].translate.num[1] = 690.0f;
+
 	spriteTransform_[4].translate.num[1] = 345.0f;
 
 	spriteTransform_[5].translate.num[1] = 345.0f;
@@ -137,10 +141,6 @@ void GameClearScene::Update() {
 	Input::GetInstance()->GetJoystickState(0, joyState);
 
 	if (isSceneStart_ == true) {//ゲーム開始時の処理
-		spriteTransform_[3].translate.num[0] = 1061.0f;
-
-		spriteTransform_[3].translate.num[1] = 690.0f;
-
 		achievement_ = { 0, 0, 0 };
 
 		if (datas_->GetItem() < 10) {
