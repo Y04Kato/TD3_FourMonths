@@ -44,6 +44,11 @@ void GamePlayScene::Initialize() {
 	uiResource_[9] = textureManager_->Load("project/gamedata/resources/UI/stage6.png");
 	uiResource_[10] = textureManager_->Load("project/gamedata/resources/UI/Rule.png");
 
+	uiResource_[11] = textureManager_->Load("project/gamedata/resources/UI/PlaySceneFrame.png");
+	uiResource_[12] = textureManager_->Load("project/gamedata/resources/UI/PlaySceneItem.png");
+	uiResource_[13] = textureManager_->Load("project/gamedata/resources/UI/PlaySceneTime.png");
+	uiResource_[14] = textureManager_->Load("project/gamedata/resources/UI/PlaySceneHit.png");
+
 	starResource_ = textureManager_->Load("project/gamedata/resources/UI/star.png");
 
 	particleResource_ = textureManager_->Load("project/gamedata/resources/circle.png");
@@ -65,7 +70,7 @@ void GamePlayScene::Initialize() {
 	sprite_->SetAnchor(Vector2{ 0.5f,0.5f });
 
 	//uiSprite
-	for (int i = 0; i < 11; i++)
+	for (int i = 0; i < 15; i++)
 	{
 		uiSpriteMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 		uiSpriteTransform_[i] = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
@@ -86,7 +91,7 @@ void GamePlayScene::Initialize() {
 	uiSpriteTransform_[0].translate.num[1] = 415.0f;
 	uiSpriteTransform_[0].scale = { 0.8f,0.8f,0.8f };
 
-	for (int i = 1; i < 11; i++) {
+	for (int i = 1; i < 15; i++) {
 		uiSprite_[i]->Initialize(Vector2{ 1280.0f,720.0f }, uiResource_[i]);
 		uiSprite_[i]->SetAnchor(Vector2{ 0.5f,0.5f });
 	}
@@ -157,7 +162,7 @@ void GamePlayScene::Initialize() {
 	timer_->SetInitialNum(0 / 60);
 	numbersTransform_.scale = { 1.0f,1.0f,1.0f };
 	numbersTransform_.rotate = { 0.0f,0.0f,0.0f };
-	numbersTransform_.translate = { 350.0f,50.0f,0.0f };
+	numbersTransform_.translate = { 423.0f,43.0f,0.0f };
 
 	numbers2_ = std::make_unique<Numbers>();
 	numbers2_->Initialize();
@@ -205,7 +210,6 @@ void GamePlayScene::Initialize() {
 	wallWorldTransform_[1].scale_ = { 1.0f,3.0f,60.0f };
 
 	//Transition用Sprite
-
 	starSpriteMaterial_ = { 0.0f,0.0f,0.0f,0.0f };
 	starSpriteTransform_ = { {0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
 
@@ -230,12 +234,12 @@ void GamePlayScene::Initialize() {
 		numbersTransformResult_[i].rotate = { 0.0f,0.0f,0.0f };
 	}
 
-	numbersTransformResult_[0].translate = { 940.0f,25.0f,0.0f };
-	numbersTransformResult_[1].translate = { 940.0f,70.0f,0.0f };
-	numbersTransformResult_[2].translate = { 940.0f,115.0f,0.0f };
-	numbersTransformResult_[3].translate = { 1030.0f,25.0f,0.0f };
-	numbersTransformResult_[4].translate = { 1030.0f,70.0f,0.0f };
-	numbersTransformResult_[5].translate = { 1030.0f,115.0f,0.0f };
+	numbersTransformResult_[0].translate = { 940.0f,7.0f,0.0f };
+	numbersTransformResult_[1].translate = { 940.0f,62.0f,0.0f };
+	numbersTransformResult_[2].translate = { 940.0f,119.0f,0.0f };
+	numbersTransformResult_[3].translate = { 1041.0f,7.0f,0.0f };
+	numbersTransformResult_[4].translate = { 1041.0f,62.0f,0.0f };
+	numbersTransformResult_[5].translate = { 1041.0f,119.0f,0.0f };
 }
 
 void GamePlayScene::Update() {
@@ -815,6 +819,17 @@ void GamePlayScene::Update() {
 	ImGui::Begin("Cursor");
 	ImGui::DragFloat3("CursorWTF", &uiSpriteTransform_[3].translate.num[0], 1.0f);
 	ImGui::End();
+
+	ImGui::Begin("numbers");
+	ImGui::DragFloat3("number0WTF", &numbersTransformResult_[0].translate.num[0], 1.0f);
+	ImGui::DragFloat3("number1WTF", &numbersTransformResult_[1].translate.num[0], 1.0f);
+	ImGui::DragFloat3("number2WTF", &numbersTransformResult_[2].translate.num[0], 1.0f);
+	ImGui::DragFloat3("number3WTF", &numbersTransformResult_[3].translate.num[0], 1.0f);
+	ImGui::DragFloat3("number4WTF", &numbersTransformResult_[4].translate.num[0], 1.0f);
+	ImGui::DragFloat3("number5WTF", &numbersTransformResult_[5].translate.num[0], 1.0f);
+	ImGui::DragFloat3("TimerNumber1", &numbersTransform_.translate.num[0], 1.0f);
+	ImGui::DragFloat3("TimerNumber2", &numbersTransform2_.translate.num[0], 1.0f);
+	ImGui::End();
 }
 
 void GamePlayScene::Draw() {
@@ -900,6 +915,11 @@ void GamePlayScene::Draw() {
 				uiSprite_[i]->Draw(uiSpriteTransform_[i], uiSpriteuvTransform_[i], uiSpriteMaterial_[i]);
 			}
 		}
+
+		uiSprite_[11]->Draw(uiSpriteTransform_[11], uiSpriteuvTransform_[11], uiSpriteMaterial_[11]);
+		uiSprite_[12]->Draw(uiSpriteTransform_[11], uiSpriteuvTransform_[11], uiSpriteMaterial_[11]);
+		uiSprite_[13]->Draw(uiSpriteTransform_[11], uiSpriteuvTransform_[11], uiSpriteMaterial_[11]);
+		uiSprite_[14]->Draw(uiSpriteTransform_[11], uiSpriteuvTransform_[11], uiSpriteMaterial_[11]);
 
 		//numbers_->Draw();
 		timer_->Draw();
