@@ -247,27 +247,27 @@ void GamePlayScene::Update() {
 		//ステージ選択を適用
 		if (datas_->GetStageNum() == 1) {
 			nowGroupName_ = "GamePlayScene";
-			datas_->SetClearResultNum(15);
+			datas_->SetClearResultNum(15.00f);
 		}
 		if (datas_->GetStageNum() == 2) {
 			nowGroupName_ = "GamePlayScene2";
-			datas_->SetClearResultNum(15);
+			datas_->SetClearResultNum(15.00f);
 		}
 		if (datas_->GetStageNum() == 3) {
 			nowGroupName_ = "GamePlayScene3";
-			datas_->SetClearResultNum(15);
+			datas_->SetClearResultNum(15.00f);
 		}
 		if (datas_->GetStageNum() == 4) {
 			nowGroupName_ = "GamePlayScene4";
-			datas_->SetClearResultNum(15);
+			datas_->SetClearResultNum(15.00f);
 		}
 		if (datas_->GetStageNum() == 5) {
 			nowGroupName_ = "GamePlayScene5";
-			datas_->SetClearResultNum(15);
+			datas_->SetClearResultNum(15.00f);
 		}
 		if (datas_->GetStageNum() == 6) {
 			nowGroupName_ = "GamePlayScene6";
-			datas_->SetClearResultNum(15);
+			datas_->SetClearResultNum(15.00f);
 		}
 
 		GlobalVariables* globalVariables{};
@@ -286,7 +286,7 @@ void GamePlayScene::Update() {
 		}
 		
 		numbersResult_[3]->SetNum(treeCount * 10);
-		numbersResult_[4]->SetNum(datas_->GetClearResultTimeNum() * 10);
+		numbersResult_[4]->SetNum(int(datas_->GetClearResultTimeNum()) * 10);
 		numbersResult_[5]->SetNum(1 * 10);
 		datas_->SetMaxItem(treeCount);
 		datas_->SetItem(0);

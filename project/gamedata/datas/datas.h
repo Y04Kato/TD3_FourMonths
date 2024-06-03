@@ -43,8 +43,8 @@ public:
 	void SetFell(bool fell) { fell_ = fell; }
 	bool GetFell() { return fell_; }
 
-	void SetClearResultNum(const int clearResultTime) { clearResultTime_ = clearResultTime; }
-	const int& GetClearResultTimeNum() { return clearResultTime_; }
+	void SetClearResultNum(const float clearResultTime) { clearResultTime_ = clearResultTime; }
+	const float& GetClearResultTimeNum() { return clearResultTime_; }
 
 	void SetStarsEarned(int num, bool item, bool time, bool hit);
 	StarsEarned* GetStarsEarned() { return starsEarned_; }
@@ -68,7 +68,7 @@ private:
 
 	bool isReset_ = false;
 
-	int clearResultTime_ = 0;
+	float clearResultTime_ = 0;
 
 	int hitCount_ = 0;
 
