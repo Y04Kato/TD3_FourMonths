@@ -49,6 +49,7 @@ void GameClearScene::Initialize() {
 	spriteTransform_[1].translate.num[0] = 580.0f;
 	spriteTransform_[1].translate.num[1] = 385.0f;
 
+	// 星スプライト
 	starTextureHandle_ = textureManager_->Load("project/gamedata/resources/UI/star.png");
 	for (uint32_t index = 0; index < 3; index++) {
 		starSprite_[index] = std::make_unique<CreateSprite>();
@@ -65,6 +66,7 @@ void GameClearScene::Initialize() {
 	}
 	emptyStarTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{500.0f, 90.0f,0.0f} };
 
+	// アイテム
 	targetItemNumbers_ = std::make_unique<Numbers>();
 	targetItemNumbers_->Initialize();
 	targetItemNumbers_->SetInitialNum(0 / 60);
@@ -75,6 +77,7 @@ void GameClearScene::Initialize() {
 	getItemNumbers_->SetInitialNum(0 / 60);
 	getItemNumbersTransform_ = { {1.0f, 1.0f, 1.0f}, { 0.0f,0.0f,0.0f}, {500.0f,165.0f,0.0f} };
 
+	// 分割
 	fractionTextureHandle_ = textureManager_->Load("project/gamedata/resources/fraction.png");
 	for (int32_t index = 0; index < 2; index++) {
 		fractionSprites_[index] = std::make_unique<CreateSprite>();
@@ -96,6 +99,11 @@ void GameClearScene::Initialize() {
 	time_->SetInitialNum(0 / 60);
 	timeTransform_ = { {1.0f, 1.0f, 1.0f}, { 0.0f,0.0f,0.0f}, {480.0f,260.0f,0.0f} };
 
+	hitCountNumbers_ = std::make_unique<Numbers>();
+	hitCountNumbers_->Initialize();
+	hitCountNumbers_->SetInitialNum(0);
+	hitCountTransform_ = { {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {480.0f, 360.0f, 0.0f} };
+
 	//Transition
 	transitionSpriteMaterial_ = { 0.0f,0.0f,0.0f,0.0f };
 	transitionSpriteTransform_ = { {0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
@@ -113,13 +121,6 @@ void GameClearScene::Initialize() {
 
 	//Datas
 	datas_ = Datas::GetInstance();
-
-	targets_[0] = {};
-	targets_[1] = {};
-	targets_[2] = {};
-	targets_[3] = {};
-	targets_[4] = {};
-	targets_[5] = {};
 }
 
 void GameClearScene::Update() {
@@ -137,12 +138,26 @@ void GameClearScene::Update() {
 			getItemNumbers_->SetDrawCount(1);
 		}
 
-		targetItemNumbers_->SetNum(1);
+		targetItemNumbers_->SetNum(datas_->GetMaxItem());
 		targetItemNumbers_->SetDrawCount(1);
 		targetItemNumbers_->SetTransform(targetItemNumbersTransform_);
 
 		getItemNumbers_->SetNum(datas_->GetItem());
 		getItemNumbers_->SetTransform(getItemNumbersTransform_);
+
+		if (datas_->GetHitCount() < 10) {
+			hitCountNumbers_->SetDrawCount(1);
+		}
+		else if (datas_->GetHitCount() < 100) {
+			hitCountNumbers_->SetDrawCount(2);
+		}
+		else if (datas_->GetHitCount() < 1000) {
+			hitCountNumbers_->SetDrawCount(3);
+		}
+		hitCountNumbers_->SetNum(datas_->GetHitCount());
+
+		targetTime_->SetNum(datas_->GetClearResultTimeNum());
+		time_->SetNum(datas_->GetClearTime());
 
 		audio_->SoundPlayWave(bgmData_, 0.1f, true);
 
@@ -150,14 +165,14 @@ void GameClearScene::Update() {
 	}
 	targetItemNumbers_->SetTransform(targetItemNumbersTransform_);
 	getItemNumbers_->SetTransform(getItemNumbersTransform_);
+	hitCountNumbers_->SetTransform(hitCountTransform_);
+	targetTime_->SetTransform(targetTimeTransform_);
+	time_->SetTransform(timeTransform_);
 
-	targets_[datas_->GetStageNum()].item = datas_->GetMaxItem();
-	targets_[datas_->GetStageNum()].time = (float)datas_->GetClearResultTimeNum();
-
-	if (datas_->GetItem() == targets_[datas_->GetStageNum()].item) {
+	if (datas_->GetItem() == datas_->GetMaxItem()) {
 		achievement_.num[0] = 1.0f;
 	}
-	if (datas_->GetClearTime() <= targets_[datas_->GetStageNum()].time) {
+	if (datas_->GetClearTime() <= datas_->GetClearResultTimeNum()) {
 		achievement_.num[1] = 1.0f;
 	}
 	if (!datas_->GetFell()) {
@@ -314,11 +329,6 @@ void GameClearScene::Update() {
 
 	/*numbers_->SetNum(datas_->GetClearTime() / 60);
 	numbers_->SetTransform(numbersTransform_);*/
-  
-	targetTime_->SetNum(targets_[datas_->GetStageNum()].time);
-	targetTime_->SetTransform(targetTimeTransform_);
-	time_->SetNum(datas_->GetClearTime());
-	time_->SetTransform(timeTransform_);
 
 	if (input_->TriggerKey(DIK_A) && spriteTransform_[3].translate.num[0] == 1061.0f)
 	{
@@ -355,6 +365,7 @@ void GameClearScene::Update() {
 	ImGui::DragFloat3("fraction", fractionTransform_[1].translate.num, 0.0f, 2280.0f);
 	ImGui::DragFloat3("empty", emptyStarTransform_.translate.num, 0.0f, 2280.0f);
 	ImGui::DragFloat3("targetTime", targetTimeTransform_.translate.num, 0.0f, 2280.0f);
+	ImGui::DragFloat3("hit", hitCountTransform_.translate.num, 0.0f, 2280.0f);
 	ImGui::End();
 
 	if (!isTransitionStart_ && isTransitionEnd_)
@@ -447,6 +458,8 @@ void GameClearScene::Draw() {
 
 	time_->Draw();
 	targetTime_->Draw();
+
+	hitCountNumbers_->Draw();
   
     transitionSprite_->Draw(transitionSpriteTransform_, transitionSpriteuvTransform_, transitionSpriteMaterial_);
   
