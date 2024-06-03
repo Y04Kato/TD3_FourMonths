@@ -1,6 +1,6 @@
 {
     "GamePlayScene2": {
-        "ObjCount": 45,
+        "ObjCount": 41,
         "test0Material": [
             0.0,
             1.0,
@@ -489,11 +489,11 @@
             4.0
         ],
         "test35Translate": [
-            -3.0,
+            -2.0,
             26.0,
-            1391.0
+            1362.0
         ],
-        "test35TreeMode": 0,
+        "test35TreeMode": 2,
         "test36Material": [
             0.0,
             1.0,
@@ -540,7 +540,7 @@
             4.0
         ],
         "test38Translate": [
-            11.0,
+            0.0,
             26.0,
             1535.0
         ],
@@ -557,7 +557,7 @@
             4.0
         ],
         "test39Translate": [
-            -45.0,
+            -46.0,
             26.0,
             1605.0
         ],
@@ -578,7 +578,7 @@
             26.0,
             280.0
         ],
-        "test3TreeMode": 2,
+        "test3TreeMode": 0,
         "test40Material": [
             0.0,
             1.0,
@@ -630,57 +630,6 @@
             1668.0
         ],
         "test42TreeMode": 0,
-        "test43Material": [
-            0.0,
-            1.0,
-            0.0,
-            1.0
-        ],
-        "test43Scale": [
-            4.0,
-            30.0,
-            4.0
-        ],
-        "test43Translate": [
-            -14.0,
-            26.0,
-            761.0
-        ],
-        "test43TreeMode": 0,
-        "test44Material": [
-            0.0,
-            1.0,
-            0.0,
-            1.0
-        ],
-        "test44Scale": [
-            4.0,
-            30.0,
-            4.0
-        ],
-        "test44Translate": [
-            -4.0,
-            26.0,
-            1177.0
-        ],
-        "test44TreeMode": 0,
-        "test45Material": [
-            0.0,
-            1.0,
-            0.0,
-            1.0
-        ],
-        "test45Scale": [
-            4.0,
-            30.0,
-            4.0
-        ],
-        "test45Translate": [
-            0.0,
-            26.0,
-            1316.0
-        ],
-        "test45TreeMode": 0,
         "test4Material": [
             0.0,
             1.0,
@@ -727,7 +676,7 @@
             4.0
         ],
         "test6Translate": [
-            55.0,
+            56.0,
             26.0,
             245.0
         ],
@@ -761,7 +710,7 @@
             4.0
         ],
         "test8Translate": [
-            -55.0,
+            -50.0,
             26.0,
             350.0
         ],
@@ -782,6 +731,6 @@
             26.0,
             400.0
         ],
-        "test9TreeMode": 0
+        "test9TreeMode": 2
     }
 }

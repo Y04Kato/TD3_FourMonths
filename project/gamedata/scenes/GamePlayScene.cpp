@@ -620,12 +620,12 @@ void GamePlayScene::Update() {
 			player_->SetisWireParticle(false);
 		}
 
-		if (player_->GetIsSetWire() == true) {
+		/*if (player_->GetIsSetWire() == true) {
 
 		
 
 			player_->SetIsSetWire(false);
-		}
+		}*/
 
 		obj.obb_.center = obj.world.translation_;
 		GetOrientations(MakeRotateXYZMatrix(obj.world.rotation_), obj.obb_.orientation);
@@ -637,14 +637,14 @@ void GamePlayScene::Update() {
 			obj.isHit = true;
 
 			if (input_->pushMouse(MOUSE_BOTTON0)) {
-				if (obj.treeMode == TREEMODE::LEFTROTATE) {
+				/*if (obj.treeMode == TREEMODE::LEFTROTATE) {
 					player_->SetIsRoll(true);
 					player_->SetLeftRoll(true);
 				}
 				if (obj.treeMode == TREEMODE::RIGHTROTATE) {
 					player_->SetIsRoll(true);
 					player_->SetLeftRoll(false);
-				}
+				}*/
 
 				if (obj.treeMode == TREEMODE::ITEM) {
 					datas_->SetItem(datas_->GetItem() + 1);
