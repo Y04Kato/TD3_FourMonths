@@ -28,8 +28,17 @@ public:
 	void SetItem(int getItem) { getItem_ = getItem; }
 	int GetItem() { return getItem_; }
 
+	void SetMaxItem(int getMaxItem) { getMaxItem_ = getMaxItem; }
+	int GetMaxItem() { return getMaxItem_; }
+
+	void SetHitCount(int hitCount) { hitCount_ = hitCount; }
+	int GetHitCount() { return hitCount_; }
+
 	void SetFell(bool fell) { fell_ = fell; }
 	bool GetFell() { return fell_; }
+
+	void SetClearResultNum(const int clearResultTime) { clearResultTime_ = clearResultTime; }
+	const int& GetClearResultTimeNum() { return clearResultTime_; }
 
 private:
 	Datas() = default;
@@ -38,6 +47,7 @@ private:
 	Datas& operator=(const Datas& obj) = default;
 
 	int getItem_;
+	int getMaxItem_;
 	float clearTime_;
 	bool fell_;
 
@@ -48,6 +58,10 @@ private:
 	bool isRule_ = false;
 
 	bool isReset_ = false;
+
+	int clearResultTime_ = 0;
+
+	int hitCount_ = 0;
 
 	VectorInt4 uiResrouce_ = { 0,0,0,0 };
 

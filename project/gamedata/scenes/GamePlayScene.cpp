@@ -215,6 +215,23 @@ void GamePlayScene::Initialize() {
 
 	starSprite_->Initialize(Vector2{ 512.0f,512.0f }, starResource_);
 	starSprite_->SetAnchor(Vector2{ 0.5f,0.5f });
+
+	for (int i = 0; i < 6; i++) {
+		numbersResult_[i] = std::make_unique<Numbers>();
+		numbersResult_[i]->Initialize();
+		numbersResult_[i]->SetInitialNum(0);
+		numbersResult_[i]->SetSpace(-35);
+		numbersResult_[i]->SetDrawCount(2);
+		numbersTransformResult_[i].scale = { 0.7f,0.7f,0.7f };
+		numbersTransformResult_[i].rotate = { 0.0f,0.0f,0.0f };
+	}
+
+	numbersTransformResult_[0].translate = { 940.0f,25.0f,0.0f };
+	numbersTransformResult_[1].translate = { 940.0f,70.0f,0.0f };
+	numbersTransformResult_[2].translate = { 940.0f,115.0f,0.0f };
+	numbersTransformResult_[3].translate = { 1030.0f,25.0f,0.0f };
+	numbersTransformResult_[4].translate = { 1030.0f,70.0f,0.0f };
+	numbersTransformResult_[5].translate = { 1030.0f,115.0f,0.0f };
 }
 
 void GamePlayScene::Update() {
@@ -226,21 +243,27 @@ void GamePlayScene::Update() {
 		//ステージ選択を適用
 		if (datas_->GetStageNum() == 1) {
 			nowGroupName_ = "GamePlayScene";
+			datas_->SetClearResultNum(15);
 		}
 		if (datas_->GetStageNum() == 2) {
 			nowGroupName_ = "GamePlayScene2";
+			datas_->SetClearResultNum(15);
 		}
 		if (datas_->GetStageNum() == 3) {
 			nowGroupName_ = "GamePlayScene3";
+			datas_->SetClearResultNum(15);
 		}
 		if (datas_->GetStageNum() == 4) {
 			nowGroupName_ = "GamePlayScene4";
+			datas_->SetClearResultNum(15);
 		}
 		if (datas_->GetStageNum() == 5) {
 			nowGroupName_ = "GamePlayScen5";
+			datas_->SetClearResultNum(15);
 		}
 		if (datas_->GetStageNum() == 6) {
 			nowGroupName_ = "GamePlayScene6";
+			datas_->SetClearResultNum(15);
 		}
 
 		GlobalVariables* globalVariables{};
@@ -249,6 +272,21 @@ void GamePlayScene::Update() {
 		for (int i = 0; i < objCount_; i++) {
 			SetObject(EulerTransform{ { 4.0f,30.0f,4.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objNameHolder_[i]);
 		}
+		ApplyGlobalVariables();
+		int treeCount = 0;
+		for (Obj& obj : objects_) {
+			if (obj.treeMode == TREEMODE::ITEM) {
+				treeCount++;
+			}
+
+		}
+		
+		numbersResult_[3]->SetNum(treeCount * 10);
+		numbersResult_[4]->SetNum(datas_->GetClearResultTimeNum() * 10);
+		numbersResult_[5]->SetNum(1 * 10);
+		datas_->SetMaxItem(treeCount);
+		datas_->SetItem(0);
+		nowHitCount_ = 0;
 
 		isGameStart_ = false;
 	}
@@ -311,6 +349,7 @@ void GamePlayScene::Update() {
 			player_->SetWorldTransform(startWorldTransform_);
 			player_->SetIsGoal(false);
 			datas_->SetClearTime(nowTime_);
+			datas_->SetHitCount(nowHitCount_);
 			nowTime_ = 0.0f;
 			input_->ViewCursor();
 			FinalizeGoal();
@@ -467,6 +506,13 @@ void GamePlayScene::Update() {
 			numbers2_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 		}
 
+		for (int i = 0; i < 6; i++) {
+			numbersResult_[i]->SetTransform(numbersTransformResult_[i]);
+		}
+		numbersResult_[0]->SetNum(datas_->GetItem() * 10);
+		numbersResult_[1]->SetNum((int)nowTime_ * 10);
+		numbersResult_[2]->SetNum(nowHitCount_ * 10);
+
 		if (cameraChange_ == true) {//DebugCamera
 			debugCamera_->Update();
 			if (input_->PressKey(DIK_V)) {//Shakeテスト用
@@ -531,7 +577,7 @@ void GamePlayScene::Update() {
 		}
 
 		if (obj.treeMode == TREEMODE::ITEM) {
-			obj.material = { 1.0f,0.0f,0.0f,1.0f };
+			obj.material = { 1.0f,0.3f,0.15f,1.0f };
 			obj.Backmaterial = obj.material;
 		}
 
@@ -554,10 +600,7 @@ void GamePlayScene::Update() {
 
 		if (player_->GetIsSetWire() == true) {
 
-			if (obj.treeMode == TREEMODE::ITEM) {
-				datas_->SetItem(datas_->GetItem() + 1);
-				obj.treeMode = TREEMODE::NONE;
-			}
+		
 
 			player_->SetIsSetWire(false);
 		}
@@ -579,6 +622,11 @@ void GamePlayScene::Update() {
 				if (obj.treeMode == TREEMODE::RIGHTROTATE) {
 					player_->SetIsRoll(true);
 					player_->SetLeftRoll(false);
+				}
+
+				if (obj.treeMode == TREEMODE::ITEM) {
+					datas_->SetItem(datas_->GetItem() + 1);
+					obj.treeMode = TREEMODE::NONE;
 				}
 			}
 
@@ -612,6 +660,7 @@ void GamePlayScene::Update() {
 				particle_->SetTranslate(Vector3{ player_->GetWorldTransformWire().translation_.num[0],player_->GetWorldTransform().translation_.num[1],player_->GetWorldTransformWire().translation_.num[2] });
 				particle_->OccursOnlyOnce(occursNum_);
 				followCamera_->ShakeCamera(shakePower.x, shakePower.y);
+				nowHitCount_++;
 			}
 		}
 		else {
@@ -839,6 +888,9 @@ void GamePlayScene::Draw() {
 		timer_->AddTimeDraw();
 		numbers2_->Draw();
 		player_->DrawUI();
+		for (int i = 0; i < 6; i++) {
+			numbersResult_[i]->Draw();
+		}
 		if (isHitWire_ == true) {
 			uiSprite_[0]->Draw(uiSpriteTransform_[0], uiSpriteuvTransform_[0], uiSpriteMaterial_[0]);
 		}
@@ -877,7 +929,9 @@ void GamePlayScene::ApplyGlobalVariables() {
 		//obj.world.rotation_ = globalVariables->GetVector3Value(groupName,  obj.name + "Rotate");
 		obj.world.scale_ = globalVariables->GetVector3Value(nowGroupName_, obj.name + "Scale");
 		obj.Backmaterial = globalVariables->GetVector4Value(nowGroupName_, obj.name + "Material");
-		obj.treeMode = globalVariables->GetIntValue(nowGroupName_, obj.name + "TreeMode");
+		if ((int)nowTime_ <= 1) {
+			obj.treeMode = globalVariables->GetIntValue(nowGroupName_, obj.name + "TreeMode");
+		}
 	}
 }
 

@@ -147,6 +147,9 @@ void GameClearScene::Update() {
 	targetItemNumbers_->SetTransform(targetItemNumbersTransform_);
 	getItemNumbers_->SetTransform(getItemNumbersTransform_);
 
+	targets_[datas_->GetStageNum()].item = datas_->GetMaxItem();
+	targets_[datas_->GetStageNum()].time = (float)datas_->GetClearResultTimeNum();
+
 	if (datas_->GetItem() == targets_[datas_->GetStageNum()].item) {
 		achievement_.num[0] = 1.0f;
 	}
