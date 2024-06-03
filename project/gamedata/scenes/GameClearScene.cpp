@@ -25,10 +25,13 @@ void GameClearScene::Initialize() {
 	spriteResource_[1] = textureManager_->Load("project/gamedata/resources/UI/ResultUI.png");
 	spriteResource_[2] = textureManager_->Load("project/gamedata/resources/UI/GoalTab.png");
 	spriteResource_[3] = textureManager_->Load("project/gamedata/resources/UI/Cursor.png");
+	spriteResource_[4] = textureManager_->Load("project/gamedata/resources/UI/ResultItem.png");
+	spriteResource_[5] = textureManager_->Load("project/gamedata/resources/UI/ResultTime.png");
+	spriteResource_[6] = textureManager_->Load("project/gamedata/resources/UI/ResultHit.png");
 
 	starTextureHandle_ = textureManager_->Load("project/gamedata/resources/UI/star.png");
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 7; i++)
 	{
 		spriteMaterial_[i] = { 1.0f,1.0f,1.0f,1.0f };
 		spriteTransform_[i] = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1280 / 2.0f,720 / 2.0f,0.0f} };
@@ -49,6 +52,12 @@ void GameClearScene::Initialize() {
 	spriteTransform_[1].translate.num[0] = 580.0f;
 	spriteTransform_[1].translate.num[1] = 385.0f;
 
+	spriteTransform_[4].translate.num[1] = 345.0f;
+
+	spriteTransform_[5].translate.num[1] = 345.0f;
+
+	spriteTransform_[6].translate.num[1] = 345.0f;
+
 	starTextureHandle_ = textureManager_->Load("project/gamedata/resources/UI/star.png");
 	for (uint32_t index = 0; index < 3; index++) {
 		starSprite_[index] = std::make_unique<CreateSprite>();
@@ -68,12 +77,12 @@ void GameClearScene::Initialize() {
 	targetItemNumbers_ = std::make_unique<Numbers>();
 	targetItemNumbers_->Initialize();
 	targetItemNumbers_->SetInitialNum(0 / 60);
-	targetItemNumbersTransform_ = { {1.0f, 1.0f, 1.0f}, { 0.0f,0.0f,0.0f}, {580.0f,165.0f,0.0f} };
+	targetItemNumbersTransform_ = { {1.0f, 1.0f, 1.0f}, { 0.0f,0.0f,0.0f}, {670.0f,164.0f,0.0f} };
 
 	getItemNumbers_ = std::make_unique<Numbers>();
 	getItemNumbers_->Initialize();
 	getItemNumbers_->SetInitialNum(0 / 60);
-	getItemNumbersTransform_ = { {1.0f, 1.0f, 1.0f}, { 0.0f,0.0f,0.0f}, {500.0f,165.0f,0.0f} };
+	getItemNumbersTransform_ = { {1.0f, 1.0f, 1.0f}, { 0.0f,0.0f,0.0f}, {560.0f,165.0f,0.0f} };
 
 	fractionTextureHandle_ = textureManager_->Load("project/gamedata/resources/fraction.png");
 	for (int32_t index = 0; index < 2; index++) {
@@ -81,20 +90,20 @@ void GameClearScene::Initialize() {
 		fractionSprites_[index]->Initialize({ 48.0f, 48.0f }, fractionTextureHandle_);
 		fractionSprites_[index]->SetAnchor({ 0.5f, 0.5f });
 	}
-	fractionTransform_[0] = { {1.0f, 1.0f ,1.0f}, {0.0f, 0.0f, 0.0f}, {715.0f,190.0f,0.0f} };
-	fractionTransform_[1] = { {1.0f, 1.0f ,1.0f}, {0.0f, 0.0f, 0.0f}, {830.0f,285.0f,0.0f} };
+	fractionTransform_[0] = { {1.0f, 1.0f ,1.0f}, {0.0f, 0.0f, 0.0f}, {790.0f,190.0f,0.0f} };
+	fractionTransform_[1] = { {1.0f, 1.0f ,1.0f}, {0.0f, 0.0f, 0.0f}, {923.0f,305.0f,0.0f} };
 
 	// 目標タイム
 	targetTime_ = std::make_unique<Timer>();
 	targetTime_->Initialize();
 	targetTime_->SetInitialNum(0 / 60);
-	targetTimeTransform_ = { {1.0f, 1.0f, 1.0f}, { 0.0f,0.0f,0.0f}, {700.0f,260.0f,0.0f} };
+	targetTimeTransform_ = { {1.0f, 1.0f, 1.0f}, { 0.0f,0.0f,0.0f}, {800.0f,278.0f,0.0f} };
 
 	//クリアタイム
 	time_ = std::make_unique<Timer>();
 	time_->Initialize();
 	time_->SetInitialNum(0 / 60);
-	timeTransform_ = { {1.0f, 1.0f, 1.0f}, { 0.0f,0.0f,0.0f}, {480.0f,260.0f,0.0f} };
+	timeTransform_ = { {1.0f, 1.0f, 1.0f}, { 0.0f,0.0f,0.0f}, {560.0f,278.0f,0.0f} };
 
 	//Transition
 	transitionSpriteMaterial_ = { 0.0f,0.0f,0.0f,0.0f };
@@ -410,11 +419,17 @@ void GameClearScene::Draw() {
 #pragma region 前景スプライト描画
 	CJEngine_->renderer_->Draw(PipelineType::Standard2D);
 
-	sprite_[1]->Draw(spriteTransform_[1], SpriteuvTransform_[1], spriteMaterial_[1]);
+	//sprite_[1]->Draw(spriteTransform_[1], SpriteuvTransform_[1], spriteMaterial_[1]);
 
 	sprite_[2]->Draw(spriteTransform_[2], SpriteuvTransform_[2], spriteMaterial_[2]);
 
 	sprite_[3]->Draw(spriteTransform_[3], SpriteuvTransform_[3], spriteMaterial_[3]);
+
+	sprite_[4]->Draw(spriteTransform_[4], SpriteuvTransform_[4], spriteMaterial_[4]);
+
+	sprite_[5]->Draw(spriteTransform_[5], SpriteuvTransform_[5], spriteMaterial_[5]);
+
+	sprite_[6]->Draw(spriteTransform_[6], SpriteuvTransform_[6], spriteMaterial_[6]);
 
 	for (uint32_t index = 0; index < 3; index++) {
 		EulerTransform emptyTransform = emptyStarTransform_;

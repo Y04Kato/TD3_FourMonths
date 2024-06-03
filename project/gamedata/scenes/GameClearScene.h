@@ -43,11 +43,11 @@ private:
 	SoundData cursolData_;
 
 	//Sprite
-	std::unique_ptr <CreateSprite> sprite_[4];
-	uint32_t spriteResource_[4];
-	EulerTransform spriteTransform_[4];
-	EulerTransform SpriteuvTransform_[4];
-	Vector4 spriteMaterial_[4];
+	std::unique_ptr <CreateSprite> sprite_[7];
+	uint32_t spriteResource_[7];
+	EulerTransform spriteTransform_[7];
+	EulerTransform SpriteuvTransform_[7];
+	Vector4 spriteMaterial_[7];
 	// 星のスプライト
 	std::unique_ptr <CreateSprite> starSprite_[3];
 	uint32_t starTextureHandle_;
