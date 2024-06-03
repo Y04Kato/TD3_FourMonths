@@ -335,8 +335,9 @@ void Player::Updete(const ViewProjection viewProjection) {
 						// 減少量がだんだん大きくなる
 						downSpeedSize_ += downSpeedValue_;
 					}
-					Vector3 force = -downSpeedSize_ * Normalize(dir);
+					Vector3 force = Multiply(-downSpeedSize_, Normalize(dir));
 					physics_->AddForce(force, 0);
+					ImGui::DragFloat3("downSpeed", force.num, 1.0f);
 				}
 				else {
 					// 初期化
@@ -351,7 +352,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		}
 		Vector3 velocity = physics_->Update();
 		if (!isRoll_) {
-			float k = 1.0f + float(speedUpCount_) / 10.0f;
+			float k = 1.0f + float(speedUpCount_) / 5.0f;
 			velocity.num[0] *= k;
 			velocity.num[2] *= k;
 
@@ -487,7 +488,8 @@ void Player::Updete(const ViewProjection viewProjection) {
 	ImGui::DragFloat("upForceValue", &upSizeValue_, 0.05f);
 	ImGui::DragFloat("maxUpForce", &maxUpSize_, 1.0f);
 	ImGui::DragFloat("minSpeedVolume", &minSpeedVolume_, 1.0f);
-	ImGui::DragFloat("downSpeedScale", &downSpeedValue_, 0.05f);
+	ImGui::DragFloat("downSpeedValue", &downSpeedValue_, 0.05f);
+	ImGui::DragFloat("maxDownSpeedSize", &maxDownSpeedSize_, 0.1f);
 	ImGui::DragFloat("stiffness", &stiffness_, 0.5f);
 	ImGui::DragFloat("dampingCoefficient_", &dampingCoefficient_, 0.05f);
 	ImGui::Text("Timer %f", accelerationTimer_);

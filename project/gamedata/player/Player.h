@@ -125,8 +125,8 @@ private:
 
 	//レティクルとワイヤー
 	void Reticle(const ViewProjection viewProjection);//レティクルの計算関数
-	const float kDistancePlayerToReticle = 90.0f;//自機とレティクルの距離、通常射程
-	const float kDistancePlayerToReticleFell = 130.0f;//自機とレティクルの距離、落ちた時の射程
+	const float kDistancePlayerToReticle = 110.0f;//自機とレティクルの距離、通常射程
+	const float kDistancePlayerToReticleFell = 150.0f;//自機とレティクルの距離、落ちた時の射程
 	float DistancePlayerToReticle = kDistancePlayerToReticle;//自機とレティクルの距離
 	void SetWire();//ワイヤー成功時関数
 	void SetWireMiss();//ワイヤー失敗時関数
@@ -182,13 +182,13 @@ private:
 	float maxUpSize_ = 10.0f;
 
 	// 非ワイヤー時の速度の大きさの最小値
-	float minSpeedVolume_ = 15.0f;
+	float minSpeedVolume_ = 10.0f;
 	// 非ワイヤー時の速度の減少量が加算されていく変数
 	float downSpeedSize_ = 0.0f;
 	// 非ワイヤー時の速度の減少量
 	float downSpeedValue_ = 0.5f;
 	// 非ワイヤー時の速度の減少量が加算されていく変数の最大値
-	float maxDownSpeedSize_ = 5.0f;
+	float maxDownSpeedSize_ = 7.0f;
 	// 非ワイヤー時の速度の減少を行うかのフラグ
 	bool isDownSpeed_;
 

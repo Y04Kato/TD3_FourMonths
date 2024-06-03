@@ -1,6 +1,6 @@
 {
     "GamePlayScene": {
-        "ObjCount": 42,
+        "ObjCount": 41,
         "test0Material": [
             0.0,
             1.0,
@@ -391,7 +391,7 @@
             26.0,
             110.0
         ],
-        "test2TreeMode": 1,
+        "test2TreeMode": 0,
         "test30Material": [
             0.0,
             1.0,
@@ -493,7 +493,7 @@
             26.0,
             1362.0
         ],
-        "test35TreeMode": 0,
+        "test35TreeMode": 2,
         "test36Material": [
             0.0,
             1.0,
@@ -578,7 +578,7 @@
             26.0,
             280.0
         ],
-        "test3TreeMode": 2,
+        "test3TreeMode": 0,
         "test40Material": [
             0.0,
             1.0,
@@ -676,7 +676,7 @@
             4.0
         ],
         "test6Translate": [
-            55.0,
+            56.0,
             26.0,
             245.0
         ],
@@ -710,7 +710,7 @@
             4.0
         ],
         "test8Translate": [
-            -55.0,
+            -50.0,
             26.0,
             350.0
         ],
@@ -731,6 +731,6 @@
             26.0,
             400.0
         ],
-        "test9TreeMode": 0
+        "test9TreeMode": 2
     }
 }
