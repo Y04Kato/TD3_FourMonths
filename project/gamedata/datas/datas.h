@@ -46,9 +46,7 @@ public:
 	void SetClearResultNum(const int clearResultTime) { clearResultTime_ = clearResultTime; }
 	const int& GetClearResultTimeNum() { return clearResultTime_; }
 
-	void SetStarsEarned(int num, bool item, bool time, bool hit) {
-		starsEarned_[num] = { item, time, hit };
-	}
+	void SetStarsEarned(int num, bool item, bool time, bool hit);
 	StarsEarned* GetStarsEarned() { return starsEarned_; }
 
 private:

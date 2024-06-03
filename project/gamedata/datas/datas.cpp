@@ -13,3 +13,17 @@ void Datas::Initialize() {
 		starsEarned_[index].hit = false;
 	}
 }
+
+void Datas::SetStarsEarned(int num, bool item, bool time, bool hit)
+{
+	if (!starsEarned_[num].item) {
+		starsEarned_[num].item = item;
+	}
+	if (!starsEarned_[num].time) {
+		starsEarned_[num].time = time;
+	}
+	if (!starsEarned_[num].hit) {
+		starsEarned_[num].hit = hit;
+	}
+
+}
