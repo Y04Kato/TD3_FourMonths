@@ -276,6 +276,7 @@ void GamePlayScene::Update() {
 	else if (input_->TriggerKey(DIK_TAB) && datas_->GetIsPause())
 	{
 		datas_->SetIsPause(false);
+		datas_->SetIsRule(false);
 		input_->ToggleCursor();
 	}
 
@@ -610,6 +611,7 @@ void GamePlayScene::Update() {
 				particle_->SetColor(obj.Backmaterial);
 				particle_->SetTranslate(Vector3{ player_->GetWorldTransformWire().translation_.num[0],player_->GetWorldTransform().translation_.num[1],player_->GetWorldTransformWire().translation_.num[2] });
 				particle_->OccursOnlyOnce(occursNum_);
+				followCamera_->ShakeCamera(shakePower.x, shakePower.y);
 			}
 		}
 		else {
@@ -773,9 +775,12 @@ void GamePlayScene::Draw() {
 
 	floor_->Draw(viewProjection_);
 
-	for (int i = 0; i < 2; i++)
+	if (viewProjection_.translation_.num[0] > -75.0f && viewProjection_.translation_.num[0] < 75.0f)
 	{
-		wallModel_[i]->Draw(wallWorldTransform_[i], viewProjection_, wallMaterial_[i]);
+		for (int i = 0; i < 2; i++)
+		{
+			wallModel_[i]->Draw(wallWorldTransform_[i], viewProjection_, wallMaterial_[i]);
+		}
 	}
 
 	for (Obj& obj : objects_) {
