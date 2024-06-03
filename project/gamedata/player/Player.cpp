@@ -452,7 +452,7 @@ void Player::Updete(const ViewProjection viewProjection) {
 		forwad_ = { 0.0f, 0.0f, 1.0f };
 		right_ = { 1.0f, 0.0f, 0.0f };
 	}
-	else if (datas_->GetStageNum() == 6 && worldTransform_.translation_.num[2] >= 1700.0f)
+	else if (datas_->GetStageNum() == 6 && worldTransform_.translation_.num[2] >= 1710.0f)
 	{
 		isGoal_ = true;
 		isActive_ = false;
