@@ -410,6 +410,11 @@ void Player::Updete(const ViewProjection viewProjection) {
 		isActive_ = false;
 		isSetWire_ = false;
 		isWireSet_ = false;
+		isHitWire_ = false;
+		isMissWire_ = false;
+		isRoll_ = false;
+		isFell_ = false;
+		DistancePlayerToReticle = kDistancePlayerToReticle;
 		physics_->SetVelocity({ 0.0f, 0.0f, 0.0f });
 		datas_->SetIsReset(false);
 		forwad_ = { 0.0f, 0.0f, 1.0f };
