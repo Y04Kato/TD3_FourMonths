@@ -300,6 +300,9 @@ void GamePlayScene::Update() {
 
 		player_->SetIsHitObj(false);
 
+		isRestart_ = false;
+		isSelect_ = false;
+
 		isGameStart_ = false;
 	}
 
@@ -370,7 +373,23 @@ void GamePlayScene::Update() {
 			audio_->SoundStopWave(&bgmData_);
 			isGameStart_ = true;
 		}
-		else if (starSpriteMaterial_.num[3] > 1.0f && datas_->GetIsPause())
+		else if (starSpriteMaterial_.num[3] > 1.0f && datas_->GetIsPause() && isRestart_)
+		{
+			isTransitionStart_ = false;
+			isFirstTransition = true;
+			starSpriteTransform_.scale.num[0] = 10.0f;
+			starSpriteTransform_.scale.num[1] = 10.0f;
+			starSpriteMaterial_.num[3] = 1.0f;
+			sceneNo = GAME_SCENE;
+			datas_->SetIsPause(false);
+			datas_->SetIsReset(true);
+			nowTime_ = 0;
+			input_->ViewCursor();
+			FinalizeGoal();
+			audio_->SoundStopWave(&bgmData_);
+			isGameStart_ = true;
+		}
+		else if (starSpriteMaterial_.num[3] > 1.0f && datas_->GetIsPause() && isSelect_)
 		{
 			isTransitionStart_ = false;
 			isFirstTransition = true;
@@ -420,14 +439,8 @@ void GamePlayScene::Update() {
 		//Restart
 		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 324.0f)
 		{
-			datas_->SetIsPause(false);
-			datas_->SetIsReset(true);
-			startWorldTransform_.translation_ = { 0.0f,20.0f,0.0f };
-			player_->SetWorldTransform(startWorldTransform_);
-			player_->SetWorldTransformCamera(cameraWorldTransform_);
-			player_->SetIsRestart(false);
-			nowTime_ = 0.0f;
-			input_->HideCursor();
+			isTransitionStart_ = true;
+			isRestart_ = true;
 			audio_->SoundPlayWave(selectData_, 0.1f, false);
 		}
 
@@ -435,6 +448,7 @@ void GamePlayScene::Update() {
 		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 520.0f)
 		{
 			isTransitionStart_ = true;
+			isSelect_ = true;
 			audio_->SoundPlayWave(selectData_, 0.1f, false);
 		}
 

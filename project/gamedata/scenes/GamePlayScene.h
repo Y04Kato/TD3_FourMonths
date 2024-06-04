@@ -203,4 +203,8 @@ private:
 	int nowCountResult_[6];
 	EulerTransform numbersTransformResult_[6];
 	int nowHitCount_ = 0;
+
+	//Pause用
+	bool isRestart_ = false;
+	bool isSelect_ = false;
 };
