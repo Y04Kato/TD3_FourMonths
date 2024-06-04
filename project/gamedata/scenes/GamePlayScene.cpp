@@ -553,9 +553,9 @@ void GamePlayScene::Update() {
 
 		if (cameraChange_ == true) {//DebugCamera
 			debugCamera_->Update();
-			if (input_->PressKey(DIK_V)) {//Shakeテスト用
-				debugCamera_->ShakeCamera(shakePower.x, shakePower.y);
-			}
+			//if (input_->PressKey(DIK_V)) {//Shakeテスト用
+			//	debugCamera_->ShakeCamera(shakePower.x, shakePower.y);
+			//}
 
 			viewProjection_.translation_ = debugCamera_->GetViewProjection()->translation_;
 			viewProjection_.rotation_ = debugCamera_->GetViewProjection()->rotation_;
@@ -568,10 +568,10 @@ void GamePlayScene::Update() {
 				//player_->Shake(shakePower.x, shakePower.y);
 			}
 
-			if (input_->PressKey(DIK_V)) {//Shakeテスト用
-				followCamera_->ShakeCamera(shakePower.x, shakePower.y);
-				//player_->Shake(shakePower.x, shakePower.y);
-			}
+			//if (input_->PressKey(DIK_V)) {//Shakeテスト用
+			//	followCamera_->ShakeCamera(shakePower.x, shakePower.y);
+			//	//player_->Shake(shakePower.x, shakePower.y);
+			//}
 
 			viewProjection_.translation_ = followCamera_->GetViewProjection().translation_;
 			viewProjection_.matView = followCamera_->GetViewProjection().matView;
