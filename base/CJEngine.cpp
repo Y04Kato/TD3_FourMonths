@@ -2,7 +2,7 @@
 #include <assert.h>
 
 void CitrusJunosEngine::Initialize(const char* title, int32_t width, int32_t height) {
-	std::string titleWithEnginename = std::string(title) + " with CitrusJunosEngine ";
+	std::string titleWithEnginename = std::string(title);
 	auto&& titleString = ConvertString(titleWithEnginename);
 
 	dxCommon_ = DirectXCommon::GetInstance();

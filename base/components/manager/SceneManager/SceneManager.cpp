@@ -8,7 +8,7 @@ void SceneManager::Run() {
 
 void SceneManager::Initialize() {
 	//WindowTitle
-	const char kWindowTitle[] = "title";
+	const char kWindowTitle[] = "3103_SeaStarRun";
 	//COMの初期化
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 	//Engine
