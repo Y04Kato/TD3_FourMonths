@@ -728,9 +728,9 @@ void GamePlayScene::Update() {
 		input_->ToggleCursor();
 	}
 
-	if (input_->TriggerKey(DIK_C)) {//Particleテスト用
-		particle_->OccursOnlyOnce(occursNum_);
-	}
+	//if (input_->TriggerKey(DIK_C)) {//Particleテスト用
+	//	particle_->OccursOnlyOnce(occursNum_);
+	//}
 
 	mountain_->SetPlayerPos(player_->GetWorldTransform().translation_);
 
