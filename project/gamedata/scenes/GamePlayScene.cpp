@@ -729,18 +729,18 @@ void GamePlayScene::Update() {
 		resetTime_ = 0;
 	}
 
-	if (input_->TriggerKey(DIK_Z)) {//Zkeyでカメラモードの変更Follow <=> Debugへ
-		if (cameraChange_ == true) {
-			cameraChange_ = false;
-		}
-		else {
-			cameraChange_ = true;
-		}
-	}
+	//if (input_->TriggerKey(DIK_Z)) {//Zkeyでカメラモードの変更Follow <=> Debugへ
+	//	if (cameraChange_ == true) {
+	//		cameraChange_ = false;
+	//	}
+	//	else {
+	//		cameraChange_ = true;
+	//	}
+	//}
 
-	if (input_->TriggerKey(DIK_X)) {//Xkeyでカーソル表示変更
-		input_->ToggleCursor();
-	}
+	//if (input_->TriggerKey(DIK_X)) {//Xkeyでカーソル表示変更
+	//	input_->ToggleCursor();
+	//}
 
 	//if (input_->TriggerKey(DIK_C)) {//Particleテスト用
 	//	particle_->OccursOnlyOnce(occursNum_);
