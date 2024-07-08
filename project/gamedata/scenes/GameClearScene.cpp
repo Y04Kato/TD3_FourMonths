@@ -21,7 +21,7 @@ void GameClearScene::Initialize() {
 	cursolData_ = audio_->SoundLoad("project/gamedata/resources/sounds/cursol.mp3");
 
 	//テクスチャ
-	spriteResource_[0] = textureManager_->Load("project/gamedata/resources/UI/bg.png");
+	spriteResource_[0] = textureManager_->Load("project/gamedata/resources/UI/bg3.png");
 	spriteResource_[1] = textureManager_->Load("project/gamedata/resources/UI/ResultUI.png");
 	spriteResource_[2] = textureManager_->Load("project/gamedata/resources/UI/GoalTab.png");
 	spriteResource_[3] = textureManager_->Load("project/gamedata/resources/UI/Cursor.png");
