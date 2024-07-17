@@ -161,12 +161,14 @@
     <ClCompile Include="base\components\manager\TextureManager\TextureManager.cpp" />
     <ClCompile Include="base\components\pipelineState\Gaussian\Gaussian.cpp" />
     <ClCompile Include="base\components\pipelineState\Grayscale\Grayscale.cpp" />
+    <ClCompile Include="base\components\pipelineState\LensDistortion\LensDistortion.cpp" />
     <ClCompile Include="base\components\pipelineState\MaskTexture\MaskTexture.cpp" />
     <ClCompile Include="base\components\pipelineState\Outline\Outline.cpp" />
     <ClCompile Include="base\components\pipelineState\Particle\Particle.cpp" />
     <ClCompile Include="base\components\pipelineState\PostProcess\PostProcess.cpp" />
     <ClCompile Include="base\components\pipelineState\RadialBlur\RadialBlur.cpp" />
     <ClCompile Include="base\components\pipelineState\Random\Random.cpp" />
+    <ClCompile Include="base\components\pipelineState\Scanlines\Scanlines.cpp" />
     <ClCompile Include="base\components\pipelineState\Skinning\Skinning.cpp" />
     <ClCompile Include="base\components\pipelineState\SkyBox\SkyBox.cpp" />
     <ClCompile Include="base\components\pipelineState\Smoothing\Smoothing.cpp" />
@@ -179,6 +181,7 @@
     <ClCompile Include="base\components\shaderCompiler\ShaderCompiler.cpp" />
     <ClCompile Include="base\components\utilities\convertString\ConvertString.cpp" />
     <ClCompile Include="base\components\utilities\directionalLight\DirectionalLight.cpp" />
+    <ClCompile Include="base\components\utilities\editors\Editors.cpp" />
     <ClCompile Include="base\components\utilities\followCamera\FollowCamera.cpp" />
     <ClCompile Include="base\components\utilities\levelDataLoader\LevelDataLoader.cpp" />
     <ClCompile Include="base\components\utilities\pointLight\PointLight.cpp" />
@@ -413,6 +416,7 @@
     <ClInclude Include="base\components\pipelineState\Grayscale\Grayscale.h" />
     <ClInclude Include="base\components\math\Structure.h" />
     <ClInclude Include="base\components\pipelineState\IPipeLineStateObject.h" />
+    <ClInclude Include="base\components\pipelineState\LensDistortion\LensDistortion.h" />
     <ClInclude Include="base\components\pipelineState\MaskTexture\MaskTexture.h" />
     <ClInclude Include="base\components\pipelineState\Outline\Outline.h" />
     <ClInclude Include="base\components\pipelineState\Particle\Particle.h" />
@@ -420,6 +424,7 @@
     <ClInclude Include="base\components\pipelineState\PostProcess\PostProcess.h" />
     <ClInclude Include="base\components\pipelineState\RadialBlur\RadialBlur.h" />
     <ClInclude Include="base\components\pipelineState\Random\Random.h" />
+    <ClInclude Include="base\components\pipelineState\Scanlines\Scanlines.h" />
     <ClInclude Include="base\components\pipelineState\Skinning\Skinning.h" />
     <ClInclude Include="base\components\pipelineState\SkyBox\SkyBox.h" />
     <ClInclude Include="base\components\pipelineState\Smoothing\Smoothing.h" />
@@ -432,6 +437,7 @@
     <ClInclude Include="base\components\shaderCompiler\ShaderCompiler.h" />
     <ClInclude Include="base\components\utilities\convertString\ConvertString.h" />
     <ClInclude Include="base\components\utilities\directionalLight\DirectionalLight.h" />
+    <ClInclude Include="base\components\utilities\editors\Editors.h" />
     <ClInclude Include="base\components\utilities\followCamera\FollowCamera.h" />
     <ClInclude Include="base\components\utilities\levelDataLoader\LevelData.h" />
     <ClInclude Include="base\components\utilities\levelDataLoader\LevelDataLoader.h" />

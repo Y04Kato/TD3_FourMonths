@@ -243,6 +243,9 @@ void GamePlayScene::Initialize() {
 }
 
 void GamePlayScene::Update() {
+	GlobalVariables* globalVariables{};
+	globalVariables = GlobalVariables::GetInstance();
+
 	if (isGameStart_ == true) {//ゲーム開始時の処理
 		uiSpriteTransform_[3].translate.num[0] = 1048.0f;
 		uiSpriteTransform_[3].translate.num[1] = 324.0f;
@@ -274,12 +277,12 @@ void GamePlayScene::Update() {
 			datas_->SetClearResultNum(15.00f);
 		}
 
-		GlobalVariables* globalVariables{};
-		globalVariables = GlobalVariables::GetInstance();
 		ApplyGlobalVariables();
+
 		for (int i = 0; i < objCount_; i++) {
 			SetObject(EulerTransform{ { 4.0f,30.0f,4.0f }, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f} }, objNameHolder_[i]);
 		}
+
 		ApplyGlobalVariables();
 		int treeCount = 0;
 		for (Obj& obj : objects_) {
@@ -316,10 +319,6 @@ void GamePlayScene::Update() {
 		isTransitionEnd_ = false;
 		isFirstTransition = false;
 	}
-
-	GlobalVariables* globalVariables{};
-	globalVariables = GlobalVariables::GetInstance();
-	ApplyGlobalVariables();
 
 	if (input_->TriggerKey(DIK_TAB) && !datas_->GetIsPause())
 	{
@@ -591,6 +590,7 @@ void GamePlayScene::Update() {
 
 	for (Obj& obj : objects_) {
 		obj.world.UpdateMatrix();
+		SetGlobalVariables();
 	}
 
 	//レイの設定
@@ -726,18 +726,20 @@ void GamePlayScene::Update() {
 		resetTime_ = 0;
 	}
 
-	//if (input_->TriggerKey(DIK_Z)) {//Zkeyでカメラモードの変更Follow <=> Debugへ
-	//	if (cameraChange_ == true) {
-	//		cameraChange_ = false;
-	//	}
-	//	else {
-	//		cameraChange_ = true;
-	//	}
-	//}
+#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_Z)) {//Zkeyでカメラモードの変更Follow <=> Debugへ
+		if (cameraChange_ == true) {
+			cameraChange_ = false;
+		}
+		else {
+			cameraChange_ = true;
+		}
+	}
 
-	//if (input_->TriggerKey(DIK_X)) {//Xkeyでカーソル表示変更
-	//	input_->ToggleCursor();
-	//}
+	if (input_->TriggerKey(DIK_X)) {//Xkeyでカーソル表示変更
+		input_->ToggleCursor();
+	}
+#endif // _DEBUG
 
 	//if (input_->TriggerKey(DIK_C)) {//Particleテスト用
 	//	particle_->OccursOnlyOnce(occursNum_);
@@ -864,6 +866,11 @@ void GamePlayScene::Draw() {
 
 	for (Obj& obj : objects_) {
 		obj.model.Draw(obj.world, viewProjection_, obj.material);
+
+		//Guizmo操作
+		if (objName_ == obj.name) {
+			obj.world = editors_->Guizmo(viewProjection_, obj.world);
+		}
 	}
 
 	mountain_->Draw(viewProjection_);
@@ -993,6 +1000,22 @@ void GamePlayScene::ApplyGlobalVariables() {
 		obj.Backmaterial = globalVariables->GetVector4Value(nowGroupName_, obj.name + "Material");
 		if ((int)nowTime_ <= 1) {
 			obj.treeMode = globalVariables->GetIntValue(nowGroupName_, obj.name + "TreeMode");
+		}
+	}
+}
+
+void GamePlayScene::SetGlobalVariables() {
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+
+	globalVariables->SetValue(nowGroupName_, "ObjCount", objCount_);
+
+	for (Obj& obj : objects_) {
+		globalVariables->SetValue(nowGroupName_, obj.name + "Translate", obj.world.translation_);
+		//globalVariables->SetValue(nowGroupName_, obj.name + "Rotate", obj.world.rotation_);
+		globalVariables->SetValue(nowGroupName_, obj.name + "Scale", obj.world.scale_);
+		globalVariables->SetValue(nowGroupName_, obj.name + "Material",obj.Backmaterial);
+		if ((int)nowTime_ <= 1) {
+			globalVariables->SetValue(nowGroupName_, obj.name + "TreeMode",obj.treeMode);
 		}
 	}
 }

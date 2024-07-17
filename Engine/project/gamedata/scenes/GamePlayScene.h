@@ -16,6 +16,7 @@
 #include "components/utilities/collisionManager/CollisionConfig.h"
 #include "components/utilities/globalVariables/GlobalVariables.h"
 #include "components/utilities/followCamera/FollowCamera.h"
+#include "editors/Editors.h"
 
 #include "player/Player.h"
 #include "skydome/Skydome.h"
@@ -49,6 +50,7 @@ public:
 	void FinalizeGoal();
 
 	void ApplyGlobalVariables();
+	void SetGlobalVariables();
 
 	void SetObject(EulerTransform trans, const std::string& name);
 
@@ -209,4 +211,6 @@ private:
 	//Pause用
 	bool isRestart_ = false;
 	bool isSelect_ = false;
+
+	Editors* editors_;
 };
