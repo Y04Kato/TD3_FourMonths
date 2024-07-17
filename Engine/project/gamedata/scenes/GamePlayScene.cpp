@@ -937,33 +937,38 @@ void GamePlayScene::DrawUI() {
 	}
 	else
 	{
-		for (int i = 4; i < 10; i++) {
-			if (datas_->GetStageNum() == i - 3) {
-				uiSprite_[i]->Draw(uiSpriteTransform_[i], uiSpriteuvTransform_[i], uiSpriteMaterial_[i]);
+		if (cameraChange_ == true) {
+		
+		}
+		else {
+			for (int i = 4; i < 10; i++) {
+				if (datas_->GetStageNum() == i - 3) {
+					uiSprite_[i]->Draw(uiSpriteTransform_[i], uiSpriteuvTransform_[i], uiSpriteMaterial_[i]);
+				}
 			}
-		}
 
-		uiSprite_[11]->Draw(uiSpriteTransform_[11], uiSpriteuvTransform_[11], uiSpriteMaterial_[11]);
-		uiSprite_[12]->Draw(uiSpriteTransform_[11], uiSpriteuvTransform_[11], uiSpriteMaterial_[11]);
-		uiSprite_[13]->Draw(uiSpriteTransform_[11], uiSpriteuvTransform_[11], uiSpriteMaterial_[11]);
-		uiSprite_[14]->Draw(uiSpriteTransform_[11], uiSpriteuvTransform_[11], uiSpriteMaterial_[11]);
+			uiSprite_[11]->Draw(uiSpriteTransform_[11], uiSpriteuvTransform_[11], uiSpriteMaterial_[11]);
+			uiSprite_[12]->Draw(uiSpriteTransform_[11], uiSpriteuvTransform_[11], uiSpriteMaterial_[11]);
+			uiSprite_[13]->Draw(uiSpriteTransform_[11], uiSpriteuvTransform_[11], uiSpriteMaterial_[11]);
+			uiSprite_[14]->Draw(uiSpriteTransform_[11], uiSpriteuvTransform_[11], uiSpriteMaterial_[11]);
 
-		//numbers_->Draw();
-		timer_->Draw();
-		timer_->AddTimeDraw();
-		numbers2_->Draw();
-		player_->DrawUI();
-		for (int i = 0; i < 6; i++) {
-			numbersResult_[i]->Draw();
-		}
-		if (isHitWire_ == true) {
-			uiSprite_[0]->Draw(uiSpriteTransform_[0], uiSpriteuvTransform_[0], uiSpriteMaterial_[0]);
-		}
+			//numbers_->Draw();
+			timer_->Draw();
+			timer_->AddTimeDraw();
+			numbers2_->Draw();
+			player_->DrawUI();
+			for (int i = 0; i < 6; i++) {
+				numbersResult_[i]->Draw();
+			}
+			if (isHitWire_ == true) {
+				uiSprite_[0]->Draw(uiSpriteTransform_[0], uiSpriteuvTransform_[0], uiSpriteMaterial_[0]);
+			}
 
-		if (!player_->GetIsGoal() && !isTransitionStart_ && isTransitionEnd_)
-		{
-			if (player_->GetIsActive() == false) {
-				uiSprite_[1]->Draw(uiSpriteTransform_[1], uiSpriteuvTransform_[1], uiSpriteMaterial_[1]);
+			if (!player_->GetIsGoal() && !isTransitionStart_ && isTransitionEnd_)
+			{
+				if (player_->GetIsActive() == false) {
+					uiSprite_[1]->Draw(uiSpriteTransform_[1], uiSpriteuvTransform_[1], uiSpriteMaterial_[1]);
+				}
 			}
 		}
 
