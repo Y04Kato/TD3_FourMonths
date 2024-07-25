@@ -143,7 +143,8 @@ void GameTitleScene::Update(){
 	ImGui::Text("GameTitleScene");
 	ImGui::End();
 
-	if (input_->TriggerKey(DIK_SPACE)) {
+	if (input_->TriggerKey(DIK_SPACE) || input_->pushMouse(0)) 
+	{
 		if (isTransitionEnd_)
 		{
 			isTransitionStart_ = true;

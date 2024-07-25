@@ -78,5 +78,7 @@ private:
 	const float starTextureSize_ = 40.0f;
 	const float emptyStarTextureSize_ = 40.0f;
 	bool isGameStart_ = true;//ゲーム開始時に1回だけ呼ぶ
+
+	Vector2 mousePosition_ = { 0.0f,0.0f };
 };
 
