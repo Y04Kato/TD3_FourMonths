@@ -39,6 +39,9 @@ void WinApp::CreateWindowView(const wchar_t* title, int32_t clientWidth, int32_t
 	//ウィンドウサイズの構造体にクライアント領域を入れる
 	RECT wrc = { 0,0,clientWidth,clientHeight };
 
+	// ウィンドウスタイルを設定
+	DWORD dwStyle = WS_POPUP;
+
 	clientWidth_ = clientWidth;
 	clientHeight_ = clientHeight;
 
@@ -49,7 +52,7 @@ void WinApp::CreateWindowView(const wchar_t* title, int32_t clientWidth, int32_t
 	hwnd_ = CreateWindow(
 		wc_.lpszClassName,//クラス名
 		title,//タイトルバーの名前
-		WS_OVERLAPPEDWINDOW,//ウィンドウスタイル
+		dwStyle,//ウィンドウスタイル
 		CW_USEDEFAULT,//表示X座標
 		CW_USEDEFAULT,//表示Y座標
 		wrc.right - wrc.left,//ウィンドウ横幅
@@ -72,6 +75,8 @@ void WinApp::CreateWindowView(const wchar_t* title, int32_t clientWidth, int32_t
 		debugController_->SetEnableGPUBasedValidation(TRUE);
 	}
 #endif // _DEBUG
+
+	SetWindowPos(hwnd_, HWND_TOP, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), SWP_FRAMECHANGED);
 
 	//ウィンドウ表示
 	ShowWindow(hwnd_, SW_SHOW);
