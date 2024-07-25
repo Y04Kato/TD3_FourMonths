@@ -137,6 +137,9 @@ void GameClearScene::Initialize() {
 }
 
 void GameClearScene::Update() {
+
+	mousePosition_ = input_->GetMousePosition().Pos;
+
 	XINPUT_STATE joyState;
 	Input::GetInstance()->GetJoystickState(0, joyState);
 
@@ -341,27 +344,73 @@ void GameClearScene::Update() {
 	/*numbers_->SetNum(datas_->GetClearTime() / 60);
 	numbers_->SetTransform(numbersTransform_);*/
 
-	if (input_->TriggerKey(DIK_A) && spriteTransform_[3].translate.num[0] == 1061.0f)
+	bool mouseUpdated = false;
+
+	if (mousePosition_.num[0] >= 78.0f && mousePosition_.num[0] <= 494.0f &&
+		mousePosition_.num[1] >= 498.0f && mousePosition_.num[1] <= 701.0f)
 	{
 		spriteTransform_[3].translate.num[0] = 678.0f;
-		audio_->SoundPlayWave(cursolData_, 0.1f, false);
+		mouseUpdated = true;
+	}
+	else if (mousePosition_.num[0] >= 576.0f && mousePosition_.num[0] <= 979.0f &&
+		mousePosition_.num[1] >= 498.0f && mousePosition_.num[1] <= 701.0f)
+	{
+		spriteTransform_[3].translate.num[0] = 1061.0f;
+		mouseUpdated = true;
+	}
+	else if (mousePosition_.num[0] >= 1068.0f && mousePosition_.num[0] <= 1470.0f &&
+		mousePosition_.num[1] >= 498.0f && mousePosition_.num[1] <= 701.0f)
+	{
+		spriteTransform_[3].translate.num[0] = 1440.0f;
+		mouseUpdated = true;
+	}
+	else
+	{
+		mousePosition_.num[0] = 0.0f;
+		mousePosition_.num[1] = 0.0f;
+	}
+
+	if (input_->GetMousePosition().Velocity.num[0] != 0.0f || input_->GetMousePosition().Velocity.num[1] != 0.0f)
+	{
+		input_->ViewCursor();
+	}
+
+	bool keyUpdated = false;
+
+	if (input_->TriggerKey(DIK_A) && spriteTransform_[3].translate.num[0] == 1061.0f)
+	{
+		input_->HideCursor();
+		SetCursorPos(750, 450);
+		spriteTransform_[3].translate.num[0] = 678.0f;
+		keyUpdated = true;
 	}
 
 	if (input_->TriggerKey(DIK_A) && spriteTransform_[3].translate.num[0] == 1440.0f)
 	{
+		input_->HideCursor();
+		SetCursorPos(750, 450);
 		spriteTransform_[3].translate.num[0] = 1061.0f;
-		audio_->SoundPlayWave(cursolData_, 0.1f, false);
+		keyUpdated = true;
 	}
 
 	if (input_->TriggerKey(DIK_D) && spriteTransform_[3].translate.num[0] == 1061.0f)
 	{
+		input_->HideCursor();
+		SetCursorPos(750, 450);
 		spriteTransform_[3].translate.num[0] = 1440.0f;
-		audio_->SoundPlayWave(cursolData_, 0.1f, false);
+		keyUpdated = true;
 	}
 
 	if (input_->TriggerKey(DIK_D) && spriteTransform_[3].translate.num[0] == 678.0f)
 	{
+		input_->HideCursor();
+		SetCursorPos(750, 450);
 		spriteTransform_[3].translate.num[0] = 1061.0f;
+		keyUpdated = true;
+	}
+
+	if (mouseUpdated || keyUpdated)
+	{
 		audio_->SoundPlayWave(cursolData_, 0.1f, false);
 	}
 
