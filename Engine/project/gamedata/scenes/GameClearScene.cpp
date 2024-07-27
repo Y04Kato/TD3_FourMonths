@@ -346,20 +346,20 @@ void GameClearScene::Update() {
 
 	bool mouseUpdated = false;
 
-	if (mousePosition_.num[0] >= 78.0f && mousePosition_.num[0] <= 494.0f &&
-		mousePosition_.num[1] >= 498.0f && mousePosition_.num[1] <= 701.0f)
+	if (mousePosition_.num[0] >= 119.0f && mousePosition_.num[0] <= 523.0f &&
+		mousePosition_.num[1] >= 594.0f && mousePosition_.num[1] <= 798.0f)
 	{
 		spriteTransform_[3].translate.num[0] = 678.0f;
 		mouseUpdated = true;
 	}
-	else if (mousePosition_.num[0] >= 576.0f && mousePosition_.num[0] <= 979.0f &&
-		mousePosition_.num[1] >= 498.0f && mousePosition_.num[1] <= 701.0f)
+	else if (mousePosition_.num[0] >= 575.0f && mousePosition_.num[0] <= 981.0f &&
+		mousePosition_.num[1] >= 594.0f && mousePosition_.num[1] <= 798.0f)
 	{
-		spriteTransform_[3].translate.num[0] = 1061.0f;
+		spriteTransform_[3].translate.num[0] = 1060.0f;
 		mouseUpdated = true;
 	}
-	else if (mousePosition_.num[0] >= 1068.0f && mousePosition_.num[0] <= 1470.0f &&
-		mousePosition_.num[1] >= 498.0f && mousePosition_.num[1] <= 701.0f)
+	else if (mousePosition_.num[0] >= 1036.0f && mousePosition_.num[0] <= 1440.0f &&
+		mousePosition_.num[1] >= 594.0f && mousePosition_.num[1] <= 798.0f)
 	{
 		spriteTransform_[3].translate.num[0] = 1440.0f;
 		mouseUpdated = true;
@@ -377,7 +377,7 @@ void GameClearScene::Update() {
 
 	bool keyUpdated = false;
 
-	if (input_->TriggerKey(DIK_A) && spriteTransform_[3].translate.num[0] == 1061.0f)
+	if (input_->TriggerKey(DIK_A) && spriteTransform_[3].translate.num[0] == 1060.0f)
 	{
 		input_->HideCursor();
 		SetCursorPos(750, 450);
@@ -389,11 +389,11 @@ void GameClearScene::Update() {
 	{
 		input_->HideCursor();
 		SetCursorPos(750, 450);
-		spriteTransform_[3].translate.num[0] = 1061.0f;
+		spriteTransform_[3].translate.num[0] = 1060.0f;
 		keyUpdated = true;
 	}
 
-	if (input_->TriggerKey(DIK_D) && spriteTransform_[3].translate.num[0] == 1061.0f)
+	if (input_->TriggerKey(DIK_D) && spriteTransform_[3].translate.num[0] == 1060.0f)
 	{
 		input_->HideCursor();
 		SetCursorPos(750, 450);
@@ -405,7 +405,7 @@ void GameClearScene::Update() {
 	{
 		input_->HideCursor();
 		SetCursorPos(750, 450);
-		spriteTransform_[3].translate.num[0] = 1061.0f;
+		spriteTransform_[3].translate.num[0] = 1060.0f;
 		keyUpdated = true;
 	}
 
@@ -414,7 +414,7 @@ void GameClearScene::Update() {
 		audio_->SoundPlayWave(cursolData_, 0.1f, false);
 	}
 
-	ImGui::Begin("debug");
+	/*ImGui::Begin("debug");
 	ImGui::Text("GameClearScene");
 	ImGui::DragFloat3("SWTFT", &spriteTransform_[3].translate.num[0], 0.0f, 2280.0f);
 	ImGui::DragFloat3("Result", &spriteTransform_[1].translate.num[0], 0.0f, 2280.0f);
@@ -426,6 +426,13 @@ void GameClearScene::Update() {
 	ImGui::DragFloat3("empty", emptyStarTransform_.translate.num, 0.0f, 2280.0f);
 	ImGui::DragFloat3("targetTime", targetTimeTransform_.translate.num, 0.0f, 2280.0f);
 	ImGui::DragFloat3("hit", hitCountTransform_.translate.num, 0.0f, 2280.0f);
+	ImGui::End();*/
+
+	ImGui::Begin("debug");
+	ImGui::Text("GameSelectScene");
+	ImGui::SliderFloat3("SWTFT", &spriteTransform_[3].translate.num[0], 0.0f, 2280.0f);
+	ImGui::Text("mousePositionX %f ", input_->GetMousePosition().Pos.num[0]);
+	ImGui::Text("mousePositionY %f ", input_->GetMousePosition().Pos.num[1]);
 	ImGui::End();
 
 	if (!isTransitionStart_ && isTransitionEnd_)
