@@ -52,7 +52,7 @@ void GameClearScene::Initialize() {
 	spriteTransform_[1].translate.num[0] = 580.0f;
 	spriteTransform_[1].translate.num[1] = 385.0f;
 
-	spriteTransform_[3].translate.num[0] = 1061.0f;
+	spriteTransform_[3].translate.num[0] = 1060.0f;
 
 	spriteTransform_[3].translate.num[1] = 690.0f;
 
@@ -236,7 +236,7 @@ void GameClearScene::Update() {
 			audio_->SoundStopWave(&bgmData_);
 			isSceneStart_ = true;
 		}
-		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1061.0f &&
+		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1060.0f &&
 			datas_->GetStageNum() == 1)
 		{
 			isTransitionStart_ = false;
@@ -251,7 +251,7 @@ void GameClearScene::Update() {
 			audio_->SoundStopWave(&bgmData_);
 			isSceneStart_ = true;
 		}
-		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1061.0f &&
+		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1060.0f &&
 			datas_->GetStageNum() == 2)
 		{
 			isTransitionStart_ = false;
@@ -266,7 +266,7 @@ void GameClearScene::Update() {
 			audio_->SoundStopWave(&bgmData_);
 			isSceneStart_ = true;
 		}
-		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1061.0f &&
+		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1060.0f &&
 			datas_->GetStageNum() == 3)
 		{
 			isTransitionStart_ = false;
@@ -281,7 +281,7 @@ void GameClearScene::Update() {
 			audio_->SoundStopWave(&bgmData_);
 			isSceneStart_ = true;
 		}
-		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1061.0f &&
+		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1060.0f &&
 			datas_->GetStageNum() == 4)
 		{
 			isTransitionStart_ = false;
@@ -296,7 +296,7 @@ void GameClearScene::Update() {
 			audio_->SoundStopWave(&bgmData_);
 			isSceneStart_ = true;
 		}
-		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1061.0f &&
+		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1060.0f &&
 			datas_->GetStageNum() == 5)
 		{
 			isTransitionStart_ = false;
@@ -311,7 +311,7 @@ void GameClearScene::Update() {
 			audio_->SoundStopWave(&bgmData_);
 			isSceneStart_ = true;
 		}
-		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1061.0f &&
+		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1060.0f &&
 			datas_->GetStageNum() == 6)
 		{
 			isTransitionStart_ = false;
@@ -409,7 +409,7 @@ void GameClearScene::Update() {
 		keyUpdated = true;
 	}
 
-	if (mouseUpdated || keyUpdated)
+	if (keyUpdated)
 	{
 		audio_->SoundPlayWave(cursolData_, 0.1f, false);
 	}
@@ -438,20 +438,26 @@ void GameClearScene::Update() {
 	if (!isTransitionStart_ && isTransitionEnd_)
 	{
 		//左側(現在のステージを繰り返し)
-		if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE)) {
+		if (spriteTransform_[3].translate.num[0] == 678.0f && (input_->TriggerKey(DIK_SPACE) ||
+			input_->pushMouse(0)))
+		{
 			isTransitionStart_ = true;
 			audio_->SoundPlayWave(selectData_, 0.1f, false);
 		}
 
 		//真ん中(次のステージ)
-		if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE)) {
+		if (spriteTransform_[3].translate.num[0] == 1060.0f && (input_->TriggerKey(DIK_SPACE) ||
+			input_->pushMouse(0)))
+		{
 
 			isTransitionStart_ = true;
 			audio_->SoundPlayWave(selectData_, 0.1f, false);
 		}
 
 		//右側(ステージセレクト)
-		if (spriteTransform_[3].translate.num[0] == 1440.0f && input_->TriggerKey(DIK_SPACE)) {
+		if (spriteTransform_[3].translate.num[0] == 1440.0f && (input_->TriggerKey(DIK_SPACE) ||
+			input_->pushMouse(0))) 
+		{
 			isTransitionStart_ = true;
 			audio_->SoundPlayWave(selectData_, 0.1f, false);
 		}

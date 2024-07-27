@@ -246,6 +246,8 @@ void GamePlayScene::Update() {
 	GlobalVariables* globalVariables{};
 	globalVariables = GlobalVariables::GetInstance();
 
+	mousePosition_ = input_->GetMousePosition().Pos;
+
 	if (isGameStart_ == true) {//ゲーム開始時の処理
 		uiSpriteTransform_[3].translate.num[0] = 1048.0f;
 		uiSpriteTransform_[3].translate.num[1] = 324.0f;
@@ -409,34 +411,79 @@ void GamePlayScene::Update() {
 
 	if (datas_->GetIsPause() && !isTransitionStart_ && isTransitionEnd_)
 	{
+		bool mouseUpdated = false;
+
+		if (mousePosition_.num[0] >= 564.0f && mousePosition_.num[0] <= 969.0f &&
+			mousePosition_.num[1] >= 154.0f && mousePosition_.num[1] <= 357.0f)
+		{
+			uiSpriteTransform_[3].translate.num[1] = 324.0f;
+			mouseUpdated = true;
+		}
+		else if (mousePosition_.num[0] >= 564.0f && mousePosition_.num[0] <= 969.0f &&
+			mousePosition_.num[1] >= 390.0f && mousePosition_.num[1] <= 594.0f)
+		{
+			uiSpriteTransform_[3].translate.num[1] = 520.0f;
+			mouseUpdated = true;
+		}
+		else if (mousePosition_.num[0] >= 564.0f && mousePosition_.num[0] <= 969.0f &&
+			mousePosition_.num[1] >= 626.0f && mousePosition_.num[1] <= 831.0f)
+		{
+			uiSpriteTransform_[3].translate.num[1] = 717.0f;
+			mouseUpdated = true;
+		}
+		else
+		{
+			mousePosition_.num[0] = 0.0f;
+			mousePosition_.num[1] = 0.0f;
+		}
+
+		if (input_->GetMousePosition().Velocity.num[0] != 0.0f || input_->GetMousePosition().Velocity.num[1] != 0.0f)
+		{
+			input_->ViewCursor();
+		}
+
+		bool keyUpdated = false;
+
 		//カーソル移動の処理
 		if (input_->TriggerKey(DIK_S) && uiSpriteTransform_[3].translate.num[1] == 520.0f && !datas_->GetIsRule())
 		{
+			input_->HideCursor();
+			SetCursorPos(750, 450);
+			keyUpdated = true;
 			uiSpriteTransform_[3].translate.num[1] = 717.0f;
 			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_S) && uiSpriteTransform_[3].translate.num[1] == 324.0f && !datas_->GetIsRule())
 		{
+			input_->HideCursor();
+			SetCursorPos(750, 450);
+			keyUpdated = true;
 			uiSpriteTransform_[3].translate.num[1] = 520.0f;
 			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_W) && uiSpriteTransform_[3].translate.num[1] == 520.0f && !datas_->GetIsRule())
 		{
+			input_->HideCursor();
+			SetCursorPos(750, 450);
+			keyUpdated = true;
 			uiSpriteTransform_[3].translate.num[1] = 324.0f;
 			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		if (input_->TriggerKey(DIK_W) && uiSpriteTransform_[3].translate.num[1] == 717.0f && !datas_->GetIsRule())
 		{
+			input_->HideCursor();
+			SetCursorPos(750, 450);
+			keyUpdated = true;
 			uiSpriteTransform_[3].translate.num[1] = 520.0f;
 			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}
 
 		//選択する処理
 		//Restart
-		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 324.0f)
+		if ((input_->TriggerKey(DIK_SPACE) || input_->pushMouse(0)) && uiSpriteTransform_[3].translate.num[1] == 324.0f)
 		{
 			isTransitionStart_ = true;
 			isRestart_ = true;
@@ -444,7 +491,7 @@ void GamePlayScene::Update() {
 		}
 
 		//Select
-		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 520.0f)
+		if ((input_->TriggerKey(DIK_SPACE) || input_->pushMouse(0)) && uiSpriteTransform_[3].translate.num[1] == 520.0f)
 		{
 			isTransitionStart_ = true;
 			isSelect_ = true;
@@ -452,12 +499,12 @@ void GamePlayScene::Update() {
 		}
 
 		//Rule
-		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 717.0f && !datas_->GetIsRule())
+		if ((input_->TriggerKey(DIK_SPACE) || input_->pushMouse(0)) && uiSpriteTransform_[3].translate.num[1] == 717.0f && !datas_->GetIsRule())
 		{
 			datas_->SetIsRule(true);
 			audio_->SoundPlayWave(selectData_, 0.1f, false);
 		}
-		else if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 717.0f && datas_->GetIsRule())
+		else if ((input_->TriggerKey(DIK_SPACE) || input_->pushMouse(0)) && uiSpriteTransform_[3].translate.num[1] == 717.0f && datas_->GetIsRule())
 		{
 			datas_->SetIsRule(false);
 			audio_->SoundPlayWave(selectData_, 0.1f, false);
@@ -844,6 +891,13 @@ void GamePlayScene::Update() {
 	ImGui::DragFloat3("number5WTF", &numbersTransformResult_[5].translate.num[0], 1.0f);
 	ImGui::DragFloat3("TimerNumber1", &numbersTransform_.translate.num[0], 1.0f);
 	ImGui::DragFloat3("TimerNumber2", &numbersTransform2_.translate.num[0], 1.0f);
+	ImGui::End();
+
+	ImGui::Begin("debug");
+	ImGui::Text("GameSelectScene");
+	ImGui::SliderFloat3("SWTFT", &uiSpriteTransform_[3].translate.num[0], 0.0f, 2280.0f);
+	ImGui::Text("mousePositionX %f ", input_->GetMousePosition().Pos.num[0]);
+	ImGui::Text("mousePositionY %f ", input_->GetMousePosition().Pos.num[1]);
 	ImGui::End();
 }
 
