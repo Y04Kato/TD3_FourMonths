@@ -52,7 +52,7 @@ void GameClearScene::Initialize() {
 	spriteTransform_[1].translate.num[0] = 580.0f;
 	spriteTransform_[1].translate.num[1] = 385.0f;
 
-	spriteTransform_[3].translate.num[0] = 1061.0f;
+	spriteTransform_[3].translate.num[0] = 1060.0f;
 
 	spriteTransform_[3].translate.num[1] = 690.0f;
 
@@ -137,6 +137,9 @@ void GameClearScene::Initialize() {
 }
 
 void GameClearScene::Update() {
+
+	mousePosition_ = input_->GetMousePosition().Pos;
+
 	XINPUT_STATE joyState;
 	Input::GetInstance()->GetJoystickState(0, joyState);
 
@@ -233,7 +236,7 @@ void GameClearScene::Update() {
 			audio_->SoundStopWave(&bgmData_);
 			isSceneStart_ = true;
 		}
-		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1061.0f &&
+		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1060.0f &&
 			datas_->GetStageNum() == 1)
 		{
 			isTransitionStart_ = false;
@@ -248,7 +251,7 @@ void GameClearScene::Update() {
 			audio_->SoundStopWave(&bgmData_);
 			isSceneStart_ = true;
 		}
-		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1061.0f &&
+		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1060.0f &&
 			datas_->GetStageNum() == 2)
 		{
 			isTransitionStart_ = false;
@@ -263,7 +266,7 @@ void GameClearScene::Update() {
 			audio_->SoundStopWave(&bgmData_);
 			isSceneStart_ = true;
 		}
-		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1061.0f &&
+		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1060.0f &&
 			datas_->GetStageNum() == 3)
 		{
 			isTransitionStart_ = false;
@@ -278,7 +281,7 @@ void GameClearScene::Update() {
 			audio_->SoundStopWave(&bgmData_);
 			isSceneStart_ = true;
 		}
-		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1061.0f &&
+		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1060.0f &&
 			datas_->GetStageNum() == 4)
 		{
 			isTransitionStart_ = false;
@@ -293,7 +296,7 @@ void GameClearScene::Update() {
 			audio_->SoundStopWave(&bgmData_);
 			isSceneStart_ = true;
 		}
-		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1061.0f &&
+		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1060.0f &&
 			datas_->GetStageNum() == 5)
 		{
 			isTransitionStart_ = false;
@@ -308,7 +311,7 @@ void GameClearScene::Update() {
 			audio_->SoundStopWave(&bgmData_);
 			isSceneStart_ = true;
 		}
-		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1061.0f &&
+		else if (transitionSpriteMaterial_.num[3] >= 1.0f && spriteTransform_[3].translate.num[0] == 1060.0f &&
 			datas_->GetStageNum() == 6)
 		{
 			isTransitionStart_ = false;
@@ -341,31 +344,77 @@ void GameClearScene::Update() {
 	/*numbers_->SetNum(datas_->GetClearTime() / 60);
 	numbers_->SetTransform(numbersTransform_);*/
 
-	if (input_->TriggerKey(DIK_A) && spriteTransform_[3].translate.num[0] == 1061.0f)
+	bool mouseUpdated = false;
+
+	if (mousePosition_.num[0] >= 119.0f && mousePosition_.num[0] <= 523.0f &&
+		mousePosition_.num[1] >= 594.0f && mousePosition_.num[1] <= 798.0f)
 	{
 		spriteTransform_[3].translate.num[0] = 678.0f;
-		audio_->SoundPlayWave(cursolData_, 0.1f, false);
+		mouseUpdated = true;
+	}
+	else if (mousePosition_.num[0] >= 575.0f && mousePosition_.num[0] <= 981.0f &&
+		mousePosition_.num[1] >= 594.0f && mousePosition_.num[1] <= 798.0f)
+	{
+		spriteTransform_[3].translate.num[0] = 1060.0f;
+		mouseUpdated = true;
+	}
+	else if (mousePosition_.num[0] >= 1036.0f && mousePosition_.num[0] <= 1440.0f &&
+		mousePosition_.num[1] >= 594.0f && mousePosition_.num[1] <= 798.0f)
+	{
+		spriteTransform_[3].translate.num[0] = 1440.0f;
+		mouseUpdated = true;
+	}
+	else
+	{
+		mousePosition_.num[0] = 0.0f;
+		mousePosition_.num[1] = 0.0f;
+	}
+
+	if (input_->GetMousePosition().Velocity.num[0] != 0.0f || input_->GetMousePosition().Velocity.num[1] != 0.0f)
+	{
+		input_->ViewCursor();
+	}
+
+	bool keyUpdated = false;
+
+	if (input_->TriggerKey(DIK_A) && spriteTransform_[3].translate.num[0] == 1060.0f)
+	{
+		input_->HideCursor();
+		SetCursorPos(750, 450);
+		spriteTransform_[3].translate.num[0] = 678.0f;
+		keyUpdated = true;
 	}
 
 	if (input_->TriggerKey(DIK_A) && spriteTransform_[3].translate.num[0] == 1440.0f)
 	{
-		spriteTransform_[3].translate.num[0] = 1061.0f;
-		audio_->SoundPlayWave(cursolData_, 0.1f, false);
+		input_->HideCursor();
+		SetCursorPos(750, 450);
+		spriteTransform_[3].translate.num[0] = 1060.0f;
+		keyUpdated = true;
 	}
 
-	if (input_->TriggerKey(DIK_D) && spriteTransform_[3].translate.num[0] == 1061.0f)
+	if (input_->TriggerKey(DIK_D) && spriteTransform_[3].translate.num[0] == 1060.0f)
 	{
+		input_->HideCursor();
+		SetCursorPos(750, 450);
 		spriteTransform_[3].translate.num[0] = 1440.0f;
-		audio_->SoundPlayWave(cursolData_, 0.1f, false);
+		keyUpdated = true;
 	}
 
 	if (input_->TriggerKey(DIK_D) && spriteTransform_[3].translate.num[0] == 678.0f)
 	{
-		spriteTransform_[3].translate.num[0] = 1061.0f;
+		input_->HideCursor();
+		SetCursorPos(750, 450);
+		spriteTransform_[3].translate.num[0] = 1060.0f;
+		keyUpdated = true;
+	}
+
+	if (keyUpdated)
+	{
 		audio_->SoundPlayWave(cursolData_, 0.1f, false);
 	}
 
-	ImGui::Begin("debug");
+	/*ImGui::Begin("debug");
 	ImGui::Text("GameClearScene");
 	ImGui::DragFloat3("SWTFT", &spriteTransform_[3].translate.num[0], 0.0f, 2280.0f);
 	ImGui::DragFloat3("Result", &spriteTransform_[1].translate.num[0], 0.0f, 2280.0f);
@@ -377,25 +426,38 @@ void GameClearScene::Update() {
 	ImGui::DragFloat3("empty", emptyStarTransform_.translate.num, 0.0f, 2280.0f);
 	ImGui::DragFloat3("targetTime", targetTimeTransform_.translate.num, 0.0f, 2280.0f);
 	ImGui::DragFloat3("hit", hitCountTransform_.translate.num, 0.0f, 2280.0f);
+	ImGui::End();*/
+
+	ImGui::Begin("debug");
+	ImGui::Text("GameSelectScene");
+	ImGui::SliderFloat3("SWTFT", &spriteTransform_[3].translate.num[0], 0.0f, 2280.0f);
+	ImGui::Text("mousePositionX %f ", input_->GetMousePosition().Pos.num[0]);
+	ImGui::Text("mousePositionY %f ", input_->GetMousePosition().Pos.num[1]);
 	ImGui::End();
 
 	if (!isTransitionStart_ && isTransitionEnd_)
 	{
 		//左側(現在のステージを繰り返し)
-		if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE)) {
+		if (spriteTransform_[3].translate.num[0] == 678.0f && (input_->TriggerKey(DIK_SPACE) ||
+			input_->pushMouse(0)))
+		{
 			isTransitionStart_ = true;
 			audio_->SoundPlayWave(selectData_, 0.1f, false);
 		}
 
 		//真ん中(次のステージ)
-		if (spriteTransform_[3].translate.num[0] == 1061.0f && input_->TriggerKey(DIK_SPACE)) {
+		if (spriteTransform_[3].translate.num[0] == 1060.0f && (input_->TriggerKey(DIK_SPACE) ||
+			input_->pushMouse(0)))
+		{
 
 			isTransitionStart_ = true;
 			audio_->SoundPlayWave(selectData_, 0.1f, false);
 		}
 
 		//右側(ステージセレクト)
-		if (spriteTransform_[3].translate.num[0] == 1440.0f && input_->TriggerKey(DIK_SPACE)) {
+		if (spriteTransform_[3].translate.num[0] == 1440.0f && (input_->TriggerKey(DIK_SPACE) ||
+			input_->pushMouse(0))) 
+		{
 			isTransitionStart_ = true;
 			audio_->SoundPlayWave(selectData_, 0.1f, false);
 		}

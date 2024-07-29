@@ -276,7 +276,7 @@ void GameSelectScene::Update() {
 			keyUpdated = true;
 		}
 
-		if (mouseUpdated || keyUpdated)
+		if (keyUpdated)
 		{
 			audio_->SoundPlayWave(cursolData_, 0.1f, false);
 		}

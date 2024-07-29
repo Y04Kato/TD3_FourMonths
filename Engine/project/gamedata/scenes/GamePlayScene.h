@@ -213,4 +213,6 @@ private:
 	bool isSelect_ = false;
 
 	Editors* editors_;
+
+	Vector2 mousePosition_ = { 0.0f,0.0f };
 };

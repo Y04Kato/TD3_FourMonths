@@ -110,4 +110,6 @@ private:
 
 	bool isTransitionStart_ = false;
 	bool isTransitionEnd_ = false;
+
+	Vector2 mousePosition_ = { 0.0f,0.0f };
 };
