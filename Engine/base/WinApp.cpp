@@ -49,6 +49,21 @@ void WinApp::CreateWindowView(const wchar_t* title, int32_t clientWidth, int32_t
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 
 	//ウィンドウの生成
+#ifdef _DEBUG
+	hwnd_ = CreateWindow(
+		wc_.lpszClassName,//クラス名
+		title,//タイトルバーの名前
+		WS_OVERLAPPEDWINDOW,//ウィンドウスタイル
+		CW_USEDEFAULT,//表示X座標
+		CW_USEDEFAULT,//表示Y座標
+		wrc.right - wrc.left,//ウィンドウ横幅
+		wrc.bottom - wrc.top,//ウィンドウ縦幅
+		nullptr,//親ウィンドウハンドル
+		nullptr,//メニューハンドル
+		wc_.hInstance,//インスタンスハンドル
+		nullptr//オプション
+	);
+#else
 	hwnd_ = CreateWindow(
 		wc_.lpszClassName,//クラス名
 		title,//タイトルバーの名前
@@ -62,6 +77,8 @@ void WinApp::CreateWindowView(const wchar_t* title, int32_t clientWidth, int32_t
 		wc_.hInstance,//インスタンスハンドル
 		nullptr//オプション
 	);
+#endif
+
 
 	//システムタイマーの分解能を上げる
 	timeBeginPeriod(1);
@@ -74,9 +91,11 @@ void WinApp::CreateWindowView(const wchar_t* title, int32_t clientWidth, int32_t
 		//GPU側でもチェックを行う
 		debugController_->SetEnableGPUBasedValidation(TRUE);
 	}
-#endif // _DEBUG
+#else
 
 	SetWindowPos(hwnd_, HWND_TOP, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), SWP_FRAMECHANGED);
+
+#endif
 
 	//ウィンドウ表示
 	ShowWindow(hwnd_, SW_SHOW);

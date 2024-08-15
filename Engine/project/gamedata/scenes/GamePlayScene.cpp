@@ -325,14 +325,14 @@ void GamePlayScene::Update() {
 	if (input_->TriggerKey(DIK_TAB) && !datas_->GetIsPause())
 	{
 		datas_->SetIsPause(true);
-		input_->ToggleCursor();
+		input_->ViewCursor();
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 	else if (input_->TriggerKey(DIK_TAB) && datas_->GetIsPause())
 	{
 		datas_->SetIsPause(false);
 		datas_->SetIsRule(false);
-		input_->ToggleCursor();
+		input_->HideCursor();
 		audio_->SoundPlayWave(selectData_, 0.1f, false);
 	}
 
