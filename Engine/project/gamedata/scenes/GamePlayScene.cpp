@@ -291,6 +291,10 @@ void GamePlayScene::Update() {
 		ApplyGlobalVariables();
 		int treeCount = 0;
 		for (Obj& obj : objects_) {
+			if (obj.treeMode == TREEMODE::NOHIT) {
+				obj.treeMode = TREEMODE::ITEM;
+			}
+
 			if (obj.treeMode == TREEMODE::ITEM) {
 				obj.model.Initialize(coinModelData_, coinTexture_);
 				treeCount++;
