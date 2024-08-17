@@ -344,37 +344,6 @@ void GameClearScene::Update() {
 	/*numbers_->SetNum(datas_->GetClearTime() / 60);
 	numbers_->SetTransform(numbersTransform_);*/
 
-	bool mouseUpdated = false;
-
-	if (mousePosition_.num[0] >= 119.0f && mousePosition_.num[0] <= 523.0f &&
-		mousePosition_.num[1] >= 594.0f && mousePosition_.num[1] <= 798.0f)
-	{
-		spriteTransform_[3].translate.num[0] = 678.0f;
-		mouseUpdated = true;
-	}
-	else if (mousePosition_.num[0] >= 575.0f && mousePosition_.num[0] <= 981.0f &&
-		mousePosition_.num[1] >= 594.0f && mousePosition_.num[1] <= 798.0f)
-	{
-		spriteTransform_[3].translate.num[0] = 1060.0f;
-		mouseUpdated = true;
-	}
-	else if (mousePosition_.num[0] >= 1036.0f && mousePosition_.num[0] <= 1440.0f &&
-		mousePosition_.num[1] >= 594.0f && mousePosition_.num[1] <= 798.0f)
-	{
-		spriteTransform_[3].translate.num[0] = 1440.0f;
-		mouseUpdated = true;
-	}
-	else
-	{
-		mousePosition_.num[0] = 0.0f;
-		mousePosition_.num[1] = 0.0f;
-	}
-
-	if (input_->GetMousePosition().Velocity.num[0] != 0.0f || input_->GetMousePosition().Velocity.num[1] != 0.0f)
-	{
-		input_->ViewCursor();
-	}
-
 	bool keyUpdated = false;
 
 	if (input_->TriggerKey(DIK_A) && spriteTransform_[3].translate.num[0] == 1060.0f)

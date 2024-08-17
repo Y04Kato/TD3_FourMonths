@@ -415,37 +415,6 @@ void GamePlayScene::Update() {
 
 	if (datas_->GetIsPause() && !isTransitionStart_ && isTransitionEnd_)
 	{
-		bool mouseUpdated = false;
-
-		if (mousePosition_.num[0] >= 564.0f && mousePosition_.num[0] <= 969.0f &&
-			mousePosition_.num[1] >= 154.0f && mousePosition_.num[1] <= 357.0f)
-		{
-			uiSpriteTransform_[3].translate.num[1] = 324.0f;
-			mouseUpdated = true;
-		}
-		else if (mousePosition_.num[0] >= 564.0f && mousePosition_.num[0] <= 969.0f &&
-			mousePosition_.num[1] >= 390.0f && mousePosition_.num[1] <= 594.0f)
-		{
-			uiSpriteTransform_[3].translate.num[1] = 520.0f;
-			mouseUpdated = true;
-		}
-		else if (mousePosition_.num[0] >= 564.0f && mousePosition_.num[0] <= 969.0f &&
-			mousePosition_.num[1] >= 626.0f && mousePosition_.num[1] <= 831.0f)
-		{
-			uiSpriteTransform_[3].translate.num[1] = 717.0f;
-			mouseUpdated = true;
-		}
-		else
-		{
-			mousePosition_.num[0] = 0.0f;
-			mousePosition_.num[1] = 0.0f;
-		}
-
-		if (input_->GetMousePosition().Velocity.num[0] != 0.0f || input_->GetMousePosition().Velocity.num[1] != 0.0f)
-		{
-			input_->ViewCursor();
-		}
-
 		bool keyUpdated = false;
 
 		//カーソル移動の処理
@@ -487,7 +456,7 @@ void GamePlayScene::Update() {
 
 		//選択する処理
 		//Restart
-		if ((input_->TriggerKey(DIK_SPACE) || input_->pushMouse(0)) && uiSpriteTransform_[3].translate.num[1] == 324.0f)
+		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 324.0f)
 		{
 			isTransitionStart_ = true;
 			isRestart_ = true;
@@ -495,7 +464,7 @@ void GamePlayScene::Update() {
 		}
 
 		//Select
-		if ((input_->TriggerKey(DIK_SPACE) || input_->pushMouse(0)) && uiSpriteTransform_[3].translate.num[1] == 520.0f)
+		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 520.0f)
 		{
 			isTransitionStart_ = true;
 			isSelect_ = true;
@@ -503,12 +472,12 @@ void GamePlayScene::Update() {
 		}
 
 		//Rule
-		if ((input_->TriggerKey(DIK_SPACE) || input_->pushMouse(0)) && uiSpriteTransform_[3].translate.num[1] == 717.0f && !datas_->GetIsRule())
+		if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 717.0f && !datas_->GetIsRule())
 		{
 			datas_->SetIsRule(true);
 			audio_->SoundPlayWave(selectData_, 0.1f, false);
 		}
-		else if ((input_->TriggerKey(DIK_SPACE) || input_->pushMouse(0)) && uiSpriteTransform_[3].translate.num[1] == 717.0f && datas_->GetIsRule())
+		else if (input_->TriggerKey(DIK_SPACE) && uiSpriteTransform_[3].translate.num[1] == 717.0f && datas_->GetIsRule())
 		{
 			datas_->SetIsRule(false);
 			audio_->SoundPlayWave(selectData_, 0.1f, false);

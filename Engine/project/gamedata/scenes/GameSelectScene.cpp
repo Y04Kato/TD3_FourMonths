@@ -165,89 +165,22 @@ void GameSelectScene::Update() {
 
 	if (isTransitionEnd_ && !isTransitionStart_)
 	{
-		bool mouseUpdated = false;
-
-		if (mousePosition_.num[0] >= 68.0f && mousePosition_.num[0] <= 484.0f &&
-			mousePosition_.num[1] >= 190.0f && mousePosition_.num[1] <= 410.0f)
-		{
-			isSpriteDraw_[2] = true;
-			spriteTransform_[2].translate.num[0] = 640.0f;
-			spriteTransform_[2].translate.num[1] = 360.0f;
-			mouseUpdated = true;
-		}
-		else if (mousePosition_.num[0] >= 566.0f && mousePosition_.num[0] <= 969.0f &&
-			mousePosition_.num[1] >= 190.0f && mousePosition_.num[1] <= 410.0f)
-		{
-			isSpriteDraw_[2] = true;
-			spriteTransform_[2].translate.num[0] = 1048.0f;
-			spriteTransform_[2].translate.num[1] = 360.0f;
-			mouseUpdated = true;
-		}
-		else if (mousePosition_.num[0] >= 1058.0f && mousePosition_.num[0] <= 1460.0f &&
-			mousePosition_.num[1] >= 190.0f && mousePosition_.num[1] <= 410.0f)
-		{
-			isSpriteDraw_[2] = true;
-			spriteTransform_[2].translate.num[0] = 1460.0f;
-			spriteTransform_[2].translate.num[1] = 360.0f;
-			mouseUpdated = true;
-		}
-		else if (mousePosition_.num[0] >= 68.0f && mousePosition_.num[0] <= 484.0f &&
-			mousePosition_.num[1] >= 498.0f && mousePosition_.num[1] <= 701.0f)
-		{
-			isSpriteDraw_[2] = true;
-			spriteTransform_[2].translate.num[0] = 640.0f;
-			spriteTransform_[2].translate.num[1] = 610.0f;
-			mouseUpdated = true;
-		}
-		else if (mousePosition_.num[0] >= 566.0f && mousePosition_.num[0] <= 969.0f &&
-			mousePosition_.num[1] >= 498.0f && mousePosition_.num[1] <= 701.0f)
-		{
-			isSpriteDraw_[2] = true;
-			spriteTransform_[2].translate.num[0] = 1048.0f;
-			spriteTransform_[2].translate.num[1] = 610.0f;
-			mouseUpdated = true;
-		}
-		else if (mousePosition_.num[0] >= 1058.0f && mousePosition_.num[0] <= 1460.0f &&
-			mousePosition_.num[1] >= 498.0f && mousePosition_.num[1] <= 701.0f)
-		{
-			isSpriteDraw_[2] = true;
-			spriteTransform_[2].translate.num[0] = 1460.0f;
-			spriteTransform_[2].translate.num[1] = 610.0f;
-			mouseUpdated = true;
-		}
-		else
-		{
-			mousePosition_.num[0] = 0.0f;
-			mousePosition_.num[1] = 0.0f;
-		}
-
-		if (input_->GetMousePosition().Velocity.num[0] != 0.0f || input_->GetMousePosition().Velocity.num[1] != 0.0f)
-		{
-			input_->ViewCursor();
-		}
-
 		bool keyUpdated = false;
 
 		if (input_->TriggerKey(DIK_A) && spriteTransform_[2].translate.num[0] == 1048.0f)
 		{
-			input_->HideCursor();
-			SetCursorPos(750, 450);
 			spriteTransform_[2].translate.num[0] = 640.0f;
 			keyUpdated = true;
 		}
 
 		if (input_->TriggerKey(DIK_A) && spriteTransform_[2].translate.num[0] == 1460.0f)
 		{
-			input_->HideCursor();
-			SetCursorPos(750, 450);
 			spriteTransform_[2].translate.num[0] = 1048.0f;
 			keyUpdated = true;
 		}
 
 		if (input_->TriggerKey(DIK_D) && spriteTransform_[2].translate.num[0] == 1048.0f)
 		{
-			input_->HideCursor();
-			SetCursorPos(750, 450);
 			spriteTransform_[2].translate.num[0] = 1460.0f;
 			keyUpdated = true;
 		}
@@ -262,16 +195,12 @@ void GameSelectScene::Update() {
 
 		if (input_->TriggerKey(DIK_S) && spriteTransform_[2].translate.num[1] == 360.0f)
 		{
-			input_->HideCursor();
-			SetCursorPos(750, 450);
 			spriteTransform_[2].translate.num[1] = 610.0f;
 			keyUpdated = true;
 		}
 
 		if (input_->TriggerKey(DIK_W) && spriteTransform_[2].translate.num[1] == 610.0f)
 		{
-			input_->HideCursor();
-			SetCursorPos(750, 450);
 			spriteTransform_[2].translate.num[1] = 360.0f;
 			keyUpdated = true;
 		}
