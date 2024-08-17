@@ -407,25 +407,21 @@ void GameClearScene::Update() {
 	if (!isTransitionStart_ && isTransitionEnd_)
 	{
 		//左側(現在のステージを繰り返し)
-		if (spriteTransform_[3].translate.num[0] == 678.0f && (input_->TriggerKey(DIK_SPACE) ||
-			input_->pushMouse(0)))
+		if (spriteTransform_[3].translate.num[0] == 678.0f && input_->TriggerKey(DIK_SPACE))
 		{
 			isTransitionStart_ = true;
 			audio_->SoundPlayWave(selectData_, 0.1f, false);
 		}
 
 		//真ん中(次のステージ)
-		if (spriteTransform_[3].translate.num[0] == 1060.0f && (input_->TriggerKey(DIK_SPACE) ||
-			input_->pushMouse(0)))
+		if (spriteTransform_[3].translate.num[0] == 1060.0f && input_->TriggerKey(DIK_SPACE))
 		{
-
 			isTransitionStart_ = true;
 			audio_->SoundPlayWave(selectData_, 0.1f, false);
 		}
 
 		//右側(ステージセレクト)
-		if (spriteTransform_[3].translate.num[0] == 1440.0f && (input_->TriggerKey(DIK_SPACE) ||
-			input_->pushMouse(0))) 
+		if (spriteTransform_[3].translate.num[0] == 1440.0f && input_->TriggerKey(DIK_SPACE)) 
 		{
 			isTransitionStart_ = true;
 			audio_->SoundPlayWave(selectData_, 0.1f, false);

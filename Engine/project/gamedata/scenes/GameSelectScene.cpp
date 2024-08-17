@@ -213,7 +213,7 @@ void GameSelectScene::Update() {
 		//ステージ番号
 		//左上
 		if (spriteTransform_[2].translate.num[0] == 640.0f && spriteTransform_[2].translate.num[1] == 360.0f
-			&& (input_->TriggerKey(DIK_SPACE) || input_->pushMouse(0)))
+			&& input_->TriggerKey(DIK_SPACE))
 		{
 			stageNum = 1;
 			datas_->SetStageNum(stageNum);
@@ -224,7 +224,7 @@ void GameSelectScene::Update() {
 
 		//真ん中上
 		if (spriteTransform_[2].translate.num[0] == 1048.0f && spriteTransform_[2].translate.num[1] == 360.0f
-			&& (input_->TriggerKey(DIK_SPACE) || input_->pushMouse(0)))
+			&& input_->TriggerKey(DIK_SPACE))
 		{
 			stageNum = 2;
 			datas_->SetStageNum(stageNum);
@@ -235,7 +235,7 @@ void GameSelectScene::Update() {
 
 		//右上
 		if (spriteTransform_[2].translate.num[0] == 1460.0f && spriteTransform_[2].translate.num[1] == 360.0f
-			&& (input_->TriggerKey(DIK_SPACE) || input_->pushMouse(0)))
+			&& input_->TriggerKey(DIK_SPACE))
 		{
 			stageNum = 3;
 			datas_->SetStageNum(stageNum);
@@ -246,7 +246,7 @@ void GameSelectScene::Update() {
 
 		//左下
 		if (spriteTransform_[2].translate.num[0] == 640.0f && spriteTransform_[2].translate.num[1] == 610.0f
-			&& (input_->TriggerKey(DIK_SPACE) || input_->pushMouse(0)))
+			&& input_->TriggerKey(DIK_SPACE))
 		{
 			stageNum = 4;
 			datas_->SetStageNum(stageNum);
@@ -257,7 +257,7 @@ void GameSelectScene::Update() {
 
 		//真ん中下
 		if (spriteTransform_[2].translate.num[0] == 1048.0f && spriteTransform_[2].translate.num[1] == 610.0f
-			&& (input_->TriggerKey(DIK_SPACE) || input_->pushMouse(0)))
+			&& input_->TriggerKey(DIK_SPACE))
 		{
 			stageNum = 5;
 			datas_->SetStageNum(stageNum);
@@ -268,7 +268,7 @@ void GameSelectScene::Update() {
 
 		//右下
 		if (spriteTransform_[2].translate.num[0] == 1460.0f && spriteTransform_[2].translate.num[1] == 610.0f
-			&& (input_->TriggerKey(DIK_SPACE) || input_->pushMouse(0)))
+			&& input_->TriggerKey(DIK_SPACE))
 		{
 			stageNum = 6;
 			datas_->SetStageNum(stageNum);
