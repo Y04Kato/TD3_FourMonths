@@ -1,7 +1,7 @@
 {
     "GamePlayScene": {
-        "ObjCount": 31,
-        "test0": "test30",
+        "ObjCount": 34,
+        "test0": "test31",
         "test0Material": [
             0.0,
             1.0,
@@ -19,8 +19,8 @@
             74.0
         ],
         "test0TreeMode": 0,
-        "test1": "test30",
-        "test10": "test30",
+        "test1": "test31",
+        "test10": "test31",
         "test10Material": [
             0.0,
             1.0,
@@ -38,7 +38,7 @@
             495.0
         ],
         "test10TreeMode": 0,
-        "test11": "test30",
+        "test11": "test31",
         "test11Material": [
             0.0,
             1.0,
@@ -56,7 +56,7 @@
             495.0
         ],
         "test11TreeMode": 0,
-        "test12": "test30",
+        "test12": "test31",
         "test12Material": [
             0.0,
             1.0,
@@ -74,7 +74,7 @@
             685.0
         ],
         "test12TreeMode": 0,
-        "test13": "test30",
+        "test13": "test31",
         "test13Material": [
             0.0,
             1.0,
@@ -92,11 +92,11 @@
             586.0
         ],
         "test13TreeMode": 0,
-        "test14": "test30",
+        "test14": "test31",
         "test14Material": [
             0.0,
             1.0,
-            0.003921568859368563,
+            0.0,
             1.0
         ],
         "test14Scale": [
@@ -110,7 +110,7 @@
             598.0
         ],
         "test14TreeMode": 0,
-        "test15": "test30",
+        "test15": "test31",
         "test15Material": [
             0.0,
             1.0,
@@ -128,7 +128,7 @@
             707.0
         ],
         "test15TreeMode": 0,
-        "test16": "test30",
+        "test16": "test31",
         "test16Material": [
             0.0,
             1.0,
@@ -146,17 +146,17 @@
             796.0
         ],
         "test16TreeMode": 0,
-        "test17": "test30",
+        "test17": "test31",
         "test17Material": [
-            0.0,
             1.0,
-            0.0,
+            1.0,
+            1.0,
             1.0
         ],
         "test17Scale": [
-            4.0,
-            30.0,
-            4.0
+            16.0,
+            16.0,
+            3.0
         ],
         "test17Translate": [
             -20.0,
@@ -164,7 +164,7 @@
             841.0
         ],
         "test17TreeMode": 2,
-        "test18": "test30",
+        "test18": "test31",
         "test18Material": [
             0.0,
             1.0,
@@ -182,7 +182,7 @@
             1056.0
         ],
         "test18TreeMode": 0,
-        "test19": "test30",
+        "test19": "test31",
         "test19Material": [
             0.0,
             1.0,
@@ -217,8 +217,8 @@
             190.0
         ],
         "test1TreeMode": 0,
-        "test2": "test30",
-        "test20": "test30",
+        "test2": "test31",
+        "test20": "test31",
         "test20Material": [
             0.0,
             1.0,
@@ -236,7 +236,7 @@
             934.0
         ],
         "test20TreeMode": 0,
-        "test21": "test30",
+        "test21": "test31",
         "test21Material": [
             0.0,
             1.0,
@@ -254,7 +254,7 @@
             1013.0
         ],
         "test21TreeMode": 0,
-        "test22": "test30",
+        "test22": "test31",
         "test22Material": [
             0.0,
             1.0,
@@ -272,7 +272,7 @@
             1074.0
         ],
         "test22TreeMode": 0,
-        "test23": "test30",
+        "test23": "test31",
         "test23Material": [
             0.0,
             1.0,
@@ -290,7 +290,7 @@
             942.0
         ],
         "test23TreeMode": 0,
-        "test24": "test30",
+        "test24": "test31",
         "test24Material": [
             0.0,
             1.0,
@@ -308,7 +308,7 @@
             1300.0
         ],
         "test24TreeMode": 0,
-        "test25": "test30",
+        "test25": "test31",
         "test25Material": [
             0.0,
             1.0,
@@ -326,7 +326,7 @@
             1300.0
         ],
         "test25TreeMode": 0,
-        "test26": "test30",
+        "test26": "test31",
         "test26Material": [
             0.0,
             1.0,
@@ -344,7 +344,7 @@
             1194.0
         ],
         "test26TreeMode": 0,
-        "test27": "test30",
+        "test27": "test31",
         "test27Material": [
             0.0,
             1.0,
@@ -362,7 +362,7 @@
             1481.0
         ],
         "test27TreeMode": 0,
-        "test28": "test30",
+        "test28": "test31",
         "test28Material": [
             0.0,
             1.0,
@@ -380,7 +380,7 @@
             1483.0
         ],
         "test28TreeMode": 0,
-        "test29": "test30",
+        "test29": "test31",
         "test29Material": [
             0.0,
             1.0,
@@ -415,8 +415,8 @@
             310.0
         ],
         "test2TreeMode": 0,
-        "test3": "test30",
-        "test30": "test30",
+        "test3": "test31",
+        "test30": "test31",
         "test30Material": [
             0.0,
             1.0,
@@ -434,6 +434,60 @@
             1377.0
         ],
         "test30TreeMode": 0,
+        "test31": "test31",
+        "test31Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test31Scale": [
+            4.023010730743408,
+            30.13023567199707,
+            4.015703201293945
+        ],
+        "test31Translate": [
+            42.122032165527344,
+            23.448883056640625,
+            1690.301513671875
+        ],
+        "test31TreeMode": 0,
+        "test32": "test32",
+        "test32Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test32Scale": [
+            3.987607002258301,
+            32.47570037841797,
+            4.015149116516113
+        ],
+        "test32Translate": [
+            -6.04758358001709,
+            27.756187438964844,
+            1701.134765625
+        ],
+        "test32TreeMode": 0,
+        "test33": "test33",
+        "test33Material": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+        ],
+        "test33Scale": [
+            3.9892373085021973,
+            29.524831771850586,
+            4.017738342285156
+        ],
+        "test33Translate": [
+            -60.583839416503906,
+            24.454849243164063,
+            1685.987060546875
+        ],
+        "test33TreeMode": 0,
         "test3Material": [
             0.0,
             1.0,
@@ -451,11 +505,11 @@
             310.0
         ],
         "test3TreeMode": 0,
-        "test4": "test30",
+        "test4": "test31",
         "test4Material": [
             0.0,
             1.0,
-            0.007843137718737125,
+            0.0,
             1.0
         ],
         "test4Scale": [
@@ -469,7 +523,7 @@
             524.0
         ],
         "test4TreeMode": 0,
-        "test5": "test30",
+        "test5": "test31",
         "test5Material": [
             0.0,
             1.0,
@@ -487,7 +541,7 @@
             245.0
         ],
         "test5TreeMode": 0,
-        "test6": "test30",
+        "test6": "test31",
         "test6Material": [
             0.0,
             1.0,
@@ -505,11 +559,11 @@
             235.0
         ],
         "test6TreeMode": 0,
-        "test7": "test30",
+        "test7": "test31",
         "test7Material": [
             0.0,
             1.0,
-            0.0117647061124444,
+            0.0,
             1.0
         ],
         "test7Scale": [
@@ -523,7 +577,7 @@
             361.0
         ],
         "test7TreeMode": 0,
-        "test8": "test30",
+        "test8": "test31",
         "test8Material": [
             0.0,
             1.0,
@@ -541,17 +595,17 @@
             350.0
         ],
         "test8TreeMode": 0,
-        "test9": "test30",
+        "test9": "test31",
         "test9Material": [
-            0.0,
             1.0,
-            0.0,
-            1.0
+            1.0,
+            1.0,
+            0.20000000298023224
         ],
         "test9Scale": [
-            4.0,
-            30.0,
-            4.0
+            16.0,
+            16.0,
+            3.0
         ],
         "test9Translate": [
             3.0,

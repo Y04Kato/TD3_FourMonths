@@ -18,6 +18,7 @@ void GamePlayScene::Initialize() {
 	bgmData_ = audio_->SoundLoad("project/gamedata/resources/sounds/BGM.mp3");
 	selectData_ = audio_->SoundLoad("project/gamedata/resources/sounds/select.mp3");
 	cursolData_ = audio_->SoundLoad("project/gamedata/resources/sounds/cursol.mp3");
+	coinData_ = audio_->SoundLoad("project/gamedata/resources/sounds/Coin.mp3");
 
 	// デバッグカメラの初期化
 	debugCamera_ = DebugCamera::GetInstance();
@@ -128,6 +129,8 @@ void GamePlayScene::Initialize() {
 	model_.reset(Model::CreateModel("project/gamedata/resources/block", "block.obj"));
 	ObjModelData_ = model_->LoadModelFile("project/gamedata/resources/models/tree", "tree.obj");
 	ObjTexture_ = textureManager_->Load(ObjModelData_.material.textureFilePath);
+	coinModelData_ = model_->LoadModelFile("project/gamedata/resources/models/coin", "coin.obj");
+	coinTexture_ = textureManager_->Load(coinModelData_.material.textureFilePath);
 
 	for (int i = 0; i < objCountMax_; i++) {
 		objNameHolder_[i] = "test" + std::to_string(i);
@@ -289,6 +292,7 @@ void GamePlayScene::Update() {
 		int treeCount = 0;
 		for (Obj& obj : objects_) {
 			if (obj.treeMode == TREEMODE::ITEM) {
+				obj.model.Initialize(coinModelData_, coinTexture_);
 				treeCount++;
 			}
 
@@ -662,7 +666,8 @@ void GamePlayScene::Update() {
 		}
 
 		if (obj.treeMode == TREEMODE::ITEM) {
-			obj.material = { 1.0f,0.3f,0.15f,1.0f };
+			//obj.material = { 1.0f,0.3f,0.15f,1.0f };
+			obj.world.rotation_.num[1] += 0.1f;
 			obj.Backmaterial = obj.material;
 		}
 
@@ -709,10 +714,10 @@ void GamePlayScene::Update() {
 					player_->SetLeftRoll(false);
 				}*/
 
-				if (obj.treeMode == TREEMODE::ITEM) {
+				/*if (obj.treeMode == TREEMODE::ITEM) {
 					datas_->SetItem(datas_->GetItem() + 1);
 					obj.treeMode = TREEMODE::NONE;
-				}
+				}*/
 			}
 
 		}
@@ -735,6 +740,21 @@ void GamePlayScene::Update() {
 		if (IsCollision(obj.obb_, structSphere_)) {//Playerとオブジェクトの当たり判定
 			if (player_->GetIsHitObj() == false) {
 				isHitPlayer_ = true;
+
+				if (obj.treeMode == TREEMODE::NOHIT) {
+					continue;
+				}
+
+				if (obj.treeMode == TREEMODE::ITEM) {
+					if(datas_->GetItem() < datas_->GetMaxItem())
+					datas_->SetItem(datas_->GetItem() + 1);
+					obj.material = { 0.0f, 0.0f, 0.0f,0.0f };
+					obj.Backmaterial = { 0.0f, 0.0f, 0.0f, 0.0f };
+					obj.treeMode = TREEMODE::NOHIT;
+					audio_->SoundPlayWave(coinData_, 0.1f, false);
+					continue;
+				}
+
 				//押し戻しの処理
 				Vector3 direction = obj.obb_.center - structSphere_.center;
 				float distance = Length(direction);

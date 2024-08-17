@@ -34,6 +34,7 @@ enum TREEMODE {
 	ITEM,//アイテムカウントが増える木
 	LEFTROTATE, // 左に回転する木
 	RIGHTROTATE, // 右に回転する木
+	NOHIT, // 当たらなくする
 	MODE_MAX//MAXCOUNT
 };
 
@@ -72,6 +73,7 @@ private:
 	SoundData bgmData_;
 	SoundData selectData_;
 	SoundData cursolData_;
+	SoundData coinData_;
 
 	//Player
 	Player* player_ = nullptr;
@@ -99,6 +101,8 @@ private:
 	std::list<Obj> objects_;
 	ModelData ObjModelData_;
 	uint32_t ObjTexture_;
+	ModelData coinModelData_;
+	uint32_t coinTexture_;
 	char objName_[64];//オブジェクトの名前を入力する変数
 	static const int objCountMax_ = 100;//オブジェクト最大数
 	int objCount_ = 0;//オブジェクトの設置数
